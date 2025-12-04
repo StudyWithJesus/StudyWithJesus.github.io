@@ -1,3 +1,6 @@
+/* ============================================
+   GLOBAL RESETS & BASE
+   ============================================ */
 *,
 *::before,
 *::after {
@@ -15,7 +18,11 @@ body {
   color: #f5f5f5;
 }
 
-/* Loading overlay */
+
+
+/* ============================================
+   LOADING OVERLAY
+   ============================================ */
 #loading-overlay {
   position: fixed;
   inset: 0;
@@ -26,10 +33,12 @@ body {
   z-index: 999;
   transition: opacity 0.25s ease;
 }
+
 #loading-overlay.hidden {
   opacity: 0;
   pointer-events: none;
 }
+
 .spinner {
   width: 40px;
   height: 40px;
@@ -38,43 +47,88 @@ body {
   border-top-color: #4dabff;
   animation: spin 0.8s linear infinite;
 }
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-/* Banner using Creation of Adam image.
-   Make sure banner-creation-of-adam.jpg is in the ROOT next to index.html & style.css.
-*/
+
+
+/* ============================================
+   BANNER HEADER — CREATION OF ADAM
+   (with parallax, fade-in, glow)
+   ============================================ */
+/* NOTE: Image must be at: /banner-creation-of-adam.jpg */
 .site-header {
   position: relative;
-  min-height: 200px;
+
+  /* Taller banner for more art */
+  min-height: 320px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 16px;
+
+  padding: 48px 16px 64px;
+
+  /* Lighter overlay so painting shows more detail */
   background-image:
-    linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+    linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.95)),
     url("banner-creation-of-adam.jpg");
-  background-position: center;
+
+  /* Try to center more on the hands / upper body */
+  background-position: center 18%;
   background-size: cover;
   background-repeat: no-repeat;
+
+  /* Desktop parallax feel */
+  background-attachment: fixed;
+
   text-align: center;
+
+  /* Fade-in animation */
+  opacity: 0;
+  animation: bannerFadeIn 1s ease-out 0.2s forwards;
+}
+
+/* Fade-in keyframes */
+@keyframes bannerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .site-header h1 {
   margin: 0 0 8px 0;
-  font-size: 2rem;
+  font-size: 2.3rem;
+  font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+
+  /* Stronger glow for readability + drama */
+  text-shadow:
+    0 0 10px rgba(0,0,0,0.8),
+    0 0 22px rgba(0,0,0,0.9),
+    0 2px 6px rgba(0,0,0,0.7);
 }
 
 .site-header p {
   margin: 0;
-  font-size: 0.95rem;
-  opacity: 0.85;
+  font-size: 1rem;
+  opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
 
-/* Main content wrapper */
+
+
+/* ============================================
+   MAIN CONTENT WRAPPER
+   ============================================ */
 .page-content {
   max-width: 960px;
   margin: 0 auto;
@@ -83,7 +137,7 @@ body {
 
 .intro h2 {
   margin: 0 0 4px;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
 }
 
 .intro p {
@@ -91,7 +145,11 @@ body {
   color: #cccccc;
 }
 
-/* Grid of modules */
+
+
+/* ============================================
+   MODULE GRID LIST
+   ============================================ */
 .section-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -106,18 +164,19 @@ body {
   border: 1px solid #333;
   text-decoration: none;
   color: inherit;
+
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
   transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
 }
 
 .section-card h3 {
   margin: 0 0 6px;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
 }
 
 .section-card p {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   color: #d0d0d0;
 }
 
@@ -129,7 +188,20 @@ body {
   outline: none;
 }
 
-/* Quiz styles */
+
+
+/* ============================================
+   QUIZ LAYOUT
+   ============================================ */
+.quiz-page-header h1 {
+  margin: 0 0 4px;
+}
+
+.quiz-page-header p {
+  margin: 0;
+  opacity: 0.85;
+}
+
 .question {
   padding: 12px;
   background: #111;
@@ -148,44 +220,17 @@ body {
   border-color: #ff4b4b;
 }
 
-.exam-actions {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-  position: sticky;
-  bottom: 0;
-  background: rgba(0,0,0,0.9);
-  padding: 10px 0;
-}
 
-.exam-button {
-  padding: 10px 22px;
-  border-radius: 999px;
-  border: 1px solid #4dabff;
-  background: #0f1b28;
-  color: white;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-}
 
-.exam-button .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: #4dabff;
-}
-
-.exam-button.submitted .dot {
-  background: #33c24d;
-}
-
+/* ============================================
+   RESULT BANNER
+   ============================================ */
 #result-banner {
   display: none;
   padding: 12px;
   border-radius: 8px;
   margin-top: 16px;
+  font-weight: 600;
 }
 
 #result-banner.pass {
@@ -200,8 +245,104 @@ body {
   border: 1px solid #ffb84b;
 }
 
+
+
+/* ============================================
+   EXAM SUBMIT / RETAKE BUTTON
+   ============================================ */
+.exam-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+
+  /* Sticky bar near bottom for mobile/scroll */
+  position: sticky;
+  bottom: 0;
+  padding: 10px 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7));
+  z-index: 10;
+}
+
+.exam-button {
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1px solid #4dabff;
+  background: #0f1b28;
+  color: white;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  transition: transform 0.1s ease, box-shadow 0.12s ease;
+}
+
+.exam-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.7);
+}
+
+.exam-button .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #4dabff;
+}
+
+.exam-button.submitted .dot {
+  background: #33c24d;
+}
+
+
+
+/* ============================================
+   GENERAL LINKS
+   ============================================ */
+a {
+  color: #4dabff;
+}
+
 .back-link {
   color: #4dabff;
   display: inline-block;
   margin-top: 20px;
+}
+
+
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+
+  .site-header {
+    /* Turn off parallax on mobile for performance & layout stability */
+    background-attachment: scroll;
+
+    min-height: 220px;
+    padding: 32px 12px 40px;
+    background-position: center 25%;
+  }
+
+  .site-header h1 {
+    font-size: 1.7rem;
+  }
+
+  .site-header p {
+    font-size: 0.9rem;
+  }
+
+  .page-content {
+    padding: 20px 12px 32px;
+  }
+
+  .section-card {
+    padding: 14px 14px;
+  }
+
+  .exam-actions {
+    gap: 12px;
+    padding: 12px 0;
+  }
 }
