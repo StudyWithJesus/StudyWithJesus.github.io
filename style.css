@@ -7,18 +7,18 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Arial, sans-serif;
   background-color: #000;
   color: #f5f5f5;
 }
-
-
 
 /* ============================================
    LOADING OVERLAY
@@ -49,15 +49,15 @@ body {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
-
-
 
 /* ============================================
    BANNER HEADER — CREATION OF ADAM
-   (parallax, fade-in, halo, fog, particles,
-    god rays, spotlight, shimmer, fingertip bloom)
+   (parallax-ready, fog, particles, rays, halo,
+    spotlight, fingertip bloom, shimmer)
    ============================================ */
 /* NOTE: Image must be at: /banner-creation-of-adam.jpg */
 .site-header {
@@ -73,11 +73,14 @@ body {
 
   padding: 56px 16px 72px;
 
-  /* Base background, focus around the hands area */
-  background-image:
-    linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.95)),
+  /* Base background, focus around the hands */
+  background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.95)
+    ),
     url("banner-creation-of-adam.jpg");
-  /* this will get gently animated by JS for parallax */
+  /* ⭐ crop tuned to hands */
   background-position: 48% 34%;
   background-size: cover;
   background-repeat: no-repeat;
@@ -101,68 +104,7 @@ body {
   }
 }
 
-/* Animated “God rays” coming from upper-right area */
-.site-header::before {
-  content: "";
-  position: absolute;
-  inset: -20%;
-  pointer-events: none;
-  background:
-    conic-gradient(
-      from 210deg at 75% 10%,
-      rgba(255,255,255,0.22),
-      rgba(255,255,255,0.06),
-      transparent 45deg,
-      transparent 360deg
-    );
-  mix-blend-mode: screen;
-  opacity: 0.4;
-  transform-origin: 75% 10%;
-  animation: raySweep 18s ease-in-out infinite alternate;
-  z-index: 0;
-}
-
-@keyframes raySweep {
-  0% {
-    transform: rotate(-4deg) translate3d(-2%, 0, 0);
-    opacity: 0.35;
-  }
-  50% {
-    transform: rotate(3deg) translate3d(1%, 1%, 0);
-    opacity: 0.55;
-  }
-  100% {
-    transform: rotate(-2deg) translate3d(3%, -1%, 0);
-    opacity: 0.4;
-  }
-}
-
-/* Soft spotlight focused roughly over the hands area */
-.site-header::after {
-  content: "";
-  position: absolute;
-  top: 52%;
-  left: 50%;
-  width: 320px;
-  height: 320px;
-  transform: translate(-50%, -50%);
-  background:
-    radial-gradient(circle, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.0) 60%);
-  mix-blend-mode: soft-light;
-  opacity: 0.7;
-  filter: blur(6px);
-  pointer-events: none;
-  animation: spotlightPulse 10s ease-in-out infinite;
-  z-index: 1;
-}
-
-@keyframes spotlightPulse {
-  0%   { opacity: 0.45; transform: translate(-50%, -50%) scale(0.95); }
-  40%  { opacity: 0.85; transform: translate(-50%, -50%) scale(1.05); }
-  100% { opacity: 0.5;  transform: translate(-50%, -50%) scale(1.0); }
-}
-
-/* FX layers container base */
+/* === Global FX layers container base === */
 .header-fx {
   position: absolute;
   inset: 0;
@@ -171,45 +113,163 @@ body {
 
 /* Subtle moving fog */
 .header-fog {
-  background:
-    radial-gradient(circle at 10% 20%, rgba(255,255,255,0.05) 0, transparent 55%),
-    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.07) 0, transparent 60%);
+  background: radial-gradient(
+      circle at 10% 20%,
+      rgba(255, 255, 255, 0.05) 0,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 255, 255, 0.07) 0,
+      transparent 60%
+    );
   mix-blend-mode: screen;
   opacity: 0.28;
   animation: fogMove 45s linear infinite alternate;
-  z-index: 1;
 }
 
 @keyframes fogMove {
-  0%   { transform: translate3d(-8%, 2%, 0) scale(1.05); }
-  50%  { transform: translate3d(6%, -4%, 0) scale(1.08); }
-  100% { transform: translate3d(12%, 6%, 0) scale(1.04); }
+  0% {
+    transform: translate3d(-8%, 2%, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(6%, -4%, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(12%, 6%, 0) scale(1.04);
+  }
 }
 
 /* Glowing particles drifting */
 .header-particles {
-  background-image:
-    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.6), transparent),
-    radial-gradient(1.5px 1.5px at 35% 70%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(2px 2px at 75% 30%, rgba(255,255,255,0.7), transparent),
-    radial-gradient(1.5px 1.5px at 90% 80%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(2px 2px at 50% 10%, rgba(255,255,255,0.35), transparent);
+  background-image: radial-gradient(
+      2px 2px at 10% 20%,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    ),
+    radial-gradient(
+      1.5px 1.5px at 35% 70%,
+      rgba(255, 255, 255, 0.5),
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 75% 30%,
+      rgba(255, 255, 255, 0.7),
+      transparent
+    ),
+    radial-gradient(
+      1.5px 1.5px at 90% 80%,
+      rgba(255, 255, 255, 0.5),
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 50% 10%,
+      rgba(255, 255, 255, 0.35),
+      transparent
+    );
   opacity: 0.35;
   mix-blend-mode: screen;
   animation: particlesDrift 30s linear infinite alternate;
-  z-index: 2;
 }
 
 @keyframes particlesDrift {
-  0%   { transform: translate3d(0, 0, 0); }
-  50%  { transform: translate3d(-2%, -4%, 0); }
-  100% { transform: translate3d(3%, 3%, 0); }
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-2%, -4%, 0);
+  }
+  100% {
+    transform: translate3d(3%, 3%, 0);
+  }
 }
 
-/* Header content with lens flare halo & fingertip bloom */
+/* === Animated God rays + spotlight + fingertip bloom === */
+.site-header::before {
+  /* wide, angled rays sweeping across */
+  content: "";
+  position: absolute;
+  inset: -15%;
+  background: linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.16) 0,
+      rgba(255, 255, 255, 0.06) 18%,
+      transparent 45%
+    ),
+    linear-gradient(
+      130deg,
+      rgba(255, 255, 255, 0.08) 0,
+      transparent 55%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.42;
+  pointer-events: none;
+  animation: raysSweep 18s linear infinite alternate;
+}
+
+@keyframes raysSweep {
+  0% {
+    transform: translate3d(-14%, 0, 0) rotate(0.8deg);
+  }
+  50% {
+    transform: translate3d(6%, 0, 0) rotate(-0.4deg);
+  }
+  100% {
+    transform: translate3d(12%, 0, 0) rotate(0.3deg);
+  }
+}
+
+/* Spotlight + fingertip bloom over the contact point */
+.site-header::after {
+  content: "";
+  position: absolute;
+  /* roughly where the hands live in the cropped image */
+  top: 46%;
+  left: 51%;
+  width: 320px;
+  height: 320px;
+  transform: translate(-50%, -50%);
+  background:
+    /* inner fingertip bloom */
+    radial-gradient(
+      circle,
+      rgba(255, 255, 220, 0.9) 0,
+      rgba(255, 255, 255, 0.35) 18%,
+      transparent 55%
+    ),
+    /* wider soft spotlight */
+      radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.32) 0,
+      rgba(255, 255, 255, 0.12) 30%,
+      transparent 70%
+    );
+  filter: blur(10px);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  pointer-events: none;
+  animation: fingertipGlow 5.5s ease-in-out infinite;
+}
+
+@keyframes fingertipGlow {
+  0% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+  100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(0.94);
+  }
+}
+
+/* Header content + halo */
 .header-content {
   position: relative;
-  z-index: 3;
+  z-index: 2;
 }
 
 /* Lens flare / halo behind the title */
@@ -221,100 +281,98 @@ body {
   width: 280px;
   height: 280px;
   transform: translate(-50%, -55%);
-  background:
-    radial-gradient(circle, rgba(255,255,255,0.35) 0, rgba(255,255,255,0.15) 25%, transparent 60%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.35) 0,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 60%
+  );
   filter: blur(10px);
   opacity: 0.7;
   mix-blend-mode: screen;
   pointer-events: none;
   animation: haloPulse 6s ease-in-out infinite;
-  z-index: -1;
 }
 
 @keyframes haloPulse {
-  0%   { opacity: 0.4; transform: translate(-50%, -55%) scale(0.92); }
-  50%  { opacity: 0.9; transform: translate(-50%, -55%) scale(1.02); }
-  100% { opacity: 0.4; transform: translate(-50%, -55%) scale(0.92); }
-}
-
-/* Extra light bloom roughly where fingertips meet (slightly lower) */
-.header-content::after {
-  content: "";
-  position: absolute;
-  top: 78%;
-  left: 50%;
-  width: 260px;
-  height: 260px;
-  transform: translate(-50%, -50%);
-  background:
-    radial-gradient(circle, rgba(255,255,200,0.6) 0, rgba(255,255,200,0.0) 55%);
-  filter: blur(16px);
-  opacity: 0.7;
-  mix-blend-mode: screen;
-  pointer-events: none;
-  animation: fingertipBloom 8s ease-in-out infinite;
-  z-index: -1;
-}
-
-@keyframes fingertipBloom {
-  0%   { opacity: 0.4; transform: translate(-50%, -50%) scale(0.95); }
-  40%  { opacity: 0.95; transform: translate(-50%, -50%) scale(1.08); }
-  100% { opacity: 0.45; transform: translate(-50%, -50%) scale(1.0); }
+  0% {
+    opacity: 0.4;
+    transform: translate(-50%, -55%) scale(0.92);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, -55%) scale(1.02);
+  }
+  100% {
+    opacity: 0.4;
+    transform: translate(-50%, -55%) scale(0.92);
+  }
 }
 
 /* Title + shimmer */
 .site-header h1 {
-  position: relative;
   margin: 0 0 8px 0;
   font-size: 2.4rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  position: relative;
 
-  text-shadow:
-    0 0 10px rgba(0,0,0,0.8),
-    0 0 22px rgba(0,0,0,0.9),
-    0 2px 6px rgba(0,0,0,0.7);
-  overflow: hidden;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8),
+    0 0 22px rgba(0, 0, 0, 0.9), 0 2px 6px rgba(0, 0, 0, 0.7);
 }
 
-/* Moving shimmer sweep across the title */
+/* Moving shimmer bar across the title */
 .site-header h1::after {
   content: "";
   position: absolute;
-  top: -30%;
-  left: -40%;
-  width: 60%;
-  height: 160%;
+  inset: 0;
   background: linear-gradient(
-    120deg,
-    rgba(255,255,255,0.0) 0%,
-    rgba(255,255,255,0.55) 45%,
-    rgba(255,255,255,0.0) 100%
+    115deg,
+    transparent 0,
+    rgba(255, 255, 255, 0.9) 45%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 60%
   );
+  transform: translateX(-130%);
   mix-blend-mode: screen;
-  opacity: 0.0;
-  transform: translate3d(-100%, 0, 0);
-  animation: titleShimmer 6s ease-in-out infinite;
+  opacity: 0.75;
   pointer-events: none;
+  animation: titleShimmer 6.5s ease-in-out infinite;
 }
 
 @keyframes titleShimmer {
-  0%   { opacity: 0;   transform: translate3d(-140%, 0, 0); }
-  20%  { opacity: 0;   transform: translate3d(-140%, 0, 0); }
-  40%  { opacity: 0.9; transform: translate3d(60%, 0, 0);  }
-  55%  { opacity: 0;   transform: translate3d(120%, 0, 0); }
-  100% { opacity: 0;   transform: translate3d(120%, 0, 0); }
+  0% {
+    transform: translateX(-130%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  40% {
+    transform: translateX(10%);
+    opacity: 0.8;
+  }
+  55% {
+    transform: translateX(60%);
+    opacity: 0.4;
+  }
+  70% {
+    transform: translateX(130%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(130%);
+    opacity: 0;
+  }
 }
 
 .site-header p {
   margin: 0;
   font-size: 1rem;
   opacity: 0.92;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
-
-
 
 /* ============================================
    MAIN CONTENT WRAPPER
@@ -335,8 +393,6 @@ body {
   color: #cccccc;
 }
 
-
-
 /* ============================================
    MODULE GRID LIST
    ============================================ */
@@ -354,7 +410,6 @@ body {
   border: 1px solid #333;
   text-decoration: none;
   color: inherit;
-
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
   transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
 }
@@ -377,8 +432,6 @@ body {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8);
   outline: none;
 }
-
-
 
 /* ============================================
    QUIZ LAYOUT
@@ -410,8 +463,6 @@ body {
   border-color: #ff4b4b;
 }
 
-
-
 /* ============================================
    RESULT BANNER
    ============================================ */
@@ -435,8 +486,6 @@ body {
   border: 1px solid #ffb84b;
 }
 
-
-
 /* ============================================
    EXAM SUBMIT / RETAKE BUTTON
    ============================================ */
@@ -444,11 +493,10 @@ body {
   margin-top: 20px;
   display: flex;
   gap: 10px;
-
   position: sticky;
   bottom: 0;
   padding: 10px 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.7));
   z-index: 10;
 }
 
@@ -458,18 +506,16 @@ body {
   border: 1px solid #4dabff;
   background: #0f1b28;
   color: white;
-
   display: inline-flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-
   transition: transform 0.1s ease, box-shadow 0.12s ease;
 }
 
 .exam-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.7);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
 }
 
 .exam-button .dot {
@@ -482,8 +528,6 @@ body {
 .exam-button.submitted .dot {
   background: #33c24d;
 }
-
-
 
 /* ============================================
    GENERAL LINKS
@@ -498,15 +542,12 @@ a {
   margin-top: 20px;
 }
 
-
-
 /* ============================================
    MOBILE RESPONSIVE
    ============================================ */
 @media (max-width: 768px) {
-
   .site-header {
-    /* Disable parallax-like effects for mobile stability */
+    /* turn off background-attachment trick on mobile */
     min-height: 260px;
     padding: 36px 12px 44px;
     background-position: 50% 28%;
