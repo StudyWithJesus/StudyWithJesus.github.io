@@ -1,48 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-  /* ============================================
-     LOADING OVERLAY
-     ============================================ */
+  /* ========== LOADING OVERLAY ========== */
   const loader = document.getElementById('loading-overlay');
   if (loader) {
-    // small delay so you actually see the spinner on fast loads
     setTimeout(() => loader.classList.add('hidden'), 250);
   }
 
-  /* ============================================
-     BANNER PARALLAX (HOME PAGE)
-     ============================================ */
+  /* ========== BANNER PARALLAX / FX ========== */
   const header = document.querySelector('.site-header');
   if (header) {
-    // these match your CSS background-position: 48% 34%;
     const baseX = 48;
     const baseY = 34;
-
-    // set initial position explicitly so JS & CSS agree
     header.style.backgroundPosition = `${baseX}% ${baseY}%`;
 
     window.addEventListener('scroll', () => {
-      // only do parallax on wider screens (desktop / tablet)
       if (window.innerWidth <= 768) return;
-
       const scrolled = window.scrollY || window.pageYOffset || 0;
-      const offset = scrolled * 0.03; // tiny factor for slow movement
+      const offset = scrolled * 0.03;
       const y = baseY + offset;
       header.style.backgroundPosition = `${baseX}% ${y}%`;
     });
   }
 
-  /* ============================================
-     QUIZ / EXAM LOGIC
-     (only runs on pages that actually have a quiz)
-     ============================================ */
+  /* ========== QUIZ LOGIC (ONLY IF QUIZ PRESENT) ========== */
   const btn = document.getElementById('submit-btn');
   const form = document.getElementById('quiz-form');
   const banner = document.getElementById('result-banner');
 
-  // If this page doesn't have a quiz, stop here
+  // If we're on the home page (no quiz), bail out.
   if (!btn || !form || !window.ANSWERS) return;
 
   const STORAGE_KEY = 'quiz:' + window.location.pathname;
+  const LAYOUT_KEY = STORAGE_KEY + ':layout';
+  const SUBMIT_KEY = STORAGE_KEY + ':submitted';
+
   let submitted = false;
 
   function shuffle(arr) {
@@ -52,41 +42,147 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function shuffleQuestions() {
-    const qs = Array.from(form.querySelectorAll('.question'));
-    if (!qs.length) return;
-    const actions = form.querySelector('.exam-actions');
-    shuffle(qs);
-    qs.forEach(q => form.insertBefore(q, actions));
+  function saveLayout(layout) {
+    try {
+      localStorage.setItem(LAYOUT_KEY, JSON.stringify(layout));
+    } catch (_) {}
   }
 
-  function shuffleAnswers() {
-    const qs = Array.from(form.querySelectorAll('.question'));
-    qs.forEach(q => {
-      const labels = Array.from(q.querySelectorAll('label'));
-      if (labels.length <= 1) return;
-      shuffle(labels);
-      labels.forEach(l => q.appendChild(l));
-    });
+  function loadLayout() {
+    try {
+      const raw = localStorage.getItem(LAYOUT_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function clearLayout() {
+    try {
+      localStorage.removeItem(LAYOUT_KEY);
+    } catch (_) {}
+  }
+
+  function getSavedAnswers() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    } catch (_) {
+      return null;
+    }
   }
 
   function saveState() {
     const state = {};
-    form.querySelectorAll('input[type="radio"]').forEach(i => {
-      if (i.checked) state[i.name] = i.value;
+    form.querySelectorAll('input[type="radio"]').forEach(input => {
+      if (input.checked) state[input.name] = input.value;
     });
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (e) {
-      // ignore storage errors
+    } catch (_) {}
+  }
+
+  function clearState() {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(SUBMIT_KEY);
+    } catch (_) {}
+  }
+
+  function applyLayout(layout) {
+    if (!layout || !layout.order || !layout.options) return;
+
+    const questions = Array.from(form.querySelectorAll('.question'));
+    if (!questions.length) return;
+
+    const actions = form.querySelector('.exam-actions');
+    const map = {};
+
+    questions.forEach(q => {
+      const firstInput = q.querySelector('input[type="radio"]');
+      if (!firstInput) return;
+      map[firstInput.name] = q;
+    });
+
+    // Reorder questions
+    layout.order.forEach(name => {
+      const q = map[name];
+      if (q) form.insertBefore(q, actions);
+    });
+
+    // Reorder options
+    Object.keys(layout.options).forEach(name => {
+      const q = map[name];
+      if (!q) return;
+      const labels = Array.from(q.querySelectorAll('label'));
+      const byValue = {};
+      labels.forEach(label => {
+        const input = label.querySelector('input[type="radio"]');
+        if (!input) return;
+        byValue[input.value] = label;
+      });
+      layout.options[name].forEach(val => {
+        const label = byValue[val];
+        if (label) q.appendChild(label);
+      });
+    });
+  }
+
+  function randomizeLayout() {
+    const questions = Array.from(form.querySelectorAll('.question'));
+    if (!questions.length) return;
+
+    const actions = form.querySelector('.exam-actions');
+    const order = [];
+    const optionsLayout = {};
+
+    shuffle(questions);
+
+    questions.forEach(q => {
+      const firstInput = q.querySelector('input[type="radio"]');
+      if (!firstInput) return;
+      const name = firstInput.name;
+      order.push(name);
+
+      const labels = Array.from(q.querySelectorAll('label'));
+      shuffle(labels);
+      optionsLayout[name] = [];
+      labels.forEach(label => {
+        const input = label.querySelector('input[type="radio"]');
+        if (!input) return;
+        optionsLayout[name].push(input.value);
+        q.appendChild(label);
+      });
+
+      form.insertBefore(q, actions);
+    });
+
+    saveLayout({ order, options: optionsLayout });
+  }
+
+  function markQuestion(qName) {
+    const anyInput = form.querySelector(`input[name="${qName}"]`);
+    if (!anyInput) return;
+
+    const box = anyInput.closest('.question');
+    const selected = form.querySelector(
+      `input[name="${qName}"]:checked`
+    );
+
+    box.classList.remove('correct', 'incorrect');
+    if (!selected) return;
+
+    if (selected.value === window.ANSWERS[qName]) {
+      box.classList.add('correct');
+    } else {
+      box.classList.add('incorrect');
     }
   }
 
-  function loadState() {
+  function loadStateIntoForm() {
     let state = null;
     try {
       state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-    } catch (e) {
+    } catch (_) {
       state = null;
     }
     if (!state) return;
@@ -98,45 +194,18 @@ document.addEventListener('DOMContentLoaded', () => {
       );
       if (input) {
         input.checked = true;
-        mark(qName); // re-mark for hybrid mode
+        if (!submitted) markQuestion(qName);
       }
     });
   }
 
-  function clearState() {
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch (e) {
-      // ignore
-    }
-  }
-
-  function mark(qName) {
-    const any = form.querySelector(`input[name="${qName}"]`);
-    if (!any) return;
-    const box = any.closest('.question');
-    const selected = form.querySelector(
-      `input[name="${qName}"]:checked`
-    );
-
-    box.classList.remove('correct', 'incorrect');
-    if (!selected) return;
-
-    if (selected.value === ANSWERS[qName]) {
-      box.classList.add('correct');
-    } else {
-      box.classList.add('incorrect');
-    }
-  }
-
   function grade() {
     let score = 0;
-    const qs = Array.from(form.querySelectorAll('.question'));
+    const questions = Array.from(form.querySelectorAll('.question'));
 
-    qs.forEach(q => {
+    questions.forEach(q => {
       const firstInput = q.querySelector('input[type="radio"]');
       if (!firstInput) return;
-
       const qName = firstInput.name;
       const selected = form.querySelector(
         `input[name="${qName}"]:checked`
@@ -146,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!selected) return;
 
-      if (selected.value === ANSWERS[qName]) {
+      if (selected.value === window.ANSWERS[qName]) {
         score++;
         q.classList.add('correct');
       } else {
@@ -154,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    const total = Object.keys(ANSWERS).length;
+    const total = Object.keys(window.ANSWERS).length;
     const pct = total ? (score / total) * 100 : 0;
     const pass = pct >= 70;
 
@@ -162,26 +231,28 @@ document.addEventListener('DOMContentLoaded', () => {
       banner.className = '';
       banner.classList.add(pass ? 'pass' : 'fail');
       banner.textContent =
-        `Score: ${score}/${total} (${pct.toFixed(0)}%). ` +
-        (pass ? 'PASS' : 'REVIEW RECOMMENDED');
+        `Score: ${score}/${total} (${pct.toFixed(
+          0
+        )}%). ` + (pass ? 'PASS' : 'REVIEW RECOMMENDED');
       banner.style.display = 'block';
     }
 
     submitted = true;
+    try {
+      localStorage.setItem(SUBMIT_KEY, '1');
+    } catch (_) {}
     btn.textContent = 'Retake Test';
     btn.classList.add('submitted');
   }
 
   function reset() {
-    form
-      .querySelectorAll('.question')
-      .forEach(q => q.classList.remove('correct', 'incorrect'));
+    form.querySelectorAll('.question').forEach(q => {
+      q.classList.remove('correct', 'incorrect');
+    });
 
-    form
-      .querySelectorAll('input[type="radio"]')
-      .forEach(i => {
-        i.checked = false;
-      });
+    form.querySelectorAll('input[type="radio"]').forEach(i => {
+      i.checked = false;
+    });
 
     if (banner) {
       banner.style.display = 'none';
@@ -190,25 +261,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     clearState();
-
-    // Scramble questions and answers on every retake
-    shuffleQuestions();
-    shuffleAnswers();
+    clearLayout();
+    randomizeLayout();
 
     submitted = false;
     btn.textContent = 'Submit Answers';
     btn.classList.remove('submitted');
   }
 
-  // Instant per-question feedback + autosave
+  // Decide initial layout behaviour
+  let savedAnswers = getSavedAnswers();
+  const hasProgress =
+    savedAnswers && Object.keys(savedAnswers).length > 0;
+  const wasSubmitted =
+    typeof localStorage !== 'undefined' &&
+    localStorage.getItem(SUBMIT_KEY) === '1';
+
+  if (!wasSubmitted && hasProgress) {
+    const layout = loadLayout();
+    if (layout) {
+      applyLayout(layout);
+    } else {
+      randomizeLayout();
+    }
+  } else {
+    // Fresh start (first time OR previous run completed)
+    clearState();
+    clearLayout();
+    randomizeLayout();
+  }
+
+  // Load saved answers (after layout is correct)
+  loadStateIntoForm();
+
+  // Instant feedback + autosave
   form.querySelectorAll('input[type="radio"]').forEach(radio => {
     radio.addEventListener('change', () => {
-      if (!submitted) mark(radio.name);
+      if (!submitted) markQuestion(radio.name);
       saveState();
     });
   });
 
-  // Submit / Retake button
   btn.addEventListener('click', () => {
     if (!submitted) {
       grade();
@@ -216,7 +309,4 @@ document.addEventListener('DOMContentLoaded', () => {
       reset();
     }
   });
-
-  // Load saved answers (if any)
-  loadState();
 });
