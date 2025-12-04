@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>270201 Test 1</title>
@@ -7,39 +7,43 @@
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-<main class="page-content">
-  <h1>270201 Test 1</h1>
-  <form id="quiz-form">
-    <div class="question">
-      <p>1. Sample question.</p>
-      <label><input type="radio" name="q1" value="a"> A</label><br>
-      <label><input type="radio" name="q1" value="b"> B</label><br>
-      <label><input type="radio" name="q1" value="c"> C</label><br>
-      <label><input type="radio" name="q1" value="d"> D</label>
-    </div>
-    <div class="question">
-      <p>2. Another question.</p>
-      <label><input type="radio" name="q2" value="a"> A</label><br>
-      <label><input type="radio" name="q2" value="b"> B</label><br>
-      <label><input type="radio" name="q2" value="c"> C</label><br>
-      <label><input type="radio" name="q2" value="d"> D</label>
-    </div>
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+  <main class="page-content">
+    <h1>270201 Test 1</h1>
+    <form id="quiz-form">
+      <div class="question">
+        <p>1. Sample question.</p>
+        <label><input type="radio" name="q1" value="a"> A</label><br>
+        <label><input type="radio" name="q1" value="b"> B</label><br>
+        <label><input type="radio" name="q1" value="c"> C</label><br>
+        <label><input type="radio" name="q1" value="d"> D</label>
+      </div>
+      <div class="question">
+        <p>2. Another question.</p>
+        <label><input type="radio" name="q2" value="a"> A</label><br>
+        <label><input type="radio" name="q2" value="b"> B</label><br>
+        <label><input type="radio" name="q2" value="c"> C</label><br>
+        <label><input type="radio" name="q2" value="d"> D</label>
+      </div>
 
-    <div class="exam-actions">
-      <button type="button" id="submit-btn" class="exam-button">
-        <span class="dot"></span> Submit Answers
-      </button>
-    </div>
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span class="label-text">Submit Answers</span>
+        </button>
+      </div>
 
-    <div id="result-banner"></div>
-  </form>
+      <div id="result-banner"></div>
+    </form>
 
-  <a class="back-link" href="index.html">← Back</a>
-</main>
+    <a class="back-link" href="index.html">← Back</a>
+  </main>
 
-<script>
-const ANSWERS={ q1:'b', q2:'c' };
-</script>
-<script src="../script.js"></script>
+  <script>
+    const ANSWERS = { q1: 'b', q2: 'c' };
+  </script>
+  <script src="../script.js"></script>
 </body>
 </html>
