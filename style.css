@@ -1,111 +1,15 @@
-<style>
-  /* Full dark mode */
-  body {
-    font-family: Arial, sans-serif;
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 0 16px;
-    background-color: #000000; /* black */
-    color: #ffffff;            /* white text */
-  }
-
-  h1 {
-    text-align: center;
-    margin-bottom: 8px;
-    color: #ffffff;
-  }
-
-  .subtitle {
-    text-align: center;
-    margin-bottom: 24px;
-    font-size: 0.95rem;
-    color: #bbbbbb;
-  }
-
-  .controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-
-  .controls button {
-    padding: 8px 14px;
-    border-radius: 4px;
-    border: 1px solid #444;
-    background-color: #111;
-    color: #ffffff;
-    cursor: pointer;
-  }
-
-  .controls button:hover {
-    background-color: #222;
-  }
-
-  .question {
-    border: 1px solid #333;
-    border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 14px;
-    background-color: #111; /* dark grey box */
-  }
-
-  .question.correct {
-    border-color: #00c853;     /* green border */
-    background-color: #003d1f; /* dark green background */
-  }
-
-  .question.incorrect {
-    border-color: #ff1744;      /* red border */
-    background-color: #3d0008;  /* dark red background */
-  }
-
-  .question p {
-    margin: 0 0 6px 0;
-    font-weight: 600;
-    color: #ffffff;
-  }
-
-  .options label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 400;
-    color: #e0e0e0; /* light grey for options */
-  }
-
-  input[type="radio"] {
-    accent-color: #ffffff; /* white radio buttons */
-  }
-
-  .feedback {
-    margin-top: 4px;
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
-
-  .feedback.correct {
-    color: #00e676; /* neon green */
-  }
-
-  .feedback.incorrect {
-    color: #ff5252; /* bright red */
-  }
-
-  #result {
-    margin-top: 20px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: #ffffff;
-  }
-
-  .back-link {
-    margin-top: 20px;
-    display: inline-block;
-    text-decoration: none;
-    color: #80d8ff; /* light blue link */
-  }
-
-  .back-link:hover {
-    text-decoration: underline;
-  }
-</style>
+body { background:#000; color:#fff; font-family:Arial; margin:0; }
+.site-header { padding:40px 10px; text-align:center; background:#111; }
+.section-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; padding:20px; }
+.section-card { border:1px solid #333; padding:16px; background:#111; color:#fff; text-decoration:none; border-radius:10px; }
+.question { padding:12px; background:#111; border:1px solid #333; margin-bottom:12px; border-radius:8px; }
+.question.correct { background:#07280f; border-color:#33c24d; }
+.question.incorrect { background:#280707; border-color:#ff4b4b; }
+.exam-actions { margin-top:20px; display:flex; gap:10px; position:sticky; bottom:0; background:rgba(0,0,0,0.9); padding:10px; }
+.exam-button { padding:10px 22px; border-radius:999px; border:1px solid #4dabff; background:#0f1b28; color:white; display:flex; gap:8px; }
+.dot { width:8px; height:8px; border-radius:999px; background:#4dabff; }
+.exam-button.submitted .dot { background:#33c24d; }
+#result-banner { display:none; padding:12px; border-radius:8px; margin-top:16px; }
+#result-banner.pass { display:block; background:#07280f; border:1px solid #33c24d; }
+#result-banner.fail { display:block; background:#281c07; border:1px solid #ffb84b; }
+.back-link { color:#4dabff; display:inline-block; margin-top:20px; }
