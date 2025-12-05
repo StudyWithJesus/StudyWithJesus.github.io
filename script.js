@@ -1,387 +1,263 @@
-document.addEventListener('DOMContentLoaded', () => {
-  /* ========== LOADING OVERLAY ========== */
-  const loader = document.getElementById('loading-overlay');
-  if (loader) {
-    setTimeout(() => loader.classList.add('hidden'), 250);
+// Main behaviour for exams: progress, scoring, review mode, autosave, banner parallax
+document.addEventListener("DOMContentLoaded", () => {
+  initExamLogic();
+  initHeaderParallax();
+});
+
+function initExamLogic() {
+  const form = document.querySelector(".exam-form");
+  const questions = form ? Array.from(form.querySelectorAll(".question")) : [];
+  if (!form || questions.length === 0) return;
+
+  const progressFill = document.querySelector(".exam-progress-fill");
+  const progressText = document.querySelector(".exam-progress-text");
+  const submitBtn = document.getElementById("submit-btn");
+  const retakeBtn = document.getElementById("retake-btn");
+  const reviewBtn = document.getElementById("review-btn");
+  const resultBanner = document.getElementById("result-banner");
+
+  const examKey = "examState:" + (document.body.dataset.examId || window.location.pathname);
+
+  // Optional: shuffle questions/options if data-shuffle="true" on form
+  if (form.dataset.shuffle === "true") {
+    shuffleQuestions(form, questions);
   }
 
-  /* ========== BANNER PARALLAX ========== */
-  const header = document.querySelector('.site-header');
-  if (header) {
-    const baseX = 48;
-    const baseY = 34;
-    header.style.backgroundPosition = `${baseX}% ${baseY}%`;
+  // Restore saved answers
+  restoreState(questions, examKey);
 
-    window.addEventListener('scroll', () => {
-      if (window.innerWidth <= 768) return;
-      const scrolled = window.scrollY || window.pageYOffset || 0;
-      const offset = scrolled * 0.03;
-      const y = baseY + offset;
-      header.style.backgroundPosition = `${baseX}% ${y}%`;
+  // Hook radio changes
+  questions.forEach(q => {
+    q.addEventListener("change", () => {
+      q.classList.add("answered");
+      updateProgress(questions, progressFill, progressText);
+      saveState(questions, examKey);
+    });
+  });
+
+  updateProgress(questions, progressFill, progressText);
+
+  if (submitBtn) {
+    submitBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const { correct, incorrect, unanswered } = gradeExam(questions);
+      const total = questions.length;
+      const score = Math.round((correct / total) * 100);
+      if (resultBanner) {
+        resultBanner.innerHTML =
+          `<strong>${score}%</strong> — ${correct} correct, ${incorrect} incorrect, ${unanswered} unanswered.`;
+        resultBanner.classList.add("visible");
+      }
+      document.body.classList.remove("review-mode");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      try {
+        localStorage.setItem(examKey + ":lastScore", String(score));
+      } catch {}
     });
   }
 
-  /* ========== QUIZ LOGIC ========== */
-  const btn = document.getElementById('submit-btn');
-  const form = document.getElementById('quiz-form');
-  const banner = document.getElementById('result-banner');
-
-  const progressFill = document.getElementById('exam-progress-fill');
-  const progressText = document.getElementById('exam-progress-text');
-
-  if (!btn || !form || !window.ANSWERS) return;
-
-  const STORAGE_KEY = 'quiz:' + window.location.pathname;
-  const LAYOUT_KEY = STORAGE_KEY + ':layout';
-  const SUBMIT_KEY = STORAGE_KEY + ':submitted';
-
-  let submitted = false;
-  const lockedQuestions = new Set(); // which questions are "locked" after first pick
-
-  /* ----- helpers ----- */
-  function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-  }
-
-  function saveLayout(layout) {
-    try {
-      localStorage.setItem(LAYOUT_KEY, JSON.stringify(layout));
-    } catch (_) {}
-  }
-
-  function loadLayout() {
-    try {
-      const raw = localStorage.getItem(LAYOUT_KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  function clearLayout() {
-    try {
-      localStorage.removeItem(LAYOUT_KEY);
-    } catch (_) {}
-  }
-
-  function getSavedAnswers() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-    } catch (_) {
-      return null;
-    }
-  }
-
-  function saveState() {
-    const state = {};
-    form.querySelectorAll('input[type="radio"]').forEach(input => {
-      if (input.checked) state[input.name] = input.value;
-    });
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (_) {}
-  }
-
-  function clearState() {
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem(SUBMIT_KEY);
-    } catch (_) {}
-  }
-
-  function lockGroup(qName) {
-    lockedQuestions.add(qName);
-    const anyInput = form.querySelector(`input[name="${qName}"]`);
-    if (anyInput) {
-      const qBox = anyInput.closest('.question');
-      if (qBox) qBox.classList.add('locked');
-    }
-  }
-
-  function unlockAllGroups() {
-    lockedQuestions.clear();
-    form.querySelectorAll('.question').forEach(q => q.classList.remove('locked'));
-  }
-
-  /* ----- progress bar ----- */
-  function updateProgress() {
-    if (!progressFill || !progressText) return;
-
-    const total = Object.keys(window.ANSWERS).length;
-    const seen = new Set();
-    let answered = 0;
-
-    form.querySelectorAll('input[type="radio"]').forEach(input => {
-      if (seen.has(input.name)) return;
-      seen.add(input.name);
-      const anyChecked = form.querySelector(
-        `input[name="${input.name}"]:checked`
-      );
-      if (anyChecked) answered++;
-    });
-
-    const pct = total ? (answered / total) * 100 : 0;
-    progressFill.style.width = pct + '%';
-    progressText.textContent = `${answered} / ${total} answered`;
-  }
-
-  /* ----- layout (shuffle / restore) ----- */
-  function applyLayout(layout) {
-    if (!layout || !layout.order || !layout.options) return;
-
-    const questions = Array.from(form.querySelectorAll('.question'));
-    if (!questions.length) return;
-
-    const actions = form.querySelector('.exam-actions');
-    const map = {};
-
-    questions.forEach(q => {
-      const firstInput = q.querySelector('input[type="radio"]');
-      if (!firstInput) return;
-      map[firstInput.name] = q;
-    });
-
-    layout.order.forEach(name => {
-      const q = map[name];
-      if (q) form.insertBefore(q, actions);
-    });
-
-    Object.keys(layout.options).forEach(name => {
-      const q = map[name];
-      if (!q) return;
-      const labels = Array.from(q.querySelectorAll('label'));
-      const byValue = {};
-      labels.forEach(label => {
-        const input = label.querySelector('input[type="radio"]');
-        if (!input) return;
-        byValue[input.value] = label;
+  if (retakeBtn) {
+    retakeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      questions.forEach(q => {
+        q.classList.remove("correct", "incorrect", "answered");
+        q.querySelectorAll("label").forEach(label => {
+          label.classList.remove("correct", "incorrect");
+        });
+        q.querySelectorAll('input[type="radio"]').forEach(input => {
+          input.checked = false;
+        });
       });
-      layout.options[name].forEach(val => {
-        const label = byValue[val];
-        if (label) q.appendChild(label);
-      });
+      if (resultBanner) {
+        resultBanner.classList.remove("visible");
+        resultBanner.textContent = "";
+      }
+      document.body.classList.remove("review-mode");
+      updateProgress(questions, progressFill, progressText);
+      try {
+        localStorage.removeItem(examKey);
+        localStorage.removeItem(examKey + ":lastScore");
+      } catch {}
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
 
-  function randomizeLayout() {
-    const questions = Array.from(form.querySelectorAll('.question'));
-    if (!questions.length) return;
-
-    const actions = form.querySelector('.exam-actions');
-    const order = [];
-    const optionsLayout = {};
-
-    shuffle(questions);
-
-    questions.forEach(q => {
-      const firstInput = q.querySelector('input[type="radio"]');
-      if (!firstInput) return;
-      const name = firstInput.name;
-      order.push(name);
-
-      const labels = Array.from(q.querySelectorAll('label'));
-      shuffle(labels);
-      optionsLayout[name] = [];
-      labels.forEach(label => {
-        const input = label.querySelector('input[type="radio"]');
-        if (!input) return;
-        optionsLayout[name].push(input.value);
-        q.appendChild(label);
-      });
-
-      form.insertBefore(q, actions);
+  if (reviewBtn) {
+    reviewBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.body.classList.toggle("review-mode");
+      const firstIncorrect = questions.find(q => q.classList.contains("incorrect"));
+      if (document.body.classList.contains("review-mode") && firstIncorrect) {
+        firstIncorrect.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
     });
-
-    saveLayout({ order, options: optionsLayout });
   }
+}
 
-  /* ----- marking & restore ----- */
-  function markQuestion(qName) {
-    const anyInput = form.querySelector(`input[name="${qName}"]`);
-    if (!anyInput) return;
-
-    const box = anyInput.closest('.question');
-    const selected = form.querySelector(
-      `input[name="${qName}"]:checked`
-    );
-
-    box.classList.remove('correct', 'incorrect');
-    if (!selected) return;
-
-    if (selected.value === window.ANSWERS[qName]) {
-      box.classList.add('correct');
-    } else {
-      box.classList.add('incorrect');
-    }
+function updateProgress(questions, progressFill, progressText) {
+  if (!progressFill || !progressText) return;
+  const total = questions.length;
+  const answered = questions.reduce((count, q) => {
+    const checked = q.querySelector('input[type="radio"]:checked');
+    return count + (checked ? 1 : 0);
+  }, 0);
+  const pct = total === 0 ? 0 : Math.round((answered / total) * 100);
+  progressFill.style.width = pct + "%";
+  const bar = progressFill.parentElement;
+  if (bar) {
+    bar.classList.remove("progress-animate");
+    void bar.offsetWidth;
+    bar.classList.add("progress-animate");
   }
+  progressText.textContent = `${answered} / ${total} answered`;
+}
 
-  function loadStateIntoForm() {
-    let state = null;
-    try {
-      state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-    } catch (_) {
-      state = null;
-    }
-    if (!state) {
-      updateProgress();
+function gradeExam(questions) {
+  let correct = 0;
+  let incorrect = 0;
+  let unanswered = 0;
+
+  questions.forEach(q => {
+    q.classList.remove("correct", "incorrect");
+    q.querySelectorAll("label").forEach(l => l.classList.remove("correct", "incorrect"));
+
+    const chosen = q.querySelector('input[type="radio"]:checked');
+    const correctInput = q.querySelector('input[type="radio"][data-correct="true"]');
+
+    if (!chosen) {
+      unanswered++;
       return;
     }
 
-    Object.keys(state).forEach(qName => {
-      const val = state[qName];
-      const input = form.querySelector(
-        `input[name="${qName}"][value="${val}"]`
-      );
-      if (input) {
-        input.checked = true;
-        markQuestion(qName);
-        lockGroup(qName); // mark as locked
+    if (chosen && chosen.dataset.correct === "true") {
+      correct++;
+      q.classList.add("correct");
+      if (correctInput) {
+        const label = correctInput.closest("label");
+        if (label) label.classList.add("correct");
       }
-    });
-
-    updateProgress();
-  }
-
-  /* ----- grading & reset ----- */
-  function grade() {
-    let score = 0;
-    const questions = Array.from(form.querySelectorAll('.question'));
-
-    questions.forEach(q => {
-      const firstInput = q.querySelector('input[type="radio"]');
-      if (!firstInput) return;
-      const qName = firstInput.name;
-      const selected = form.querySelector(
-        `input[name="${qName}"]:checked`
-      );
-
-      q.classList.remove('correct', 'incorrect');
-
-      if (!selected) return;
-
-      if (selected.value === window.ANSWERS[qName]) {
-        score++;
-        q.classList.add('correct');
-      } else {
-        q.classList.add('incorrect');
-      }
-    });
-
-    const total = Object.keys(window.ANSWERS).length;
-    const pct = total ? (score / total) * 100 : 0;
-    const pass = pct >= 70;
-
-    if (banner) {
-      banner.className = '';
-      banner.classList.add(pass ? 'pass' : 'fail');
-      banner.textContent =
-        `Score: ${score}/${total} (${pct.toFixed(
-          0
-        )}%). ` + (pass ? 'PASS' : 'REVIEW RECOMMENDED');
-      banner.style.display = 'block';
-    }
-
-    if (progressFill) {
-      progressFill.classList.remove('pass', 'fail');
-      progressFill.classList.add(pass ? 'pass' : 'fail');
-    }
-
-    submitted = true;
-    try {
-      localStorage.setItem(SUBMIT_KEY, '1');
-    } catch (_) {}
-    btn.textContent = 'Retake Test';
-    btn.classList.add('submitted');
-  }
-
-  function reset() {
-    form.querySelectorAll('.question').forEach(q => {
-      q.classList.remove('correct', 'incorrect', 'locked');
-    });
-
-    form.querySelectorAll('input[type="radio"]').forEach(i => {
-      i.checked = false;
-    });
-
-    if (banner) {
-      banner.style.display = 'none';
-      banner.textContent = '';
-      banner.className = '';
-    }
-
-    clearState();
-    clearLayout();
-    if (progressFill) {
-      progressFill.classList.remove('pass', 'fail');
-      progressFill.style.width = '0%';
-    }
-
-    submitted = false;
-    btn.textContent = 'Submit Answers';
-    btn.classList.remove('submitted');
-    unlockAllGroups();
-
-    randomizeLayout();
-    updateProgress();
-  }
-
-  /* ----- initial layout decision ----- */
-  const savedAnswers = getSavedAnswers();
-  const hasProgress =
-    savedAnswers && Object.keys(savedAnswers).length > 0;
-  const wasSubmitted =
-    typeof localStorage !== 'undefined' &&
-    localStorage.getItem(SUBMIT_KEY) === '1';
-
-  if (!wasSubmitted && hasProgress) {
-    const layout = loadLayout();
-    if (layout) {
-      applyLayout(layout);
     } else {
-      randomizeLayout();
-    }
-  } else {
-    clearState();
-    clearLayout();
-    randomizeLayout();
-  }
-
-  // restore answers & update progress
-  loadStateIntoForm();
-
-  /* ----- radio change events ----- */
-  form.querySelectorAll('input[type="radio"]').forEach(radio => {
-    radio.addEventListener('change', () => {
-      if (submitted) return;
-
-      const qName = radio.name;
-
-      // If this question is already locked, snap back to the original answer
-      if (lockedQuestions.has(qName)) {
-        const state = getSavedAnswers() || {};
-        const prev = state[qName];
-        form.querySelectorAll(`input[name="${qName}"]`).forEach(i => {
-          i.checked = (i.value === prev);
-        });
-        return;
+      incorrect++;
+      q.classList.add("incorrect");
+      if (correctInput) {
+        const correctLabel = correctInput.closest("label");
+        if (correctLabel) correctLabel.classList.add("correct");
       }
-
-      // First time answering this question
-      markQuestion(qName);
-      lockGroup(qName);
-      saveState();
-      updateProgress();
-    });
+      const chosenLabel = chosen.closest("label");
+      if (chosenLabel) chosenLabel.classList.add("incorrect");
+    }
   });
 
-  btn.addEventListener('click', () => {
-    if (!submitted) {
-      grade();
-    } else {
-      reset();
+  return { correct, incorrect, unanswered };
+}
+
+function saveState(questions, key) {
+  const state = questions.map(q => {
+    const radio = q.querySelector('input[type="radio"]');
+    if (!radio) return null;
+    const name = radio.name;
+    const checked = q.querySelector('input[type="radio"]:checked');
+    return { name, value: checked ? checked.value : null };
+  }).filter(Boolean);
+
+  try {
+    localStorage.setItem(key, JSON.stringify(state));
+  } catch (e) {
+    console.warn("Unable to save exam state", e);
+  }
+}
+
+function restoreState(questions, key) {
+  let saved;
+  try {
+    saved = JSON.parse(localStorage.getItem(key) || "null");
+  } catch {
+    saved = null;
+  }
+  if (!saved || !Array.isArray(saved)) return;
+
+  const savedByName = new Map();
+  saved.forEach(entry => {
+    if (entry && entry.name) savedByName.set(entry.name, entry.value);
+  });
+
+  questions.forEach(q => {
+    const radios = Array.from(q.querySelectorAll('input[type="radio"]'));
+    if (radios.length === 0) return;
+    const name = radios[0].name;
+    const value = savedByName.get(name);
+    if (!value) return;
+    const match = q.querySelector(`input[type="radio"][name="${CSS.escape(name)}"][value="${CSS.escape(value)}"]`);
+    if (match) {
+      match.checked = true;
+      q.classList.add("answered");
     }
   });
-});
+}
+
+function shuffleQuestions(form, questions) {
+  const container = form.querySelector(".exam-form") || form;
+  const shuffled = [...questions];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  shuffled.forEach(q => container.appendChild(q));
+
+  // shuffle options in each question too
+  shuffled.forEach(q => {
+    const labels = Array.from(q.querySelectorAll("label"));
+    const parent = labels[0] ? labels[0].parentElement : null;
+    if (!parent) return;
+    const shuffledLabels = [...labels];
+    for (let i = shuffledLabels.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledLabels[i], shuffledLabels[j]] = [shuffledLabels[j], shuffledLabels[i]];
+    }
+    shuffledLabels.forEach(l => parent.appendChild(l));
+  });
+}
+
+/* ===== Parallax for header ===== */
+function initHeaderParallax() {
+  const header = document.querySelector(".site-header");
+  if (!header) return;
+
+  let ticking = false;
+
+  function applyParallax(xPercent, yPercent) {
+    const maxTilt = 4;
+    const rotateY = maxTilt * xPercent;
+    const rotateX = -maxTilt * yPercent;
+    header.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  }
+
+  function handlePointer(e) {
+    const rect = header.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        applyParallax(x, y);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  header.addEventListener("mousemove", handlePointer);
+
+  header.addEventListener("mouseleave", () => {
+    header.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
+  });
+
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener("deviceorientation", (event) => {
+      const beta = event.beta || 0;
+      const gamma = event.gamma || 0;
+      const xPercent = Math.max(-0.5, Math.min(0.5, gamma / 45));
+      const yPercent = Math.max(-0.5, Math.min(0.5, beta / 45));
+      applyParallax(xPercent, yPercent);
+    });
+  }
+}

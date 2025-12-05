@@ -29,9 +29,8 @@ a:hover {
 .site-header {
   position: relative;
   padding: 1.4rem 1.6rem 1.1rem;
-  /* Banner image + dark overlay */
   background-image:
-    linear-gradient(to bottom, rgba(0,0,0,0.72), rgba(0,0,0,0.9)),
+    linear-gradient(to bottom, rgba(0,0,0,0.78), rgba(0,0,0,0.92)),
     url("banner-creation-of-adam.jpg");
   background-size: cover;
   background-position: center;
@@ -40,9 +39,10 @@ a:hover {
   overflow: hidden;
   box-shadow: 0 4px 18px rgba(0,0,0,0.7);
   z-index: 10;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-/* Taller hero for main landing page */
 .site-header--hero {
   padding-top: 2.6rem;
   padding-bottom: 2.6rem;
@@ -82,6 +82,7 @@ a:hover {
   max-width: 960px;
   margin: 0 auto;
   text-shadow: 0 0 18px rgba(0,0,0,0.85);
+  transform: translateZ(40px);
 }
 
 .header-content h1 {
@@ -97,7 +98,26 @@ a:hover {
   color: #e5ebff;
 }
 
-/* ===== Progress bar (desktop/tablet default: sticky) ===== */
+/* glossy sweep across title */
+.header-content h1::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.2) 40%, transparent 80%);
+  transform: translateX(-120%);
+  opacity: 0;
+  pointer-events: none;
+  animation: titleSweep 22s ease-in-out infinite;
+}
+
+@keyframes titleSweep {
+  0% { transform: translateX(-120%); opacity: 0; }
+  5% { opacity: 1; }
+  12% { transform: translateX(120%); opacity: 0; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+
+/* ===== Progress bar ===== */
 .exam-progress {
   position: sticky;
   top: 0;
@@ -117,6 +137,7 @@ a:hover {
   border-radius: 999px;
   background: rgba(40, 44, 72, 0.9);
   overflow: hidden;
+  position: relative;
 }
 
 .exam-progress-fill {
@@ -128,6 +149,27 @@ a:hover {
   transition: width 0.18s ease-out;
 }
 
+.exam-progress-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.exam-progress-bar.progress-animate::after {
+  opacity: 1;
+  animation: progressSheen 0.8s ease-out;
+}
+
+@keyframes progressSheen {
+  from { transform: translateX(-100%); opacity: 0; }
+  30% { opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+
 .exam-progress-text {
   font-size: 0.8rem;
   color: #eaf4ff;
@@ -135,7 +177,7 @@ a:hover {
   font-variant-numeric: tabular-nums;
 }
 
-/* ===== Main layouts ===== */
+/* ===== Main layout wrappers ===== */
 .module-index-wrapper,
 .exam-index-wrapper,
 .page-content {
@@ -198,11 +240,12 @@ a:hover {
 
 .question {
   padding: 0.9rem 0.9rem;
-  border-radius: 12px;
+  border-radius: 16px;
   background: radial-gradient(circle at top, rgba(111, 141, 255, 0.16), rgba(8, 9, 18, 0.98));
   border: 1px solid rgba(129, 147, 211, 0.4);
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   transition: box-shadow 0.18s ease-out, border-color 0.18s ease-out, transform 0.12s ease-out;
+  transform-style: preserve-3d;
 }
 
 .question:hover {
@@ -219,9 +262,9 @@ a:hover {
   display: block;
   font-size: 0.9rem;
   padding: 0.22rem 0.4rem;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.12s ease-out, color 0.12s ease-out, box-shadow 0.12s ease-out;
+  transition: background-color 0.12s ease-out, color 0.12s ease-out, box-shadow 0.12s ease-out, transform 0.1s ease-out;
 }
 
 .question label + label {
@@ -233,20 +276,20 @@ a:hover {
   accent-color: #7fd4ff;
 }
 
-/* Question answered state (any option selected) */
+/* answered state */
 .question.answered {
   box-shadow: 0 0 16px rgba(127, 212, 255, 0.7);
   border-color: rgba(127, 212, 255, 0.9);
 }
 
-/* Option highlight where :has is supported */
+/* highlight selected option (browsers w/ :has support) */
 .question label:has(input[type="radio"]:checked) {
   background: rgba(127, 212, 255, 0.22);
   color: #fdfdff;
   box-shadow: 0 0 10px rgba(127, 212, 255, 0.8);
 }
 
-/* Correct / incorrect states (after Submit – match JS class names) */
+/* Correct / incorrect after submit */
 .question.correct {
   border-color: #3ee87b;
   box-shadow: 0 0 18px rgba(62,232,123,0.85);
@@ -255,6 +298,18 @@ a:hover {
 .question.incorrect {
   border-color: #ff4b4b;
   box-shadow: 0 0 18px rgba(255,75,75,0.85);
+}
+
+.question.label-correct label.correct {
+  background: rgba(62,232,123,0.22);
+  color: #eafff2;
+  box-shadow: 0 0 12px rgba(62,232,123,0.8);
+}
+
+.question.label-incorrect label.incorrect {
+  background: rgba(255,75,75,0.2);
+  color: #ffecec;
+  box-shadow: 0 0 12px rgba(255,75,75,0.7);
 }
 
 .question label.correct {
@@ -269,10 +324,21 @@ a:hover {
   box-shadow: 0 0 12px rgba(255,75,75,0.7);
 }
 
+/* review mode: gently dim all others */
+body.review-mode .question {
+  opacity: 0.35;
+}
+
+body.review-mode .question.incorrect,
+body.review-mode .question.correct {
+  opacity: 1;
+}
+
 /* ===== Exam actions / buttons ===== */
 .exam-actions {
   margin-top: 1.4rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
 }
@@ -294,6 +360,17 @@ a:hover {
   background: linear-gradient(135deg, #46ffb2, #7fd4ff);
   box-shadow: 0 0 16px rgba(127, 212, 255, 0.78);
   transition: transform 0.08s ease-out, box-shadow 0.12s ease-out;
+}
+
+.exam-button.secondary {
+  background: linear-gradient(135deg, #9ca3ff, #7fd4ff);
+}
+
+.exam-button.ghost {
+  background: transparent;
+  color: #eaf4ff;
+  border: 1px solid rgba(127,212,255,0.5);
+  box-shadow: none;
 }
 
 .exam-button:hover {
@@ -322,11 +399,15 @@ a:hover {
   border: 1px solid rgba(127,212,255,0.4);
   color: #eaf4ff;
   font-size: 0.9rem;
-  display: none; /* shown by JS when results are ready */
+  display: none;
 }
 
 .result-banner.visible {
   display: block;
+}
+
+.result-banner strong {
+  font-size: 1rem;
 }
 
 /* ===== Loading overlay (optional) ===== */
@@ -353,7 +434,7 @@ a:hover {
   to { transform: rotate(360deg); }
 }
 
-/* ===== Index grids (main + module pages) ===== */
+/* ===== Index grids ===== */
 .module-grid,
 .exam-grid {
   display: grid;
@@ -366,17 +447,18 @@ a:hover {
 .exam-card {
   display: block;
   padding: 0.85rem 0.9rem;
-  border-radius: 12px;
+  border-radius: 16px;
   background: radial-gradient(circle at top, rgba(111, 141, 255, 0.16), rgba(8, 9, 18, 0.98));
   border: 1px solid rgba(129, 147, 211, 0.45);
-  transition: transform 0.12s ease-out, box-shadow 0.16s ease-out, border-color 0.12s ease-out;
+  transition: transform 0.16s ease-out, box-shadow 0.16s ease-out, border-color 0.16s ease-out;
+  transform-style: preserve-3d;
 }
 
 .module-card:hover,
 .exam-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px) perspective(600px) rotateX(3deg);
   border-color: rgba(127, 212, 255, 0.85);
-  box-shadow: 0 0 16px rgba(127, 212, 255, 0.65);
+  box-shadow: 0 18px 26px rgba(0, 0, 0, 0.7), 0 0 16px rgba(127, 212, 255, 0.65);
 }
 
 .module-card h3,
@@ -389,6 +471,21 @@ a:hover {
 .exam-card p {
   font-size: 0.86rem;
   color: #c3c7de;
+}
+
+/* ===== Wolf Pack watermark ===== */
+body::after {
+  content: "Wolf Pack Training";
+  position: fixed;
+  bottom: 6%;
+  right: -8%;
+  font-size: 2.4rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(140, 160, 220, 0.04);
+  transform: rotate(-15deg);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ===== Responsive tweaks ===== */
@@ -404,7 +501,6 @@ a:hover {
   }
 
   .exam-progress {
-    /* On small screens, force fully fixed bar so it never disappears */
     position: fixed;
     top: 0;
     left: 0;
@@ -412,7 +508,6 @@ a:hover {
     padding-inline: 1.1rem;
   }
 
-  /* Add extra top padding so questions don't hide beneath fixed bar */
   .page-content {
     padding-top: 3.5rem;
   }
