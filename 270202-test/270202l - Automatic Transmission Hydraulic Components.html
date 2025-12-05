@@ -12,7 +12,7 @@
     <div class="spinner"></div>
   </div>
 
-  <header class="site-header">
+  <header class="site-header site-header--hero">
     <div class="header-fog"></div>
     <div class="header-particles"></div>
     <div class="header-content">
@@ -43,6 +43,20 @@
     </section>
 
     <form id="quiz-form" class="exam-form">
+
+    <div class="exam-actions exam-actions-top">
+      <button type="button" class="exam-button" onclick="document.getElementById('submit-btn').click()">
+        <span class="dot"></span><span>Submit Answers</span>
+      </button>
+      <button type="button" class="exam-button secondary" onclick="document.getElementById('retake-btn') && document.getElementById('retake-btn').click()">
+        <span class="dot"></span><span>Retake &amp; Scramble</span>
+      </button>
+      <button type="button" class="exam-button ghost" onclick="document.getElementById('review-btn') && document.getElementById('review-btn').click()">
+        Review wrong answers
+      </button>
+    </div>
+
+
 
       <div class="question">
         <p><strong>The main purpose of the transmission pump is to:</strong></p>
