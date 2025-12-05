@@ -1,35 +1,97 @@
-// Main behaviour for exams: progress, scoring, review mode, autosave, banner parallax
-document.addEventListener("DOMContentLoaded", () => {
-  initExamLogic();
-  initHeaderParallax();
-});
+// =====================================================
+// Global script for exam pages + index pages
+// - Floating progress bar
+// - Autosave answers
+// - Submit / Retake / Review wrong answers
+// - Last score per exam (ILM) for index pages
+// =====================================================
 
-function initExamLogic() {
-  const form = document.querySelector(".exam-form");
-  const questions = form ? Array.from(form.querySelectorAll(".question")) : [];
-  if (!form || questions.length === 0) return;
+// Run immediately on load (handles scripts at bottom of body)
+;(function() {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAll);
+  } else {
+    initAll();
+  }
+})();
 
-  const progressFill = document.querySelector(".exam-progress-fill");
-  const progressText = document.querySelector(".exam-progress-text");
+function initAll() {
+  initExamPage();
+  initExamIndexScores();
+}
+
+// ----------------------
+// Exam page behaviour
+// ----------------------
+function initExamPage() {
+  const form = document.querySelector(".exam-form, #quiz-form");
+  if (!form) return; // not on an exam page
+
+  const questions = Array.from(form.querySelectorAll(".question"));
+  if (!questions.length) return;
+
+  const progressFill = document.querySelector(".exam-progress-fill, #exam-progress-fill");
+  const progressText = document.querySelector(".exam-progress-text, #exam-progress-text");
   const submitBtn = document.getElementById("submit-btn");
-  const retakeBtnEls = document.querySelectorAll("#retake-btn, #reset-btn, #resetButton, [data-role='retake']");
-  const reviewBtn = document.getElementById("review-btn");
-  const resultBanner = document.getElementById("result-banner");
+  let resultBanner = document.getElementById("result-banner");
 
-  const examKey = "examState:" + (document.body.dataset.examId || window.location.pathname);
+  // Ensure result banner exists
+  if (!resultBanner) {
+    resultBanner = document.createElement("div");
+    resultBanner.id = "result-banner";
+    resultBanner.className = "result-banner";
+    form.appendChild(resultBanner);
+  }
 
-  // Optional: shuffle questions/options if data-shuffle="true" on form
-  if (form.dataset.shuffle === "true") {
+  // Ensure we have an actions container + retake / review buttons
+  let actions = form.querySelector(".exam-actions");
+  if (!actions) {
+    actions = document.createElement("div");
+    actions.className = "exam-actions";
+    form.appendChild(actions);
+  }
+
+  // if submit button not inside actions, move it
+  if (submitBtn && submitBtn.parentElement !== actions) {
+    actions.insertBefore(submitBtn, actions.firstChild);
+  }
+
+  // Create retake + review buttons if missing
+  let retakeBtn = actions.querySelector("#retake-btn");
+  if (!retakeBtn) {
+    retakeBtn = document.createElement("button");
+    retakeBtn.type = "button";
+    retakeBtn.id = "retake-btn";
+    retakeBtn.className = "exam-button secondary";
+    retakeBtn.innerHTML = '<span class="dot"></span><span>Retake &amp; Scramble</span>';
+    actions.appendChild(retakeBtn);
+  }
+
+  let reviewBtn = actions.querySelector("#review-btn");
+  if (!reviewBtn) {
+    reviewBtn = document.createElement("button");
+    reviewBtn.type = "button";
+    reviewBtn.id = "review-btn";
+    reviewBtn.className = "exam-button ghost";
+    reviewBtn.innerHTML = "Review wrong answers";
+    actions.appendChild(reviewBtn);
+  }
+
+  const examKey = "examState:" + window.location.pathname;
+  const shuffleEnabled = form.dataset.shuffle !== "false"; // default: true
+
+  // Shuffle questions & choices on first load if enabled
+  if (shuffleEnabled) {
     shuffleQuestions(form, questions);
   }
 
   // Restore saved answers
   restoreState(questions, examKey);
 
-  // Hook radio changes
+  // Hook question change
   questions.forEach(q => {
     q.addEventListener("change", () => {
-      q.classList.add("answered");
+      if (!q.classList.contains("answered")) q.classList.add("answered");
       updateProgress(questions, progressFill, progressText);
       saveState(questions, examKey);
     });
@@ -37,79 +99,84 @@ function initExamLogic() {
 
   updateProgress(questions, progressFill, progressText);
 
+  // Submit handler
   if (submitBtn) {
     submitBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      const { correct, incorrect, unanswered } = gradeExam(questions);
+      const result = gradeExam(questions);
       const total = questions.length;
-      const score = Math.round((correct / total) * 100);
+      const score = Math.round((result.correct / total) * 100);
+
       if (resultBanner) {
         resultBanner.innerHTML =
-          `<strong>${score}%</strong> — ${correct} correct, ${incorrect} incorrect, ${unanswered} unanswered.`;
+          `<strong>${score}%</strong> — ${result.correct} correct, ${result.incorrect} incorrect, ${result.unanswered} unanswered.`;
         resultBanner.classList.add("visible");
       }
+
       document.body.classList.remove("review-mode");
       window.scrollTo({ top: 0, behavior: "smooth" });
 
-      // Persist last score for this specific exam
+      // Persist last score for this exam
       try {
         localStorage.setItem(examKey + ":lastScore", String(score));
       } catch {}
 
-      // Also store a module-level score so the main page can show it
-      try {
-        const match = window.location.pathname.match(/(27020[1-4])/);
-        if (match) {
-          const moduleId = match[1];
-          const moduleKey = "moduleScore:" + moduleId;
-          localStorage.setItem(moduleKey, String(score));
-        }
-      } catch {}
-    });
-  }
-
-  if (retakeBtnEls && retakeBtnEls.length) {
-    retakeBtnEls.forEach((retakeBtn) => {
-      retakeBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        questions.forEach(q => {
-          q.classList.remove("correct", "incorrect", "answered");
-          q.querySelectorAll("label").forEach(label => {
-            label.classList.remove("correct", "incorrect");
-          });
-          q.querySelectorAll('input[type="radio"]').forEach(input => {
-            input.checked = false;
-          });
-        });
-        if (resultBanner) {
-          resultBanner.classList.remove("visible");
-          resultBanner.textContent = "";
-        }
-        document.body.classList.remove("review-mode");
-
-        // Re-shuffle on retake if enabled
-        if (form.dataset.shuffle === "true") {
-          const qs = Array.from(form.querySelectorAll(".question"));
-          shuffleQuestions(form, qs);
-        }
-
-        updateProgress(questions, progressFill, progressText);
+      const examId = getExamIdFromTitle();
+      if (examId) {
         try {
-          localStorage.removeItem(examKey);
-          localStorage.removeItem(examKey + ":lastScore");
+          localStorage.setItem("examScore:" + examId, String(score));
         } catch {}
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
+      }
     });
   }
 
+  // Retake handler (clear + reshuffle)
+  if (retakeBtn) {
+    retakeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      questions.forEach(q => {
+        q.classList.remove("correct", "incorrect", "answered");
+        q.querySelectorAll("label").forEach(label => {
+          label.classList.remove("correct", "incorrect");
+        });
+        q.querySelectorAll('input[type="radio"]').forEach(input => {
+          input.checked = false;
+        });
+      });
+
+      if (resultBanner) {
+        resultBanner.classList.remove("visible");
+        resultBanner.textContent = "";
+      }
+
+      document.body.classList.remove("review-mode");
+
+      // Re-shuffle on every retake if enabled
+      if (shuffleEnabled) {
+        const qs = Array.from(form.querySelectorAll(".question"));
+        shuffleQuestions(form, qs);
+      }
+
+      updateProgress(questions, progressFill, progressText);
+      try {
+        localStorage.removeItem(examKey);
+        localStorage.removeItem(examKey + ":lastScore");
+      } catch {}
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  // Review wrong answers handler
   if (reviewBtn) {
     reviewBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      document.body.classList.toggle("review-mode");
-      const firstIncorrect = questions.find(q => q.classList.contains("incorrect"));
-      if (document.body.classList.contains("review-mode") && firstIncorrect) {
-        firstIncorrect.scrollIntoView({ behavior: "smooth", block: "center" });
+      // Toggle review mode
+      const isActive = document.body.classList.toggle("review-mode");
+      if (isActive) {
+        const firstIncorrect = questions.find(q => q.classList.contains("incorrect"));
+        if (firstIncorrect) {
+          firstIncorrect.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       }
     });
   }
@@ -124,16 +191,12 @@ function updateProgress(questions, progressFill, progressText) {
   }, 0);
   const pct = total === 0 ? 0 : Math.round((answered / total) * 100);
   progressFill.style.width = pct + "%";
-  const bar = progressFill.parentElement;
-  if (bar) {
-    bar.classList.remove("progress-animate");
-    void bar.offsetWidth;
-    bar.classList.add("progress-animate");
-  }
   progressText.textContent = `${answered} / ${total} answered`;
 }
 
+// Uses window.ANSWERS mapping for correctness
 function gradeExam(questions) {
+  const answerMap = (window.ANSWERS || {});
   let correct = 0;
   let incorrect = 0;
   let unanswered = 0;
@@ -142,21 +205,28 @@ function gradeExam(questions) {
     q.classList.remove("correct", "incorrect");
     q.querySelectorAll("label").forEach(l => l.classList.remove("correct", "incorrect"));
 
+    const anyRadio = q.querySelector('input[type="radio"]');
+    if (!anyRadio) {
+      unanswered++;
+      return;
+    }
+    const name = anyRadio.name;
     const chosen = q.querySelector('input[type="radio"]:checked');
-    const correctInput = q.querySelector('input[type="radio"][data-correct="true"]');
+    const correctVal = answerMap[name];
+    const correctInput = correctVal != null
+      ? q.querySelector(`input[type="radio"][name="${CSS.escape(name)}"][value="${CSS.escape(correctVal)}"]`)
+      : null;
 
     if (!chosen) {
       unanswered++;
       return;
     }
 
-    if (chosen && chosen.dataset.correct === "true") {
+    if (correctInput && chosen === correctInput) {
       correct++;
       q.classList.add("correct");
-      if (correctInput) {
-        const label = correctInput.closest("label");
-        if (label) label.classList.add("correct");
-      }
+      const label = correctInput.closest("label");
+      if (label) label.classList.add("correct");
     } else {
       incorrect++;
       q.classList.add("incorrect");
@@ -204,7 +274,7 @@ function restoreState(questions, key) {
 
   questions.forEach(q => {
     const radios = Array.from(q.querySelectorAll('input[type="radio"]'));
-    if (radios.length === 0) return;
+    if (!radios.length) return;
     const name = radios[0].name;
     const value = savedByName.get(name);
     if (!value) return;
@@ -216,8 +286,11 @@ function restoreState(questions, key) {
   });
 }
 
+// Fisher–Yates shuffle for questions + labels
 function shuffleQuestions(form, questions) {
-  const container = form.querySelector(".exam-form") || form;
+  const container = form; // questions are direct children in existing markup
+
+  // Shuffle question blocks
   const shuffled = [...questions];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -225,11 +298,11 @@ function shuffleQuestions(form, questions) {
   }
   shuffled.forEach(q => container.appendChild(q));
 
-  // shuffle options in each question too
+  // Shuffle options within each question
   shuffled.forEach(q => {
     const labels = Array.from(q.querySelectorAll("label"));
-    const parent = labels[0] ? labels[0].parentElement : null;
-    if (!parent) return;
+    if (!labels.length) return;
+    const parent = labels[0].parentElement;
     const shuffledLabels = [...labels];
     for (let i = shuffledLabels.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -239,66 +312,30 @@ function shuffleQuestions(form, questions) {
   });
 }
 
-/* ===== Parallax for header ===== */
-function initHeaderParallax() {
-  const header = document.querySelector(".site-header");
-  if (!header) return;
-
-  let ticking = false;
-
-  function applyParallax(xPercent, yPercent) {
-    const maxTilt = 4;
-    const rotateY = maxTilt * xPercent;
-    const rotateX = -maxTilt * yPercent;
-    header.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  }
-
-  function handlePointer(e) {
-    const rect = header.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        applyParallax(x, y);
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }
-
-  header.addEventListener("mousemove", handlePointer);
-
-  header.addEventListener("mouseleave", () => {
-    header.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
-  });
-
-  if (window.DeviceOrientationEvent) {
-    window.addEventListener("deviceorientation", (event) => {
-      const beta = event.beta || 0;
-      const gamma = event.gamma || 0;
-      const xPercent = Math.max(-0.5, Math.min(0.5, gamma / 45));
-      const yPercent = Math.max(-0.5, Math.min(0.5, beta / 45));
-      applyParallax(xPercent, yPercent);
-    });
-  }
+// Try to derive exam id like "270202a" or "270202eA" from the page title
+function getExamIdFromTitle() {
+  const title = document.title || "";
+  const match = title.match(/^(27\d{3}[0-9A-Za-z]*)\s*-/);
+  return match ? match[1] : null;
 }
 
-
-/* ===== Module last-score display on main page ===== */
-document.addEventListener("DOMContentLoaded", initModuleScoresMainPage);
-
-function initModuleScoresMainPage() {
-  const cards = document.querySelectorAll(".module-card[data-module-id]");
+// ----------------------
+// Exam index pages: last score per ILM
+// ----------------------
+function initExamIndexScores() {
+  const cards = document.querySelectorAll(".exam-card[data-exam-id]");
   if (!cards.length) return;
+
   cards.forEach(card => {
-    const moduleId = card.getAttribute("data-module-id");
-    const span = card.querySelector('[data-module-score]');
-    if (!moduleId || !span) return;
+    const examId = card.getAttribute("data-exam-id");
+    const span = card.querySelector("[data-exam-score]");
+    if (!examId || !span) return;
     let score = null;
     try {
-      const stored = localStorage.getItem("moduleScore:" + moduleId);
+      const stored = localStorage.getItem("examScore:" + examId);
       if (stored != null) score = parseInt(stored, 10);
     } catch {}
-    span.textContent = (score != null && !Number.isNaN(score)) ? `${score}%` : "No attempts yet";
+    span.textContent =
+      (score != null && !Number.isNaN(score)) ? `${score}%` : "No attempts yet";
   });
 }
