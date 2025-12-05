@@ -1,37 +1,31 @@
-/* ============================================
-   GLOBAL RESETS & BASE
-   ============================================ */
-*,
-*::before,
-*::after {
+/* ============================
+   GLOBAL RESET + THEME
+============================ */
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
+html, body {
+  background: #000;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Arial, sans-serif;
-  background-color: #000;
-  color: #f5f5f5;
-}
-
-/* ============================================
+/* ============================
    LOADING OVERLAY
-   ============================================ */
+============================ */
 #loading-overlay {
   position: fixed;
   inset: 0;
   background: #000;
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 999;
-  transition: opacity 0.25s ease;
+  align-items: center;
+  z-index: 5000;
+  transition: opacity .4s ease;
 }
 
 #loading-overlay.hidden {
@@ -40,537 +34,364 @@ body {
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
+  border: 4px solid #ffffff22;
+  border-top-color: #fff;
   border-radius: 50%;
-  border: 4px solid #333;
-  border-top-color: #4dabff;
-  animation: spin 0.8s linear infinite;
+  animation: spin .8s linear infinite;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
-/* ============================================
-   BANNER HEADER — CREATION OF ADAM
-   (parallax-ready, fog, particles, rays, halo,
-    spotlight, fingertip bloom, shimmer)
-   ============================================ */
-/* NOTE: Image must be at: /banner-creation-of-adam.jpg */
+/* ============================
+   HEADER BANNER
+============================ */
 .site-header {
   position: relative;
-  overflow: hidden;
-
-  /* Taller banner for more art */
-  min-height: 420px;
-
+  width: 100%;
+  height: 380px; /* extended banner */
+  background: url("banner-creation-of-adam.jpg") 48% 34% / cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  padding: 56px 16px 72px;
-
-  /* Base background, focus around the hands */
-  background-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.55),
-      rgba(0, 0, 0, 0.95)
-    ),
-    url("banner-creation-of-adam.jpg");
-  /* ⭐ crop tuned to hands */
-  background-position: 48% 34%;
-  background-size: cover;
-  background-repeat: no-repeat;
-
-  text-align: center;
-
-  /* Fade-in animation */
-  opacity: 0;
-  animation: bannerFadeIn 1s ease-out 0.2s forwards;
+  overflow: hidden;
 }
 
-/* Fade-in keyframes */
-@keyframes bannerFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* === Global FX layers container base === */
-.header-fx {
+/* fog layer */
+.header-fog {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-}
-
-/* Subtle moving fog */
-.header-fog {
-  background: radial-gradient(
-      circle at 10% 20%,
-      rgba(255, 255, 255, 0.05) 0,
-      transparent 55%
-    ),
-    radial-gradient(
-      circle at 80% 80%,
-      rgba(255, 255, 255, 0.07) 0,
-      transparent 60%
-    );
-  mix-blend-mode: screen;
-  opacity: 0.28;
-  animation: fogMove 45s linear infinite alternate;
+  background: url("fog.png") center / cover repeat-x;
+  opacity: 0.22;
+  mix-blend-mode: lighten;
+  animation: fogMove 60s linear infinite;
 }
 
 @keyframes fogMove {
-  0% {
-    transform: translate3d(-8%, 2%, 0) scale(1.05);
-  }
-  50% {
-    transform: translate3d(6%, -4%, 0) scale(1.08);
-  }
-  100% {
-    transform: translate3d(12%, 6%, 0) scale(1.04);
-  }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-1200px); }
 }
 
-/* Glowing particles drifting */
+/* particles */
 .header-particles {
-  background-image: radial-gradient(
-      2px 2px at 10% 20%,
-      rgba(255, 255, 255, 0.6),
-      transparent
-    ),
-    radial-gradient(
-      1.5px 1.5px at 35% 70%,
-      rgba(255, 255, 255, 0.5),
-      transparent
-    ),
-    radial-gradient(
-      2px 2px at 75% 30%,
-      rgba(255, 255, 255, 0.7),
-      transparent
-    ),
-    radial-gradient(
-      1.5px 1.5px at 90% 80%,
-      rgba(255, 255, 255, 0.5),
-      transparent
-    ),
-    radial-gradient(
-      2px 2px at 50% 10%,
-      rgba(255, 255, 255, 0.35),
-      transparent
-    );
-  opacity: 0.35;
-  mix-blend-mode: screen;
-  animation: particlesDrift 30s linear infinite alternate;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #ffffff40 0px, transparent 900px);
+  background-size: 300% 300%;
+  animation: particlesFloat 18s ease-in-out infinite;
 }
 
-@keyframes particlesDrift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(-2%, -4%, 0);
-  }
-  100% {
-    transform: translate3d(3%, 3%, 0);
-  }
+@keyframes particlesFloat {
+  0%   { background-position: 50% 50%; }
+  50%  { background-position: 48% 47%; }
+  100% { background-position: 50% 50%; }
 }
 
-/* === Animated God rays + spotlight + fingertip bloom === */
+/* halo / bloom around hands */
 .site-header::before {
-  /* wide, angled rays sweeping across */
   content: "";
   position: absolute;
-  inset: -15%;
-  background: linear-gradient(
-      115deg,
-      rgba(255, 255, 255, 0.16) 0,
-      rgba(255, 255, 255, 0.06) 18%,
-      transparent 45%
-    ),
-    linear-gradient(
-      130deg,
-      rgba(255, 255, 255, 0.08) 0,
-      transparent 55%
-    );
-  mix-blend-mode: screen;
-  opacity: 0.42;
+  width: 700px;
+  height: 700px;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #ffffff66 0%, transparent 70%);
+  filter: blur(60px);
+  opacity: 0.23;
   pointer-events: none;
-  animation: raysSweep 18s linear infinite alternate;
 }
 
-@keyframes raysSweep {
-  0% {
-    transform: translate3d(-14%, 0, 0) rotate(0.8deg);
-  }
-  50% {
-    transform: translate3d(6%, 0, 0) rotate(-0.4deg);
-  }
-  100% {
-    transform: translate3d(12%, 0, 0) rotate(0.3deg);
-  }
-}
-
-/* Spotlight + fingertip bloom over the contact point */
+/* god rays overlay */
 .site-header::after {
   content: "";
   position: absolute;
-  /* roughly where the hands live in the cropped image */
-  top: 46%;
-  left: 51%;
-  width: 320px;
-  height: 320px;
-  transform: translate(-50%, -50%);
-  background:
-    /* inner fingertip bloom */
-    radial-gradient(
-      circle,
-      rgba(255, 255, 220, 0.9) 0,
-      rgba(255, 255, 255, 0.35) 18%,
-      transparent 55%
-    ),
-    /* wider soft spotlight */
-      radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.32) 0,
-      rgba(255, 255, 255, 0.12) 30%,
-      transparent 70%
-    );
-  filter: blur(10px);
-  mix-blend-mode: screen;
-  opacity: 0.9;
-  pointer-events: none;
-  animation: fingertipGlow 5.5s ease-in-out infinite;
-}
-
-@keyframes fingertipGlow {
-  0% {
-    opacity: 0.55;
-    transform: translate(-50%, -50%) scale(0.9);
-  }
-  40% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.06);
-  }
-  100% {
-    opacity: 0.6;
-    transform: translate(-50%, -50%) scale(0.94);
-  }
-}
-
-/* Header content + halo */
-.header-content {
-  position: relative;
-  z-index: 2;
-}
-
-/* Lens flare / halo behind the title */
-.header-content::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 280px;
-  height: 280px;
-  transform: translate(-50%, -55%);
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.35) 0,
-    rgba(255, 255, 255, 0.15) 25%,
-    transparent 60%
-  );
-  filter: blur(10px);
-  opacity: 0.7;
-  mix-blend-mode: screen;
-  pointer-events: none;
-  animation: haloPulse 6s ease-in-out infinite;
-}
-
-@keyframes haloPulse {
-  0% {
-    opacity: 0.4;
-    transform: translate(-50%, -55%) scale(0.92);
-  }
-  50% {
-    opacity: 0.9;
-    transform: translate(-50%, -55%) scale(1.02);
-  }
-  100% {
-    opacity: 0.4;
-    transform: translate(-50%, -55%) scale(0.92);
-  }
-}
-
-/* Title + shimmer */
-.site-header h1 {
-  margin: 0 0 8px 0;
-  font-size: 2.4rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  position: relative;
-
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8),
-    0 0 22px rgba(0, 0, 0, 0.9), 0 2px 6px rgba(0, 0, 0, 0.7);
-}
-
-/* Moving shimmer bar across the title */
-.site-header h1::after {
-  content: "";
-  position: absolute;
   inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 0,
-    rgba(255, 255, 255, 0.9) 45%,
-    rgba(255, 255, 255, 0.35) 50%,
-    transparent 60%
-  );
-  transform: translateX(-130%);
+  background: url("god-rays.png") center / cover no-repeat;
   mix-blend-mode: screen;
-  opacity: 0.75;
-  pointer-events: none;
-  animation: titleShimmer 6.5s ease-in-out infinite;
+  opacity: 0.12;
+  animation: raysFloat 24s ease-in-out infinite;
 }
 
-@keyframes titleShimmer {
-  0% {
-    transform: translateX(-130%);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0;
-  }
-  40% {
-    transform: translateX(10%);
-    opacity: 0.8;
-  }
-  55% {
-    transform: translateX(60%);
-    opacity: 0.4;
-  }
-  70% {
-    transform: translateX(130%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(130%);
-    opacity: 0;
-  }
+@keyframes raysFloat {
+  0%   { transform: translateY(-20px); opacity: .08; }
+  50%  { transform: translateY(0px);    opacity: .18; }
+  100% { transform: translateY(-20px); opacity: .08; }
 }
 
-.site-header p {
-  margin: 0;
-  font-size: 1rem;
-  opacity: 0.92;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+/* title + shimmer */
+.header-content {
+  z-index: 5;
+  text-align: center;
+  margin-top: 40px;
 }
 
-/* ============================================
-   MAIN CONTENT WRAPPER
-   ============================================ */
+.header-content h1 {
+  font-size: 2.6rem;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-content p {
+  margin-top: 0.5rem;
+  opacity: 0.9;
+}
+
+.header-content h1::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -200%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 0%, #ffffff40 40%, transparent 70%);
+  animation: shimmer 5s infinite;
+}
+
+@keyframes shimmer {
+  0%   { left: -200%; }
+  100% { left: 200%; }
+}
+
+/* ============================
+   PAGE CONTENT
+============================ */
 .page-content {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 24px 16px 40px;
+  padding: 40px 10%;
 }
 
-.intro h2 {
-  margin: 0 0 4px;
-  font-size: 1.4rem;
+.back-link a {
+  color: #ccc;
+  text-decoration: none;
 }
 
-.intro p {
-  margin: 0 0 16px;
-  color: #cccccc;
+.back-link a:hover {
+  color: #fff;
+  text-decoration: underline;
 }
 
-/* ============================================
-   MODULE GRID LIST
-   ============================================ */
+.quiz-page-header h2 {
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+/* ============================
+   SECTION CARDS (module selection)
+============================ */
 .section-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.4rem;
+  margin-top: 20px;
 }
 
 .section-card {
-  display: block;
-  padding: 16px 18px;
-  border-radius: 10px;
-  background: rgba(15, 15, 15, 0.95);
+  background: #111;
+  padding: 1.4rem;
+  border-radius: 12px;
+  transition: 0.25s ease;
   border: 1px solid #333;
   text-decoration: none;
-  color: inherit;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  color: #fff;
 }
 
 .section-card h3 {
-  margin: 0 0 6px;
-  font-size: 1.15rem;
+  margin-bottom: 0.35rem;
 }
 
 .section-card p {
-  margin: 0;
-  font-size: 0.95rem;
-  color: #d0d0d0;
+  font-size: 0.9rem;
+  color: #aaa;
 }
 
-.section-card:hover,
-.section-card:focus-visible {
-  transform: translateY(-2px);
-  border-color: #4dabff;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8);
-  outline: none;
+.section-card:hover {
+  background: #181818;
+  transform: translateY(-4px);
+  border-color: #666;
+  box-shadow: 0 0 18px #ffffff11;
 }
 
-/* ============================================
-   QUIZ LAYOUT
-   ============================================ */
-.quiz-page-header h1 {
-  margin: 0 0 4px;
+/* ============================
+   EXAM PROGRESS BAR
+============================ */
+.exam-progress {
+  margin: 20px 0 26px;
 }
 
-.quiz-page-header p {
-  margin: 0;
-  opacity: 0.85;
+.exam-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #141414;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: 0 0 10px #000;
 }
 
+.exam-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #39ff14, #00e0ff);
+  box-shadow: 0 0 10px #39ff14aa, 0 0 18px #00e0ffaa;
+  transition: width .25s ease-out;
+}
+
+.exam-progress-text {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #bbbbbb;
+  text-align: right;
+}
+
+/* ============================
+   QUIZ FORM / QUESTIONS
+============================ */
+.exam-form {
+  margin-top: 30px;
+}
+
+/* question card */
 .question {
-  padding: 12px;
   background: #111;
-  border: 1px solid #333;
-  margin-bottom: 12px;
-  border-radius: 8px;
+  padding: 1.2rem;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  border: 1px solid #222;
+  transition: 0.2s ease;
 }
 
+/* NEON CORRECT / INCORRECT */
 .question.correct {
-  background: #07280f;
-  border-color: #33c24d;
+  border-color: #39ff14;
+  box-shadow:
+    0 0 6px #39ff1499,
+    0 0 14px #39ff14aa,
+    0 0 26px #00ffcc55;
 }
 
 .question.incorrect {
-  background: #280707;
-  border-color: #ff4b4b;
+  border-color: #ff3366;
+  box-shadow:
+    0 0 6px #ff336699,
+    0 0 14px #ff3366aa,
+    0 0 26px #ff006655;
 }
 
-/* ============================================
-   RESULT BANNER
-   ============================================ */
-#result-banner {
-  display: none;
-  padding: 12px;
-  border-radius: 8px;
-  margin-top: 16px;
-  font-weight: 600;
+/* question text */
+.question p {
+  margin-bottom: 0.6rem;
 }
 
-#result-banner.pass {
-  display: block;
-  background: #07280f;
-  border: 1px solid #33c24d;
+/* ANSWERS – vertical stack */
+.exam-form .question label {
+  display: block;          /* stack options vertically */
+  margin: 0.25rem 0;
+  line-height: 1.4;
+  cursor: pointer;
 }
 
-#result-banner.fail {
-  display: block;
-  background: #281c07;
-  border: 1px solid #ffb84b;
+/* when radio disabled after locking */
+.question input[disabled] + label,
+.question input[disabled] ~ label {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
-/* ============================================
-   EXAM SUBMIT / RETAKE BUTTON
-   ============================================ */
+/* ============================
+   SUBMIT / RETAKE BUTTON
+============================ */
 .exam-actions {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-  position: sticky;
-  bottom: 0;
-  padding: 10px 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.7));
-  z-index: 10;
+  margin-top: 25px;
+  text-align: center;
 }
 
 .exam-button {
-  padding: 10px 22px;
-  border-radius: 999px;
-  border: 1px solid #4dabff;
-  background: #0f1b28;
-  color: white;
+  background: #181818;
+  border: 2px solid #555;
+  color: #fff;
+  padding: 12px 28px;
+  font-size: 1.05rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: .2s ease;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.12s ease;
-}
-
-.exam-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+  gap: 0.6rem;
 }
 
 .exam-button .dot {
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: #4dabff;
+  background: #00ffaa;
+  box-shadow: 0 0 8px #00ffaa, 0 0 14px #00ffaa66;
 }
 
-.exam-button.submitted .dot {
-  background: #33c24d;
+.exam-button:hover {
+  background: #222;
+  border-color: #888;
 }
 
-/* ============================================
-   GENERAL LINKS
-   ============================================ */
-a {
-  color: #4dabff;
+.exam-button.submitted {
+  background: #101010;
+  border-color: #999;
 }
 
-.back-link {
-  color: #4dabff;
-  display: inline-block;
+/* ============================
+   RESULT BANNER
+============================ */
+.result-banner {
   margin-top: 20px;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  text-align: center;
+  display: none;
 }
 
-/* ============================================
+.result-banner.pass {
+  background: #021f10;
+  border: 1px solid #00d26a;
+  box-shadow: 0 0 10px #00d26a55;
+}
+
+.result-banner.fail {
+  background: #26050c;
+  border: 1px solid #ff3366;
+  box-shadow: 0 0 10px #ff336655;
+}
+
+/* ============================
    MOBILE RESPONSIVE
-   ============================================ */
+============================ */
 @media (max-width: 768px) {
   .site-header {
-    /* turn off background-attachment trick on mobile */
-    min-height: 260px;
-    padding: 36px 12px 44px;
-    background-position: 50% 28%;
+    height: 260px;
+    background-position: 50% 20%;
   }
 
-  .site-header h1 {
-    font-size: 1.7rem;
-  }
-
-  .site-header p {
-    font-size: 0.9rem;
+  .header-content h1 {
+    font-size: 1.8rem;
   }
 
   .page-content {
-    padding: 20px 12px 32px;
+    padding: 22px 5%;
+  }
+
+  .section-grid {
+    grid-template-columns: 1fr;
   }
 
   .section-card {
-    padding: 14px 14px;
+    padding: 1.2rem;
   }
 
-  .exam-actions {
-    gap: 12px;
-    padding: 12px 0;
+  .exam-progress-text {
+    text-align: center;
+    font-size: 0.85rem;
   }
 }
