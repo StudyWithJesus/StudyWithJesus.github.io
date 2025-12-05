@@ -57,38 +57,66 @@ function initExamPage() {
     form.appendChild(resultBanner);
   }
 
-  // Ensure we have an actions container + retake / review buttons
+  // Remove any pre-existing top actions bars; we'll manage them in JS
+  form.querySelectorAll(".exam-actions-top").forEach(el => el.remove());
+
+// Ensure we have a single bottom actions container and ordered buttons
   let actions = form.querySelector(".exam-actions");
   if (!actions) {
     actions = document.createElement("div");
     actions.className = "exam-actions";
-    form.appendChild(actions);
   }
 
-  // if submit button not inside actions, move it
-  if (submitBtn && submitBtn.parentElement !== actions) {
-    actions.insertBefore(submitBtn, actions.firstChild);
+  // Find or create the main buttons
+  let submitBtn = form.querySelector("#submit-btn");
+  if (!submitBtn) {
+    submitBtn = document.createElement("button");
+    submitBtn.type = "button";
+    submitBtn.id = "submit-btn";
+    submitBtn.className = "exam-button";
+    submitBtn.innerHTML = '<span class="dot"></span><span>Submit Answers</span>';
   }
 
-  // Create retake + review buttons if missing
-  let retakeBtn = actions.querySelector("#retake-btn");
+  let retakeBtn = form.querySelector("#retake-btn");
   if (!retakeBtn) {
     retakeBtn = document.createElement("button");
     retakeBtn.type = "button";
     retakeBtn.id = "retake-btn";
     retakeBtn.className = "exam-button secondary";
     retakeBtn.innerHTML = '<span class="dot"></span><span>Retake &amp; Scramble</span>';
-    actions.appendChild(retakeBtn);
   }
 
-  let reviewBtn = actions.querySelector("#review-btn");
+  let reviewBtn = form.querySelector("#review-btn");
   if (!reviewBtn) {
     reviewBtn = document.createElement("button");
     reviewBtn.type = "button";
     reviewBtn.id = "review-btn";
     reviewBtn.className = "exam-button ghost";
-    reviewBtn.innerHTML = "Review wrong answers";
-    actions.appendChild(reviewBtn);
+    reviewBtn.textContent = "Review wrong answers";
+  }
+
+  // Place the actions container directly after the questions container
+  const qParent = questionContainer.parentElement;
+  qParent.insertBefore(actions, questionContainer.nextSibling);
+
+  // Ensure actions only has these three, in order
+  actions.innerHTML = "";
+  actions.appendChild(submitBtn);
+  actions.appendChild(retakeBtn);
+  actions.appendChild(reviewBtn);
+
+  // Ensure result banner exists just after actions
+  let resultBanner = document.getElementById("result-banner");
+  if (!resultBanner) {
+    resultBanner = document.createElement("div");
+    resultBanner.id = "result-banner";
+    resultBanner.className = "result-banner";
+  }
+  if (resultBanner.parentElement !== form) {
+    form.appendChild(resultBanner);
+  }
+  if (resultBanner.previousElementSibling !== actions) {
+    actions.insertAdjacentElement("afterend", resultBanner);
   }
 
   const examKey = "examState:" + window.location.pathname;
@@ -98,7 +126,6 @@ function initExamPage() {
   if (shuffleEnabled) {
     shuffleQuestions(questionContainer, questions);
   }
-
   // Restore saved answers
   restoreState(questions, examKey);
 
@@ -194,6 +221,40 @@ function initExamPage() {
       }
     });
   }
+
+// Create a mirrored TOP actions bar that proxies to the bottom buttons
+let topActions = form.querySelector(".exam-actions-top");
+if (!topActions) {
+  topActions = document.createElement("div");
+  topActions.className = "exam-actions exam-actions-top";
+
+  const topSubmit = document.createElement("button");
+  topSubmit.type = "button";
+  topSubmit.className = "exam-button";
+  topSubmit.innerHTML = '<span class="dot"></span><span>Submit Answers</span>';
+
+  const topRetake = document.createElement("button");
+  topRetake.type = "button";
+  topRetake.className = "exam-button secondary";
+  topRetake.innerHTML = '<span class="dot"></span><span>Retake &amp; Scramble</span>';
+
+  const topReview = document.createElement("button");
+  topReview.type = "button";
+  topReview.className = "exam-button ghost";
+  topReview.textContent = "Review wrong answers";
+
+  topActions.appendChild(topSubmit);
+  topActions.appendChild(topRetake);
+  topActions.appendChild(topReview);
+
+  const parent = questionContainer.parentElement;
+  parent.insertBefore(topActions, questionContainer);
+
+  topSubmit.addEventListener("click", () => submitBtn && submitBtn.click());
+  topRetake.addEventListener("click", () => retakeBtn && retakeBtn.click());
+  topReview.addEventListener("click", () => reviewBtn && reviewBtn.click());
+}
+
 }
 
 function updateProgress(questions, progressFill, progressText) {
