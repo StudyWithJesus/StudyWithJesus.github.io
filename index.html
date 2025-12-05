@@ -2,36 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Second Period Practice Tests</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="loading-overlay">
-    <div class="spinner"></div>
-  </div>
 
-  <header class="site-header">
+  <!-- HERO BANNER -->
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
     <div class="header-content">
-      <h1>Second Period Practice Tests</h1>
+      <h1>SECOND PERIOD PRACTICE TESTS</h1>
       <p>Modules 270201 • 270202 • 270203 • 270204</p>
     </div>
   </header>
 
-  <main class="page-content">
-    <section class="intro">
-      <h2>Select a module</h2>
-      <p>Tap a card below to open the tests for that module.</p>
+  <!-- MAIN CONTENT -->
+  <main class="module-index-wrapper">
+    <section class="module-index-header">
+      <h2>Select a Module</h2>
+      <p>Tap a card below to open the practice tests for that module.</p>
     </section>
 
-    <section class="section-grid">
-      <a class="section-card" href="270201-test/index.html"><h3>270201 Test</h3><p>Practice questions for module 270201.</p></a>
-      <a class="section-card" href="270202-test/index.html"><h3>270202 Test</h3><p>Practice questions for module 270202.</p></a>
-      <a class="section-card" href="270203-test/index.html"><h3>270203 Test</h3><p>Practice questions for module 270203.</p></a>
-      <a class="section-card" href="270204-test/index.html"><h3>270204 Test</h3><p>Practice questions for module 270204.</p></a>
+    <section class="module-grid">
+      <a href="270201/index.html" class="module-card">
+        <h3>270201 – Test</h3>
+        <p>Practice questions for module 270201.</p>
+      </a>
+
+      <a href="270202/270202-index.html" class="module-card">
+        <h3>270202 – Driveline &amp; Drivetrain</h3>
+        <p>Full practice exam set for all 270202 ILMs.</p>
+      </a>
+
+      <a href="270203/index.html" class="module-card">
+        <h3>270203 – Test</h3>
+        <p>Practice questions for module 270203.</p>
+      </a>
+
+      <a href="270204/index.html" class="module-card">
+        <h3>270204 – Test</h3>
+        <p>Practice questions for module 270204.</p>
+      </a>
     </section>
   </main>
 
-  <script src="script.js"></script>
 </body>
 </html>

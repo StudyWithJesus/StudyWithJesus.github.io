@@ -411,3 +411,70 @@ a:hover {
     padding-inline: 1.1rem;
   }
 }
+
+
+/* ===== Main module index layout ===== */
+
+.site-header--hero {
+  padding-top: 2.4rem;
+  padding-bottom: 2.4rem;
+}
+
+.module-index-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1.6rem 3rem;
+}
+
+.module-index-header h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.module-index-header p {
+  font-size: 0.9rem;
+  color: #c0c4d8;
+  margin-bottom: 1rem;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.module-card {
+  display: block;
+  padding: 0.85rem 0.9rem;
+  border-radius: 12px;
+  background: radial-gradient(circle at top, rgba(111, 141, 255, 0.16), rgba(8, 9, 18, 0.98));
+  border: 1px solid rgba(129, 147, 211, 0.45);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  transition: transform 0.12s ease-out, box-shadow 0.16s ease-out, border-color 0.12s ease-out;
+}
+
+.module-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(127, 212, 255, 0.85);
+  box-shadow: 0 0 16px rgba(127, 212, 255, 0.65);
+  text-decoration: none;
+}
+
+.module-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.15rem;
+  color: #f9fbff;
+}
+
+.module-card p {
+  font-size: 0.86rem;
+  color: #c0c4d8;
+}
+
+/* Mobile tweaks for module index */
+@media (max-width: 640px) {
+  .module-index-wrapper {
+    padding-inline: 1.1rem;
+  }
+}
