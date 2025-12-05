@@ -2,18 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>270202a – Chains, Sprockets, Belts and Pulleys Practice Exam</title>
+  <title>270202a - Chains, Sprockets, Belts and Pulleys Practice Exam</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
   <header class="site-header">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
     <div class="header-content">
-      <h1>270202a – Chains, Sprockets, Belts and Pulleys</h1>
-      <p>Practice exam based on ILM 270202a: chains, sprockets, belts, pulleys and drive ratios.</p>
+      <h1>270202a PRACTICE EXAM</h1>
+      <p>Chains, Sprockets, Belts and Pulleys</p>
     </div>
   </header>
+
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
+    </div>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
+    </div>
+  </div>
+
   <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270202 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270202a &mdash; Chains, Sprockets, Belts and Pulleys</h2>
+      <p>
+        Focus: roller chains, sprockets, belt types, sheaves and basic drive ratios.
+      </p>
+    </section>
+
     <form id="quiz-form" class="exam-form">
 
       <div class="question">
@@ -336,15 +364,9 @@
         <label><input type="radio" name="q40" value="d"> adjust lubricant viscosity</label>
       </div>
 
-      <div class="exam-actions">
-        <button type="button" id="submit-btn" class="exam-button">
-          <span class="dot"></span>
-          <span>Submit Answers</span>
-        </button>
-      </div>
-      <div id="result-banner" class="result-banner"></div>
     </form>
   </main>
+
   <script>
     window.ANSWERS = {
   "q1": "a",

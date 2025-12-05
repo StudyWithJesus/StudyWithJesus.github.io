@@ -2,18 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>270202c – Clutches Practice Exam</title>
+  <title>270202c - Clutches Practice Exam</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
   <header class="site-header">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
     <div class="header-content">
-      <h1>270202c – Clutches</h1>
-      <p>Practice exam based on ILM 270202c: clutch purpose, components, operation and linkages.</p>
+      <h1>270202c PRACTICE EXAM</h1>
+      <p>Clutches</p>
     </div>
   </header>
+
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
+    </div>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
+    </div>
+  </div>
+
   <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270202 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270202c &mdash; Clutches</h2>
+      <p>
+        Focus: friction clutch components, push/pull types, linkages and common failures.
+      </p>
+    </section>
+
     <form id="quiz-form" class="exam-form">
 
       <div class="question">
@@ -336,15 +364,9 @@
         <label><input type="radio" name="q40" value="d"> backing under a trailer at idle in gear</label>
       </div>
 
-      <div class="exam-actions">
-        <button type="button" id="submit-btn" class="exam-button">
-          <span class="dot"></span>
-          <span>Submit Answers</span>
-        </button>
-      </div>
-      <div id="result-banner" class="result-banner"></div>
     </form>
   </main>
+
   <script>
     window.ANSWERS = {
   "q1": "a",
