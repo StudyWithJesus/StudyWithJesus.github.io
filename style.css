@@ -348,3 +348,66 @@ a:hover {
     padding-inline: 1.1rem;
   }
 }
+
+/* ===== 270202 index exam list ===== */
+.exam-index-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1.6rem 3rem;
+}
+
+.exam-index-header {
+  margin-bottom: 1.25rem;
+}
+
+.exam-index-header h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.exam-index-header p {
+  font-size: 0.95rem;
+  color: #c0c4d8;
+}
+
+.exam-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.9rem;
+}
+
+.exam-card {
+  display: block;
+  padding: 0.85rem 0.9rem;
+  border-radius: 14px;
+  background: radial-gradient(circle at top, rgba(111, 141, 255, 0.17), rgba(7,8,15,0.98));
+  border: 1px solid rgba(129,147,211,0.45);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.6);
+  text-decoration: none;
+  color: #f5f5ff;
+  transition: transform 0.12s ease-out, box-shadow 0.15s ease-out, border-color 0.15s ease-out;
+}
+
+.exam-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(127,212,255,0.9);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.8);
+}
+
+.exam-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.22rem;
+  color: #7fd4ff;
+}
+
+.exam-card p {
+  font-size: 0.9rem;
+  color: #c4c9e4;
+}
+
+/* mobile tweak */
+@media (max-width: 640px) {
+  .exam-index-wrapper {
+    padding-inline: 1.1rem;
+  }
+}
