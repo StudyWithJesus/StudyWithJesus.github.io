@@ -55,7 +55,9 @@ function initExamPage() {
   // Create a fresh actions container and append it at the very bottom of the form
   let actions = document.createElement("div");
   actions.className = "exam-actions";
-  form.appendChild(actions);
+  const lastQuestion = questions[questions.length - 1];
+  const lastParent = lastQuestion.parentElement;
+  lastParent.insertBefore(actions, lastQuestion.nextSibling);
 
   // if submit button not inside actions, move it
   if (submitBtn && submitBtn.parentElement !== actions) {
@@ -214,8 +216,9 @@ function initExamPage() {
       topActions.appendChild(topRetake);
       topActions.appendChild(topReview);
 
-      // Insert the top actions right before the first question
-      form.insertBefore(topActions, firstQuestion);
+      // Insert the top actions right before the first question, using the same parent container
+      const qParent = firstQuestion.parentElement;
+      qParent.insertBefore(topActions, firstQuestion);
 
       // Wire top buttons to trigger the real ones
       if (submitBtn) topSubmit.addEventListener("click", () => submitBtn.click());
