@@ -225,10 +225,21 @@ html, body {
 }
 
 /* ============================
-   EXAM PROGRESS BAR
+   EXAM PROGRESS BAR (STICKY)
 ============================ */
 .exam-progress {
-  margin: 20px 0 26px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 10px 0 18px;
+  margin: 0 0 18px;
+  background: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 70%,
+    transparent 100%
+  );
+  backdrop-filter: blur(4px);
 }
 
 .exam-progress-bar {
@@ -416,6 +427,11 @@ html, body {
 
   .section-card {
     padding: 1.2rem;
+  }
+
+  .exam-progress {
+    top: 0;
+    padding: 8px 0 14px;
   }
 
   .exam-progress-text {
