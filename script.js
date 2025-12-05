@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => loader.classList.add('hidden'), 250);
   }
 
-  /* ========== BANNER PARALLAX / FX ========== */
+  /* ========== BANNER PARALLAX ========== */
   const header = document.querySelector('.site-header');
   if (header) {
     const baseX = 48;
@@ -26,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('quiz-form');
   const banner = document.getElementById('result-banner');
 
+  // progress bar elements
+  const progressFill = document.getElementById('exam-progress-fill');
+  const progressText = document.getElementById('exam-progress-text');
+
   if (!btn || !form || !window.ANSWERS) return;
 
   const STORAGE_KEY = 'quiz:' + window.location.pathname;
@@ -34,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let submitted = false;
 
+  /* ----- utilities ----- */
   function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -100,6 +105,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ----- progress bar ----- */
+  function updateProgress() {
+    if (!progressFill || !progressText) return;
+
+    const total = Object.keys(window.ANSWERS).length;
+    const seen = new Set();
+    let answered = 0;
+
+    form.querySelectorAll('input[type="radio"]').forEach(input => {
+      if (seen.has(input.name)) return;
+      seen.add(input.name);
+      const anyChecked = form.querySelector(
+        `input[name="${input.name}"]:checked`
+      );
+      if (anyChecked) answered++;
+    });
+
+    const pct = total ? (answered / total) * 100 : 0;
+    progressFill.style.width = pct + '%';
+    progressText.textContent = `${answered} / ${total} answered`;
+  }
+
+  /* ----- layout handling (shuffle / restore) ----- */
   function applyLayout(layout) {
     if (!layout || !layout.order || !layout.options) return;
 
@@ -169,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     saveLayout({ order, options: optionsLayout });
   }
 
+  /* ----- marking & state restore ----- */
   function markQuestion(qName) {
     const anyInput = form.querySelector(`input[name="${qName}"]`);
     if (!anyInput) return;
@@ -195,7 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) {
       state = null;
     }
-    if (!state) return;
+    if (!state) {
+      updateProgress();
+      return;
+    }
 
     Object.keys(state).forEach(qName => {
       const val = state[qName];
@@ -205,12 +237,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (input) {
         input.checked = true;
         markQuestion(qName);
-        // answers are locked once chosen, even after reload
-        lockGroup(qName);
+        lockGroup(qName); // keep questions locked after refresh
       }
     });
+
+    updateProgress();
   }
 
+  /* ----- grading & reset ----- */
   function grade() {
     let score = 0;
     const questions = Array.from(form.querySelectorAll('.question'));
@@ -281,10 +315,12 @@ document.addEventListener('DOMContentLoaded', () => {
     submitted = false;
     btn.textContent = 'Submit Answers';
     btn.classList.remove('submitted');
+
+    updateProgress();
   }
 
-  // Decide initial layout behaviour
-  let savedAnswers = getSavedAnswers();
+  /* ----- initial layout decision ----- */
+  const savedAnswers = getSavedAnswers();
   const hasProgress =
     savedAnswers && Object.keys(savedAnswers).length > 0;
   const wasSubmitted =
@@ -304,16 +340,17 @@ document.addEventListener('DOMContentLoaded', () => {
     randomizeLayout();
   }
 
-  // Load saved answers (and lock chosen ones)
+  // restore answers & update progress
   loadStateIntoForm();
 
-  // Instant feedback + lock + autosave
+  /* ----- event handlers ----- */
   form.querySelectorAll('input[type="radio"]').forEach(radio => {
     radio.addEventListener('change', () => {
       if (submitted) return;
       markQuestion(radio.name);
       lockGroup(radio.name);
       saveState();
+      updateProgress();
     });
   });
 
