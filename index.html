@@ -1,61 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Second Period Practice Tests</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
 </head>
-
 <body>
-
-  <!-- HERO BANNER -->
+  <!-- Hero header -->
   <header class="site-header site-header--hero">
     <div class="header-fog"></div>
     <div class="header-particles"></div>
     <div class="header-content">
-      <h1>SECOND PERIOD PRACTICE TESTS</h1>
-      <p>Modules 270201 • 270202 • 270203 • 270204</p>
+      <p style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.18em; opacity:0.85; margin-bottom:0.25rem;">
+        NAIT Parts Technician • Second Period
+      </p>
+      <h1>Second Period Practice Tests</h1>
+      <p>
+        Modules 270201 • 270202 • 270203 • 270204 &nbsp;–&nbsp; Exam‑style practice built from the ILMs.
+      </p>
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
   <main class="module-index-wrapper">
-
+    <!-- Quick study overview -->
     <section class="module-index-header">
       <h2>Select a Module</h2>
-      <p>Tap a card below to open the practice tests for that module.</p>
+      <p>
+        Tap a card below to open the practice tests for that module. Each exam is designed to feel like a real
+        NAIT‑level test: no cartoons, no fluff.
+      </p>
     </section>
 
-    <!-- MODULE GRID -->
-    <section class="module-grid">
+    <!-- Optional tips row -->
+    <section style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.4fr);gap:1rem;margin-bottom:1.5rem;align-items:start;">
+      <div style="font-size:0.9rem;color:#c3c7de;">
+        <strong>How to use these practice exams</strong>
+        <ul style="margin-top:0.4rem; padding-left:1.1rem; line-height:1.6;">
+          <li>Work one ILM at a time until you can consistently score above 80%.</li>
+          <li>Use the <em>Review wrong answers</em> button after each attempt to target weak spots.</li>
+          <li>Retake the same test until your first try score is exam‑ready.</li>
+        </ul>
+      </div>
+      <div style="font-size:0.86rem;color:#9ea3c8;border-radius:14px;padding:0.7rem 0.9rem;background:radial-gradient(circle at top,rgba(111,141,255,0.22),rgba(8,9,18,0.96));border:1px solid rgba(129,147,211,0.5);">
+        <strong>Tip:</strong> Your answers save automatically on each exam. You can leave a page and come back later
+        without losing your place.
+      </div>
+    </section>
 
+    <!-- Module cards -->
+    <section class="module-grid">
       <!-- 270201 -->
-      <a href="270201-test/index.html" class="module-card">
+      <a class="module-card" href="270201-test/index.html">
         <h3>270201 – Engine Systems</h3>
         <p>Practice questions for module 270201 (engine systems).</p>
       </a>
 
       <!-- 270202 -->
-      <a href="270202-test/index.html" class="module-card">
+      <a class="module-card" href="270202-test/index.html">
         <h3>270202 – Driveline &amp; Drivetrain</h3>
         <p>Full practice exam set for all 270202 ILMs.</p>
       </a>
 
       <!-- 270203 -->
-      <a href="270203-test/index.html" class="module-card">
+      <a class="module-card" href="270203-test/index.html">
         <h3>270203 – Hydraulics &amp; Air Brakes</h3>
         <p>Practice questions for module 270203.</p>
       </a>
 
       <!-- 270204 -->
-      <a href="270204-test/index.html" class="module-card">
+      <a class="module-card" href="270204-test/index.html">
         <h3>270204 – Electrical, Auto Body &amp; Mobile Equipment</h3>
         <p>Practice questions for module 270204.</p>
       </a>
-
     </section>
   </main>
 
+  <footer style="max-width:960px;margin:0 auto 1.5rem;padding:0 1.6rem;font-size:0.78rem;color:#7b82aa;display:flex;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;">
+    <span>Built for NAIT Parts Technician • Wolf Pack Training</span>
+    <span>Visual theme v2 – autosave, review mode &amp; floating progress bar enabled.</span>
+  </footer>
 </body>
 </html>
