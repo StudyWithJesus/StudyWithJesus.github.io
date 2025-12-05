@@ -4,7 +4,6 @@
 // - Autosave answers
 // - Submit / Retake / Review wrong answers
 // - Last score per exam (ILM) for index pages
-// - Question slide-in reveal
 // =====================================================
 
 // Run immediately on load (handles scripts at bottom of body)
@@ -28,16 +27,27 @@ function initExamPage() {
   const form = document.querySelector(".exam-form, #quiz-form");
   if (!form) return; // not on an exam page
 
-  const questions = Array.from(form.querySelectorAll(".question"));
-  if (!questions.length) return;
+  // Collect all question blocks
+  let questionNodes = Array.from(form.querySelectorAll(".question"));
+  if (!questionNodes.length) return;
+
+  // Ensure all questions live inside a dedicated container so we can shuffle
+  let questionContainer = form.querySelector(".question-list");
+  if (!questionContainer) {
+    questionContainer = document.createElement("div");
+    questionContainer.className = "question-list";
+    const firstQuestion = questionNodes[0];
+    const parent = firstQuestion.parentElement;
+    parent.insertBefore(questionContainer, firstQuestion);
+    questionNodes.forEach(q => questionContainer.appendChild(q));
+  }
+
+  const questions = Array.from(questionContainer.querySelectorAll(".question"));
 
   const progressFill = document.querySelector(".exam-progress-fill, #exam-progress-fill");
   const progressText = document.querySelector(".exam-progress-text, #exam-progress-text");
   const submitBtn = document.getElementById("submit-btn");
   let resultBanner = document.getElementById("result-banner");
-
-  // Slide-in reveal when questions enter the viewport
-  initQuestionReveal(questions);
 
   // Ensure result banner exists
   if (!resultBanner) {
@@ -47,22 +57,12 @@ function initExamPage() {
     form.appendChild(resultBanner);
   }
 
-  // Ensure we have a SINGLE bottom actions container + retake / review buttons (bottom)
-  // Look for an existing .exam-actions that is NOT marked as a top bar
-  let actions = Array.from(form.querySelectorAll(".exam-actions")).find(el => !el.classList.contains("exam-actions-top"));
-
-  // If none exists, create one
+  // Ensure we have an actions container + retake / review buttons
+  let actions = form.querySelector(".exam-actions");
   if (!actions) {
     actions = document.createElement("div");
     actions.className = "exam-actions";
     form.appendChild(actions);
-  }
-
-  // Always move the bottom actions container to directly after the last question
-  const lastQuestion = questions[questions.length - 1];
-  const qParent = lastQuestion.parentElement;
-  if (qParent) {
-    qParent.insertBefore(actions, lastQuestion.nextSibling);
   }
 
   // if submit button not inside actions, move it
@@ -92,11 +92,11 @@ function initExamPage() {
   }
 
   const examKey = "examState:" + window.location.pathname;
-  const shuffleEnabled = form.dataset.shuffle !== "false"; // default: true
+  const shuffleEnabled = true; // scramble enabled with dedicated container
 
   // Shuffle questions & choices on first load if enabled
   if (shuffleEnabled) {
-    shuffleQuestions(form, questions);
+    shuffleQuestions(questionContainer, questions);
   }
 
   // Restore saved answers
@@ -167,8 +167,8 @@ function initExamPage() {
 
       // Re-shuffle on every retake if enabled
       if (shuffleEnabled) {
-        const qs = Array.from(form.querySelectorAll(".question"));
-        shuffleQuestions(form, qs);
+        const qs = Array.from(questionContainer.querySelectorAll(".question"));
+        shuffleQuestions(questionContainer, qs);
       }
 
       updateProgress(questions, progressFill, progressText);
@@ -194,44 +194,6 @@ function initExamPage() {
       }
     });
   }
-
-  // Create TOP actions bar that mirrors the bottom buttons
-  const firstQuestion = questions[0];
-  if (firstQuestion && actions) {
-    let topActions = form.querySelector(".exam-actions-top");
-    if (!topActions) {
-      topActions = document.createElement("div");
-      topActions.className = "exam-actions exam-actions-top";
-
-      const topSubmit = document.createElement("button");
-      topSubmit.type = "button";
-      topSubmit.className = "exam-button";
-      topSubmit.innerHTML = '<span class="dot"></span><span>Submit Answers</span>';
-
-      const topRetake = document.createElement("button");
-      topRetake.type = "button";
-      topRetake.className = "exam-button secondary";
-      topRetake.innerHTML = '<span class="dot"></span><span>Retake &amp; Scramble</span>';
-
-      const topReview = document.createElement("button");
-      topReview.type = "button";
-      topReview.className = "exam-button ghost";
-      topReview.textContent = "Review wrong answers";
-
-      topActions.appendChild(topSubmit);
-      topActions.appendChild(topRetake);
-      topActions.appendChild(topReview);
-
-      // Insert the top actions right before the first question, using the same parent container
-      const qParent = firstQuestion.parentElement;
-      qParent.insertBefore(topActions, firstQuestion);
-
-      // Wire top buttons to trigger the real ones
-      if (submitBtn) topSubmit.addEventListener("click", () => submitBtn.click());
-      if (retakeBtn) topRetake.addEventListener("click", () => retakeBtn.click());
-      if (reviewBtn) topReview.addEventListener("click", () => reviewBtn.click());
-    }
-  }
 }
 
 function updateProgress(questions, progressFill, progressText) {
@@ -244,17 +206,6 @@ function updateProgress(questions, progressFill, progressText) {
   const pct = total === 0 ? 0 : Math.round((answered / total) * 100);
   progressFill.style.width = pct + "%";
   progressText.textContent = `${answered} / ${total} answered`;
-
-  // optional sheen animation
-  if (answered > 0) {
-    const bar = progressFill.parentElement;
-    if (bar && bar.classList) {
-      bar.classList.remove("progress-animate");
-      // force reflow
-      void bar.offsetWidth;
-      bar.classList.add("progress-animate");
-    }
-  }
 }
 
 // Uses window.ANSWERS mapping for correctness
@@ -350,8 +301,7 @@ function restoreState(questions, key) {
 }
 
 // Fisher–Yates shuffle for questions + labels
-function shuffleQuestions(form, questions) {
-  const container = form; // questions are direct children in existing markup
+function shuffleQuestions(container, questions) {
 
   // Shuffle question blocks
   const shuffled = [...questions];
@@ -401,32 +351,4 @@ function initExamIndexScores() {
     span.textContent =
       (score != null && !Number.isNaN(score)) ? `${score}%` : "No attempts yet";
   });
-}
-
-// ----------------------
-// Question reveal animation
-// ----------------------
-function initQuestionReveal(questions) {
-  if (!questions || !questions.length) return;
-
-  // If IntersectionObserver isn't supported, just show them
-  if (!("IntersectionObserver" in window)) {
-    questions.forEach(q => q.classList.add("animate-in"));
-    return;
-  }
-
-  questions.forEach(q => q.classList.add("animate-ready"));
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("animate-in");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.15
-  });
-
-  questions.forEach(q => observer.observe(q));
 }
