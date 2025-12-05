@@ -47,17 +47,23 @@ function initExamPage() {
     form.appendChild(resultBanner);
   }
 
-  // Ensure we have a SINGLE actions container + retake / review buttons (bottom)
-  // Remove any existing .exam-actions (in case they were hard-coded in the markup)
-  const existingActions = Array.from(form.querySelectorAll(".exam-actions"));
-  existingActions.forEach(el => el.remove());
+  // Ensure we have a SINGLE bottom actions container + retake / review buttons (bottom)
+  // Look for an existing .exam-actions that is NOT marked as a top bar
+  let actions = Array.from(form.querySelectorAll(".exam-actions")).find(el => !el.classList.contains("exam-actions-top"));
 
-  // Create a fresh actions container and append it at the very bottom of the form
-  let actions = document.createElement("div");
-  actions.className = "exam-actions";
+  // If none exists, create one
+  if (!actions) {
+    actions = document.createElement("div");
+    actions.className = "exam-actions";
+    form.appendChild(actions);
+  }
+
+  // Always move the bottom actions container to directly after the last question
   const lastQuestion = questions[questions.length - 1];
-  const lastParent = lastQuestion.parentElement;
-  lastParent.insertBefore(actions, lastQuestion.nextSibling);
+  const qParent = lastQuestion.parentElement;
+  if (qParent) {
+    qParent.insertBefore(actions, lastQuestion.nextSibling);
+  }
 
   // if submit button not inside actions, move it
   if (submitBtn && submitBtn.parentElement !== actions) {
