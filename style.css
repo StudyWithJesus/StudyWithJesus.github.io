@@ -1,437 +1,273 @@
-/* ============================
-   GLOBAL RESET + THEME
-============================ */
+/* ------------------------------------------------------------
+   GLOBAL RESET + BASE THEME
+------------------------------------------------------------ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
+body {
   background: #000;
-  color: #fff;
   font-family: Arial, Helvetica, sans-serif;
+  color: #ddd;
+  line-height: 1.6;
   overflow-x: hidden;
 }
 
-/* ============================
+/* ------------------------------------------------------------
    LOADING OVERLAY
-============================ */
+------------------------------------------------------------ */
 #loading-overlay {
   position: fixed;
   inset: 0;
   background: #000;
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 5000;
-  transition: opacity .4s ease;
-}
-
-#loading-overlay.hidden {
-  opacity: 0;
-  pointer-events: none;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeOut 0.5s ease 0.6s forwards;
 }
 
 .spinner {
-  width: 44px;
-  height: 44px;
-  border: 4px solid #ffffff22;
-  border-top-color: #fff;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #333;
+  border-top: 5px solid #0f0;
   border-radius: 50%;
-  animation: spin .8s linear infinite;
+  animation: spin 0.9s linear infinite;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-/* ============================
-   HEADER BANNER
-============================ */
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* ------------------------------------------------------------
+   BANNER HEADER
+------------------------------------------------------------ */
 .site-header {
   position: relative;
   width: 100%;
-  height: 380px; /* extended banner */
-  background:
-    linear-gradient(to bottom,
-      rgba(0,0,0,0.75) 0%,
-      rgba(0,0,0,0.65) 35%,
-      rgba(0,0,0,0.85) 100%
-    ),
-    url("banner-creation-of-adam.jpg") 48% 34% / cover no-repeat;
+  height: 260px;
+  background: url("../banner-creation-of-adam.jpg") center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
-/* fog layer */
-.header-fog {
-  position: absolute;
-  inset: 0;
-  background: url("fog.png") center / cover repeat-x;
-  opacity: 0.22;
-  mix-blend-mode: lighten;
-  animation: fogMove 60s linear infinite;
-}
-
-@keyframes fogMove {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-1200px); }
-}
-
-/* particles */
-.header-particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: radial-gradient(circle, #ffffff40 0px, transparent 900px);
-  background-size: 300% 300%;
-  animation: particlesFloat 18s ease-in-out infinite;
-}
-
-@keyframes particlesFloat {
-  0%   { background-position: 50% 50%; }
-  50%  { background-position: 48% 47%; }
-  100% { background-position: 50% 50%; }
-}
-
-/* halo / bloom around hands */
-.site-header::before {
-  content: "";
-  position: absolute;
-  width: 700px;
-  height: 700px;
-  left: 50%;
-  top: 42%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle, #ffffff55 0%, transparent 70%);
-  filter: blur(60px);
-  opacity: 0.25;
-  pointer-events: none;
-}
-
-/* god rays overlay */
+/* black gradient for readability */
 .site-header::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("god-rays.png") center / cover no-repeat;
-  mix-blend-mode: screen;
-  opacity: 0.12;
-  animation: raysFloat 24s ease-in-out infinite;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.95));
+  backdrop-filter: blur(2px);
 }
 
-@keyframes raysFloat {
-  0%   { transform: translateY(-20px); opacity: .08; }
-  50%  { transform: translateY(0px);    opacity: .18; }
-  100% { transform: translateY(-20px); opacity: .08; }
-}
-
-/* title + shimmer */
 .header-content {
-  z-index: 5;
+  position: relative;
+  z-index: 3;
   text-align: center;
-  margin-top: 40px;
+  padding: 20px;
 }
 
 .header-content h1 {
-  font-size: 2.6rem;
-  letter-spacing: 2px;
-  position: relative;
-  overflow: hidden;
-  text-shadow: 0 0 8px #000, 0 0 16px #000;
+  font-size: 2.2rem;
+  color: #fff;
+  text-shadow: 0 0 10px #000;
+  font-weight: 700;
 }
 
 .header-content p {
-  margin-top: 0.5rem;
-  opacity: 0.95;
-  text-shadow: 0 0 6px #000;
+  color: #ccc;
+  margin-top: 6px;
 }
 
-.header-content h1::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -200%;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(120deg, transparent 0%, #ffffff40 40%, transparent 70%);
-  animation: shimmer 5s infinite;
-}
-
-@keyframes shimmer {
-  0%   { left: -200%; }
-  100% { left: 200%; }
-}
-
-/* ============================
-   PAGE CONTENT
-============================ */
+/* ------------------------------------------------------------
+   PAGE LAYOUT
+------------------------------------------------------------ */
 .page-content {
-  padding: 40px 10%;
+  padding: 40px 8%;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .back-link a {
-  color: #ccc;
+  color: #0f0;
   text-decoration: none;
+  font-size: 0.95rem;
 }
 
 .back-link a:hover {
-  color: #fff;
   text-decoration: underline;
 }
 
-.quiz-page-header h2 {
-  margin-top: 10px;
-  margin-bottom: 6px;
-}
-
-/* ============================
-   SECTION CARDS (module selection)
-============================ */
-.section-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.4rem;
+/* ------------------------------------------------------------
+   QUIZ QUESTIONS
+------------------------------------------------------------ */
+.exam-form {
   margin-top: 20px;
 }
 
-.section-card {
-  background: #111;
-  padding: 1.4rem;
+.question {
+  background: #0a0a0a;
+  padding: 20px 24px;
+  margin: 26px 0;
   border-radius: 12px;
-  transition: 0.25s ease;
-  border: 1px solid #333;
-  text-decoration: none;
+  box-shadow: 0 0 20px rgba(0,0,0,0.7);
+  transition: 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.question p {
+  margin-bottom: 12px;
+  font-weight: bold;
   color: #fff;
 }
 
-.section-card h3 {
-  margin-bottom: 0.35rem;
+/* stack radio options vertically */
+.exam-form .question label {
+  display: block;
+  margin: 7px 0;
+  padding-left: 4px;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
-.section-card p {
-  font-size: 0.9rem;
-  color: #aaa;
+/* HIGH-CONTRAST RADIO DOT */
+.exam-form input[type="radio"] {
+  accent-color: #222;
 }
 
-.section-card:hover {
-  background: #181818;
-  transform: translateY(-4px);
-  border-color: #666;
-  box-shadow: 0 0 18px #ffffff11;
+/* selected radio has neon halo */
+.exam-form input[type="radio"]:checked {
+  accent-color: #00ff66;
+  filter: drop-shadow(0 0 5px #00ff66);
 }
 
-/* ============================
-   EXAM PROGRESS BAR (FIXED)
-============================ */
+/* CORRECT + INCORRECT GLOW */
+.correct {
+  border-color: #00ff66;
+  box-shadow: 0 0 15px #00ff6655, 0 0 30px #00ff6622;
+}
+
+.incorrect {
+  border-color: #ff0055;
+  box-shadow: 0 0 15px #ff005555, 0 0 30px #ff005522;
+}
+
+/* ------------------------------------------------------------
+   SUBMIT BUTTON
+------------------------------------------------------------ */
+.exam-actions {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.exam-button {
+  background: #111;
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 10px;
+  border: 2px solid #0f0;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  transition: 0.25s ease;
+}
+
+.exam-button:hover {
+  background: #0f0;
+  color: #000;
+  box-shadow: 0 0 14px #0f0;
+}
+
+/* ------------------------------------------------------------
+   RESULTS BANNER
+------------------------------------------------------------ */
+.result-banner {
+  margin-top: 30px;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  display: none;
+  border-radius: 12px;
+}
+
+/* ------------------------------------------------------------
+   STICKY PROGRESS BAR
+------------------------------------------------------------ */
 .exam-progress {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  z-index: 40;
-  padding: 10px 10% 12px;
-  background: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 75%,
-    transparent 100%
-  );
-  backdrop-filter: blur(4px);
+  z-index: 50;
+  padding: 10px 0 14px;
+  background: rgba(0,0,0,0.9);
+  backdrop-filter: blur(5px);
 }
 
 .exam-progress-bar {
   width: 100%;
-  height: 8px;
-  background: #141414;
+  height: 10px;
   border-radius: 999px;
+  background: #222;
   overflow: hidden;
   box-shadow: 0 0 10px #000;
 }
 
 .exam-progress-fill {
-  height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #00b3ff, #7f5dff);
-  box-shadow: 0 0 10px #00b3ffaa, 0 0 18px #7f5dff99;
-  transition: width .25s ease-out, background .25s ease-out, box-shadow .25s ease-out;
-}
-
-/* after grading, PASS */
-.exam-progress-fill.pass {
-  background: linear-gradient(90deg, #39ff14, #00e0ff);
-  box-shadow: 0 0 10px #39ff14aa, 0 0 20px #00e0ffaa;
-}
-
-/* after grading, FAIL */
-.exam-progress-fill.fail {
-  background: linear-gradient(90deg, #ff3366, #ff9933);
-  box-shadow: 0 0 10px #ff3366aa, 0 0 20px #ff993355;
+  height: 100%;
+  background: linear-gradient(90deg, #ff0055, #aa0033);
+  border-radius: 999px;
+  transition: width 0.3s ease, background 0.4s ease;
 }
 
 .exam-progress-text {
-  margin-top: 6px;
-  font-size: 0.9rem;
-  color: #bbbbbb;
   text-align: right;
+  margin-top: 6px;
+  color: #ccc;
+  font-size: 0.9rem;
 }
 
-/* ============================
-   QUIZ FORM / QUESTIONS
-============================ */
-.exam-form {
-  margin-top: 70px; /* so questions aren't hidden under fixed bar */
+/* When passed: bar turns green */
+.progress-passed {
+  background: linear-gradient(90deg, #00ff66, #009944) !important;
 }
 
-/* question card */
-.question {
-  background: #111;
-  padding: 1.2rem;
-  margin-bottom: 18px;
-  border-radius: 12px;
-  border: 1px solid #222;
-  transition: 0.2s ease;
-}
-
-/* NEON CORRECT / INCORRECT */
-.question.correct {
-  border-color: #39ff14;
-  box-shadow:
-    0 0 6px #39ff1499,
-    0 0 14px #39ff14aa,
-    0 0 26px #00ffcc55;
-}
-
-.question.incorrect {
-  border-color: #ff3366;
-  box-shadow:
-    0 0 6px #ff336699,
-    0 0 14px #ff3366aa,
-    0 0 26px #ff006655;
-}
-
-/* question text */
-.question p {
-  margin-bottom: 0.6rem;
-}
-
-/* RADIO STYLE – bigger, filled, bright */
-.question input[type="radio"] {
-  accent-color: #ffffff;
-  transform: scale(1.1);
-  margin-right: 6px;
-}
-
-/* ANSWERS – vertical stack */
-.exam-form .question label {
-  display: block;          /* stack options vertically */
-  margin: 0.25rem 0;
-  line-height: 1.4;
-  cursor: pointer;
-}
-
-/* locked visual */
-.question.locked {
-  opacity: 0.95;
-}
-.question.locked label {
-  cursor: not-allowed;
-}
-
-/* ============================
-   SUBMIT / RETAKE BUTTON
-============================ */
-.exam-actions {
-  margin-top: 25px;
-  text-align: center;
-}
-
-.exam-button {
-  background: #181818;
-  border: 2px solid #555;
-  color: #fff;
-  padding: 12px 28px;
-  font-size: 1.05rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: .2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.exam-button .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: #00ffaa;
-  box-shadow: 0 0 8px #00ffaa, 0 0 14px #00ffaa66;
-}
-
-.exam-button:hover {
-  background: #222;
-  border-color: #888;
-}
-
-.exam-button.submitted {
-  background: #101010;
-  border-color: #999;
-}
-
-/* ============================
-   RESULT BANNER
-============================ */
-.result-banner {
-  margin-top: 20px;
-  padding: 14px;
-  border-radius: 10px;
-  font-size: 1.05rem;
-  text-align: center;
-  display: none;
-}
-
-.result-banner.pass {
-  background: #021f10;
-  border: 1px solid #00d26a;
-  box-shadow: 0 0 10px #00d26a55;
-}
-
-.result-banner.fail {
-  background: #26050c;
-  border: 1px solid #ff3366;
-  box-shadow: 0 0 10px #ff336655;
-}
-
-/* ============================
+/* ------------------------------------------------------------
    MOBILE RESPONSIVE
-============================ */
+------------------------------------------------------------ */
 @media (max-width: 768px) {
+
   .site-header {
-    height: 260px;
-    background-position: 50% 20%;
+    height: 200px;
   }
 
   .header-content h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .page-content {
-    padding: 22px 5%;
+    padding: 30px 6%;
   }
 
-  .section-grid {
-    grid-template-columns: 1fr;
+  .question {
+    padding: 18px;
   }
 
-  .section-card {
-    padding: 1.2rem;
-  }
-
-  .exam-progress {
-    padding: 8px 5% 10px;
+  .exam-button {
+    width: 100%;
+    font-size: 1rem;
+    padding: 15px;
   }
 
   .exam-progress-text {
