@@ -12,7 +12,7 @@ function initExamLogic() {
   const progressFill = document.querySelector(".exam-progress-fill");
   const progressText = document.querySelector(".exam-progress-text");
   const submitBtn = document.getElementById("submit-btn");
-  const retakeBtn = document.getElementById("retake-btn");
+  const retakeBtn = document.querySelector("#retake-btn, #reset-btn");
   const reviewBtn = document.getElementById("review-btn");
   const resultBanner = document.getElementById("result-banner");
 

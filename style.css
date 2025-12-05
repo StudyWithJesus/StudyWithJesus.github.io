@@ -44,8 +44,9 @@ a:hover {
 }
 
 .site-header--hero {
-  padding-top: 2.6rem;
-  padding-bottom: 2.6rem;
+  padding-top: 3.6rem;
+  padding-bottom: 3.6rem;
+  min-height: 260px;
 }
 
 .header-fog,
@@ -119,9 +120,12 @@ a:hover {
 
 /* ===== Progress bar ===== */
 .exam-progress {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 999;
+  padding-inline: 1.6rem;
   background: rgba(3, 6, 24, 0.96);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(127, 212, 255, 0.3);
@@ -191,7 +195,7 @@ a:hover {
 }
 
 .page-content {
-  padding: 1.5rem 1.6rem 3rem;
+  padding: 3.5rem 1.6rem 3rem;
 }
 
 .back-link {
@@ -501,14 +505,6 @@ body::after {
   }
 
   .exam-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
     padding-inline: 1.1rem;
-  }
-
-  .page-content {
-    padding-top: 3.5rem;
   }
 }
