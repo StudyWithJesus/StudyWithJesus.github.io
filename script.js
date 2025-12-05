@@ -21,12 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ========== QUIZ LOGIC (ONLY IF QUIZ PRESENT) ========== */
+  /* ========== QUIZ LOGIC (only on quiz pages) ========== */
   const btn = document.getElementById('submit-btn');
   const form = document.getElementById('quiz-form');
   const banner = document.getElementById('result-banner');
 
-  // If we're on the home page (no quiz), bail out.
   if (!btn || !form || !window.ANSWERS) return;
 
   const STORAGE_KEY = 'quiz:' + window.location.pathname;
@@ -88,6 +87,19 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) {}
   }
 
+  function lockGroup(qName) {
+    const group = form.querySelectorAll(`input[name="${qName}"]`);
+    group.forEach(input => {
+      input.disabled = true;
+    });
+  }
+
+  function unlockAllGroups() {
+    form.querySelectorAll('input[type="radio"]').forEach(input => {
+      input.disabled = false;
+    });
+  }
+
   function applyLayout(layout) {
     if (!layout || !layout.order || !layout.options) return;
 
@@ -103,13 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
       map[firstInput.name] = q;
     });
 
-    // Reorder questions
     layout.order.forEach(name => {
       const q = map[name];
       if (q) form.insertBefore(q, actions);
     });
 
-    // Reorder options
     Object.keys(layout.options).forEach(name => {
       const q = map[name];
       if (!q) return;
@@ -194,7 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
       );
       if (input) {
         input.checked = true;
-        if (!submitted) markQuestion(qName);
+        markQuestion(qName);
+        // answers are locked once chosen, even after reload
+        lockGroup(qName);
       }
     });
   }
@@ -254,6 +266,8 @@ document.addEventListener('DOMContentLoaded', () => {
       i.checked = false;
     });
 
+    unlockAllGroups();
+
     if (banner) {
       banner.style.display = 'none';
       banner.textContent = '';
@@ -285,19 +299,20 @@ document.addEventListener('DOMContentLoaded', () => {
       randomizeLayout();
     }
   } else {
-    // Fresh start (first time OR previous run completed)
     clearState();
     clearLayout();
     randomizeLayout();
   }
 
-  // Load saved answers (after layout is correct)
+  // Load saved answers (and lock chosen ones)
   loadStateIntoForm();
 
-  // Instant feedback + autosave
+  // Instant feedback + lock + autosave
   form.querySelectorAll('input[type="radio"]').forEach(radio => {
     radio.addEventListener('change', () => {
-      if (!submitted) markQuestion(radio.name);
+      if (submitted) return;
+      markQuestion(radio.name);
+      lockGroup(radio.name);
       saveState();
     });
   });
