@@ -21,12 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ========== QUIZ LOGIC (only on quiz pages) ========== */
+  /* ========== QUIZ LOGIC ========== */
   const btn = document.getElementById('submit-btn');
   const form = document.getElementById('quiz-form');
   const banner = document.getElementById('result-banner');
 
-  // progress bar elements
   const progressFill = document.getElementById('exam-progress-fill');
   const progressText = document.getElementById('exam-progress-text');
 
@@ -38,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let submitted = false;
 
-  /* ----- utilities ----- */
+  /* ----- helpers ----- */
   function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -97,9 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
     group.forEach(input => {
       input.disabled = true;
     });
+    const anyInput = form.querySelector(`input[name="${qName}"]`);
+    if (anyInput) {
+      const qBox = anyInput.closest('.question');
+      if (qBox) qBox.classList.add('locked');
+    }
   }
 
   function unlockAllGroups() {
+    form.querySelectorAll('.question').forEach(q => q.classList.remove('locked'));
     form.querySelectorAll('input[type="radio"]').forEach(input => {
       input.disabled = false;
     });
@@ -127,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     progressText.textContent = `${answered} / ${total} answered`;
   }
 
-  /* ----- layout handling (shuffle / restore) ----- */
+  /* ----- layout (shuffle / restore) ----- */
   function applyLayout(layout) {
     if (!layout || !layout.order || !layout.options) return;
 
@@ -197,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     saveLayout({ order, options: optionsLayout });
   }
 
-  /* ----- marking & state restore ----- */
+  /* ----- marking & restore ----- */
   function markQuestion(qName) {
     const anyInput = form.querySelector(`input[name="${qName}"]`);
     if (!anyInput) return;
@@ -237,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (input) {
         input.checked = true;
         markQuestion(qName);
-        lockGroup(qName); // keep questions locked after refresh
+        lockGroup(qName); // keep locked after reload
       }
     });
 
@@ -283,6 +288,11 @@ document.addEventListener('DOMContentLoaded', () => {
       banner.style.display = 'block';
     }
 
+    if (progressFill) {
+      progressFill.classList.remove('pass', 'fail');
+      progressFill.classList.add(pass ? 'pass' : 'fail');
+    }
+
     submitted = true;
     try {
       localStorage.setItem(SUBMIT_KEY, '1');
@@ -293,14 +303,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function reset() {
     form.querySelectorAll('.question').forEach(q => {
-      q.classList.remove('correct', 'incorrect');
+      q.classList.remove('correct', 'incorrect', 'locked');
     });
 
     form.querySelectorAll('input[type="radio"]').forEach(i => {
       i.checked = false;
+      i.disabled = false;
     });
-
-    unlockAllGroups();
 
     if (banner) {
       banner.style.display = 'none';
@@ -310,12 +319,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     clearState();
     clearLayout();
-    randomizeLayout();
+    if (progressFill) {
+      progressFill.classList.remove('pass', 'fail');
+      progressFill.style.width = '0%';
+    }
 
     submitted = false;
     btn.textContent = 'Submit Answers';
     btn.classList.remove('submitted');
 
+    randomizeLayout();
     updateProgress();
   }
 
@@ -343,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // restore answers & update progress
   loadStateIntoForm();
 
-  /* ----- event handlers ----- */
+  /* ----- events ----- */
   form.querySelectorAll('input[type="radio"]').forEach(radio => {
     radio.addEventListener('change', () => {
       if (submitted) return;
