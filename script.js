@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const SUBMIT_KEY = STORAGE_KEY + ':submitted';
 
   let submitted = false;
+  const lockedQuestions = new Set(); // which questions are "locked" after first pick
 
   /* ----- helpers ----- */
   function shuffle(arr) {
@@ -92,10 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function lockGroup(qName) {
-    const group = form.querySelectorAll(`input[name="${qName}"]`);
-    group.forEach(input => {
-      input.disabled = true;
-    });
+    lockedQuestions.add(qName);
     const anyInput = form.querySelector(`input[name="${qName}"]`);
     if (anyInput) {
       const qBox = anyInput.closest('.question');
@@ -104,10 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function unlockAllGroups() {
+    lockedQuestions.clear();
     form.querySelectorAll('.question').forEach(q => q.classList.remove('locked'));
-    form.querySelectorAll('input[type="radio"]').forEach(input => {
-      input.disabled = false;
-    });
   }
 
   /* ----- progress bar ----- */
@@ -242,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (input) {
         input.checked = true;
         markQuestion(qName);
-        lockGroup(qName); // keep locked after reload
+        lockGroup(qName); // mark as locked
       }
     });
 
@@ -308,7 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.querySelectorAll('input[type="radio"]').forEach(i => {
       i.checked = false;
-      i.disabled = false;
     });
 
     if (banner) {
@@ -327,6 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
     submitted = false;
     btn.textContent = 'Submit Answers';
     btn.classList.remove('submitted');
+    unlockAllGroups();
 
     randomizeLayout();
     updateProgress();
@@ -356,12 +352,26 @@ document.addEventListener('DOMContentLoaded', () => {
   // restore answers & update progress
   loadStateIntoForm();
 
-  /* ----- events ----- */
+  /* ----- radio change events ----- */
   form.querySelectorAll('input[type="radio"]').forEach(radio => {
     radio.addEventListener('change', () => {
       if (submitted) return;
-      markQuestion(radio.name);
-      lockGroup(radio.name);
+
+      const qName = radio.name;
+
+      // If this question is already locked, snap back to the original answer
+      if (lockedQuestions.has(qName)) {
+        const state = getSavedAnswers() || {};
+        const prev = state[qName];
+        form.querySelectorAll(`input[name="${qName}"]`).forEach(i => {
+          i.checked = (i.value === prev);
+        });
+        return;
+      }
+
+      // First time answering this question
+      markQuestion(qName);
+      lockGroup(qName);
       saveState();
       updateProgress();
     });
