@@ -43,7 +43,7 @@ function initExamPage() {
     form.appendChild(resultBanner);
   }
 
-  // Ensure we have an actions container + retake / review buttons
+  // Ensure we have an actions container + retake / review buttons (bottom)
   let actions = form.querySelector(".exam-actions");
   if (!actions) {
     actions = document.createElement("div");
@@ -180,6 +180,43 @@ function initExamPage() {
       }
     });
   }
+
+  // Create TOP actions bar that mirrors the bottom buttons
+  const firstQuestion = questions[0];
+  if (firstQuestion && actions) {
+    let topActions = form.querySelector(".exam-actions-top");
+    if (!topActions) {
+      topActions = document.createElement("div");
+      topActions.className = "exam-actions exam-actions-top";
+
+      const topSubmit = document.createElement("button");
+      topSubmit.type = "button";
+      topSubmit.className = "exam-button";
+      topSubmit.innerHTML = '<span class="dot"></span><span>Submit Answers</span>';
+
+      const topRetake = document.createElement("button");
+      topRetake.type = "button";
+      topRetake.className = "exam-button secondary";
+      topRetake.innerHTML = '<span class="dot"></span><span>Retake &amp; Scramble</span>';
+
+      const topReview = document.createElement("button");
+      topReview.type = "button";
+      topReview.className = "exam-button ghost";
+      topReview.textContent = "Review wrong answers";
+
+      topActions.appendChild(topSubmit);
+      topActions.appendChild(topRetake);
+      topActions.appendChild(topReview);
+
+      // Insert the top actions right before the first question
+      form.insertBefore(topActions, firstQuestion);
+
+      // Wire top buttons to trigger the real ones
+      if (submitBtn) topSubmit.addEventListener("click", () => submitBtn.click());
+      if (retakeBtn) topRetake.addEventListener("click", () => retakeBtn.click());
+      if (reviewBtn) topReview.addEventListener("click", () => reviewBtn.click());
+    }
+  }
 }
 
 function updateProgress(questions, progressFill, progressText) {
@@ -192,6 +229,17 @@ function updateProgress(questions, progressFill, progressText) {
   const pct = total === 0 ? 0 : Math.round((answered / total) * 100);
   progressFill.style.width = pct + "%";
   progressText.textContent = `${answered} / ${total} answered`;
+
+  // optional sheen animation
+  if (answered > 0) {
+    const bar = progressFill.parentElement;
+    if (bar && bar.classList) {
+      bar.classList.remove("progress-animate");
+      // force reflow
+      void bar.offsetWidth;
+      bar.classList.add("progress-animate");
+    }
+  }
 }
 
 // Uses window.ANSWERS mapping for correctness
