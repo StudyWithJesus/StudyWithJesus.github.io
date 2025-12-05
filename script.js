@@ -81,6 +81,27 @@ function initExamPage() {
     actions.appendChild(retakeBtn);
   }
 
+  // Create top action buttons (above first question)
+  const topActions = document.createElement("div");
+  topActions.className = "exam-actions exam-actions-top";
+  
+  const topSubmitBtn = document.createElement("button");
+  topSubmitBtn.type = "button";
+  topSubmitBtn.id = "submit-btn-top";
+  topSubmitBtn.className = "exam-button";
+  topSubmitBtn.innerHTML = '<span class="dot"></span><span>Submit Answers</span>';
+  topActions.appendChild(topSubmitBtn);
+  
+  const topRetakeBtn = document.createElement("button");
+  topRetakeBtn.type = "button";
+  topRetakeBtn.id = "retake-btn-top";
+  topRetakeBtn.className = "exam-button secondary";
+  topRetakeBtn.innerHTML = '<span class="dot"></span><span>Retake &amp; Scramble</span>';
+  topActions.appendChild(topRetakeBtn);
+  
+  // Insert top actions before the question container
+  questionContainer.parentElement.insertBefore(topActions, questionContainer);
+
   // Ensure result banner exists
   let resultBanner = document.getElementById("result-banner");
   if (!resultBanner) {
@@ -111,13 +132,58 @@ function initExamPage() {
       q.classList.add("answered");
     }
     updateProgress(questions, progressFill, progressText);
+    updateSubmitButtonState();
     saveState(questions, examKey);
   });
 
-  // Submit handler - grades exam and auto-enters review mode
+  // Function to update submit button state based on answered questions
+  function updateSubmitButtonState() {
+    const hasAnsweredQuestion = questions.some(q => q.querySelector('input[type="radio"]:checked'));
+    const isSubmitted = document.body.classList.contains("submitted-mode");
+    
+    if (isSubmitted || !hasAnsweredQuestion) {
+      submitBtn.disabled = true;
+      submitBtn.classList.add("disabled");
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove("disabled");
+    }
+    
+    // Also update top submit button if it exists
+    const topSubmitBtn = form.querySelector(".exam-actions-top #submit-btn-top");
+    if (topSubmitBtn) {
+      topSubmitBtn.disabled = submitBtn.disabled;
+      if (submitBtn.disabled) {
+        topSubmitBtn.classList.add("disabled");
+      } else {
+        topSubmitBtn.classList.remove("disabled");
+      }
+    }
+  }
+
+  // Function to lock/unlock radio inputs
+  function setInputsLocked(locked) {
+    for (let i = 0; i < questions.length; i++) {
+      const inputs = questions[i].querySelectorAll('input[type="radio"]');
+      for (let j = 0; j < inputs.length; j++) {
+        inputs[j].disabled = locked;
+      }
+    }
+  }
+
+  // Initially disable submit button (no questions answered yet)
+  updateSubmitButtonState();
+
+  // Submit handler - grades exam without showing correct answers
   submitBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    const result = gradeExam(questions);
+    
+    // Prevent submission if already submitted
+    if (document.body.classList.contains("submitted-mode")) {
+      return;
+    }
+    
+    const result = gradeExam(questions, false); // false = don't show correct answers
     const total = questions.length;
     const score = Math.round((result.correct / total) * 100);
 
@@ -125,8 +191,15 @@ function initExamPage() {
       `<strong>${score}%</strong> — ${result.correct} correct, ${result.incorrect} incorrect, ${result.unanswered} unanswered.`;
     resultBanner.classList.add("visible");
 
-    // Auto-enter review mode to highlight wrong answers
+    // Enter submitted mode (locks answers, disables submit)
+    document.body.classList.add("submitted-mode");
     document.body.classList.add("review-mode");
+    
+    // Lock all radio inputs
+    setInputsLocked(true);
+    
+    // Disable submit button
+    updateSubmitButtonState();
     
     // Scroll to first incorrect question if any
     const firstIncorrect = questions.find(q => q.classList.contains("incorrect"));
@@ -171,6 +244,10 @@ function initExamPage() {
     resultBanner.textContent = "";
 
     document.body.classList.remove("review-mode");
+    document.body.classList.remove("submitted-mode");
+    
+    // Unlock all radio inputs
+    setInputsLocked(false);
 
     // Re-shuffle on every retake
     if (shuffleEnabled) {
@@ -179,12 +256,27 @@ function initExamPage() {
 
     updateProgress(questions, progressFill, progressText);
     
+    // Update submit button state (will be disabled since no answers selected)
+    updateSubmitButtonState();
+    
     try {
       localStorage.removeItem(examKey);
       localStorage.removeItem(examKey + ":lastScore");
     } catch {}
     
     window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // Top submit button click - trigger bottom submit
+  topSubmitBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    submitBtn.click();
+  });
+
+  // Top retake button click - trigger bottom retake
+  topRetakeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    retakeBtn.click();
   });
 }
 
@@ -204,7 +296,8 @@ function updateProgress(questions, progressFill, progressText) {
 }
 
 // Uses window.ANSWERS mapping for correctness
-function gradeExam(questions) {
+// showCorrectAnswers: if false, don't highlight correct labels (for practice mode)
+function gradeExam(questions, showCorrectAnswers = true) {
   const answerMap = (window.ANSWERS || {});
   let correct = 0;
   let incorrect = 0;
@@ -244,15 +337,19 @@ function gradeExam(questions) {
     if (correctInput && chosen === correctInput) {
       correct++;
       q.classList.add("correct");
-      const label = correctInput.closest("label");
-      if (label) label.classList.add("correct");
+      if (showCorrectAnswers) {
+        const label = correctInput.closest("label");
+        if (label) label.classList.add("correct");
+      }
     } else {
       incorrect++;
       q.classList.add("incorrect");
-      if (correctInput) {
+      // Only show the correct answer label if showCorrectAnswers is true
+      if (showCorrectAnswers && correctInput) {
         const correctLabel = correctInput.closest("label");
         if (correctLabel) correctLabel.classList.add("correct");
       }
+      // Always show the user's incorrect selection
       const chosenLabel = chosen.closest("label");
       if (chosenLabel) chosenLabel.classList.add("incorrect");
     }

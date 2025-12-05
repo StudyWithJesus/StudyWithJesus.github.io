@@ -395,6 +395,27 @@ body.review-mode .question.correct {
   box-shadow: 0 0 8px rgba(5,5,9,0.9);
 }
 
+/* Disabled button state */
+.exam-button.disabled,
+.exam-button:disabled {
+  background: linear-gradient(135deg, #6a6a6a, #5a5a5a);
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.exam-button.disabled:hover,
+.exam-button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Top actions container styling */
+.exam-actions-top {
+  margin-bottom: 1.4rem;
+}
+
 .result-banner {
   margin-top: 0.9rem;
   padding: 0.7rem 0.9rem;
