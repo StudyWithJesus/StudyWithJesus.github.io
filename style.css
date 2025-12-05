@@ -225,18 +225,19 @@ html, body {
 }
 
 /* ============================
-   EXAM PROGRESS BAR (STICKY)
+   EXAM PROGRESS BAR (FIXED)
 ============================ */
 .exam-progress {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 40;
-  padding: 10px 0 18px;
-  margin: 0 0 18px;
+  padding: 10px 10% 12px;
   background: linear-gradient(
     to bottom,
     #000 0%,
-    #000 70%,
+    #000 75%,
     transparent 100%
   );
   backdrop-filter: blur(4px);
@@ -282,7 +283,7 @@ html, body {
    QUIZ FORM / QUESTIONS
 ============================ */
 .exam-form {
-  margin-top: 30px;
+  margin-top: 70px; /* so questions aren't hidden under fixed bar */
 }
 
 /* question card */
@@ -332,9 +333,9 @@ html, body {
   cursor: pointer;
 }
 
-/* when group is locked (inputs disabled) */
+/* locked visual */
 .question.locked {
-  opacity: 0.9;
+  opacity: 0.95;
 }
 .question.locked label {
   cursor: not-allowed;
@@ -430,8 +431,7 @@ html, body {
   }
 
   .exam-progress {
-    top: 0;
-    padding: 8px 0 14px;
+    padding: 8px 5% 10px;
   }
 
   .exam-progress-text {
