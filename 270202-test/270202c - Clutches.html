@@ -1,1551 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>270202c - Clutches – Multiple Choice Test</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    :root {
-      --bg: #f4f4f5;
-      --card-bg: #ffffff;
-      --border: #d4d4d8;
-      --text: #111827;
-      --muted: #6b7280;
-      --accent: #111827;
-      --accent-soft: #e5e7eb;
-      --shadow-soft: 0 10px 25px rgba(15, 23, 42, 0.08);
-      --incorrect: #fee2e2;
-      --correct: #dcfce7;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #e5e7eb, #f9fafb);
-      color: var(--text);
-      padding-top: 80px;
-    }
-
-    .progress-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(249, 250, 251, 0.96);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(209, 213, 219, 0.9);
-      padding: 10px 16px;
-      z-index: 1000;
-      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
-    }
-
-    .progress-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .progress-top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 6px;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .quiz-title {
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .progress-label {
-      font-size: 0.85rem;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    .progress-label strong {
-      color: var(--text);
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 8px;
-      background: var(--accent-soft);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #111827, #4b5563);
-      border-radius: 999px;
-      transition: width 0.25s ease-out;
-    }
-
-    main {
-      max-width: 960px;
-      margin: 24px auto 40px;
-      padding: 0 16px 24px;
-    }
-
-    .intro-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 20px 20px 16px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid var(--border);
-      margin-bottom: 18px;
-    }
-
-    .intro-card h1 {
-      margin: 0 0 4px;
-      font-size: 1.35rem;
-    }
-
-    .intro-meta {
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    .quiz-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid var(--border);
-    }
-
-    form {
-      margin: 0;
-    }
-
-    .question {
-      padding: 14px 0 10px;
-      border-bottom: 1px dashed #e5e7eb;
-    }
-
-    .question:last-of-type {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .question-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .question-number-pill {
-      min-width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #374151;
-      background: #f9fafb;
-    }
-
-    .question-text {
-      font-weight: 500;
-      font-size: 0.97rem;
-      color: #111827;
-    }
-
-    .options {
-      margin-left: 34px;
-      display: grid;
-      gap: 4px;
-      margin-bottom: 2px;
-    }
-
-    .option {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    input[type="radio"] {
-      accent-color: var(--accent);
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-    }
-
-    .option label {
-      cursor: pointer;
-      display: inline-flex;
-      align-items: baseline;
-      gap: 6px;
-      font-size: 0.95rem;
-      color: #111827;
-    }
-
-    .option-letter {
-      font-weight: 600;
-      color: #4b5563;
-      min-width: 16px;
-    }
-
-    .question-note {
-      font-size: 0.8rem;
-      color: #9ca3af;
-      margin-left: 34px;
-      margin-top: 2px;
-    }
-
-    .quiz-footer {
-      border-top: 1px dashed #e5e7eb;
-      margin-top: 16px;
-      padding-top: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .status-pill {
-      font-size: 0.8rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-      color: #4b5563;
-    }
-
-    button[type="submit"] {
-      padding: 9px 18px;
-      border-radius: 999px;
-      border: none;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      background: #111827;
-      color: #f9fafb;
-      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.22);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    button[type="submit"]:hover {
-      filter: brightness(1.04);
-      transform: translateY(-1px);
-      box-shadow: 0 14px 26px rgba(15, 23, 42, 0.26);
-    }
-
-    button[type="submit"]:active {
-      transform: translateY(0);
-      box-shadow: 0 8px 15px rgba(15, 23, 42, 0.18);
-    }
-
-    button[type="submit"] span.icon {
-      font-size: 1.1rem;
-      line-height: 1;
-    }
-
-    .results-box {
-      margin-top: 12px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-      font-size: 0.9rem;
-      color: #111827;
-    }
-
-    .question.correct {
-      background-color: var(--correct);
-    }
-
-    .question.incorrect {
-      background-color: var(--incorrect);
-    }
-
-    @media (max-width: 640px) {
-      body {
-        padding-top: 88px;
-      }
-
-      .options {
-        margin-left: 30px;
-      }
-
-      .quiz-card,
-      .intro-card {
-        border-radius: 16px;
-        padding: 16px;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>270202c – Clutches Practice Exam (Hard Mode)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div class="progress-container">
-    <div class="progress-inner">
-      <div class="progress-top-row">
-        <div class="quiz-title">270202c – Clutches</div>
-        <div class="progress-label">
-          <strong><span id="progress-text">0%</span></strong> answered
-          &nbsp;&middot;&nbsp;
-          <span id="progress-count">0 / 30 questions</span>
-        </div>
-      </div>
-      <div class="progress-bar">
-        <div class="progress-bar-fill" id="progress-bar-fill"></div>
-      </div>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>270202c PRACTICE EXAM – HARD MODE</h1>
+      <p>Clutches &mdash; Module 270202c</p>
+    </div>
+  </header>
+
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
+    </div>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
     </div>
   </div>
 
-  <main>
-    <section class="intro-card">
-      <h1>Clutches – Multiple Choice Test</h1>
-      <p class="intro-meta">
-        Based on ILM module 270202c – Clutches. Answer all questions and then select <strong>Submit answers</strong> to see your score.
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270202 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270202c &mdash; Clutches (Super-Hard Revision)</h2>
+      <p>
+        All questions are based on clutch principles and construction covered in the 270202c ILM.
+        Distractors are written to be technically plausible and use the same terminology as the module.
       </p>
     </section>
 
-    <section class="quiz-card">
-      <form id="quiz-form">
-        <!-- Q1 -->
-        <div class="question" data-question-index="1">
-          <div class="question-header">
-            <div class="question-number-pill">1</div>
-            <div class="question-text">
-              What is the main job of a clutch in a manual drivetrain?
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q1a" name="q1" value="A" />
-              <label for="q1a">
-                <span class="option-letter">A.</span> Connect and disconnect engine torque to the transmission input shaft
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q1b" name="q1" value="B" />
-              <label for="q1b">
-                <span class="option-letter">B.</span> Change the final drive ratio in the axle
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q1c" name="q1" value="C" />
-              <label for="q1c">
-                <span class="option-letter">C.</span> Lock the differential for better traction
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q1d" name="q1" value="D" />
-              <label for="q1d">
-                <span class="option-letter">D.</span> Control vehicle braking effort
-              </label>
-            </div>
-          </div>
-        </div>
+    <form id="quiz-form" class="exam-form">
 
-        <!-- Q2 -->
-        <div class="question" data-question-index="2">
-          <div class="question-header">
-            <div class="question-number-pill">2</div>
-            <div class="question-text">
-              Friction clutches transmit power mainly because of:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q2a" name="q2" value="A" />
-              <label for="q2a">
-                <span class="option-letter">A.</span> Friction between the disc and the flywheel/pressure plate
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q2b" name="q2" value="B" />
-              <label for="q2b">
-                <span class="option-letter">B.</span> Magnetic attraction between components
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q2c" name="q2" value="C" />
-              <label for="q2c">
-                <span class="option-letter">C.</span> Hydraulic pressure acting on the disc
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q2d" name="q2" value="D" />
-              <label for="q2d">
-                <span class="option-letter">D.</span> Engine vacuum acting on the cover
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>1.</strong> The primary function of a friction clutch in a manual drivetrain is to:</p>
+        <label><input type="radio" name="q1" value="a"> connect and disconnect engine torque to the transmission input shaft</label>
+        <label><input type="radio" name="q1" value="b"> change the final drive ratio in the axle</label>
+        <label><input type="radio" name="q1" value="c"> lock the differential for improved traction</label>
+        <label><input type="radio" name="q1" value="d"> provide a parking lock for the driveline</label>
+      </div>
 
-        <!-- Q3 -->
-        <div class="question" data-question-index="3">
-          <div class="question-header">
-            <div class="question-number-pill">3</div>
-            <div class="question-text">
-              With the clutch fully engaged, which sequence best describes the path of power?
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q3a" name="q3" value="A" />
-              <label for="q3a">
-                <span class="option-letter">A.</span> Clutch disc → flywheel → cover → transmission input shaft
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q3b" name="q3" value="B" />
-              <label for="q3b">
-                <span class="option-letter">B.</span> Transmission input shaft → clutch disc → flywheel → cover
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q3c" name="q3" value="C" />
-              <label for="q3c">
-                <span class="option-letter">C.</span> Flywheel → clutch disc → cover → pressure plate
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q3d" name="q3" value="D" />
-              <label for="q3d">
-                <span class="option-letter">D.</span> Flywheel → clutch cover → pressure plate → clutch disc → transmission input shaft
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>2.</strong> Friction clutches transmit torque mainly because of:</p>
+        <label><input type="radio" name="q2" value="a"> friction between the clutch disc and the flywheel/pressure plate</label>
+        <label><input type="radio" name="q2" value="b"> hydraulic pressure acting directly on the clutch disc</label>
+        <label><input type="radio" name="q2" value="c"> magnetic attraction between the clutch components</label>
+        <label><input type="radio" name="q2" value="d"> engine vacuum holding the disc to the flywheel</label>
+      </div>
 
-        <!-- Q4 -->
-        <div class="question" data-question-index="4">
-          <div class="question-header">
-            <div class="question-number-pill">4</div>
-            <div class="question-text">
-              When the clutch pedal is up and power is flowing through the clutch, the clutch is:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q4a" name="q4" value="A" />
-              <label for="q4a">
-                <span class="option-letter">A.</span> Freewheeling
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q4b" name="q4" value="B" />
-              <label for="q4b">
-                <span class="option-letter">B.</span> Engaged
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q4c" name="q4" value="C" />
-              <label for="q4c">
-                <span class="option-letter">C.</span> Disengaged
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q4d" name="q4" value="D" />
-              <label for="q4d">
-                <span class="option-letter">D.</span> Locked in neutral
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>3.</strong> With the clutch fully engaged and no slip, the correct path of power flow is:</p>
+        <label><input type="radio" name="q3" value="a"> clutch disc &rarr; flywheel &rarr; pressure plate &rarr; transmission input shaft</label>
+        <label><input type="radio" name="q3" value="b"> transmission input shaft &rarr; clutch disc &rarr; flywheel &rarr; crankshaft</label>
+        <label><input type="radio" name="q3" value="c"> flywheel &rarr; release bearing &rarr; disc &rarr; transmission input shaft</label>
+        <label><input type="radio" name="q3" value="d"> flywheel &rarr; clutch cover/pressure plate &rarr; clutch disc &rarr; transmission input shaft</label>
+      </div>
 
-        <!-- Q5 -->
-        <div class="question" data-question-index="5">
-          <div class="question-header">
-            <div class="question-number-pill">5</div>
-            <div class="question-text">
-              When the driver fully depresses the clutch pedal and no power flows through the clutch, the clutch is:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q5a" name="q5" value="A" />
-              <label for="q5a">
-                <span class="option-letter">A.</span> Overloaded
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q5b" name="q5" value="B" />
-              <label for="q5b">
-                <span class="option-letter">B.</span> Locked
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q5c" name="q5" value="C" />
-              <label for="q5c">
-                <span class="option-letter">C.</span> Disengaged
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q5d" name="q5" value="D" />
-              <label for="q5d">
-                <span class="option-letter">D.</span> In overrun mode
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>4.</strong> When the clutch pedal is released (up) and engine torque is being transmitted, the clutch is:</p>
+        <label><input type="radio" name="q4" value="a"> disengaged</label>
+        <label><input type="radio" name="q4" value="b"> engaged</label>
+        <label><input type="radio" name="q4" value="c"> in overrun</label>
+        <label><input type="radio" name="q4" value="d"> freewheeling</label>
+      </div>
 
-        <!-- Q6 -->
-        <div class="question" data-question-index="6">
-          <div class="question-header">
-            <div class="question-number-pill">6</div>
-            <div class="question-text">
-              In a push-type clutch, how is the release bearing moved during disengagement?
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q6a" name="q6" value="A" />
-              <label for="q6a">
-                <span class="option-letter">A.</span> It is pushed toward the flywheel and release levers
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q6b" name="q6" value="B" />
-              <label for="q6b">
-                <span class="option-letter">B.</span> It is pulled back toward the transmission
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q6c" name="q6" value="C" />
-              <label for="q6c">
-                <span class="option-letter">C.</span> It is rotated by a hydraulic motor
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q6d" name="q6" value="D" />
-              <label for="q6d">
-                <span class="option-letter">D.</span> It is held stationary while the levers move away
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>5.</strong> When the clutch pedal is fully depressed and no power flows through the clutch, the clutch is:</p>
+        <label><input type="radio" name="q5" value="a"> locked</label>
+        <label><input type="radio" name="q5" value="b"> overloaded</label>
+        <label><input type="radio" name="q5" value="c"> disengaged</label>
+        <label><input type="radio" name="q5" value="d"> in direct drive</label>
+      </div>
 
-        <!-- Q7 -->
-        <div class="question" data-question-index="7">
-          <div class="question-header">
-            <div class="question-number-pill">7</div>
-            <div class="question-text">
-              In a pull-type clutch used on many heavy trucks, the release bearing and sleeve assembly is:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q7a" name="q7" value="A" />
-              <label for="q7a">
-                <span class="option-letter">A.</span> Pushed into the flywheel to engage the clutch
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q7b" name="q7" value="B" />
-              <label for="q7b">
-                <span class="option-letter">B.</span> Locked in one position and does not move
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q7c" name="q7" value="C" />
-              <label for="q7c">
-                <span class="option-letter">C.</span> Pulled toward the transmission to disengage the clutch
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q7d" name="q7" value="D" />
-              <label for="q7d">
-                <span class="option-letter">D.</span> Used only as a pilot bearing
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>6.</strong> In a <em>push-type</em> clutch, the release bearing is moved:</p>
+        <label><input type="radio" name="q6" value="a"> toward the flywheel and release levers to disengage the clutch</label>
+        <label><input type="radio" name="q6" value="b"> toward the transmission to disengage the clutch</label>
+        <label><input type="radio" name="q6" value="c"> away from the flywheel to increase clamp load</label>
+        <label><input type="radio" name="q6" value="d"> only by centrifugal force at high rpm</label>
+      </div>
 
-        <!-- Q8 -->
-        <div class="question" data-question-index="8">
-          <div class="question-header">
-            <div class="question-number-pill">8</div>
-            <div class="question-text">
-              Which clutch type is most commonly used in medium- to heavy-duty truck applications?
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q8a" name="q8" value="A" />
-              <label for="q8a">
-                <span class="option-letter">A.</span> Hydraulic cone clutch
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q8b" name="q8" value="B" />
-              <label for="q8b">
-                <span class="option-letter">B.</span> Push-type diaphragm clutch only
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q8c" name="q8" value="C" />
-              <label for="q8c">
-                <span class="option-letter">C.</span> Centrifugal automatic clutch
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q8d" name="q8" value="D" />
-              <label for="q8d">
-                <span class="option-letter">D.</span> Pull-type friction clutch
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>7.</strong> In a <em>pull-type</em> heavy‑duty clutch, the release bearing and sleeve assembly is:</p>
+        <label><input type="radio" name="q7" value="a"> pushed into the flywheel to disengage the clutch</label>
+        <label><input type="radio" name="q7" value="b"> pulled toward the transmission to disengage the clutch</label>
+        <label><input type="radio" name="q7" value="c"> fixed and does not rotate with the clutch cover</label>
+        <label><input type="radio" name="q7" value="d"> used only as a pilot bearing support</label>
+      </div>
 
-        <!-- Q9 -->
-        <div class="question" data-question-index="9">
-          <div class="question-header">
-            <div class="question-number-pill">9</div>
-            <div class="question-text">
-              What is the main purpose of torsional (dampener) springs in a clutch disc hub?
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q9a" name="q9" value="A" />
-              <label for="q9a">
-                <span class="option-letter">A.</span> Provide axial alignment for the disc
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q9b" name="q9" value="B" />
-              <label for="q9b">
-                <span class="option-letter">B.</span> Absorb torque pulsations and reduce driveline vibration
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q9c" name="q9" value="C" />
-              <label for="q9c">
-                <span class="option-letter">C.</span> Increase clamp load from the pressure plate
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q9d" name="q9" value="D" />
-              <label for="q9d">
-                <span class="option-letter">D.</span> Cool the flywheel surface
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>8.</strong> The clutch disc and hub, which spline onto the transmission input shaft, are considered the:</p>
+        <label><input type="radio" name="q8" value="a"> drive members of the clutch</label>
+        <label><input type="radio" name="q8" value="b"> driven member of the clutch</label>
+        <label><input type="radio" name="q8" value="c"> reaction member</label>
+        <label><input type="radio" name="q8" value="d"> release member</label>
+      </div>
 
-        <!-- Q10 -->
-        <div class="question" data-question-index="10">
-          <div class="question-header">
-            <div class="question-number-pill">10</div>
-            <div class="question-text">
-              Marcel (cushion) springs built into the disc web are used to:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q10a" name="q10" value="A" />
-              <label for="q10a">
-                <span class="option-letter">A.</span> Increase clamp force at high rpm
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q10b" name="q10" value="B" />
-              <label for="q10b">
-                <span class="option-letter">B.</span> Adjust the clutch automatically as it wears
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q10c" name="q10" value="C" />
-              <label for="q10c">
-                <span class="option-letter">C.</span> Cushion engagement for smoother take-up of drive
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q10d" name="q10" value="D" />
-              <label for="q10d">
-                <span class="option-letter">D.</span> Support the pilot bearing
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>9.</strong> In the clutch assembly, the flywheel and pressure plate are classed as:</p>
+        <label><input type="radio" name="q9" value="a"> driven members</label>
+        <label><input type="radio" name="q9" value="b"> drive members</label>
+        <label><input type="radio" name="q9" value="c"> release members</label>
+        <label><input type="radio" name="q9" value="d"> neutral members only</label>
+      </div>
 
-        <!-- Q11 -->
-        <div class="question" data-question-index="11">
-          <div class="question-header">
-            <div class="question-number-pill">11</div>
-            <div class="question-text">
-              Which flywheel design has the clutch cover bolted to the same flat surface that the disc runs on?
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q11a" name="q11" value="A" />
-              <label for="q11a">
-                <span class="option-letter">A.</span> Flat flywheel
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q11b" name="q11" value="B" />
-              <label for="q11b">
-                <span class="option-letter">B.</span> Stepped flywheel
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q11c" name="q11" value="C" />
-              <label for="q11c">
-                <span class="option-letter">C.</span> Dual cone flywheel
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q11d" name="q11" value="D" />
-              <label for="q11d">
-                <span class="option-letter">D.</span> Counterweighted flywheel only
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>10.</strong> Torsional (dampener) springs in a clutch disc hub are primarily used to:</p>
+        <label><input type="radio" name="q10" value="a"> increase clamp load from the pressure plate</label>
+        <label><input type="radio" name="q10" value="b"> absorb torque pulsations and reduce driveline vibration</label>
+        <label><input type="radio" name="q10" value="c"> keep the disc perfectly flat at all times</label>
+        <label><input type="radio" name="q10" value="d"> support the pilot bearing</label>
+      </div>
 
-        <!-- Q12 -->
-        <div class="question" data-question-index="12">
-          <div class="question-header">
-            <div class="question-number-pill">12</div>
-            <div class="question-text">
-              A recessed friction surface that allows two driven discs and an intermediate plate is a feature of which flywheel?
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q12a" name="q12" value="A" />
-              <label for="q12a">
-                <span class="option-letter">A.</span> Flat flywheel
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q12b" name="q12" value="B" />
-              <label for="q12b">
-                <span class="option-letter">B.</span> Dual-mass flywheel
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q12c" name="q12" value="C" />
-              <label for="q12c">
-                <span class="option-letter">C.</span> Stepped flywheel
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q12d" name="q12" value="D" />
-              <label for="q12d">
-                <span class="option-letter">D.</span> Countersunk (bowl-shaped) flywheel
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>11.</strong> Marcel (cushion) springs built into the disc web are used to:</p>
+        <label><input type="radio" name="q11" value="a"> cushion engagement for smoother take‑up of drive</label>
+        <label><input type="radio" name="q11" value="b"> automatically adjust the clutch as it wears</label>
+        <label><input type="radio" name="q11" value="c"> increase pedal effort at high rpm</label>
+        <label><input type="radio" name="q11" value="d"> balance the flywheel</label>
+      </div>
 
-        <!-- Q13 -->
-        <div class="question" data-question-index="13">
-          <div class="question-header">
-            <div class="question-number-pill">13</div>
-            <div class="question-text">
-              A dual mass flywheel is mainly used to:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q13a" name="q13" value="A" />
-              <label for="q13a">
-                <span class="option-letter">A.</span> Provide extra friction area for a second disc
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q13b" name="q13" value="B" />
-              <label for="q13b">
-                <span class="option-letter">B.</span> Isolate torsional vibration between a diesel engine and drivetrain
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q13c" name="q13" value="C" />
-              <label for="q13c">
-                <span class="option-letter">C.</span> Allow manual adjustment of clutch release travel
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q13d" name="q13" value="D" />
-              <label for="q13d">
-                <span class="option-letter">D.</span> Replace the need for a pilot bearing
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>12.</strong> Which flywheel type has the clutch cover bolted to the same flat surface that the disc runs on?</p>
+        <label><input type="radio" name="q12" value="a"> flat flywheel</label>
+        <label><input type="radio" name="q12" value="b"> stepped flywheel</label>
+        <label><input type="radio" name="q12" value="c"> dual mass flywheel</label>
+        <label><input type="radio" name="q12" value="d"> cone‑type flywheel</label>
+      </div>
 
-        <!-- Q14 -->
-        <div class="question" data-question-index="14">
-          <div class="question-header">
-            <div class="question-number-pill">14</div>
-            <div class="question-text">
-              In an externally balanced engine:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q14a" name="q14" value="A" />
-              <label for="q14a">
-                <span class="option-letter">A.</span> Only the crankshaft carries balance weights
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q14b" name="q14" value="B" />
-              <label for="q14b">
-                <span class="option-letter">B.</span> The flywheel can be installed in any position
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q14c" name="q14" value="C" />
-              <label for="q14c">
-                <span class="option-letter">C.</span> Part of the engine balance weight is built into the flywheel
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q14d" name="q14" value="D" />
-              <label for="q14d">
-                <span class="option-letter">D.</span> No balancing is required
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>13.</strong> A recessed friction surface that allows two driven discs and an intermediate plate is a feature of a:</p>
+        <label><input type="radio" name="q13" value="a"> dual mass flywheel</label>
+        <label><input type="radio" name="q13" value="b"> stepped flywheel</label>
+        <label><input type="radio" name="q13" value="c"> flat flywheel</label>
+        <label><input type="radio" name="q13" value="d"> flexplate used with automatic transmissions only</label>
+      </div>
 
-        <!-- Q15 -->
-        <div class="question" data-question-index="15">
-          <div class="question-header">
-            <div class="question-number-pill">15</div>
-            <div class="question-text">
-              As part of the clutch assembly, the flywheel and pressure plate assembly are considered:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q15a" name="q15" value="A" />
-              <label for="q15a">
-                <span class="option-letter">A.</span> Drive members
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q15b" name="q15" value="B" />
-              <label for="q15b">
-                <span class="option-letter">B.</span> Driven members
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q15c" name="q15" value="C" />
-              <label for="q15c">
-                <span class="option-letter">C.</span> Neutral members
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q15d" name="q15" value="D" />
-              <label for="q15d">
-                <span class="option-letter">D.</span> Balancing members only
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>14.</strong> The main purpose of a dual mass flywheel in many diesel applications is to:</p>
+        <label><input type="radio" name="q14" value="a"> provide extra friction area for high‑performance clutches</label>
+        <label><input type="radio" name="q14" value="b"> isolate torsional vibration between the engine and drivetrain</label>
+        <label><input type="radio" name="q14" value="c"> allow manual adjustment of clutch release travel</label>
+        <label><input type="radio" name="q14" value="d"> eliminate the need for a clutch disc</label>
+      </div>
 
-        <!-- Q16 -->
-        <div class="question" data-question-index="16">
-          <div class="question-header">
-            <div class="question-number-pill">16</div>
-            <div class="question-text">
-              The clutch disc itself is the:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q16a" name="q16" value="A" />
-              <label for="q16a">
-                <span class="option-letter">A.</span> Input member
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q16b" name="q16" value="B" />
-              <label for="q16b">
-                <span class="option-letter">B.</span> Driven member
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q16c" name="q16" value="C" />
-              <label for="q16c">
-                <span class="option-letter">C.</span> Balancer only
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q16d" name="q16" value="D" />
-              <label for="q16d">
-                <span class="option-letter">D.</span> Release member
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>15.</strong> In an externally balanced engine, the ILM emphasizes that:</p>
+        <label><input type="radio" name="q15" value="a"> only the crankshaft carries balance weights</label>
+        <label><input type="radio" name="q15" value="b"> the flywheel can be installed in any position on the crankshaft flange</label>
+        <label><input type="radio" name="q15" value="c"> part of the engine balance weight is built into the flywheel</label>
+        <label><input type="radio" name="q15" value="d"> balancing is not required when replacing the clutch</label>
+      </div>
 
-        <!-- Q17 -->
-        <div class="question" data-question-index="17">
-          <div class="question-header">
-            <div class="question-number-pill">17</div>
-            <div class="question-text">
-              In a diaphragm clutch, clamp load on the disc is supplied by:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q17a" name="q17" value="A" />
-              <label for="q17a">
-                <span class="option-letter">A.</span> Several small torsional springs
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q17b" name="q17" value="B" />
-              <label for="q17b">
-                <span class="option-letter">B.</span> Hydraulic pressure only
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q17c" name="q17" value="C" />
-              <label for="q17c">
-                <span class="option-letter">C.</span> A centrifugal governor
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q17d" name="q17" value="D" />
-              <label for="q17d">
-                <span class="option-letter">D.</span> A single Belleville (diaphragm) spring
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>16.</strong> In a diaphragm‑spring clutch, clamp load on the disc is supplied by:</p>
+        <label><input type="radio" name="q16" value="a"> multiple coil springs spaced around the cover</label>
+        <label><input type="radio" name="q16" value="b"> a single Belleville (diaphragm) spring</label>
+        <label><input type="radio" name="q16" value="c"> centrifugal weights only</label>
+        <label><input type="radio" name="q16" value="d"> hydraulic pressure in the release bearing</label>
+      </div>
 
-        <!-- Q18 -->
-        <div class="question" data-question-index="18">
-          <div class="question-header">
-            <div class="question-number-pill">18</div>
-            <div class="question-text">
-              Semi-centrifugal coil spring clutches use weighted release levers to:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q18a" name="q18" value="A" />
-              <label for="q18a">
-                <span class="option-letter">A.</span> Reduce clamp force at high rpm
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q18b" name="q18" value="B" />
-              <label for="q18b">
-                <span class="option-letter">B.</span> Automatically adjust pedal height
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q18c" name="q18" value="C" />
-              <label for="q18c">
-                <span class="option-letter">C.</span> Add extra clamping force as engine speed increases
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q18d" name="q18" value="D" />
-              <label for="q18d">
-                <span class="option-letter">D.</span> Release the clutch automatically at high speed
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>17.</strong> Semi‑centrifugal coil spring clutches use weighted release levers to:</p>
+        <label><input type="radio" name="q17" value="a"> reduce clamp force as engine speed increases</label>
+        <label><input type="radio" name="q17" value="b"> add extra clamping force at higher rpm</label>
+        <label><input type="radio" name="q17" value="c"> automatically disengage the clutch at idle</label>
+        <label><input type="radio" name="q17" value="d"> operate the release bearing without pedal effort</label>
+      </div>
 
-        <!-- Q19 -->
-        <div class="question" data-question-index="19">
-          <div class="question-header">
-            <div class="question-number-pill">19</div>
-            <div class="question-text">
-              Modern “NAO” clutch facings that use fibres such as Kevlar and glass with resins are classed as:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q19a" name="q19" value="A" />
-              <label for="q19a">
-                <span class="option-letter">A.</span> Organic linings
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q19b" name="q19" value="B" />
-              <label for="q19b">
-                <span class="option-letter">B.</span> Pure metallic linings
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q19c" name="q19" value="C" />
-              <label for="q19c">
-                <span class="option-letter">C.</span> Sintered bronze linings
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q19d" name="q19" value="D" />
-              <label for="q19d">
-                <span class="option-letter">D.</span> Hydraulic linings
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>18.</strong> “NAO” (non‑asbestos organic) clutch facings using fibres such as Kevlar and glass are classed as:</p>
+        <label><input type="radio" name="q18" value="a"> organic linings</label>
+        <label><input type="radio" name="q18" value="b"> pure metallic linings</label>
+        <label><input type="radio" name="q18" value="c"> sintered bronze linings</label>
+        <label><input type="radio" name="q18" value="d"> hydraulic linings</label>
+      </div>
 
-        <!-- Q20 -->
-        <div class="question" data-question-index="20">
-          <div class="question-header">
-            <div class="question-number-pill">20</div>
-            <div class="question-text">
-              A common drawback of ceramic button clutch linings is that they:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q20a" name="q20" value="A" />
-              <label for="q20a">
-                <span class="option-letter">A.</span> Cannot handle high heat
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q20b" name="q20" value="B" />
-              <label for="q20b">
-                <span class="option-letter">B.</span> Have very low torque capacity
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q20c" name="q20" value="C" />
-              <label for="q20c">
-                <span class="option-letter">C.</span> Are unsuitable for heavy-duty trucks
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q20d" name="q20" value="D" />
-              <label for="q20d">
-                <span class="option-letter">D.</span> Can cause faster wear of the flywheel and pressure plate surfaces
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>19.</strong> A common drawback of ceramic button clutch linings is that they:</p>
+        <label><input type="radio" name="q19" value="a"> cannot tolerate high temperatures</label>
+        <label><input type="radio" name="q19" value="b"> have very low torque capacity</label>
+        <label><input type="radio" name="q19" value="c"> are unsuitable for heavy‑duty trucks</label>
+        <label><input type="radio" name="q19" value="d"> can cause increased wear of the flywheel and pressure plate surfaces</label>
+      </div>
 
-        <!-- Q21 -->
-        <div class="question" data-question-index="21">
-          <div class="question-header">
-            <div class="question-number-pill">21</div>
-            <div class="question-text">
-              One important function of the radial grooves cut into many clutch facings is to:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q21a" name="q21" value="A" />
-              <label for="q21a">
-                <span class="option-letter">A.</span> Improve cooling and vent gases by increasing airflow across the lining
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q21b" name="q21" value="B" />
-              <label for="q21b">
-                <span class="option-letter">B.</span> Provide extra spline engagement
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q21c" name="q21" value="C" />
-              <label for="q21c">
-                <span class="option-letter">C.</span> Lock the disc to the flywheel
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q21d" name="q21" value="D" />
-              <label for="q21d">
-                <span class="option-letter">D.</span> Reduce pedal travel
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>20.</strong> Radial grooves cut into many clutch facings are mainly intended to:</p>
+        <label><input type="radio" name="q20" value="a"> provide extra spline engagement</label>
+        <label><input type="radio" name="q20" value="b"> improve cooling and vent gases by increasing airflow and escape paths</label>
+        <label><input type="radio" name="q20" value="c"> lock the disc to the flywheel</label>
+        <label><input type="radio" name="q20" value="d"> reduce clutch pedal travel</label>
+      </div>
 
-        <!-- Q22 -->
-        <div class="question" data-question-index="22">
-          <div class="question-header">
-            <div class="question-number-pill">22</div>
-            <div class="question-text">
-              The pilot bearing or bushing supports:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q22a" name="q22" value="A" />
-              <label for="q22a">
-                <span class="option-letter">A.</span> The rear of the crankshaft in the block
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q22b" name="q22" value="B" />
-              <label for="q22b">
-                <span class="option-letter">B.</span> The front end of the transmission input shaft in the crankshaft or flywheel
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q22c" name="q22" value="C" />
-              <label for="q22c">
-                <span class="option-letter">C.</span> The release fork pivot ball
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q22d" name="q22" value="D" />
-              <label for="q22d">
-                <span class="option-letter">D.</span> The driveshaft slip yoke
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>21.</strong> The pilot bearing or bushing supports:</p>
+        <label><input type="radio" name="q21" value="a"> the rear of the crankshaft in the engine block</label>
+        <label><input type="radio" name="q21" value="b"> the front of the transmission input shaft in the crankshaft or flywheel</label>
+        <label><input type="radio" name="q21" value="c"> the release fork pivot ball</label>
+        <label><input type="radio" name="q21" value="d"> the driveshaft slip yoke</label>
+      </div>
 
-        <!-- Q23 -->
-        <div class="question" data-question-index="23">
-          <div class="question-header">
-            <div class="question-number-pill">23</div>
-            <div class="question-text">
-              The pilot bearing actually works as a bearing mainly when:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q23a" name="q23" value="A" />
-              <label for="q23a">
-                <span class="option-letter">A.</span> The clutch is fully engaged at highway speed
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q23b" name="q23" value="B" />
-              <label for="q23b">
-                <span class="option-letter">B.</span> The engine is shut off
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q23c" name="q23" value="C" />
-              <label for="q23c">
-                <span class="option-letter">C.</span> The clutch is disengaged and the input shaft is turning at a different speed than the crankshaft
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q23d" name="q23" value="D" />
-              <label for="q23d">
-                <span class="option-letter">D.</span> The vehicle is parked with the clutch released
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>22.</strong> The pilot bearing actually operates as a bearing mainly when:</p>
+        <label><input type="radio" name="q22" value="a"> the clutch is fully engaged at highway speed</label>
+        <label><input type="radio" name="q22" value="b"> the engine is shut off</label>
+        <label><input type="radio" name="q22" value="c"> the clutch is disengaged and the input shaft spins at a different speed than the crankshaft</label>
+        <label><input type="radio" name="q22" value="d"> the vehicle is parked with the clutch engaged</label>
+      </div>
 
-        <!-- Q24 -->
-        <div class="question" data-question-index="24">
-          <div class="question-header">
-            <div class="question-number-pill">24</div>
-            <div class="question-text">
-              The clutch housing (bell housing) typically provides:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q24a" name="q24" value="A" />
-              <label for="q24a">
-                <span class="option-letter">A.</span> Engine lubrication passages
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q24b" name="q24" value="B" />
-              <label for="q24b">
-                <span class="option-letter">B.</span> Alignment between engine and transmission plus mounting for release components
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q24c" name="q24" value="C" />
-              <label for="q24c">
-                <span class="option-letter">C.</span> The main friction surface for the clutch disc
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q24d" name="q24" value="D" />
-              <label for="q24d">
-                <span class="option-letter">D.</span> Cooling for the transmission oil
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>23.</strong> The clutch housing (bell housing) usually provides:</p>
+        <label><input type="radio" name="q23" value="a"> the main friction surface for the disc</label>
+        <label><input type="radio" name="q23" value="b"> engine lubrication passages</label>
+        <label><input type="radio" name="q23" value="c"> alignment between engine and transmission plus mounting for release components</label>
+        <label><input type="radio" name="q23" value="d"> cooling for transmission oil</label>
+      </div>
 
-        <!-- Q25 -->
-        <div class="question" data-question-index="25">
-          <div class="question-header">
-            <div class="question-number-pill">25</div>
-            <div class="question-text">
-              A clutch system that uses rods, levers, bellcranks and pivots from the pedal to the fork is called a:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q25a" name="q25" value="A" />
-              <label for="q25a">
-                <span class="option-letter">A.</span> Mechanical linkage system
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q25b" name="q25" value="B" />
-              <label for="q25b">
-                <span class="option-letter">B.</span> Electronic control system
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q25c" name="q25" value="C" />
-              <label for="q25c">
-                <span class="option-letter">C.</span> Vacuum booster system
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q25d" name="q25" value="D" />
-              <label for="q25d">
-                <span class="option-letter">D.</span> Regenerative braking system
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>24.</strong> A clutch linkage that uses rods, levers, bellcranks and pivots from the pedal to the fork is called a:</p>
+        <label><input type="radio" name="q24" value="a"> mechanical linkage system</label>
+        <label><input type="radio" name="q24" value="b"> cable release system</label>
+        <label><input type="radio" name="q24" value="c"> hydraulic release system</label>
+        <label><input type="radio" name="q24" value="d"> electronic control system</label>
+      </div>
 
-        <!-- Q26 -->
-        <div class="question" data-question-index="26">
-          <div class="question-header">
-            <div class="question-number-pill">26</div>
-            <div class="question-text">
-              In a hydraulic clutch release system:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q26a" name="q26" value="A" />
-              <label for="q26a">
-                <span class="option-letter">A.</span> A cable connects the pedal directly to the fork
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q26b" name="q26" value="B" />
-              <label for="q26b">
-                <span class="option-letter">B.</span> A vacuum booster supplies all the force
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q26c" name="q26" value="C" />
-              <label for="q26c">
-                <span class="option-letter">C.</span> Fluid pressure from a master cylinder operates a slave cylinder
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q26d" name="q26" value="D" />
-              <label for="q26d">
-                <span class="option-letter">D.</span> Both mechanical linkage and cable are always used
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>25.</strong> In a hydraulic clutch release system:</p>
+        <label><input type="radio" name="q25" value="a"> a cable connects the pedal directly to the release fork</label>
+        <label><input type="radio" name="q25" value="b"> fluid pressure from a master cylinder operates a slave cylinder</label>
+        <label><input type="radio" name="q25" value="c"> engine vacuum applies the release bearing</label>
+        <label><input type="radio" name="q25" value="d"> compressed air operates the pedal directly</label>
+      </div>
 
-        <!-- Q27 -->
-        <div class="question" data-question-index="27">
-          <div class="question-header">
-            <div class="question-number-pill">27</div>
-            <div class="question-text">
-              Which of the following is <strong>not</strong> normally part of a typical replacement clutch kit?
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q27a" name="q27" value="A" />
-              <label for="q27a">
-                <span class="option-letter">A.</span> Pressure plate assembly
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q27b" name="q27" value="B" />
-              <label for="q27b">
-                <span class="option-letter">B.</span> Clutch disc
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q27c" name="q27" value="C" />
-              <label for="q27c">
-                <span class="option-letter">C.</span> Driveshaft universal joint
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q27d" name="q27" value="D" />
-              <label for="q27d">
-                <span class="option-letter">D.</span> Release bearing and pilot bushing/bearing
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>26.</strong> A typical symptom of a slipping clutch under load is:</p>
+        <label><input type="radio" name="q26" value="a"> engine rpm drops and vehicle speed increases together</label>
+        <label><input type="radio" name="q26" value="b"> engine rpm rises but vehicle speed does not increase as expected</label>
+        <label><input type="radio" name="q26" value="c"> the transmission will not shift into any gear</label>
+        <label><input type="radio" name="q26" value="d"> a heavy knock heard from the final drive</label>
+      </div>
 
-        <!-- Q28 -->
-        <div class="question" data-question-index="28">
-          <div class="question-header">
-            <div class="question-number-pill">28</div>
-            <div class="question-text">
-              When selling clutch components, it is strongly recommended to also replace:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q28a" name="q28" value="A" />
-              <label for="q28a">
-                <span class="option-letter">A.</span> Only the flywheel ring gear
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q28b" name="q28" value="B" />
-              <label for="q28b">
-                <span class="option-letter">B.</span> Both the release bearing and the pilot bearing/bushing
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q28c" name="q28" value="C" />
-              <label for="q28c">
-                <span class="option-letter">C.</span> The transmission case
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q28d" name="q28" value="D" />
-              <label for="q28d">
-                <span class="option-letter">D.</span> Only the clutch fork boot
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>27.</strong> A clutch that drags (will not release fully) when the pedal is depressed may be caused by:</p>
+        <label><input type="radio" name="q27" value="a"> excessive free‑play in the release linkage</label>
+        <label><input type="radio" name="q27" value="b"> a worn‑out disc with no lining remaining</label>
+        <label><input type="radio" name="q27" value="c"> a broken ring gear on the flywheel</label>
+        <label><input type="radio" name="q27" value="d"> low oil level in the transmission</label>
+      </div>
 
-        <!-- Q29 -->
-        <div class="question" data-question-index="29">
-          <div class="question-header">
-            <div class="question-number-pill">29</div>
-            <div class="question-text">
-              Classifying a clutch as either “push-type” or “pull-type” is based on:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q29a" name="q29" value="A" />
-              <label for="q29a">
-                <span class="option-letter">A.</span> The direction the release bearing moves to act on the release levers
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q29b" name="q29" value="B" />
-              <label for="q29b">
-                <span class="option-letter">B.</span> The number of friction discs in the clutch
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q29c" name="q29" value="C" />
-              <label for="q29c">
-                <span class="option-letter">C.</span> The style of pedal used in the cab
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q29d" name="q29" value="D" />
-              <label for="q29d">
-                <span class="option-letter">D.</span> Whether the vehicle is 4x4 or 4x2
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>28.</strong> When resurfacing a flywheel for clutch service, the technician must:</p>
+        <label><input type="radio" name="q28" value="a"> remove as much material as possible to improve cooling</label>
+        <label><input type="radio" name="q28" value="b"> maintain the correct step height or recess for the cover mounting surface</label>
+        <label><input type="radio" name="q28" value="c"> always convert it to a dual mass design</label>
+        <label><input type="radio" name="q28" value="d"> heat the flywheel red‑hot to relieve stress</label>
+      </div>
 
-        <!-- Q30 -->
-        <div class="question" data-question-index="30">
-          <div class="question-header">
-            <div class="question-number-pill">30</div>
-            <div class="question-text">
-              With the clutch fully disengaged during a gear change:
-            </div>
-          </div>
-          <div class="options">
-            <div class="option">
-              <input type="radio" id="q30a" name="q30" value="A" />
-              <label for="q30a">
-                <span class="option-letter">A.</span> The flywheel, pressure plate and disc all stop rotating
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q30b" name="q30" value="B" />
-              <label for="q30b">
-                <span class="option-letter">B.</span> The disc always turns at engine speed
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q30c" name="q30" value="C" />
-              <label for="q30c">
-                <span class="option-letter">C.</span> The pressure plate and disc rotate together, and the flywheel is stopped
-              </label>
-            </div>
-            <div class="option">
-              <input type="radio" id="q30d" name="q30" value="D" />
-              <label for="q30d">
-                <span class="option-letter">D.</span> The flywheel and cover may spin at engine speed while the disc and input shaft can slow or stop
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="question">
+        <p><strong>29.</strong> During installation, the clutch disc must be:</p>
+        <label><input type="radio" name="q29" value="a"> installed in either direction; there is no front or back</label>
+        <label><input type="radio" name="q29" value="b"> centred and aligned using an input‑shaft or alignment tool</label>
+        <label><input type="radio" name="q29" value="c"> clamped tightly with locking pliers to prevent movement</label>
+        <label><input type="radio" name="q29" value="d"> coated with oil to improve break‑in</label>
+      </div>
 
-        <div class="quiz-footer">
-          <div class="status-pill" id="completion-status">
-            0 questions answered so far.
-          </div>
-          <button type="submit">
-            <span class="icon">✓</span>
-            Submit answers
-          </button>
-        </div>
+      <div class="question">
+        <p><strong>30.</strong> With the vehicle stopped, engine running and transmission in gear, a noisy release bearing will usually:</p>
+        <label><input type="radio" name="q30" value="a"> become noisier when the pedal is released</label>
+        <label><input type="radio" name="q30" value="b"> disappear when the vehicle is moving</label>
+        <label><input type="radio" name="q30" value="c"> stop or quiet down when the pedal is depressed</label>
+        <label><input type="radio" name="q30" value="d"> occur only in reverse gear</label>
+      </div>
 
-        <div class="results-box" id="results-box" style="display:none;">
-          <strong>Results:</strong>
-          <div id="results-text"></div>
-        </div>
-      </form>
-    </section>
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
   </main>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const form = document.getElementById("quiz-form");
-      const questions = Array.from(document.querySelectorAll(".question"));
-      const totalQuestions = questions.length;
-
-      const progressText = document.getElementById("progress-text");
-      const progressCount = document.getElementById("progress-count");
-      const progressBarFill = document.getElementById("progress-bar-fill");
-      const completionStatus = document.getElementById("completion-status");
-      const resultsBox = document.getElementById("results-box");
-      const resultsText = document.getElementById("results-text");
-
-      const correctAnswers = {
-        q1: "A",
-        q2: "A",
-        q3: "D",
-        q4: "B",
-        q5: "C",
-        q6: "A",
-        q7: "C",
-        q8: "D",
-        q9: "B",
-        q10: "C",
-        q11: "A",
-        q12: "D",
-        q13: "B",
-        q14: "C",
-        q15: "A",
-        q16: "B",
-        q17: "D",
-        q18: "C",
-        q19: "A",
-        q20: "D",
-        q21: "A",
-        q22: "B",
-        q23: "C",
-        q24: "B",
-        q25: "A",
-        q26: "C",
-        q27: "C",
-        q28: "B",
-        q29: "A",
-        q30: "D"
-      };
-
-      function getAnsweredCount() {
-        let answered = 0;
-        questions.forEach((q, index) => {
-          const name = "q" + (index + 1);
-          const selected = form.querySelector('input[name="' + name + '"]:checked');
-          if (selected) {
-            answered++;
-          }
-        });
-        return answered;
-      }
-
-      function updateProgress() {
-        const answered = getAnsweredCount();
-        const percent = Math.round((answered / totalQuestions) * 100);
-
-        progressText.textContent = percent + "%";
-        progressCount.textContent = answered + " / " + totalQuestions + " questions";
-        progressBarFill.style.width = percent + "%";
-
-        if (answered === 0) {
-          completionStatus.textContent = "0 questions answered so far.";
-        } else if (answered < totalQuestions) {
-          completionStatus.textContent = answered + " of " + totalQuestions + " questions answered.";
-        } else {
-          completionStatus.textContent = "All questions answered. Ready to submit.";
-        }
-      }
-
-      form.addEventListener("change", function (event) {
-        if (event.target.matches('input[type="radio"]')) {
-          // Clear colouring if the user changes an answer
-          const questionEl = event.target.closest(".question");
-          questionEl.classList.remove("correct", "incorrect");
-          updateProgress();
-        }
-      });
-
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-        const answered = getAnsweredCount();
-
-        if (answered < totalQuestions) {
-          alert(
-            "You have answered " +
-              answered +
-              " of " +
-              totalQuestions +
-              " questions.\n\nPlease answer all questions before submitting."
-          );
-          return;
-        }
-
-        let score = 0;
-
-        questions.forEach((q, index) => {
-          const name = "q" + (index + 1);
-          const selected = form.querySelector('input[name="' + name + '"]:checked');
-          const correct = correctAnswers[name];
-
-          q.classList.remove("correct", "incorrect");
-
-          if (selected) {
-            if (selected.value.toUpperCase() === correct) {
-              score++;
-              q.classList.add("correct");
-            } else {
-              q.classList.add("incorrect");
-            }
-          }
-        });
-
-        const percent = Math.round((score / totalQuestions) * 100);
-        resultsText.textContent =
-          "You scored " + score + " out of " + totalQuestions + " (" + percent + "%).";
-        resultsBox.style.display = "block";
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-
-      // initial sync
-      updateProgress();
-    });
+    window.ANSWERS = {
+      q1: 'a',
+      q2: 'a',
+      q3: 'd',
+      q4: 'b',
+      q5: 'c',
+      q6: 'a',
+      q7: 'b',
+      q8: 'b',
+      q9: 'b',
+      q10: 'b',
+      q11: 'a',
+      q12: 'a',
+      q13: 'b',
+      q14: 'b',
+      q15: 'c',
+      q16: 'b',
+      q17: 'b',
+      q18: 'a',
+      q19: 'd',
+      q20: 'b',
+      q21: 'b',
+      q22: 'c',
+      q23: 'c',
+      q24: 'a',
+      q25: 'b',
+      q26: 'b',
+      q27: 'a',
+      q28: 'b',
+      q29: 'b',
+      q30: 'c'
+    };
   </script>
+  <script src="../script.js"></script>
 </body>
 </html>
