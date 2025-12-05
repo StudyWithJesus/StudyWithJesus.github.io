@@ -150,34 +150,30 @@ function initExamPage() {
     }
     
     // Also update top submit button if it exists
-    const topSubmitBtn = form.querySelector(".exam-actions-top #submit-btn-top");
-    if (topSubmitBtn) {
-      topSubmitBtn.disabled = submitBtn.disabled;
+    const topSubmitBtnElement = form.querySelector("#submit-btn-top");
+    if (topSubmitBtnElement) {
+      topSubmitBtnElement.disabled = submitBtn.disabled;
       if (submitBtn.disabled) {
-        topSubmitBtn.classList.add("disabled");
+        topSubmitBtnElement.classList.add("disabled");
       } else {
-        topSubmitBtn.classList.remove("disabled");
+        topSubmitBtnElement.classList.remove("disabled");
       }
     }
   }
 
   // Function to lock/unlock radio inputs
   function setInputsLocked(locked) {
-    for (let i = 0; i < questions.length; i++) {
-      const inputs = questions[i].querySelectorAll('input[type="radio"]');
-      for (let j = 0; j < inputs.length; j++) {
-        inputs[j].disabled = locked;
-      }
+    const allInputs = form.querySelectorAll('input[type="radio"]');
+    for (let i = 0; i < allInputs.length; i++) {
+      allInputs[i].disabled = locked;
     }
   }
 
   // Initially disable submit button (no questions answered yet)
   updateSubmitButtonState();
 
-  // Submit handler - grades exam without showing correct answers
-  submitBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    
+  // Submit logic - grades exam without showing correct answers
+  function handleSubmit() {
     // Prevent submission if already submitted
     if (document.body.classList.contains("submitted-mode")) {
       return;
@@ -220,12 +216,10 @@ function initExamPage() {
         localStorage.setItem("examScore:" + examId, String(score));
       } catch {}
     }
-  });
+  }
 
-  // Retake handler (clear + reshuffle)
-  retakeBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    
+  // Retake logic (clear + reshuffle)
+  function handleRetake() {
     // Clear all question states
     for (let i = 0; i < questions.length; i++) {
       const q = questions[i];
@@ -265,18 +259,28 @@ function initExamPage() {
     } catch {}
     
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Attach submit handlers to both buttons
+  submitBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    handleSubmit();
   });
 
-  // Top submit button click - trigger bottom submit
   topSubmitBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    submitBtn.click();
+    handleSubmit();
   });
 
-  // Top retake button click - trigger bottom retake
+  // Attach retake handlers to both buttons
+  retakeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    handleRetake();
+  });
+
   topRetakeBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    retakeBtn.click();
+    handleRetake();
   });
 }
 
