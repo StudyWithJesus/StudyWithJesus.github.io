@@ -7,266 +7,333 @@
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-
-  <div id="loading-overlay">
-    <div class="spinner"></div>
-  </div>
-
   <header class="site-header">
-    <div class="header-fog"></div>
-    <div class="header-particles"></div>
     <div class="header-content">
-      <h1>270202b PRACTICE EXAM</h1>
-      <p>Gearing Principles &mdash; Module 270202b</p>
+      <h1>270202b – Gearing Principles</h1>
+      <p>Practice exam based on ILM 270202b: gear trains, ratios, speed/torque and gear types.</p>
     </div>
   </header>
-
-  <div class="exam-progress">
-    <div class="exam-progress-bar">
-      <div id="exam-progress-fill" class="exam-progress-fill"></div>
-    </div>
-    <div id="exam-progress-text" class="exam-progress-text">
-      0 / 0 answered
-    </div>
-  </div>
-
   <main class="page-content">
-    <div class="back-link">
-      <a href="index.html">&larr; Back to module 270202 test selection</a>
-    </div>
-
-    <section class="quiz-page-header">
-      <h2>Module 270202b &mdash; Gearing Principles</h2>
-      <p>
-        All questions are based strictly on the 270202b ILM. Distractors are written to be
-        technically plausible and use the same terminology as the module.
-      </p>
-    </section>
-
     <form id="quiz-form" class="exam-form">
 
       <div class="question">
-        <p><strong>1.</strong> In this module, the first gear that applies power to the rest of a simple gear train is identified as the:</p>
-        <label><input type="radio" name="q1" value="a"> driving gear, sometimes called the driven gear</label>
-        <label><input type="radio" name="q1" value="b"> drive gear or input gear</label>
-        <label><input type="radio" name="q1" value="c"> reaction gear, which opposes the drive gear</label>
-        <label><input type="radio" name="q1" value="d"> idler gear, which transfers motion but no power</label>
+        <p><strong>In a simple two-gear mesh, one gear is always:</strong></p>
+        <label><input type="radio" name="q1" value="a"> the drive (input) gear and the other is the driven (output) gear</label>
+        <label><input type="radio" name="q1" value="b"> an idler and the other a pinion</label>
+        <label><input type="radio" name="q1" value="c"> a bevel gear and the other a spur gear</label>
+        <label><input type="radio" name="q1" value="d"> larger and therefore always the drive</label>
       </div>
 
       <div class="question">
-        <p><strong>2.</strong> According to the terminology in the ILM, the smaller of two meshing gears in a set is normally called the:</p>
-        <label><input type="radio" name="q2" value="a"> pinion gear</label>
-        <label><input type="radio" name="q2" value="b"> driven gear</label>
-        <label><input type="radio" name="q2" value="c"> sun gear</label>
-        <label><input type="radio" name="q2" value="d"> reaction gear</label>
+        <p><strong>The smaller of two meshing gears is called the:</strong></p>
+        <label><input type="radio" name="q2" value="a"> pinion</label>
+        <label><input type="radio" name="q2" value="b"> idler</label>
+        <label><input type="radio" name="q2" value="c"> crown gear</label>
+        <label><input type="radio" name="q2" value="d"> annulus</label>
       </div>
 
       <div class="question">
-        <p><strong>3.</strong> When two external spur gears mesh, the relationship between their directions of rotation is that they:</p>
-        <label><input type="radio" name="q3" value="a"> always rotate in the same direction because the teeth are identical</label>
-        <label><input type="radio" name="q3" value="b"> rotate in opposite directions regardless of ratio</label>
-        <label><input type="radio" name="q3" value="c"> rotate in the same direction only if an idler is present</label>
-        <label><input type="radio" name="q3" value="d"> can rotate either way depending on which gear is the pinion</label>
+        <p><strong>An idler gear is located:</strong></p>
+        <label><input type="radio" name="q3" value="a"> between the drive and driven gears in a gear train</label>
+        <label><input type="radio" name="q3" value="b"> on the end of the driveshaft only</label>
+        <label><input type="radio" name="q3" value="c"> inside the differential case only</label>
+        <label><input type="radio" name="q3" value="d"> outside the gearbox to drive accessories</label>
       </div>
 
       <div class="question">
-        <p><strong>4.</strong> When an external gear meshes with an internal (ring) gear as described in the module, the two gears:</p>
-        <label><input type="radio" name="q4" value="a"> always rotate in opposite directions because one gear is internal</label>
-        <label><input type="radio" name="q4" value="b"> rotate independently; the ring gear has no effect on direction</label>
-        <label><input type="radio" name="q4" value="c"> rotate in the same direction</label>
-        <label><input type="radio" name="q4" value="d"> must rotate in opposite directions unless an idler is added</label>
+        <p><strong>Adding an idler gear between two external gears will:</strong></p>
+        <label><input type="radio" name="q4" value="a"> change the direction of rotation at the output but not the ratio</label>
+        <label><input type="radio" name="q4" value="b"> change both the ratio and direction</label>
+        <label><input type="radio" name="q4" value="c"> change the ratio only</label>
+        <label><input type="radio" name="q4" value="d"> lock both gears together</label>
       </div>
 
       <div class="question">
-        <p><strong>5.</strong> The ILM states that the function of an idler gear in a simple train is to:</p>
-        <label><input type="radio" name="q5" value="a"> increase the overall gear ratio while keeping the same direction</label>
-        <label><input type="radio" name="q5" value="b"> change both direction of rotation and the overall gear ratio</label>
-        <label><input type="radio" name="q5" value="c"> reverse direction and maintain the same centre distance while not changing the overall ratio</label>
-        <label><input type="radio" name="q5" value="d"> reduce backlash between the drive and driven gears</label>
+        <p><strong>When two external spur gears mesh directly, they:</strong></p>
+        <label><input type="radio" name="q5" value="a"> rotate in opposite directions</label>
+        <label><input type="radio" name="q5" value="b"> rotate in the same direction</label>
+        <label><input type="radio" name="q5" value="c"> cannot transmit torque</label>
+        <label><input type="radio" name="q5" value="d"> always create an overdrive</label>
       </div>
 
       <div class="question">
-        <p><strong>6.</strong> A drive gear has 20 teeth and the driven gear has 40 teeth. Ignoring idlers, how is this ratio correctly interpreted in the module?</p>
-        <label><input type="radio" name="q6" value="a"> 0.5&nbsp;:&nbsp;1 overdrive &mdash; output turns twice as fast as input with reduced torque</label>
-        <label><input type="radio" name="q6" value="b"> 2.0&nbsp;:&nbsp;1 reduction &mdash; output turns at half input speed with increased torque</label>
-        <label><input type="radio" name="q6" value="c"> 1.0&nbsp;:&nbsp;2 reduction &mdash; output speed and torque are both reduced by half</label>
-        <label><input type="radio" name="q6" value="d"> 2.0&nbsp;:&nbsp;1 direct drive &mdash; speed is unchanged but torque doubles</label>
+        <p><strong>When an external gear meshes with an internal gear, the two gears will:</strong></p>
+        <label><input type="radio" name="q6" value="a"> rotate in the same direction</label>
+        <label><input type="radio" name="q6" value="b"> rotate in opposite directions</label>
+        <label><input type="radio" name="q6" value="c"> not transmit torque</label>
+        <label><input type="radio" name="q6" value="d"> rotate at the same speed regardless of tooth count</label>
       </div>
 
       <div class="question">
-        <p><strong>7.</strong> A 24‑tooth driving gear meshes with a 12‑tooth driven gear. According to the ILM, this gear train is best described as:</p>
-        <label><input type="radio" name="q7" value="a"> 2&nbsp;:&nbsp;1 reduction; output turns at half input speed with increased torque</label>
-        <label><input type="radio" name="q7" value="b"> 1&nbsp;:&nbsp;1 direct drive; no change in speed or torque</label>
-        <label><input type="radio" name="q7" value="c"> 0.5&nbsp;:&nbsp;1 overdrive; output turns twice input speed with reduced torque</label>
-        <label><input type="radio" name="q7" value="d"> 4&nbsp;:&nbsp;1 reduction; output turns at one‑quarter input speed</label>
+        <p><strong>A gear train is defined in the ILM as:</strong></p>
+        <label><input type="radio" name="q7" value="a"> two or more gears in mesh that share the same diametral pitch and type</label>
+        <label><input type="radio" name="q7" value="b"> any combination of gears, belts and chains</label>
+        <label><input type="radio" name="q7" value="c"> only the gears inside an axle assembly</label>
+        <label><input type="radio" name="q7" value="d"> a set of worm and wheel only</label>
       </div>
 
       <div class="question">
-        <p><strong>8.</strong> In the notation used in the module, a gear ratio written as <em>3.0&nbsp;:&nbsp;1</em> means that:</p>
-        <label><input type="radio" name="q8" value="a"> the output member turns three revolutions for every one revolution of the input</label>
-        <label><input type="radio" name="q8" value="b"> both members turn three revolutions together with no change</label>
-        <label><input type="radio" name="q8" value="c"> the input member turns three revolutions for every one revolution of the output</label>
-        <label><input type="radio" name="q8" value="d"> the pinion has three times as many teeth as the mating gear</label>
+        <p><strong>In a simple gear train, each shaft:</strong></p>
+        <label><input type="radio" name="q8" value="a"> carries only one gear that meshes with the next gear</label>
+        <label><input type="radio" name="q8" value="b"> carries multiple gears locked together</label>
+        <label><input type="radio" name="q8" value="c"> is always an idler shaft</label>
+        <label><input type="radio" name="q8" value="d"> is used only for reverse gears</label>
       </div>
 
       <div class="question">
-        <p><strong>9.</strong> A simple train has a 30‑tooth drive gear and a 50‑tooth driven gear with three 24‑tooth idlers between them. The ILM says the overall ratio is determined by:</p>
-        <label><input type="radio" name="q9" value="a"> the total number of teeth on all gears divided by the number of idlers</label>
-        <label><input type="radio" name="q9" value="b"> only the drive and driven gears; idlers do not affect the numerical ratio</label>
-        <label><input type="radio" name="q9" value="c"> the number of idlers and the pitch diameter of the ring gear</label>
-        <label><input type="radio" name="q9" value="d"> the product of all tooth counts in the train</label>
+        <p><strong>A compound gear train differs from a simple gear train because:</strong></p>
+        <label><input type="radio" name="q9" value="a"> one or more shafts carry two gears locked together, allowing larger overall ratios</label>
+        <label><input type="radio" name="q9" value="b"> it uses only helical gears</label>
+        <label><input type="radio" name="q9" value="c"> ratios are always 1:1</label>
+        <label><input type="radio" name="q9" value="d"> it has no idlers</label>
       </div>
 
       <div class="question">
-        <p><strong>10.</strong> A compound gear train has a 3&nbsp;:&nbsp;1 reduction in the first pair and a 4&nbsp;:&nbsp;1 reduction in the second pair. The module shows that the overall ratio is:</p>
-        <label><input type="radio" name="q10" value="a"> the average of the two ratios, or 3.5&nbsp;:&nbsp;1</label>
-        <label><input type="radio" name="q10" value="b"> 12&nbsp;:&nbsp;1, found by multiplying the individual ratios</label>
-        <label><input type="radio" name="q10" value="c"> the difference between the two ratios, or 1&nbsp;:&nbsp;1</label>
-        <label><input type="radio" name="q10" value="d"> 7&nbsp;:&nbsp;1, found by adding the two ratios together</label>
+        <p><strong>In the ILM, a direct drive gear ratio is expressed as:</strong></p>
+        <label><input type="radio" name="q10" value="a"> 1:1, meaning input and output rotate at the same speed</label>
+        <label><input type="radio" name="q10" value="b"> 0.5:1, meaning output is twice input speed</label>
+        <label><input type="radio" name="q10" value="c"> 2:1, meaning output is twice input speed</label>
+        <label><input type="radio" name="q10" value="d"> 4:1, meaning there are four gears in mesh</label>
       </div>
 
       <div class="question">
-        <p><strong>11.</strong> When a gear train increases torque at the output, the ILM emphasizes that the trade‑off is:</p>
-        <label><input type="radio" name="q11" value="a"> output speed decreases</label>
-        <label><input type="radio" name="q11" value="b"> output speed remains the same but the direction reverses</label>
-        <label><input type="radio" name="q11" value="c"> output speed and torque both increase</label>
-        <label><input type="radio" name="q11" value="d"> output speed increases while torque decreases</label>
+        <p><strong>Gear ratio using teeth count is calculated as:</strong></p>
+        <label><input type="radio" name="q11" value="a"> number of teeth on the driven gear divided by number of teeth on the drive gear</label>
+        <label><input type="radio" name="q11" value="b"> drive teeth minus driven teeth</label>
+        <label><input type="radio" name="q11" value="c"> drive teeth divided by idler teeth</label>
+        <label><input type="radio" name="q11" value="d"> sum of all teeth divided by number of shafts</label>
       </div>
 
       <div class="question">
-        <p><strong>12.</strong> A 10‑tooth pinion driving a 30‑tooth ring gear (3.00&nbsp;:&nbsp;1) is used as the example of a:</p>
-        <label><input type="radio" name="q12" value="a"> hunting gear set with even tooth wear</label>
-        <label><input type="radio" name="q12" value="b"> non‑hunting gear set where the same teeth mesh repeatedly</label>
-        <label><input type="radio" name="q12" value="c"> partial hunting gear set because the ratio is not whole‑number</label>
-        <label><input type="radio" name="q12" value="d"> planetary gear set because the ring gear surrounds the pinion</label>
+        <p><strong>A ratio greater than 1:1, such as 3:1, indicates a:</strong></p>
+        <label><input type="radio" name="q12" value="a"> speed reduction and torque increase at the output</label>
+        <label><input type="radio" name="q12" value="b"> speed increase and torque decrease</label>
+        <label><input type="radio" name="q12" value="c"> direct drive with no change</label>
+        <label><input type="radio" name="q12" value="d"> reverse-only condition</label>
       </div>
 
       <div class="question">
-        <p><strong>13.</strong> Using the “multiply by 2, 4, or 5” check described in the module, which axle ratio below is a <em>partial hunting</em> gear set?</p>
-        <label><input type="radio" name="q13" value="a"> 3.50&nbsp;:&nbsp;1</label>
-        <label><input type="radio" name="q13" value="b"> 3.56&nbsp;:&nbsp;1</label>
-        <label><input type="radio" name="q13" value="c"> 3.00&nbsp;:&nbsp;1</label>
-        <label><input type="radio" name="q13" value="d"> 4.00&nbsp;:&nbsp;1</label>
+        <p><strong>A ratio less than 1:1, such as 0.5:1, indicates:</strong></p>
+        <label><input type="radio" name="q13" value="a"> a speed increase (overdrive) and corresponding torque decrease</label>
+        <label><input type="radio" name="q13" value="b"> a reduction gearset</label>
+        <label><input type="radio" name="q13" value="c"> reverse gear only</label>
+        <label><input type="radio" name="q13" value="d"> no torque transmission</label>
       </div>
 
       <div class="question">
-        <p><strong>14.</strong> A <em>hunting gear set</em>, as defined in 270202b, is one in which:</p>
-        <label><input type="radio" name="q14" value="a"> each pinion tooth always contacts the same ring gear teeth</label>
-        <label><input type="radio" name="q14" value="b"> the ratio is exactly 3.00&nbsp;:&nbsp;1 so tooth contact repeats every third revolution</label>
-        <label><input type="radio" name="q14" value="c"> each pinion tooth eventually contacts every tooth on the mating gear before repeating</label>
-        <label><input type="radio" name="q14" value="d"> the gear set operates only in low‑speed, high‑torque axles</label>
+        <p><strong>In a simple train with a 12-tooth drive gear and a 24-tooth driven gear, the ratio is:</strong></p>
+        <label><input type="radio" name="q14" value="a"> 2:1 reduction</label>
+        <label><input type="radio" name="q14" value="b"> 1:2 overdrive</label>
+        <label><input type="radio" name="q14" value="c"> 0.5:1 overdrive</label>
+        <label><input type="radio" name="q14" value="d"> 3:1 reduction</label>
       </div>
 
       <div class="question">
-        <p><strong>15.</strong> In the ILM, spur gears are described as:</p>
-        <label><input type="radio" name="q15" value="a"> having teeth cut on an angle, which produces axial thrust</label>
-        <label><input type="radio" name="q15" value="b"> having straight teeth parallel to the shaft; they carry load well but can be noisy and do not create thrust loads</label>
-        <label><input type="radio" name="q15" value="c"> being used only in low‑torque applications because only one tooth is in mesh</label>
-        <label><input type="radio" name="q15" value="d"> operating silently because their teeth roll together without sliding</label>
+        <p><strong>In a simple 24-tooth drive gear driving a 12-tooth driven gear, the ratio is:</strong></p>
+        <label><input type="radio" name="q15" value="a"> 0.5:1 (speed increaser)</label>
+        <label><input type="radio" name="q15" value="b"> 2:1 reduction</label>
+        <label><input type="radio" name="q15" value="c"> 1:1 direct drive</label>
+        <label><input type="radio" name="q15" value="d"> 4:1 reduction</label>
       </div>
 
       <div class="question">
-        <p><strong>16.</strong> Single helical gears, compared with spur gears, are shown in the module to:</p>
-        <label><input type="radio" name="q16" value="a"> reduce load capacity but eliminate sliding contact</label>
-        <label><input type="radio" name="q16" value="b"> create less noise and carry higher loads because more than one tooth is in mesh</label>
-        <label><input type="radio" name="q16" value="c"> run with no axial thrust because the helix angle cancels itself</label>
-        <label><input type="radio" name="q16" value="d"> require no lubrication in light‑duty applications</label>
+        <p><strong>Idler gears affect:</strong></p>
+        <label><input type="radio" name="q16" value="a"> the direction of rotation and gear spacing but not the overall ratio</label>
+        <label><input type="radio" name="q16" value="b"> the overall ratio and not rotation direction</label>
+        <label><input type="radio" name="q16" value="c"> neither ratio nor rotation direction</label>
+        <label><input type="radio" name="q16" value="d"> only the noise level of the gears</label>
       </div>
 
       <div class="question">
-        <p><strong>17.</strong> The primary disadvantage of single helical gears, as emphasized in 270202b, is that they:</p>
-        <label><input type="radio" name="q17" value="a"> cannot be used for reductions greater than 2&nbsp;:&nbsp;1</label>
-        <label><input type="radio" name="q17" value="b"> create axial thrust and sliding action, demanding thrust bearings and good lubrication</label>
-        <label><input type="radio" name="q17" value="c"> cannot be hardened, so tooth wear is always rapid</label>
-        <label><input type="radio" name="q17" value="d"> cannot operate at high speeds</label>
+        <p><strong>In a compound train producing 12:1 overall ratio, the ILM shows that:</strong></p>
+        <label><input type="radio" name="q17" value="a"> large ratios can be achieved in a compact space using gear clusters</label>
+        <label><input type="radio" name="q17" value="b"> the driven gear must always have more than 200 teeth</label>
+        <label><input type="radio" name="q17" value="c"> only worm gears can be used</label>
+        <label><input type="radio" name="q17" value="d"> idler gears determine the final ratio</label>
       </div>
 
       <div class="question">
-        <p><strong>18.</strong> A double helical (herringbone) gear is described as having:</p>
-        <label><input type="radio" name="q18" value="a"> two sets of opposite‑hand helixes that cancel axial thrust while keeping the smooth, high‑capacity characteristics of helical gearing</label>
-        <label><input type="radio" name="q18" value="b"> straight teeth on one half and helical teeth on the other</label>
-        <label><input type="radio" name="q18" value="c"> teeth cut only on the inside of a ring gear</label>
-        <label><input type="radio" name="q18" value="d"> a worm and wheel combined into a single compact unit</label>
+        <p><strong>The ILM describes torque as:</strong></p>
+        <label><input type="radio" name="q18" value="a"> a twisting force equal to the force applied times the lever arm radius</label>
+        <label><input type="radio" name="q18" value="b"> the linear speed of the gear teeth</label>
+        <label><input type="radio" name="q18" value="c"> the product of gear ratio and tooth count</label>
+        <label><input type="radio" name="q18" value="d"> the mass of the gear times its diameter</label>
       </div>
 
       <div class="question">
-        <p><strong>19.</strong> The rack and pinion arrangement is used in the module to demonstrate a gear set that:</p>
-        <label><input type="radio" name="q19" value="a"> converts linear motion into higher‑speed rotary motion</label>
-        <label><input type="radio" name="q19" value="b"> converts rotary motion into straight‑line (linear) motion</label>
-        <label><input type="radio" name="q19" value="c"> keeps speed constant while changing torque</label>
-        <label><input type="radio" name="q19" value="d"> provides a 1&nbsp;:&nbsp;1 ratio between two parallel shafts</label>
+        <p><strong>When gear ratio increases torque at the output shaft, the trade-off is:</strong></p>
+        <label><input type="radio" name="q19" value="a"> a decrease in output speed</label>
+        <label><input type="radio" name="q19" value="b"> an increase in temperature only</label>
+        <label><input type="radio" name="q19" value="c"> a decrease in gear tooth count</label>
+        <label><input type="radio" name="q19" value="d"> more backlash automatically</label>
       </div>
 
       <div class="question">
-        <p><strong>20.</strong> Bevel gears, as described in 270202b, are used to:</p>
-        <label><input type="radio" name="q20" value="a"> connect parallel shafts with minimum noise</label>
-        <label><input type="radio" name="q20" value="b"> transmit motion between intersecting shafts, commonly at 90&deg;</label>
-        <label><input type="radio" name="q20" value="c"> convert rotary motion into linear motion</label>
-        <label><input type="radio" name="q20" value="d"> provide non‑hunting action in final drives only</label>
+        <p><strong>The ILM note on speed versus torque states that as speed increases:</strong></p>
+        <label><input type="radio" name="q20" value="a"> available torque decreases for a given power level</label>
+        <label><input type="radio" name="q20" value="b"> torque always increases equally</label>
+        <label><input type="radio" name="q20" value="c"> power must drop to zero</label>
+        <label><input type="radio" name="q20" value="d"> gear ratio must be 1:1</label>
       </div>
 
       <div class="question">
-        <p><strong>21.</strong> A hypoid gear set differs from a spiral bevel set in that the module notes the:</p>
-        <label><input type="radio" name="q21" value="a"> pinion shaft is offset below the ring gear centreline, causing more sliding contact and requiring EP/synthetic gear oil</label>
-        <label><input type="radio" name="q21" value="b"> pinion shaft is in line with the ring gear centreline, eliminating sliding action</label>
-        <label><input type="radio" name="q21" value="c"> pinion shaft is offset above the ring gear, reducing sliding contact</label>
-        <label><input type="radio" name="q21" value="d"> ring gear is smaller than the pinion to reduce rotating mass</label>
+        <p><strong>In Figure 13 of the ILM, the gear is compared to:</strong></p>
+        <label><input type="radio" name="q21" value="a"> a circular lever where tooth force acts at the gear radius</label>
+        <label><input type="radio" name="q21" value="b"> a hydraulic piston</label>
+        <label><input type="radio" name="q21" value="c"> an electrical circuit</label>
+        <label><input type="radio" name="q21" value="d"> a friction clutch disc</label>
       </div>
 
       <div class="question">
-        <p><strong>22.</strong> The worm and wheel arrangement in the ILM is especially suited to:</p>
-        <label><input type="radio" name="q22" value="a"> low reductions with very high efficiency and easy back‑driving</label>
-        <label><input type="radio" name="q22" value="b"> high reductions where the worm drives the wheel and the load generally cannot back‑drive the worm</label>
-        <label><input type="radio" name="q22" value="c"> only 1&nbsp;:&nbsp;1 ratios in compact drives</label>
-        <label><input type="radio" name="q22" value="d"> gear sets that must run without lubrication</label>
+        <p><strong>A speed reducer gearset is most useful when:</strong></p>
+        <label><input type="radio" name="q22" value="a"> high torque is required at low speed</label>
+        <label><input type="radio" name="q22" value="b"> low torque is required at high speed</label>
+        <label><input type="radio" name="q22" value="c"> we want constant vehicle speed regardless of load</label>
+        <label><input type="radio" name="q22" value="d"> we need to reverse direction only</label>
       </div>
 
       <div class="question">
-        <p><strong>23.</strong> The module’s “laws of operation” for a simple planetary gear set state that each operating condition must have:</p>
-        <label><input type="radio" name="q23" value="a"> an input member, an output member, and a reaction (held) member</label>
-        <label><input type="radio" name="q23" value="b"> two inputs and no held member</label>
-        <label><input type="radio" name="q23" value="c"> a single rotating member with the others free</label>
-        <label><input type="radio" name="q23" value="d"> sun and ring gears fixed while only the carrier rotates</label>
+        <p><strong>An overdrive gearset is commonly used in vehicles to:</strong></p>
+        <label><input type="radio" name="q23" value="a"> reduce engine RPM at highway speed</label>
+        <label><input type="radio" name="q23" value="b"> increase engine braking at low speed</label>
+        <label><input type="radio" name="q23" value="c"> lock the driveshaft when parked</label>
+        <label><input type="radio" name="q23" value="d"> drive the power steering pump</label>
       </div>
 
       <div class="question">
-        <p><strong>24.</strong> According to the combination table in the ILM, a forward <em>reduction</em> in a simple planetary gear set is obtained when:</p>
-        <label><input type="radio" name="q24" value="a"> carrier is input, sun is held, ring is output</label>
-        <label><input type="radio" name="q24" value="b"> ring is input, carrier is held, sun is output</label>
-        <label><input type="radio" name="q24" value="c"> sun is input, ring is held, carrier is output</label>
-        <label><input type="radio" name="q24" value="d"> sun is input, carrier is held, ring is output</label>
+        <p><strong>Spur gears are characterized by:</strong></p>
+        <label><input type="radio" name="q24" value="a"> straight teeth parallel to the shaft, used for moderate speeds and loads</label>
+        <label><input type="radio" name="q24" value="b"> curved teeth at an angle to the shaft</label>
+        <label><input type="radio" name="q24" value="c"> no radial loads</label>
+        <label><input type="radio" name="q24" value="d"> teeth only on the inside diameter</label>
       </div>
 
       <div class="question">
-        <p><strong>25.</strong> Planetary gear sets are noted in the module for:</p>
-        <label><input type="radio" name="q25" value="a"> low strength because only one tooth carries the load</label>
-        <label><input type="radio" name="q25" value="b"> compact size, long life, and high strength because multiple teeth share the load</label>
-        <label><input type="radio" name="q25" value="c"> large size and simple construction but low torque capacity</label>
-        <label><input type="radio" name="q25" value="d"> eliminating the need for any backlash</label>
+        <p><strong>Helical gears have:</strong></p>
+        <label><input type="radio" name="q25" value="a"> angled teeth that provide smoother and quieter operation than spur gears</label>
+        <label><input type="radio" name="q25" value="b"> teeth that run straight across the face</label>
+        <label><input type="radio" name="q25" value="c"> no axial thrust</label>
+        <label><input type="radio" name="q25" value="d"> teeth only on the rim of a wheel</label>
       </div>
 
       <div class="question">
-        <p><strong>26.</strong> In the glossary, <em>backlash</em> is defined most accurately as the:</p>
-        <label><input type="radio" name="q26" value="a"> torque required to start a gear rotating under load</label>
-        <label><input type="radio" name="q26" value="b"> clearance between mating teeth at the pitch line to prevent binding and allow for lubrication</label>
-        <label><input type="radio" name="q26" value="c"> amount of axial movement of a gear on its shaft</label>
-        <label><input type="radio" name="q26" value="d"> difference between input and output speed in a planetary gear set</label>
+        <p><strong>Double helical or herringbone gears are used to:</strong></p>
+        <label><input type="radio" name="q26" value="a"> cancel axial thrust while keeping the smoothness of helical gearing</label>
+        <label><input type="radio" name="q26" value="b"> increase backlash intentionally</label>
+        <label><input type="radio" name="q26" value="c"> eliminate the need for lubrication</label>
+        <label><input type="radio" name="q26" value="d"> drive chains directly</label>
       </div>
 
       <div class="question">
-        <p><strong>27.</strong> <em>End play</em> in a gear train, as described in 270202b, is the:</p>
-        <label><input type="radio" name="q27" value="a"> axial movement of a shaft or gear along its centreline</label>
-        <label><input type="radio" name="q27" value="b"> radial clearance between the tooth flank and root</label>
-        <label><input type="radio" name="q27" value="c"> rotational movement caused by backlash at the pitch line</label>
-        <label><input type="radio" name="q27" value="d"> amount of twist in a shaft under load</label>
+        <p><strong>Bevel gears are used when:</strong></p>
+        <label><input type="radio" name="q27" value="a"> power must be transmitted between intersecting shafts, often at 90°</label>
+        <label><input type="radio" name="q27" value="b"> shafts are parallel</label>
+        <label><input type="radio" name="q27" value="c"> shafts are collinear</label>
+        <label><input type="radio" name="q27" value="d"> no change in direction is required</label>
       </div>
 
       <div class="question">
-        <p><strong>28.</strong> The module notes that most modern automotive final drive gear sets are designed as:</p>
-        <label><input type="radio" name="q28" value="a"> non‑hunting gear sets to concentrate wear on a few teeth</label>
-        <label><input type="radio" name="q28" value="b"> partial hunting gear sets for easier ratio identification</label>
-        <label><input type="radio" name="q28" value="c"> hunting gear sets so tooth contact is spread over all teeth</label>
-        <label><input type="radio" name="q28" value="d"> rack and pinion gear sets with straight‑cut teeth</label>
+        <p><strong>Hypoid gears are a special form of:</strong></p>
+        <label><input type="radio" name="q28" value="a"> spiral bevel gears where shafts are offset, common in automotive differentials</label>
+        <label><input type="radio" name="q28" value="b"> spur gears for timing</label>
+        <label><input type="radio" name="q28" value="c"> worm gears for hoists</label>
+        <label><input type="radio" name="q28" value="d"> planet gears for automatics</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Worm gear sets are typically used for:</strong></p>
+        <label><input type="radio" name="q29" value="a"> large speed reductions and high torque in compact right-angle drives</label>
+        <label><input type="radio" name="q29" value="b"> overdrive ratios above 1:1</label>
+        <label><input type="radio" name="q29" value="c"> light duty speed increasers only</label>
+        <label><input type="radio" name="q29" value="d"> constant-mesh automotive transmissions</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Backlash in a gear set is defined as:</strong></p>
+        <label><input type="radio" name="q30" value="a"> the clearance between mating gear teeth measured on the pitch circle</label>
+        <label><input type="radio" name="q30" value="b"> the endplay of the shaft in its bearings</label>
+        <label><input type="radio" name="q30" value="c"> the noise produced by gears</label>
+        <label><input type="radio" name="q30" value="d"> the amount of torque transmitted</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Too little backlash:</strong></p>
+        <label><input type="radio" name="q31" value="a"> can cause gear tooth binding, overheating and rapid wear</label>
+        <label><input type="radio" name="q31" value="b"> always improves gear life</label>
+        <label><input type="radio" name="q31" value="c"> eliminates the need for lubrication</label>
+        <label><input type="radio" name="q31" value="d"> is required for high-speed gears</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive backlash will:</strong></p>
+        <label><input type="radio" name="q32" value="a"> cause clunking, shock loads and inaccurate motion transmission</label>
+        <label><input type="radio" name="q32" value="b"> always reduce noise</label>
+        <label><input type="radio" name="q32" value="c"> lock the gears together</label>
+        <label><input type="radio" name="q32" value="d"> improve bearing life</label>
+      </div>
+
+      <div class="question">
+        <p><strong>End play in a gear shaft refers to:</strong></p>
+        <label><input type="radio" name="q33" value="a"> axial movement of the shaft within its bearings</label>
+        <label><input type="radio" name="q33" value="b"> radial clearance between teeth</label>
+        <label><input type="radio" name="q33" value="c"> torsional twist of the shaft</label>
+        <label><input type="radio" name="q33" value="d"> bending of the gear teeth</label>
+      </div>
+
+      <div class="question">
+        <p><strong>End play that is too great can:</strong></p>
+        <label><input type="radio" name="q34" value="a"> affect gear mesh position, noise and wear patterns</label>
+        <label><input type="radio" name="q34" value="b"> improve alignment automatically</label>
+        <label><input type="radio" name="q34" value="c"> reduce thermal expansion effects</label>
+        <label><input type="radio" name="q34" value="d"> never cause problems</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Proper gear mesh requires:</strong></p>
+        <label><input type="radio" name="q35" value="a"> correct centre distance, backlash and alignment</label>
+        <label><input type="radio" name="q35" value="b"> only large tooth counts</label>
+        <label><input type="radio" name="q35" value="c"> very soft materials</label>
+        <label><input type="radio" name="q35" value="d"> running dry without lubrication</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a compound train, the overall ratio is found by:</strong></p>
+        <label><input type="radio" name="q36" value="a"> multiplying the individual gear pair ratios together</label>
+        <label><input type="radio" name="q36" value="b"> adding all teeth and dividing by number of shafts</label>
+        <label><input type="radio" name="q36" value="c"> adding the individual ratios together</label>
+        <label><input type="radio" name="q36" value="d"> multiplying tooth counts on all idlers only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When replacing a gearbox, the ILM stresses confirming:</strong></p>
+        <label><input type="radio" name="q37" value="a"> that the output shaft direction of rotation matches the original</label>
+        <label><input type="radio" name="q37" value="b"> only the paint colour and mounting bolt size</label>
+        <label><input type="radio" name="q37" value="c"> the number of drain plugs</label>
+        <label><input type="radio" name="q37" value="d"> the type of lubricant in the old unit</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A 4:1 gear ratio used between engine and drive wheels will:</strong></p>
+        <label><input type="radio" name="q38" value="a"> multiply engine torque at the wheels by four (neglecting losses)</label>
+        <label><input type="radio" name="q38" value="b"> reduce torque to one quarter at the wheels</label>
+        <label><input type="radio" name="q38" value="c"> have no effect on torque</label>
+        <label><input type="radio" name="q38" value="d"> only change direction, not torque</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Very large single-stage gear ratios are usually avoided because:</strong></p>
+        <label><input type="radio" name="q39" value="a"> the large driven gear becomes impractically large and costly</label>
+        <label><input type="radio" name="q39" value="b"> they always run silently</label>
+        <label><input type="radio" name="q39" value="c"> they eliminate the need for bearings</label>
+        <label><input type="radio" name="q39" value="d"> they remove all backlash</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In precision indexing equipment, gears are selected for:</strong></p>
+        <label><input type="radio" name="q40" value="a"> minimum backlash and accurate ratio control</label>
+        <label><input type="radio" name="q40" value="b"> maximum noise for operator feedback</label>
+        <label><input type="radio" name="q40" value="c"> very high slip</label>
+        <label><input type="radio" name="q40" value="d"> use without lubrication</label>
       </div>
 
       <div class="exam-actions">
@@ -275,42 +342,52 @@
           <span>Submit Answers</span>
         </button>
       </div>
-
       <div id="result-banner" class="result-banner"></div>
     </form>
   </main>
-
   <script>
     window.ANSWERS = {
-      q1: 'b',
-      q2: 'a',
-      q3: 'b',
-      q4: 'c',
-      q5: 'c',
-      q6: 'b',
-      q7: 'c',
-      q8: 'c',
-      q9: 'b',
-      q10: 'b',
-      q11: 'a',
-      q12: 'b',
-      q13: 'a',
-      q14: 'c',
-      q15: 'b',
-      q16: 'b',
-      q17: 'b',
-      q18: 'a',
-      q19: 'b',
-      q20: 'b',
-      q21: 'a',
-      q22: 'b',
-      q23: 'a',
-      q24: 'c',
-      q25: 'b',
-      q26: 'b',
-      q27: 'a',
-      q28: 'c'
-    };
+  "q1": "a",
+  "q2": "a",
+  "q3": "a",
+  "q4": "a",
+  "q5": "a",
+  "q6": "a",
+  "q7": "a",
+  "q8": "a",
+  "q9": "a",
+  "q10": "a",
+  "q11": "a",
+  "q12": "a",
+  "q13": "a",
+  "q14": "a",
+  "q15": "a",
+  "q16": "a",
+  "q17": "a",
+  "q18": "a",
+  "q19": "a",
+  "q20": "a",
+  "q21": "a",
+  "q22": "a",
+  "q23": "a",
+  "q24": "a",
+  "q25": "a",
+  "q26": "a",
+  "q27": "a",
+  "q28": "a",
+  "q29": "a",
+  "q30": "a",
+  "q31": "a",
+  "q32": "a",
+  "q33": "a",
+  "q34": "a",
+  "q35": "a",
+  "q36": "a",
+  "q37": "a",
+  "q38": "a",
+  "q39": "a",
+  "q40": "a"
+};
   </script>
   <script src="../script.js"></script>
 </body>
