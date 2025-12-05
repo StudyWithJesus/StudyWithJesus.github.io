@@ -4,6 +4,7 @@
 // - Autosave answers
 // - Submit / Retake / Review wrong answers
 // - Last score per exam (ILM) for index pages
+// - Question slide-in reveal
 // =====================================================
 
 // Run immediately on load (handles scripts at bottom of body)
@@ -35,6 +36,9 @@ function initExamPage() {
   const submitBtn = document.getElementById("submit-btn");
   let resultBanner = document.getElementById("result-banner");
 
+  // Slide-in reveal when questions enter the viewport
+  initQuestionReveal(questions);
+
   // Ensure result banner exists
   if (!resultBanner) {
     resultBanner = document.createElement("div");
@@ -48,8 +52,9 @@ function initExamPage() {
   if (!actions) {
     actions = document.createElement("div");
     actions.className = "exam-actions";
-    form.appendChild(actions);
   }
+  // Always keep the actions bar at the very bottom of the form
+  form.appendChild(actions);
 
   // if submit button not inside actions, move it
   if (submitBtn && submitBtn.parentElement !== actions) {
@@ -386,4 +391,32 @@ function initExamIndexScores() {
     span.textContent =
       (score != null && !Number.isNaN(score)) ? `${score}%` : "No attempts yet";
   });
+}
+
+// ----------------------
+// Question reveal animation
+// ----------------------
+function initQuestionReveal(questions) {
+  if (!questions || !questions.length) return;
+
+  // If IntersectionObserver isn't supported, just show them
+  if (!("IntersectionObserver" in window)) {
+    questions.forEach(q => q.classList.add("animate-in"));
+    return;
+  }
+
+  questions.forEach(q => q.classList.add("animate-ready"));
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("animate-in");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.15
+  });
+
+  questions.forEach(q => observer.observe(q));
 }
