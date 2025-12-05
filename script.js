@@ -12,7 +12,7 @@ function initExamLogic() {
   const progressFill = document.querySelector(".exam-progress-fill");
   const progressText = document.querySelector(".exam-progress-text");
   const submitBtn = document.getElementById("submit-btn");
-  const retakeBtn = document.querySelector("#retake-btn, #reset-btn");
+  const retakeBtnEls = document.querySelectorAll("#retake-btn, #reset-btn, #resetButton, [data-role='retake']");
   const reviewBtn = document.getElementById("review-btn");
   const resultBanner = document.getElementById("result-banner");
 
@@ -50,35 +50,56 @@ function initExamLogic() {
       }
       document.body.classList.remove("review-mode");
       window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // Persist last score for this specific exam
       try {
         localStorage.setItem(examKey + ":lastScore", String(score));
+      } catch {}
+
+      // Also store a module-level score so the main page can show it
+      try {
+        const match = window.location.pathname.match(/(27020[1-4])/);
+        if (match) {
+          const moduleId = match[1];
+          const moduleKey = "moduleScore:" + moduleId;
+          localStorage.setItem(moduleKey, String(score));
+        }
       } catch {}
     });
   }
 
-  if (retakeBtn) {
-    retakeBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      questions.forEach(q => {
-        q.classList.remove("correct", "incorrect", "answered");
-        q.querySelectorAll("label").forEach(label => {
-          label.classList.remove("correct", "incorrect");
+  if (retakeBtnEls && retakeBtnEls.length) {
+    retakeBtnEls.forEach((retakeBtn) => {
+      retakeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        questions.forEach(q => {
+          q.classList.remove("correct", "incorrect", "answered");
+          q.querySelectorAll("label").forEach(label => {
+            label.classList.remove("correct", "incorrect");
+          });
+          q.querySelectorAll('input[type="radio"]').forEach(input => {
+            input.checked = false;
+          });
         });
-        q.querySelectorAll('input[type="radio"]').forEach(input => {
-          input.checked = false;
-        });
+        if (resultBanner) {
+          resultBanner.classList.remove("visible");
+          resultBanner.textContent = "";
+        }
+        document.body.classList.remove("review-mode");
+
+        // Re-shuffle on retake if enabled
+        if (form.dataset.shuffle === "true") {
+          const qs = Array.from(form.querySelectorAll(".question"));
+          shuffleQuestions(form, qs);
+        }
+
+        updateProgress(questions, progressFill, progressText);
+        try {
+          localStorage.removeItem(examKey);
+          localStorage.removeItem(examKey + ":lastScore");
+        } catch {}
+        window.scrollTo({ top: 0, behavior: "smooth" });
       });
-      if (resultBanner) {
-        resultBanner.classList.remove("visible");
-        resultBanner.textContent = "";
-      }
-      document.body.classList.remove("review-mode");
-      updateProgress(questions, progressFill, progressText);
-      try {
-        localStorage.removeItem(examKey);
-        localStorage.removeItem(examKey + ":lastScore");
-      } catch {}
-      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
 
@@ -260,4 +281,24 @@ function initHeaderParallax() {
       applyParallax(xPercent, yPercent);
     });
   }
+}
+
+
+/* ===== Module last-score display on main page ===== */
+document.addEventListener("DOMContentLoaded", initModuleScoresMainPage);
+
+function initModuleScoresMainPage() {
+  const cards = document.querySelectorAll(".module-card[data-module-id]");
+  if (!cards.length) return;
+  cards.forEach(card => {
+    const moduleId = card.getAttribute("data-module-id");
+    const span = card.querySelector('[data-module-score]');
+    if (!moduleId || !span) return;
+    let score = null;
+    try {
+      const stored = localStorage.getItem("moduleScore:" + moduleId);
+      if (stored != null) score = parseInt(stored, 10);
+    } catch {}
+    span.textContent = (score != null && !Number.isNaN(score)) ? `${score}%` : "No attempts yet";
+  });
 }
