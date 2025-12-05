@@ -49,6 +49,22 @@ a:hover {
   min-height: 260px;
 }
 
+/* Home page gets a brighter, moving banner */
+.home-page .site-header {
+  background-image:
+    linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.88)),
+    url("banner-creation-of-adam.jpg");
+  background-position: center top;
+  animation: heroDrift 26s ease-in-out infinite alternate;
+}
+
+/* gentle vertical drift of the artwork */
+@keyframes heroDrift {
+  0%   { background-position: center top; }
+  50%  { background-position: center -24px; }
+  100% { background-position: center -42px; }
+}
+
 .header-fog,
 .header-particles {
   position: absolute;
@@ -120,7 +136,7 @@ a:hover {
 
 /* ===== Progress bar ===== */
 .exam-progress {
-  position: fixed;
+  position: sticky;  /* was fixed – now sticks once you scroll to it */
   top: 0;
   left: 0;
   right: 0;
@@ -133,6 +149,7 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  margin-top: 0.75rem; /* ensures it sits below the header, no overlap */
 }
 
 .exam-progress-bar {
@@ -316,7 +333,7 @@ a:hover {
   box-shadow: 0 0 12px rgba(255,75,75,0.7);
 }
 
-.question label.correct {
+.question.label-correct label.correct {
   background: rgba(62,232,123,0.22);
   color: #eafff2;
   box-shadow: 0 0 12px rgba(62,232,123,0.8);
