@@ -2,10 +2,7 @@
  * Leaderboard Firebase Integration
  * 
  * This module provides Firebase/Firestore integration for the leaderboard feature.
- * It requires the Firebase SDK to be loaded and configured.
- * 
- * IMPORTANT: Do not commit real Firebase credentials.
- * See config/firebase.config.js.example for configuration instructions.
+ * It uses the modular Firebase SDK (v12.6.0+) with ES module imports.
  * 
  * Firestore Collections:
  * - users: User profiles (username, created date, settings)
@@ -20,8 +17,13 @@
 
   // Module state
   var initialized = false;
+  var app = null;
   var db = null;
   var auth = null;
+  var analytics = null;
+
+  // Firebase SDK modules (loaded dynamically)
+  var firebaseModules = {};
 
   /**
    * Initialize Firebase connection
@@ -30,12 +32,6 @@
    */
   async function initialize() {
     if (initialized) return true;
-
-    // Check for Firebase SDK
-    if (typeof firebase === 'undefined') {
-      console.error('Firebase SDK not loaded. Include Firebase scripts in your HTML.');
-      return false;
-    }
 
     // Check for configuration
     var config = window.FIREBASE_CONFIG;
@@ -46,15 +42,37 @@
     }
 
     try {
+      // Dynamically import Firebase modules
+      const { initializeApp, getApps, getApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
+      const { getFirestore, collection, doc, getDoc, getDocs, addDoc, query, where, orderBy, limit, startAfter, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js');
+      const { getAuth, signInWithEmailAndPassword, signOut: firebaseSignOut, onAuthStateChanged: firebaseOnAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js');
+      const { getAnalytics } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js');
+
+      // Store module references for later use
+      firebaseModules = {
+        collection, doc, getDoc, getDocs, addDoc, query, where, orderBy, limit, startAfter, serverTimestamp,
+        signInWithEmailAndPassword, firebaseSignOut, firebaseOnAuthStateChanged
+      };
+
       // Initialize Firebase app if not already initialized
-      if (!firebase.apps.length) {
-        firebase.initializeApp(config);
+      if (getApps().length === 0) {
+        app = initializeApp(config);
+      } else {
+        app = getApp();
       }
 
-      db = firebase.firestore();
-      auth = firebase.auth();
+      db = getFirestore(app);
+      auth = getAuth(app);
+      
+      // Initialize Analytics (optional, may fail in some environments)
+      try {
+        analytics = getAnalytics(app);
+      } catch (e) {
+        console.info('Analytics not available:', e.message);
+      }
+
       initialized = true;
-      console.info('Firebase initialized successfully');
+      console.info('Firebase initialized successfully with modular SDK');
       return true;
     } catch (error) {
       console.error('Failed to initialize Firebase:', error);
@@ -65,27 +83,28 @@
   /**
    * Get leaderboard entries for a module
    * @param {string} moduleId - Module ID
-   * @param {number} limit - Maximum entries to return
+   * @param {number} limitNum - Maximum entries to return
    * @returns {Promise<Array>} - Leaderboard entries
    */
-  async function getLeaderboard(moduleId, limit) {
+  async function getLeaderboard(moduleId, limitNum) {
     if (!await initialize()) {
       return [];
     }
 
-    limit = limit || 10;
+    limitNum = limitNum || 10;
+    const { doc, getDoc } = firebaseModules;
 
     try {
       // Try materialized leaderboard first (faster, updated by Cloud Functions)
-      var leaderboardDoc = await db.collection('leaderboard').doc(moduleId).get();
+      var leaderboardDoc = await getDoc(doc(db, 'leaderboard', moduleId));
       
-      if (leaderboardDoc.exists) {
+      if (leaderboardDoc.exists()) {
         var data = leaderboardDoc.data();
-        return (data.entries || []).slice(0, limit);
+        return (data.entries || []).slice(0, limitNum);
       }
 
       // Fallback: Aggregate from attempts collection (slower, but works without Cloud Functions)
-      return await aggregateLeaderboard(moduleId, limit);
+      return await aggregateLeaderboard(moduleId, limitNum);
     } catch (error) {
       console.error('Failed to fetch leaderboard:', error);
       return [];
@@ -98,23 +117,27 @@
    * NOTE: For production, implement server-side aggregation via Cloud Functions
    * to avoid high document read costs and improve performance.
    * @param {string} moduleId - Module ID
-   * @param {number} limit - Maximum entries
+   * @param {number} limitNum - Maximum entries
    * @returns {Promise<Array>} - Aggregated leaderboard
    */
-  async function aggregateLeaderboard(moduleId, limit) {
+  async function aggregateLeaderboard(moduleId, limitNum) {
+    const { collection, query, where, orderBy, limit, getDocs } = firebaseModules;
+    
     try {
       // Get recent attempts for this module, ordered by score
       // Limited to 100 to reduce Firestore costs; use Cloud Functions for full aggregation
-      var attemptsQuery = await db.collection('attempts')
-        .where('moduleId', '==', moduleId)
-        .orderBy('score', 'desc')
-        .limit(100)
-        .get();
+      var attemptsQuery = query(
+        collection(db, 'attempts'),
+        where('moduleId', '==', moduleId),
+        orderBy('score', 'desc'),
+        limit(100)
+      );
+      var attemptsSnapshot = await getDocs(attemptsQuery);
 
       // Aggregate by user
       var userStats = {};
-      attemptsQuery.forEach(function(doc) {
-        var attempt = doc.data();
+      attemptsSnapshot.forEach(function(docSnap) {
+        var attempt = docSnap.data();
         var username = attempt.username;
         
         if (!userStats[username]) {
@@ -139,7 +162,7 @@
       var entries = Object.values(userStats);
       entries.sort(function(a, b) { return b.bestScore - a.bestScore; });
       
-      return entries.slice(0, limit);
+      return entries.slice(0, limitNum);
     } catch (error) {
       console.error('Failed to aggregate leaderboard:', error);
       return [];
@@ -162,6 +185,8 @@
       throw new Error('Invalid attempt data');
     }
 
+    const { collection, addDoc, serverTimestamp } = firebaseModules;
+
     // Sanitize data
     var sanitizedAttempt = {
       username: String(attempt.username).substring(0, 30),
@@ -169,7 +194,7 @@
       examId: String(attempt.examId),
       score: Math.max(0, Math.min(100, Math.round(attempt.score))),
       timestamp: attempt.timestamp || new Date().toISOString(),
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      createdAt: serverTimestamp()
     };
 
     // Add user ID if authenticated
@@ -178,7 +203,7 @@
     }
 
     try {
-      var docRef = await db.collection('attempts').add(sanitizedAttempt);
+      var docRef = await addDoc(collection(db, 'attempts'), sanitizedAttempt);
       console.info('Attempt submitted:', docRef.id);
       return docRef.id;
     } catch (error) {
@@ -190,27 +215,30 @@
   /**
    * Get user's attempt history
    * @param {string} username - Username to look up
-   * @param {number} limit - Maximum attempts to return
+   * @param {number} limitNum - Maximum attempts to return
    * @returns {Promise<Array>} - User's attempts
    */
-  async function getUserAttempts(username, limit) {
+  async function getUserAttempts(username, limitNum) {
     if (!await initialize()) {
       return [];
     }
 
-    limit = limit || 50;
+    limitNum = limitNum || 50;
+    const { collection, query, where, orderBy, limit, getDocs } = firebaseModules;
 
     try {
-      var query = await db.collection('attempts')
-        .where('username', '==', username)
-        .orderBy('timestamp', 'desc')
-        .limit(limit)
-        .get();
+      var attemptsQuery = query(
+        collection(db, 'attempts'),
+        where('username', '==', username),
+        orderBy('timestamp', 'desc'),
+        limit(limitNum)
+      );
+      var snapshot = await getDocs(attemptsQuery);
 
       var attempts = [];
-      query.forEach(function(doc) {
-        var data = doc.data();
-        data.id = doc.id;
+      snapshot.forEach(function(docSnap) {
+        var data = docSnap.data();
+        data.id = docSnap.id;
         attempts.push(data);
       });
 
@@ -255,8 +283,10 @@
       throw new Error('Firebase not initialized');
     }
 
+    const { signInWithEmailAndPassword } = firebaseModules;
+
     try {
-      var result = await auth.signInWithEmailAndPassword(email, password);
+      var result = await signInWithEmailAndPassword(auth, email, password);
       return result.user;
     } catch (error) {
       console.error('Sign in failed:', error);
@@ -273,8 +303,10 @@
       return;
     }
 
+    const { firebaseSignOut } = firebaseModules;
+
     try {
-      await auth.signOut();
+      await firebaseSignOut(auth);
     } catch (error) {
       console.error('Sign out failed:', error);
     }
@@ -298,7 +330,7 @@
       console.warn('Firebase auth not initialized');
       return function() {};
     }
-    return auth.onAuthStateChanged(callback);
+    return firebaseModules.firebaseOnAuthStateChanged(auth, callback);
   }
 
   // Admin-only functions
@@ -317,18 +349,22 @@
       return [];
     }
 
+    const { collection, query, orderBy, limit, getDocs } = firebaseModules;
+
     try {
       // Aggregate user stats from recent attempts
       // NOTE: For production with many users, implement pagination or
       // server-side aggregation via Cloud Functions to reduce costs
-      var attemptsQuery = await db.collection('attempts')
-        .orderBy('timestamp', 'desc')
-        .limit(200)
-        .get();
+      var attemptsQuery = query(
+        collection(db, 'attempts'),
+        orderBy('timestamp', 'desc'),
+        limit(200)
+      );
+      var snapshot = await getDocs(attemptsQuery);
 
       var userStats = {};
-      attemptsQuery.forEach(function(doc) {
-        var attempt = doc.data();
+      snapshot.forEach(function(docSnap) {
+        var attempt = docSnap.data();
         var username = attempt.username;
         
         if (!userStats[username]) {
@@ -385,32 +421,36 @@
     }
 
     options = options || {};
-    var limit = options.limit || 50;
+    var limitNum = options.limit || 50;
+    const { collection, query, where, orderBy, limit, getDocs, startAfter } = firebaseModules;
 
     try {
-      var query = db.collection('attempts')
-        .orderBy('timestamp', 'desc')
-        .limit(limit);
+      // Build query constraints
+      var constraints = [
+        orderBy('timestamp', 'desc'),
+        limit(limitNum)
+      ];
 
       if (options.username) {
-        query = query.where('username', '==', options.username);
+        constraints.unshift(where('username', '==', options.username));
       }
       if (options.moduleId) {
-        query = query.where('moduleId', '==', options.moduleId);
+        constraints.unshift(where('moduleId', '==', options.moduleId));
       }
       if (options.startAfter) {
-        query = query.startAfter(options.startAfter);
+        constraints.push(startAfter(options.startAfter));
       }
 
-      var snapshot = await query.get();
+      var attemptsQuery = query(collection(db, 'attempts'), ...constraints);
+      var snapshot = await getDocs(attemptsQuery);
       var attempts = [];
       var lastDoc = null;
 
-      snapshot.forEach(function(doc) {
-        var data = doc.data();
-        data.id = doc.id;
+      snapshot.forEach(function(docSnap) {
+        var data = docSnap.data();
+        data.id = docSnap.id;
         attempts.push(data);
-        lastDoc = doc;
+        lastDoc = docSnap;
       });
 
       return { attempts: attempts, lastDoc: lastDoc };

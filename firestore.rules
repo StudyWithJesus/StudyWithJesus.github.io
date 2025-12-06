@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check admin claim
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // Attempts collection
+    match /attempts/{attemptId} {
+      // Anyone can create an attempt (with validation)
+      allow create: if 
+        request.resource.data.username is string &&
+        request.resource.data.username.size() <= 30 &&
+        request.resource.data.moduleId is string &&
+        request.resource.data.examId is string &&
+        request.resource.data.score is number &&
+        request.resource.data.score >= 0 &&
+        request.resource.data.score <= 100;
+      
+      // Only admins can read individual attempts
+      allow read: if isAdmin();
+      
+      // No updates or deletes from client
+      allow update, delete: if false;
+    }
+    
+    // Leaderboard collection (read-only, updated by Cloud Functions)
+    match /leaderboard/{moduleId} {
+      // Anyone can read leaderboard
+      allow read: if true;
+      
+      // Only Cloud Functions can write (admin SDK bypasses rules)
+      allow write: if false;
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      // Users can read their own data
+      allow read: if request.auth != null && request.auth.uid == userId;
+      
+      // Admins can read all users
+      allow read: if isAdmin();
+      
+      // Only Cloud Functions manage user creation
+      allow write: if false;
+    }
+    
+    // Admin logs collection (write from Cloud Functions only)
+    match /admin_logs/{logId} {
+      // Only admins can read logs
+      allow read: if isAdmin();
+      
+      // No client writes
+      allow write: if false;
+    }
+  }
+}
