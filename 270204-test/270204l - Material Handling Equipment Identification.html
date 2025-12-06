@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>270204l - Material Handling Equipment Identification Practice Exam</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="exam-common.js"></script>
+</head>
+<body>
+  <div id="banner">
+    <h1>NAIT Parts Technician - 270204l - Material Handling Equipment Identification</h1>
+    <p>270204l - Material Handling Equipment Identification</p>
+  </div>
+
+  <div id="top-controls">
+    <button id="btnStart">Start Exam</button>
+    <button id="btnReset">Reset</button>
+  </div>
+
+  <div id="progress-container">
+    <div id="progress-bar"></div>
+    <span id="progress-text">0 / 40</span>
+  </div>
+
+  <div id="question-container">
+    <div class="question" data-question="1">
+      <p>1. Material handling equipment is used primarily to:</p>
+      <label><input type="radio" name="q1" value="A"> A. Control engine operation</label>
+      <label><input type="radio" name="q1" value="B"> B. Move, lift, store and control materials within a facility</label>
+      <label><input type="radio" name="q1" value="C"> C. Replace lighting circuits</label>
+      <label><input type="radio" name="q1" value="D"> D. Adjust building temperature</label>
+    </div>
+    <div class="question" data-question="2">
+      <p>2. Conveyors are best described as:</p>
+      <label><input type="radio" name="q2" value="A"> A. Mobile lifting devices</label>
+      <label><input type="radio" name="q2" value="B"> B. Fixed or portable systems that move materials from one point to another</label>
+      <label><input type="radio" name="q2" value="C"> C. Only storage racks</label>
+      <label><input type="radio" name="q2" value="D"> D. Personal lifting platforms</label>
+    </div>
+    <div class="question" data-question="3">
+      <p>3. A roller conveyor moves goods by:</p>
+      <label><input type="radio" name="q3" value="A"> A. Suspending them in air</label>
+      <label><input type="radio" name="q3" value="B"> B. Rolling items over a series of parallel rollers, either gravity or powered</label>
+      <label><input type="radio" name="q3" value="C"> C. Using belts only</label>
+      <label><input type="radio" name="q3" value="D"> D. Using hydraulic cylinders</label>
+    </div>
+    <div class="question" data-question="4">
+      <p>4. Belt conveyors are commonly used to:</p>
+      <label><input type="radio" name="q4" value="A"> A. Store pallets vertically</label>
+      <label><input type="radio" name="q4" value="B"> B. Move bulk materials or packages on a continuous belt</label>
+      <label><input type="radio" name="q4" value="C"> C. Lift workers to overhead work</label>
+      <label><input type="radio" name="q4" value="D"> D. Park vehicles</label>
+    </div>
+    <div class="question" data-question="5">
+      <p>5. Screw conveyors are most suitable for:</p>
+      <label><input type="radio" name="q5" value="A"> A. Long pallets</label>
+      <label><input type="radio" name="q5" value="B"> B. Granular or powdered materials in enclosed troughs</label>
+      <label><input type="radio" name="q5" value="C"> C. Moving people</label>
+      <label><input type="radio" name="q5" value="D"> D. Storing tools</label>
+    </div>
+    <div class="question" data-question="6">
+      <p>6. Pallet racking systems are designed to:</p>
+      <label><input type="radio" name="q6" value="A"> A. Support roof structures</label>
+      <label><input type="radio" name="q6" value="B"> B. Store palletized loads in vertical and horizontal arrangements</label>
+      <label><input type="radio" name="q6" value="C"> C. Move goods without forklifts</label>
+      <label><input type="radio" name="q6" value="D"> D. Store liquids only</label>
+    </div>
+    <div class="question" data-question="7">
+      <p>7. Selective pallet racking allows:</p>
+      <label><input type="radio" name="q7" value="A"> A. Access only to the first pallet loaded</label>
+      <label><input type="radio" name="q7" value="B"> B. Each pallet to be accessed directly without moving others</label>
+      <label><input type="radio" name="q7" value="C"> C. No access with forklifts</label>
+      <label><input type="radio" name="q7" value="D"> D. Storage of loose grain only</label>
+    </div>
+    <div class="question" data-question="8">
+      <p>8. Drive-in or drive-through racking differs from selective racking because it:</p>
+      <label><input type="radio" name="q8" value="A"> A. Provides individual access to each pallet</label>
+      <label><input type="radio" name="q8" value="B"> B. Allows forklifts to drive into lanes, storing pallets in depth (often last-in, first-out)</label>
+      <label><input type="radio" name="q8" value="C"> C. Cannot support heavy pallets</label>
+      <label><input type="radio" name="q8" value="D"> D. Is used only for hand picking</label>
+    </div>
+    <div class="question" data-question="9">
+      <p>9. Cantilever racking is typically used for:</p>
+      <label><input type="radio" name="q9" value="A"> A. Small boxes</label>
+      <label><input type="radio" name="q9" value="B"> B. Long items such as pipe, lumber and structural steel</label>
+      <label><input type="radio" name="q9" value="C"> C. Bulk liquids</label>
+      <label><input type="radio" name="q9" value="D"> D. Only pallets of bagged product</label>
+    </div>
+    <div class="question" data-question="10">
+      <p>10. Hand pallet trucks (pump trucks) are used to:</p>
+      <label><input type="radio" name="q10" value="A"> A. Lift workers</label>
+      <label><input type="radio" name="q10" value="B"> B. Manually move palletized loads at floor level</label>
+      <label><input type="radio" name="q10" value="C"> C. Store pallets at height</label>
+      <label><input type="radio" name="q10" value="D"> D. Clean floors</label>
+    </div>
+    <div class="question" data-question="11">
+      <p>11. Scissor lift tables in material handling are designed to:</p>
+      <label><input type="radio" name="q11" value="A"> A. Store pallets</label>
+      <label><input type="radio" name="q11" value="B"> B. Raise and lower loads to improve ergonomics and reduce lifting</label>
+      <label><input type="radio" name="q11" value="C"> C. Move goods horizontally over long distances</label>
+      <label><input type="radio" name="q11" value="D"> D. Replace conveyors</label>
+    </div>
+    <div class="question" data-question="12">
+      <p>12. A jib crane is best described as:</p>
+      <label><input type="radio" name="q12" value="A"> A. A large overhead travelling crane covering an entire building</label>
+      <label><input type="radio" name="q12" value="B"> B. A small crane with a horizontal arm (jib) mounted to a wall or floor pillar</label>
+      <label><input type="radio" name="q12" value="C"> C. A mobile rough-terrain crane</label>
+      <label><input type="radio" name="q12" value="D"> D. A conveyor support</label>
+    </div>
+    <div class="question" data-question="13">
+      <p>13. Overhead bridge cranes typically consist of:</p>
+      <label><input type="radio" name="q13" value="A"> A. Forks and mast</label>
+      <label><input type="radio" name="q13" value="B"> B. Runway beams, bridge, trolley and hoist</label>
+      <label><input type="radio" name="q13" value="C"> C. Drive-in racks only</label>
+      <label><input type="radio" name="q13" value="D"> D. Hand trucks</label>
+    </div>
+    <div class="question" data-question="14">
+      <p>14. Hoists used with cranes may be powered by:</p>
+      <label><input type="radio" name="q14" value="A"> A. Human voice</label>
+      <label><input type="radio" name="q14" value="B"> B. Electric, pneumatic or manual chain/lever mechanisms</label>
+      <label><input type="radio" name="q14" value="C"> C. Only hydraulic cylinders</label>
+      <label><input type="radio" name="q14" value="D"> D. Solar panels only</label>
+    </div>
+    <div class="question" data-question="15">
+      <p>15. The rated load of a hoist or crane is:</p>
+      <label><input type="radio" name="q15" value="A"> A. The maximum safe working load that must not be exceeded</label>
+      <label><input type="radio" name="q15" value="B"> B. Twice the safe working load</label>
+      <label><input type="radio" name="q15" value="C"> C. Only a guideline</label>
+      <label><input type="radio" name="q15" value="D"> D. Unrelated to hook capacity</label>
+    </div>
+    <div class="question" data-question="16">
+      <p>16. Slings used for lifting can be made of:</p>
+      <label><input type="radio" name="q16" value="A"> A. Only cotton rope</label>
+      <label><input type="radio" name="q16" value="B"> B. Chain, wire rope, synthetic webbing or roundslings</label>
+      <label><input type="radio" name="q16" value="C"> C. Paper</label>
+      <label><input type="radio" name="q16" value="D"> D. Thin plastic film</label>
+    </div>
+    <div class="question" data-question="17">
+      <p>17. Working load limits (WLL) on slings depend on:</p>
+      <label><input type="radio" name="q17" value="A"> A. Colour alone</label>
+      <label><input type="radio" name="q17" value="B"> B. Material, size and configuration (vertical, choker or basket hitch)</label>
+      <label><input type="radio" name="q17" value="C"> C. Operator strength</label>
+      <label><input type="radio" name="q17" value="D"> D. Weather only</label>
+    </div>
+    <div class="question" data-question="18">
+      <p>18. Tag lines are used when lifting loads to:</p>
+      <label><input type="radio" name="q18" value="A"> A. Secure the sling to the hook</label>
+      <label><input type="radio" name="q18" value="B"> B. Allow workers to guide and control load swing from a safe distance</label>
+      <label><input type="radio" name="q18" value="C"> C. Measure load weight</label>
+      <label><input type="radio" name="q18" value="D"> D. Test sling strength</label>
+    </div>
+    <div class="question" data-question="19">
+      <p>19. Gravity flow racks are designed so that:</p>
+      <label><input type="radio" name="q19" value="A"> A. Product remains stationary</label>
+      <label><input type="radio" name="q19" value="B"> B. Product moves by gravity on rollers or wheels toward the picking face</label>
+      <label><input type="radio" name="q19" value="C"> C. Forklifts do not need brakes</label>
+      <label><input type="radio" name="q19" value="D"> D. Only empty pallets are stored</label>
+    </div>
+    <div class="question" data-question="20">
+      <p>20. Carousel storage systems provide:</p>
+      <label><input type="radio" name="q20" value="A"> A. Random placement with no control</label>
+      <label><input type="radio" name="q20" value="B"> B. Rotating shelves or carriers that bring items to the operator</label>
+      <label><input type="radio" name="q20" value="C"> C. Only floor storage</label>
+      <label><input type="radio" name="q20" value="D"> D. Outdoor bulk storage</label>
+    </div>
+    <div class="question" data-question="21">
+      <p>21. Bulk material handling equipment includes:</p>
+      <label><input type="radio" name="q21" value="A"> A. Only manual shovels</label>
+      <label><input type="radio" name="q21" value="B"> B. Bucket elevators, screw conveyors, belt conveyors and hoppers</label>
+      <label><input type="radio" name="q21" value="C"> C. Office chairs</label>
+      <label><input type="radio" name="q21" value="D"> D. Ladders only</label>
+    </div>
+    <div class="question" data-question="22">
+      <p>22. When selecting replacement rollers for a conveyor, key information includes:</p>
+      <label><input type="radio" name="q22" value="A"> A. Paint colour and logo</label>
+      <label><input type="radio" name="q22" value="B"> B. Length, diameter, bearing type and shaft configuration</label>
+      <label><input type="radio" name="q22" value="C"> C. Forklift capacity</label>
+      <label><input type="radio" name="q22" value="D"> D. Crane span</label>
+    </div>
+    <div class="question" data-question="23">
+      <p>23. Pallet stop bars at the end of rack beams are intended to:</p>
+      <label><input type="radio" name="q23" value="A"> A. Reduce rack capacity</label>
+      <label><input type="radio" name="q23" value="B"> B. Prevent pallets from being pushed off the back of the rack</label>
+      <label><input type="radio" name="q23" value="C"> C. Secure guardrails</label>
+      <label><input type="radio" name="q23" value="D"> D. Support lighting fixtures</label>
+    </div>
+    <div class="question" data-question="24">
+      <p>24. Guardrails and rack protectors are used in material handling areas to:</p>
+      <label><input type="radio" name="q24" value="A"> A. Decorate the facility</label>
+      <label><input type="radio" name="q24" value="B"> B. Protect racking, equipment and pedestrians from vehicle impact</label>
+      <label><input type="radio" name="q24" value="C"> C. Replace lighting</label>
+      <label><input type="radio" name="q24" value="D"> D. Increase forklift speed</label>
+    </div>
+    <div class="question" data-question="25">
+      <p>25. Ergonomic considerations in material handling aim to:</p>
+      <label><input type="radio" name="q25" value="A"> A. Increase manual lifting demands</label>
+      <label><input type="radio" name="q25" value="B"> B. Reduce strain, injuries and fatigue through proper equipment and layout</label>
+      <label><input type="radio" name="q25" value="C"> C. Ignore worker comfort</label>
+      <label><input type="radio" name="q25" value="D"> D. Increase walking distance</label>
+    </div>
+    <div class="question" data-question="26">
+      <p>26. Load rating plaques on racking systems show:</p>
+      <label><input type="radio" name="q26" value="A"> A. Employee work schedules</label>
+      <label><input type="radio" name="q26" value="B"> B. Maximum allowable load per level and per bay</label>
+      <label><input type="radio" name="q26" value="C"> C. Forklift service intervals</label>
+      <label><input type="radio" name="q26" value="D"> D. Only beam colour codes</label>
+    </div>
+    <div class="question" data-question="27">
+      <p>27. Portable gantry cranes are used when:</p>
+      <label><input type="radio" name="q27" value="A"> A. A permanent overhead crane is installed</label>
+      <label><input type="radio" name="q27" value="B"> B. A movable lifting frame with hoist is needed that can be relocated within the shop</label>
+      <label><input type="radio" name="q27" value="C"> C. Only manual lifting is allowed</label>
+      <label><input type="radio" name="q27" value="D"> D. Ladders are unavailable</label>
+    </div>
+    <div class="question" data-question="28">
+      <p>28. The ILM Material Handling Equipment module helps parts technicians:</p>
+      <label><input type="radio" name="q28" value="A"> A. Design new buildings</label>
+      <label><input type="radio" name="q28" value="B"> B. Recognize different material handling systems and specify suitable components and replacement parts</label>
+      <label><input type="radio" name="q28" value="C"> C. Repair electrical panels</label>
+      <label><input type="radio" name="q28" value="D"> D. Install air conditioning</label>
+    </div>
+    <div class="question" data-question="29">
+      <p>29. Load binders and tie-down chains used on trucks are examples of:</p>
+      <label><input type="radio" name="q29" value="A"> A. Personal protective equipment</label>
+      <label><input type="radio" name="q29" value="B"> B. Load securement devices used during transport</label>
+      <label><input type="radio" name="q29" value="C"> C. Lifting slings for overhead cranes</label>
+      <label><input type="radio" name="q29" value="D"> D. Conveyor components</label>
+    </div>
+    <div class="question" data-question="30">
+      <p>30. When using lifting magnets or vacuum lifters, the rated capacity assumes:</p>
+      <label><input type="radio" name="q30" value="A"> A. Any surface condition</label>
+      <label><input type="radio" name="q30" value="B"> B. Clean, flat contact surfaces and correct power supply</label>
+      <label><input type="radio" name="q30" value="C"> C. Damaged contact surfaces</label>
+      <label><input type="radio" name="q30" value="D"> D. Use with any material, including wood</label>
+    </div>
+    <div class="question" data-question="31">
+      <p>31. Stacker cranes in automated warehouses move:</p>
+      <label><input type="radio" name="q31" value="A"> A. Only workers</label>
+      <label><input type="radio" name="q31" value="B"> B. Pallets or containers vertically and horizontally within racking aisles</label>
+      <label><input type="radio" name="q31" value="C"> C. Only loose grain</label>
+      <label><input type="radio" name="q31" value="D"> D. Vehicles in parking garages</label>
+    </div>
+    <div class="question" data-question="32">
+      <p>32. Wire mesh decking in pallet racks is used to:</p>
+      <label><input type="radio" name="q32" value="A"> A. Reduce visibility</label>
+      <label><input type="radio" name="q32" value="B"> B. Support pallets and improve fire sprinkler penetration</label>
+      <label><input type="radio" name="q32" value="C"> C. Replace beams</label>
+      <label><input type="radio" name="q32" value="D"> D. Support conveyors</label>
+    </div>
+    <div class="question" data-question="33">
+      <p>33. Chain hoists require regular inspection of:</p>
+      <label><input type="radio" name="q33" value="A"> A. Only paint condition</label>
+      <label><input type="radio" name="q33" value="B"> B. Load chain, hooks, safety latches and brake operation</label>
+      <label><input type="radio" name="q33" value="C"> C. Rack beam colour</label>
+      <label><input type="radio" name="q33" value="D"> D. Office wiring</label>
+    </div>
+    <div class="question" data-question="34">
+      <p>34. Load testing of cranes and hoists is performed to:</p>
+      <label><input type="radio" name="q34" value="A"> A. Decorate equipment</label>
+      <label><input type="radio" name="q34" value="B"> B. Verify the system can safely handle its rated load under controlled conditions</label>
+      <label><input type="radio" name="q34" value="C"> C. Increase rated capacity permanently</label>
+      <label><input type="radio" name="q34" value="D"> D. Determine paint thickness</label>
+    </div>
+    <div class="question" data-question="35">
+      <p>35. Conveyor belt tracking adjustments are necessary so that:</p>
+      <label><input type="radio" name="q35" value="A"> A. Belts run off the pulleys</label>
+      <label><input type="radio" name="q35" value="B"> B. Belts stay centered on pulleys, reducing wear and spillage</label>
+      <label><input type="radio" name="q35" value="C"> C. Belts slip excessively</label>
+      <label><input type="radio" name="q35" value="D"> D. Product falls off intentionally</label>
+    </div>
+    <div class="question" data-question="36">
+      <p>36. Lift tables and dock levelers help to:</p>
+      <label><input type="radio" name="q36" value="A"> A. Increase door height only</label>
+      <label><input type="radio" name="q36" value="B"> B. Bridge height differences between docks, trucks and floors for safer loading</label>
+      <label><input type="radio" name="q36" value="C"> C. Store pallets vertically</label>
+      <label><input type="radio" name="q36" value="D"> D. Replace forklifts completely</label>
+    </div>
+    <div class="question" data-question="37">
+      <p>37. Common replacement items for material handling equipment include:</p>
+      <label><input type="radio" name="q37" value="A"> A. Only structural columns</label>
+      <label><input type="radio" name="q37" value="B"> B. Rollers, bearings, belts, casters, wheels, chains and safety labels</label>
+      <label><input type="radio" name="q37" value="C"> C. Roof panels</label>
+      <label><input type="radio" name="q37" value="D"> D. Office computers</label>
+    </div>
+    <div class="question" data-question="38">
+      <p>38. When ordering material handling components, accurate information includes:</p>
+      <label><input type="radio" name="q38" value="A"> A. Approximate size guessed by eye</label>
+      <label><input type="radio" name="q38" value="B"> B. Equipment type, manufacturer, model, dimensions and load rating requirements</label>
+      <label><input type="radio" name="q38" value="C"> C. Only the colour desired</label>
+      <label><input type="radio" name="q38" value="D"> D. Employee identification numbers</label>
+    </div>
+    <div class="question" data-question="39">
+      <p>39. Powered pallet stackers combine features of:</p>
+      <label><input type="radio" name="q39" value="A"> A. Hand trucks and conveyors</label>
+      <label><input type="radio" name="q39" value="B"> B. Pallet trucks and vertical lifting masts for stacking pallets at height</label>
+      <label><input type="radio" name="q39" value="C"> C. Cranes and forklifts</label>
+      <label><input type="radio" name="q39" value="D"> D. Scissor tables and screw conveyors</label>
+    </div>
+    <div class="question" data-question="40">
+      <p>40. According to good practice highlighted in the ILM, damaged or modified racking components should:</p>
+      <label><input type="radio" name="q40" value="A"> A. Be straightened on site and reused</label>
+      <label><input type="radio" name="q40" value="B"> B. Be removed from service and replaced with approved components from the manufacturer</label>
+      <label><input type="radio" name="q40" value="C"> C. Be painted to hide damage</label>
+      <label><input type="radio" name="q40" value="D"> D. Be loaded to lower capacity only without engineering review</label>
+    </div>
+  </div>
+
+  <div id="bottom-controls">
+    <button id="btnPrev">Previous</button>
+    <button id="btnNext">Next</button>
+    <button id="btnSubmit">Submit</button>
+  </div>
+
+  <script>
+    window.ANSWERS = {
+  "1": "B",
+  "2": "B",
+  "3": "B",
+  "4": "B",
+  "5": "B",
+  "6": "B",
+  "7": "B",
+  "8": "B",
+  "9": "B",
+  "10": "B",
+  "11": "B",
+  "12": "B",
+  "13": "B",
+  "14": "B",
+  "15": "A",
+  "16": "B",
+  "17": "B",
+  "18": "B",
+  "19": "B",
+  "20": "B",
+  "21": "B",
+  "22": "B",
+  "23": "B",
+  "24": "B",
+  "25": "B",
+  "26": "B",
+  "27": "B",
+  "28": "B",
+  "29": "B",
+  "30": "B",
+  "31": "B",
+  "32": "B",
+  "33": "B",
+  "34": "B",
+  "35": "B",
+  "36": "B",
+  "37": "B",
+  "38": "B",
+  "39": "B",
+  "40": "B"
+};
+  </script>
+</body>
+</html>
