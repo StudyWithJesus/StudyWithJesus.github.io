@@ -1,425 +1,599 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>270202a - Chains, Sprockets, Belts and Pulleys Practice Exam</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8" />
+  <title>Chains, Sprockets, Belts & Pulleys Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.5;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    fieldset {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 15px;
+      background: #fff;
+    }
+
+    legend {
+      font-weight: bold;
+      padding: 0 6px;
+    }
+
+    .options label {
+      display: block;
+      margin: 2px 0;
+      cursor: pointer;
+    }
+
+    button {
+      display: inline-block;
+      padding: 10px 18px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      background: #0077cc;
+      color: #fff;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #005fa3;
+    }
+
+    #results {
+      margin-top: 20px;
+      padding: 12px 16px;
+      border-radius: 6px;
+      background: #e8f5e9;
+      border: 1px solid #81c784;
+      font-weight: bold;
+    }
+
+    .feedback {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    .correct {
+      color: #2e7d32;
+    }
+
+    .incorrect {
+      color: #c62828;
+    }
+  </style>
 </head>
 <body>
+  <h1>Chains, Sprockets, Belts &amp; Pulleys Quiz</h1>
+  <p class="intro">
+    Select the best answer for each question, then click <strong>Submit Quiz</strong> to see your score.
+  </p>
 
-  <div id="loading-overlay">
-    <div class="spinner"></div>
-  </div>
-
-  <!-- Updated header class to use hero height -->
-  <header class="site-header site-header--hero">
-    <div class="header-fog"></div>
-    <div class="header-particles"></div>
-    <div class="header-content">
-      <h1>Chains, Sprockets, Belts and Pulleys</h1>
-      <p>Chains, Sprockets, Belts and Pulleys</p>
-    </div>
-  </header>
-
-  <div class="exam-progress">
-    <div class="exam-progress-bar">
-      <div id="exam-progress-fill" class="exam-progress-fill"></div>
-    </div>
-    <div id="exam-progress-text" class="exam-progress-text">
-      0 / 0 answered
-    </div>
-  </div>
-
-  <main class="page-content">
-    <div class="back-link">
-      <a href="index.html">&larr; Back to module 270202 test selection</a>
-    </div>
-
-    <section class="quiz-page-header">
-      <h2>Module 270202a &mdash; Chains, Sprockets, Belts and Pulleys</h2>
-      <p>
-        Focus: roller chains, sprockets, belt types, sheaves and basic drive ratios.
-      </p>
-    </section>
-
-    <form id="quiz-form" class="exam-form">
-
-      <div class="question">
-        <p><strong>A basic function of a power transmission chain is to:</strong></p>
-        <label><input type="radio" name="q1" value="a"> transmit power positively between shafts using toothed sprockets</label>
-        <label><input type="radio" name="q1" value="b"> replace the need for bearings</label>
-        <label><input type="radio" name="q1" value="c"> store hydraulic pressure</label>
-        <label><input type="radio" name="q1" value="d"> provide slip during overloads like a V-belt</label>
+  <form id="quizForm">
+    <!-- Q1 -->
+    <fieldset>
+      <legend>Q1</legend>
+      <p>According to the Roller Chain Numbering System, the pitch measurement for a chain is given in what fractional increment of an inch?</p>
+      <div class="options">
+        <label><input type="radio" name="q1" value="A"> 1/8</label>
+        <label><input type="radio" name="q1" value="B"> 1/4</label>
+        <label><input type="radio" name="q1" value="C"> 1/16</label>
+        <label><input type="radio" name="q1" value="D"> 1/2</label>
       </div>
+      <div class="feedback" id="fb-q1"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Compared with belt drives, chain drives:</strong></p>
-        <label><input type="radio" name="q2" value="a"> provide a positive, non-slip drive when properly tensioned</label>
-        <label><input type="radio" name="q2" value="b"> always slip under load to protect components</label>
-        <label><input type="radio" name="q2" value="c"> cannot be used on long centre distances</label>
-        <label><input type="radio" name="q2" value="d"> must always be enclosed in oil</label>
+    <!-- Q2 -->
+    <fieldset>
+      <legend>Q2</legend>
+      <p>What is the main structural reason why the use of a single pitch offset link should generally be avoided?</p>
+      <div class="options">
+        <label><input type="radio" name="q2" value="A"> It changes the length of the chain by two pitches, making tensioning difficult.</label>
+        <label><input type="radio" name="q2" value="B"> It requires a special slip-fit pin secured by a spring clip.</label>
+        <label><input type="radio" name="q2" value="C"> It is weaker than standard links, reducing the overall strength of the chain.</label>
+        <label><input type="radio" name="q2" value="D"> It provides full strength only if secured by a cotter pin.</label>
       </div>
+      <div class="feedback" id="fb-q2"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>The main components of a chain drive are:</strong></p>
-        <label><input type="radio" name="q3" value="a"> drive sprocket, driven sprocket, chain and often an idler sprocket</label>
-        <label><input type="radio" name="q3" value="b"> flywheel, clutch, and pressure plate</label>
-        <label><input type="radio" name="q3" value="c"> ring gear, pinion and carrier</label>
-        <label><input type="radio" name="q3" value="d"> pulley, key and taperlock hub</label>
+    <!-- Q3 -->
+    <fieldset>
+      <legend>Q3</legend>
+      <p>A standard roller chain (#80) requires a connecting link; what is the correct retainer device for this chain size?</p>
+      <div class="options">
+        <label><input type="radio" name="q3" value="A"> Spring clip retainer</label>
+        <label><input type="radio" name="q3" value="B"> Riveted pin</label>
+        <label><input type="radio" name="q3" value="C"> Pin link plate</label>
+        <label><input type="radio" name="q3" value="D"> Cotter pin</label>
       </div>
+      <div class="feedback" id="fb-q3"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Standard roller chain pitch is defined as:</strong></p>
-        <label><input type="radio" name="q4" value="a"> the distance between the centres of adjacent pins</label>
-        <label><input type="radio" name="q4" value="b"> the width between outer plates</label>
-        <label><input type="radio" name="q4" value="c"> the diameter of the rollers</label>
-        <label><input type="radio" name="q4" value="d"> the thickness of the side plates</label>
+    <!-- Q4 -->
+    <fieldset>
+      <legend>Q4</legend>
+      <p>Which chain is identified with a number ending in 0 in the numbering system and is considered the general-purpose chain standardized by ANSI?</p>
+      <div class="options">
+        <label><input type="radio" name="q4" value="A"> Lightweight chain</label>
+        <label><input type="radio" name="q4" value="B"> Double Pitch chain</label>
+        <label><input type="radio" name="q4" value="C"> Rollerless chain</label>
+        <label><input type="radio" name="q4" value="D"> Standard roller chain</label>
       </div>
+      <div class="feedback" id="fb-q4"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Chain width is measured as:</strong></p>
-        <label><input type="radio" name="q5" value="a"> the distance between the inside faces of the inner plates or roller link plates</label>
-        <label><input type="radio" name="q5" value="b"> overall width across the outer plates</label>
-        <label><input type="radio" name="q5" value="c"> shaft centre distance</label>
-        <label><input type="radio" name="q5" value="d"> roller diameter plus plate thickness</label>
+    <!-- Q5 -->
+    <fieldset>
+      <legend>Q5</legend>
+      <p>If the stretch of a roller chain due to wear is measured at 4%, what mandatory maintenance action must be taken?</p>
+      <div class="options">
+        <label><input type="radio" name="q5" value="A"> Add or remove links to change the centre distance.</label>
+        <label><input type="radio" name="q5" value="B"> Replace the chain.</label>
+        <label><input type="radio" name="q5" value="C"> Install an idler sprocket on the slack span.</label>
+        <label><input type="radio" name="q5" value="D"> Use a single pitch offset link to adjust the length by one pitch.</label>
       </div>
+      <div class="feedback" id="fb-q5"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>As roller chain wears in service, it:</strong></p>
-        <label><input type="radio" name="q6" value="a"> elongates as the pins and bushings wear</label>
-        <label><input type="radio" name="q6" value="b"> shrinks in length as rollers wear</label>
-        <label><input type="radio" name="q6" value="c"> increases in width only</label>
-        <label><input type="radio" name="q6" value="d"> loses rollers but not pitch length</label>
+    <!-- Q6 -->
+    <fieldset>
+      <legend>Q6</legend>
+      <p>If a standard roller chain drive has an even number of pitches, what must the sprocket configuration be to prevent a single link from contacting the same tooth each time?</p>
+      <div class="options">
+        <label><input type="radio" name="q6" value="A"> The sprockets must have an even number of teeth.</label>
+        <label><input type="radio" name="q6" value="B"> The sprockets must have an odd number of teeth.</label>
+        <label><input type="radio" name="q6" value="C"> The chain must be adjusted to have an odd number of pitches.</label>
+        <label><input type="radio" name="q6" value="D"> The chain must run on a double pitch sprocket.</label>
       </div>
+      <div class="feedback" id="fb-q6"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>The ILM states that roller chain should normally be replaced when stretch exceeds approximately:</strong></p>
-        <label><input type="radio" name="q7" value="a"> 2–3% of its original length</label>
-        <label><input type="radio" name="q7" value="b"> 0.5% of its original length</label>
-        <label><input type="radio" name="q7" value="c"> 10% of its original length</label>
-        <label><input type="radio" name="q7" value="d"> 25% of its original length</label>
+    <!-- Q7 -->
+    <fieldset>
+      <legend>Q7</legend>
+      <p>Heavy-duty chain (H series) has increased side plate thickness for what purpose, and how is its load capacity affected?</p>
+      <div class="options">
+        <label><input type="radio" name="q7" value="A"> To increase resistance to fatigue, but load capacity is not higher.</label>
+        <label><input type="radio" name="q7" value="B"> To handle heavy shock loads, providing 1.7 times stronger capacity.</label>
+        <label><input type="radio" name="q7" value="C"> To prevent pin movement, increasing both fatigue resistance and load capacity.</label>
+        <label><input type="radio" name="q7" value="D"> To achieve quieter operation, reducing the load capacity by 5%.</label>
       </div>
+      <div class="feedback" id="fb-q7"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>In a roller chain, the two basic link types are:</strong></p>
-        <label><input type="radio" name="q8" value="a"> roller links and pin links</label>
-        <label><input type="radio" name="q8" value="b"> drive links and slack links</label>
-        <label><input type="radio" name="q8" value="c"> idler links and master links only</label>
-        <label><input type="radio" name="q8" value="d"> spring links and cotter links</label>
+    <!-- Q8 -->
+    <fieldset>
+      <legend>Q8</legend>
+      <p>Based on the standardized numbering system, what is the pitch of a Silent Chain designated SC 1012?</p>
+      <div class="options">
+        <label><input type="radio" name="q8" value="A"> 1&frac12; inches</label>
+        <label><input type="radio" name="q8" value="B"> 1&frac14; inches</label>
+        <label><input type="radio" name="q8" value="C"> 2&frac14; inches</label>
+        <label><input type="radio" name="q8" value="D"> 3/4 inches</label>
       </div>
+      <div class="feedback" id="fb-q8"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>A connecting link (master link) is used to:</strong></p>
-        <label><input type="radio" name="q9" value="a"> join the ends of a chain to form a continuous loop</label>
-        <label><input type="radio" name="q9" value="b"> increase chain strength above standard</label>
-        <label><input type="radio" name="q9" value="c"> change chain pitch</label>
-        <label><input type="radio" name="q9" value="d"> lock a sprocket to its shaft</label>
+    <!-- Q9 -->
+    <fieldset>
+      <legend>Q9</legend>
+      <p>O-ring chains are used in dirty environments; what specific performance trade-off must be accepted for the resulting 10x longer life?</p>
+      <div class="options">
+        <label><input type="radio" name="q9" value="A"> The chain must operate at temperatures below 149&#8457; (65&#8451;).</label>
+        <label><input type="radio" name="q9" value="B"> The installation requires special sheaves for alignment.</label>
+        <label><input type="radio" name="q9" value="C"> The capacity of the chain is about 5% less than standard chain.</label>
+        <label><input type="radio" name="q9" value="D"> They are noisier than standard roller chains.</label>
       </div>
+      <div class="feedback" id="fb-q9"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Using a slip-fit connecting link instead of a press-fit type will:</strong></p>
-        <label><input type="radio" name="q10" value="a"> reduce working load capacity slightly and increase wear at that point</label>
-        <label><input type="radio" name="q10" value="b"> increase the chain's tensile strength</label>
-        <label><input type="radio" name="q10" value="c"> have no effect on service life</label>
-        <label><input type="radio" name="q10" value="d"> prevent the chain from flexing</label>
+    <!-- Q10 -->
+    <fieldset>
+      <legend>Q10</legend>
+      <p>A connecting link requires a press-fit side plate for assembly; how is this plate typically installed and what is the benefit?</p>
+      <div class="options">
+        <label><input type="radio" name="q10" value="A"> Easily installed or removed without force, but reduces working load capacity.</label>
+        <label><input type="radio" name="q10" value="B"> Secured by a spring clip retainer, allowing for frequent disassembly.</label>
+        <label><input type="radio" name="q10" value="C"> Secured by a cotter pin, increasing wear at the pin and side plate.</label>
+        <label><input type="radio" name="q10" value="D"> Driven on with a hammer and punch, without reducing working load capacity.</label>
       </div>
+      <div class="feedback" id="fb-q10"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>A single-pitch offset (half) link in a roller chain is primarily used to:</strong></p>
-        <label><input type="radio" name="q11" value="a"> adjust the chain by one pitch when other methods cannot achieve correct tension</label>
-        <label><input type="radio" name="q11" value="b"> increase the maximum horsepower rating</label>
-        <label><input type="radio" name="q11" value="c"> provide lubrication to the rollers</label>
-        <label><input type="radio" name="q11" value="d"> support idler sprockets</label>
+    <!-- Q11 -->
+    <fieldset>
+      <legend>Q11</legend>
+      <p>Which sprocket material is suitable for small to medium, or even large sprockets?</p>
+      <div class="options">
+        <label><input type="radio" name="q11" value="A"> Alloy cast iron</label>
+        <label><input type="radio" name="q11" value="B"> Hardened carbon steel</label>
+        <label><input type="radio" name="q11" value="C"> Medium carbon steel</label>
+        <label><input type="radio" name="q11" value="D"> Plastics</label>
       </div>
+      <div class="feedback" id="fb-q11"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Because a single-pitch offset link is weaker than standard links, the ILM recommends it:</strong></p>
-        <label><input type="radio" name="q12" value="a"> be avoided where possible in favour of a two-pitch offset link or full links</label>
-        <label><input type="radio" name="q12" value="b"> be used frequently to increase flexibility</label>
-        <label><input type="radio" name="q12" value="c"> replace every second standard link</label>
-        <label><input type="radio" name="q12" value="d"> only be installed at the sprocket mesh point</label>
+    <!-- Q12 -->
+    <fieldset>
+      <legend>Q12</legend>
+      <p>What specific structural difference defines a Double Strand (Multiple) Sprocket compared to a Double-Single Strand Sprocket?</p>
+      <div class="options">
+        <label><input type="radio" name="q12" value="A"> The Double Strand sprocket accommodates one drive chain and one or more driven chains.</label>
+        <label><input type="radio" name="q12" value="B"> The Double Strand sprocket is restricted to use with standard roller chain only.</label>
+        <label><input type="radio" name="q12" value="C"> The Double Strand sprocket has a narrow space for centre link plates.</label>
+        <label><input type="radio" name="q12" value="D"> The Double Strand sprocket is designed only for precise timing drives.</label>
       </div>
+      <div class="feedback" id="fb-q12"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>In the ANSI roller chain numbering system, the last digit '0' in a number such as 60 indicates:</strong></p>
-        <label><input type="radio" name="q13" value="a"> standard roller chain</label>
-        <label><input type="radio" name="q13" value="b"> lightweight roller chain</label>
-        <label><input type="radio" name="q13" value="c"> rollerless bushing chain</label>
-        <label><input type="radio" name="q13" value="d"> silent chain</label>
+    <!-- Q13 -->
+    <fieldset>
+      <legend>Q13</legend>
+      <p>Silent chain sprockets have teeth hardened for improved wear that match what specific tooth form?</p>
+      <div class="options">
+        <label><input type="radio" name="q13" value="A"> Gear tooth form</label>
+        <label><input type="radio" name="q13" value="B"> Duplex tooth form</label>
+        <label><input type="radio" name="q13" value="C"> Involute gear tooth form</label>
+        <label><input type="radio" name="q13" value="D"> Roller tooth form</label>
       </div>
+      <div class="feedback" id="fb-q13"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>In chain number 40, the '4' indicates:</strong></p>
-        <label><input type="radio" name="q14" value="a"> a pitch of 1/2 inch (four eighths, reduced)</label>
-        <label><input type="radio" name="q14" value="b"> a chain with four strands</label>
-        <label><input type="radio" name="q14" value="c"> forty links per metre</label>
-        <label><input type="radio" name="q14" value="d"> four millimetre roller diameter</label>
+    <!-- Q14 -->
+    <fieldset>
+      <legend>Q14</legend>
+      <p>Which sprocket hub style provides improved stability for the drive?</p>
+      <div class="options">
+        <label><input type="radio" name="q14" value="A"> Flat</label>
+        <label><input type="radio" name="q14" value="B"> Split</label>
+        <label><input type="radio" name="q14" value="C"> Offset to one side</label>
+        <label><input type="radio" name="q14" value="D"> Extended on both sides</label>
       </div>
+      <div class="feedback" id="fb-q14"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>A letter 'H' after an ANSI chain number (e.g., 60H) designates:</strong></p>
-        <label><input type="radio" name="q15" value="a"> heavy-duty chain with thicker side plates</label>
-        <label><input type="radio" name="q15" value="b"> hardened rollers only</label>
-        <label><input type="radio" name="q15" value="c"> high-speed only chain</label>
-        <label><input type="radio" name="q15" value="d"> hollow-pin construction</label>
+    <!-- Q15 -->
+    <fieldset>
+      <legend>Q15</legend>
+      <p>Besides square, hexagon, splined, or keyway, what is a method of securing sprockets to shafts that does not require the shaft to be removed?</p>
+      <div class="options">
+        <label><input type="radio" name="q15" value="A"> Using a shear pin</label>
+        <label><input type="radio" name="q15" value="B"> Using a cotter pin</label>
+        <label><input type="radio" name="q15" value="C"> Using an interference fit</label>
+        <label><input type="radio" name="q15" value="D"> Using a press-fit plate</label>
       </div>
+      <div class="feedback" id="fb-q15"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Multiple-strand roller chain is used when:</strong></p>
-        <label><input type="radio" name="q16" value="a"> loads and speeds are too great for a single-strand chain of a given pitch</label>
-        <label><input type="radio" name="q16" value="b"> shaft centres are too close together</label>
-        <label><input type="radio" name="q16" value="c"> lubrication is not possible</label>
-        <label><input type="radio" name="q16" value="d"> silent chain must be replaced</label>
+    <!-- Q16 -->
+    <fieldset>
+      <legend>Q16</legend>
+      <p>What two mechanisms transmit power in a V-belt drive?</p>
+      <div class="options">
+        <label><input type="radio" name="q16" value="A"> By friction between the sides of the belt/sheave groove, and by the tensile members.</label>
+        <label><input type="radio" name="q16" value="B"> By the cushion material and the cover, allowing the belt to absorb shock.</label>
+        <label><input type="radio" name="q16" value="C"> By the tensile members and the insulation, keeping the cords in line.</label>
+        <label><input type="radio" name="q16" value="D"> By the wedging action and friction at the bottom of the groove.</label>
       </div>
+      <div class="feedback" id="fb-q16"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>O-ring chain is designed to:</strong></p>
-        <label><input type="radio" name="q17" value="a"> retain lubricant at the pin–bushing area and exclude contaminants</label>
-        <label><input type="radio" name="q17" value="b"> eliminate the need for rollers</label>
-        <label><input type="radio" name="q17" value="c"> reduce pitch length</label>
-        <label><input type="radio" name="q17" value="d"> allow operation without lubrication of any kind</label>
+    <!-- Q17 -->
+    <fieldset>
+      <legend>Q17</legend>
+      <p>Which RMA storage guideline specifically addresses protecting V-belts from physical distortion?</p>
+      <div class="options">
+        <label><input type="radio" name="q17" value="A"> Protect the belt from long exposure to direct sunlight.</label>
+        <label><input type="radio" name="q17" value="B"> Always keep matched belt sets together.</label>
+        <label><input type="radio" name="q17" value="C"> Avoid bending the belt on anything with a diameter less than the smallest recommended pulley.</label>
+        <label><input type="radio" name="q17" value="D"> Relax the tension on belts left on idle equipment for long periods.</label>
       </div>
+      <div class="feedback" id="fb-q17"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Double-pitch roller chain differs from standard chain in that:</strong></p>
-        <label><input type="radio" name="q18" value="a"> its pitch is twice as long but roller and width dimensions are the same</label>
-        <label><input type="radio" name="q18" value="b"> its rollers are twice as large</label>
-        <label><input type="radio" name="q18" value="c"> it uses half as many plates across the width</label>
-        <label><input type="radio" name="q18" value="d"> it cannot run on standard sprockets</label>
+    <!-- Q18 -->
+    <fieldset>
+      <legend>Q18</legend>
+      <p>Why is the crowned pulley generally preferred over the flanged pulley design for flat belts?</p>
+      <div class="options">
+        <label><input type="radio" name="q18" value="A"> The flanged design is typically not crowned.</label>
+        <label><input type="radio" name="q18" value="B"> The crown causes bending stress in the belt.</label>
+        <label><input type="radio" name="q18" value="C"> Flanges can cause edge wear on the belt.</label>
+        <label><input type="radio" name="q18" value="D"> Flanges keep the belt from wandering off the pulley.</label>
       </div>
+      <div class="feedback" id="fb-q18"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Silent chain transmits power using:</strong></p>
-        <label><input type="radio" name="q19" value="a"> toothed link plates that mesh with specially formed sprocket teeth</label>
-        <label><input type="radio" name="q19" value="b"> rollers and bushings only</label>
-        <label><input type="radio" name="q19" value="c"> detachable plain links</label>
-        <label><input type="radio" name="q19" value="d"> pintles and paddles</label>
+    <!-- Q19 -->
+    <fieldset>
+      <legend>Q19</legend>
+      <p>What disadvantage of high-capacity V-belts is directly caused by their required higher tension?</p>
+      <div class="options">
+        <label><input type="radio" name="q19" value="A"> They are unsuitable for positive drive requirements.</label>
+        <label><input type="radio" name="q19" value="B"> They are not practical for high surface speeds.</label>
+        <label><input type="radio" name="q19" value="C"> They generate higher loads on bearings.</label>
+        <label><input type="radio" name="q19" value="D"> They have less ability to flex sideways than individual belts.</label>
       </div>
+      <div class="feedback" id="fb-q19"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>A common application for silent (timing) chain is:</strong></p>
-        <label><input type="radio" name="q20" value="a"> camshaft-to-crankshaft drives requiring accurate timing</label>
-        <label><input type="radio" name="q20" value="b"> agricultural manure spreaders only</label>
-        <label><input type="radio" name="q20" value="c"> elevator bucket drives</label>
-        <label><input type="radio" name="q20" value="d"> hand-operated hoists</label>
+    <!-- Q20 -->
+    <fieldset>
+      <legend>Q20</legend>
+      <p>What is a key limitation of link belts compared to endless V-belts?</p>
+      <div class="options">
+        <label><input type="radio" name="q20" value="A"> They are unsuitable for use as emergency replacements.</label>
+        <label><input type="radio" name="q20" value="B"> They do not have the same power rating and generate more vibration.</label>
+        <label><input type="radio" name="q20" value="C"> They must be used in conjunction with endless belts.</label>
+        <label><input type="radio" name="q20" value="D"> They require special sheaves for installation.</label>
       </div>
+      <div class="feedback" id="fb-q20"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Leaf chain is most often used for:</strong></p>
-        <label><input type="radio" name="q21" value="a"> lifting and hoisting applications such as forklift masts</label>
-        <label><input type="radio" name="q21" value="b"> high-speed timing drives</label>
-        <label><input type="radio" name="q21" value="c"> bicycle drives</label>
-        <label><input type="radio" name="q21" value="d"> conveyor return strands</label>
+    <!-- Q21 -->
+    <fieldset>
+      <legend>Q21</legend>
+      <p>What is required on synchronous belt sprockets to ensure the belt is guided?</p>
+      <div class="options">
+        <label><input type="radio" name="q21" value="A"> The sprocket teeth must engage to the full depth of the grooves.</label>
+        <label><input type="radio" name="q21" value="B"> At least one sprocket in the drive must have flanges.</label>
+        <label><input type="radio" name="q21" value="C"> The sprocket teeth must have no root clearance.</label>
+        <label><input type="radio" name="q21" value="D"> The alignment must be less critical than for classical V-belts.</label>
       </div>
+      <div class="feedback" id="fb-q21"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Rollerless chain differs from standard roller chain because it:</strong></p>
-        <label><input type="radio" name="q22" value="a"> has bushings that bear directly on the sprocket teeth instead of rollers</label>
-        <label><input type="radio" name="q22" value="b"> has no pins</label>
-        <label><input type="radio" name="q22" value="c"> uses plastic plates only</label>
-        <label><input type="radio" name="q22" value="d"> is used only under water</label>
+    <!-- Q22 -->
+    <fieldset>
+      <legend>Q22</legend>
+      <p>What is a key advantage of V-belts compared to chain drives and gear drives?</p>
+      <div class="options">
+        <label><input type="radio" name="q22" value="A"> They operate efficiently at high temperatures.</label>
+        <label><input type="radio" name="q22" value="B"> They are the most cost-effective means of power transmission.</label>
+        <label><input type="radio" name="q22" value="C"> They are generally quieter than belts.</label>
+        <label><input type="radio" name="q22" value="D"> They maintain positive synchronization.</label>
       </div>
+      <div class="feedback" id="fb-q22"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Detachable link (plain) chain is generally used for:</strong></p>
-        <label><input type="radio" name="q23" value="a"> low-speed agricultural and conveyor applications where quick length changes are needed</label>
-        <label><input type="radio" name="q23" value="b"> high-speed automotive timing drives</label>
-        <label><input type="radio" name="q23" value="c"> precision indexing equipment</label>
-        <label><input type="radio" name="q23" value="d"> aircraft primary drives</label>
+    <!-- Q23 -->
+    <fieldset>
+      <legend>Q23</legend>
+      <p>Which two limitations apply to Poly V-belts (V-ribbed belts)?</p>
+      <div class="options">
+        <label><input type="radio" name="q23" value="A"> They are unsuitable in oily environments, and they absorb shock.</label>
+        <label><input type="radio" name="q23" value="B"> Special sheaves are required, and alignment is more critical than for classical V-belts.</label>
+        <label><input type="radio" name="q23" value="C"> They are unsuitable for reverse bends, and they require no lubrication.</label>
+        <label><input type="radio" name="q23" value="D"> They are not practical for very large horsepower applications, and they slip on overload.</label>
       </div>
+      <div class="feedback" id="fb-q23"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Pintle chain is characterized by:</strong></p>
-        <label><input type="radio" name="q24" value="a"> open barrel or pintle joints suited to conveying sticky or abrasive materials</label>
-        <label><input type="radio" name="q24" value="b"> having O-rings at every joint</label>
-        <label><input type="radio" name="q24" value="c"> always being stainless steel only</label>
-        <label><input type="radio" name="q24" value="d"> requiring no lubrication</label>
+    <!-- Q24 -->
+    <fieldset>
+      <legend>Q24</legend>
+      <p>What material is used for the insulation layer in timing belts, serving the same function as in V-belts?</p>
+      <div class="options">
+        <label><input type="radio" name="q24" value="A"> Nylon fabric</label>
+        <label><input type="radio" name="q24" value="B"> Fibreglass cords</label>
+        <label><input type="radio" name="q24" value="C"> Aramid fibre</label>
+        <label><input type="radio" name="q24" value="D"> Treated neoprene or polyurethane</label>
       </div>
+      <div class="feedback" id="fb-q24"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>A key disadvantage of chain drives compared with belt drives is that chains:</strong></p>
-        <label><input type="radio" name="q25" value="a"> require regular lubrication and are usually noisier</label>
-        <label><input type="radio" name="q25" value="b"> slip badly under load</label>
-        <label><input type="radio" name="q25" value="c"> cannot transmit high horsepower</label>
-        <label><input type="radio" name="q25" value="d"> must always run in oil-tight housings</label>
+    <!-- Q25 -->
+    <fieldset>
+      <legend>Q25</legend>
+      <p>Both Rollerless Chain and Detachable Link Chain are designated by the number 5 in the right-hand part of the chain number; what common characteristic makes them inexpensive?</p>
+      <div class="options">
+        <label><input type="radio" name="q25" value="A"> Both run normally on sprockets instead of sheaves.</label>
+        <label><input type="radio" name="q25" value="B"> Both are designed for low speed and very light loads.</label>
+        <label><input type="radio" name="q25" value="C"> Both utilize through-hardened pins for extra strength.</label>
+        <label><input type="radio" name="q25" value="D"> Both are available in widths up to 12 strands.</label>
       </div>
+      <div class="feedback" id="fb-q25"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>One advantage of chain drives over gear drives is that chains:</strong></p>
-        <label><input type="radio" name="q26" value="a"> can be used over a range of shaft centre distances and easily lengthened or shortened</label>
-        <label><input type="radio" name="q26" value="b"> are always quieter and smoother</label>
-        <label><input type="radio" name="q26" value="c"> require less lubrication</label>
-        <label><input type="radio" name="q26" value="d"> eliminate the need for alignment</label>
+    <!-- Q26 -->
+    <fieldset>
+      <legend>Q26</legend>
+      <p>A 10&quot; drive pulley turning at 200 rpm drives a 3&quot; driven pulley; what is the driven pulley RPM and the drive ratio condition?</p>
+      <div class="options">
+        <label><input type="radio" name="q26" value="A"> 667 rpm; Overdrive (Ratio &lt; 1:1).</label>
+        <label><input type="radio" name="q26" value="B"> 667 rpm; Reduction (Ratio &gt; 1:1).</label>
+        <label><input type="radio" name="q26" value="C"> 600 rpm; Reduction (Ratio &gt; 1:1).</label>
+        <label><input type="radio" name="q26" value="D"> 2000 rpm; Overdrive (Ratio &lt; 1:1).</label>
       </div>
+      <div class="feedback" id="fb-q26"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>A sprocket is best described as:</strong></p>
-        <label><input type="radio" name="q27" value="a"> a toothed wheel that engages the chain</label>
-        <label><input type="radio" name="q27" value="b"> a smooth pulley with grooves for belts</label>
-        <label><input type="radio" name="q27" value="c"> a gear used only in gearboxes</label>
-        <label><input type="radio" name="q27" value="d"> a key used on shafts</label>
+    <!-- Q27 -->
+    <fieldset>
+      <legend>Q27</legend>
+      <p>A 2&quot; drive pulley turning at 3200 rpm drives a 5.5&quot; driven pulley; what is the driven pulley RPM and the resulting torque condition?</p>
+      <div class="options">
+        <label><input type="radio" name="q27" value="A"> 1164 rpm; Torque increase (reduction).</label>
+        <label><input type="radio" name="q27" value="B"> 1164 rpm; Torque decrease (overdrive).</label>
+        <label><input type="radio" name="q27" value="C"> 8720 rpm; Torque increase (reduction).</label>
+        <label><input type="radio" name="q27" value="D"> 771 rpm; Torque decrease (overdrive).</label>
       </div>
+      <div class="feedback" id="fb-q27"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>If a chain has an even number of pitches, the ILM recommends:</strong></p>
-        <label><input type="radio" name="q28" value="a"> sprockets should have an odd number of teeth to distribute wear</label>
-        <label><input type="radio" name="q28" value="b"> sprockets should also have an even tooth count</label>
-        <label><input type="radio" name="q28" value="c"> one sprocket be smooth</label>
-        <label><input type="radio" name="q28" value="d"> the chain be shortened by one pitch</label>
+    <!-- Q28 -->
+    <fieldset>
+      <legend>Q28</legend>
+      <p>A sprocket with 20 teeth turning at 600 rpm drives a sprocket with 10 teeth; what is the driven sprocket RPM and the resulting speed condition?</p>
+      <div class="options">
+        <label><input type="radio" name="q28" value="A"> 300 rpm; Speed decrease.</label>
+        <label><input type="radio" name="q28" value="B"> 1200 rpm; Speed decrease.</label>
+        <label><input type="radio" name="q28" value="C"> 1200 rpm; Speed increase.</label>
+        <label><input type="radio" name="q28" value="D"> 600 rpm; Speed increase.</label>
       </div>
+      <div class="feedback" id="fb-q28"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>The tooth form of a chain sprocket is designed to:</strong></p>
-        <label><input type="radio" name="q29" value="a"> guide the roller smoothly into and out of engagement</label>
-        <label><input type="radio" name="q29" value="b"> cut into the chain for positive lock-up</label>
-        <label><input type="radio" name="q29" value="c"> hold lubricant like a reservoir</label>
-        <label><input type="radio" name="q29" value="d"> mesh like a bevel gear</label>
+    <!-- Q29 -->
+    <fieldset>
+      <legend>Q29</legend>
+      <p>A sprocket with 15 teeth turning at 1500 rpm drives a sprocket with 58 teeth; what is the driven sprocket RPM and the corresponding drive ratio category?</p>
+      <div class="options">
+        <label><input type="radio" name="q29" value="A"> 388 rpm; Reduction (Ratio &gt; 1:1).</label>
+        <label><input type="radio" name="q29" value="B"> 5800 rpm; Overdrive (Ratio &lt; 1:1).</label>
+        <label><input type="radio" name="q29" value="C"> 5800 rpm; Reduction (Ratio &gt; 1:1).</label>
+        <label><input type="radio" name="q29" value="D"> 388 rpm; Overdrive (Ratio &lt; 1:1).</label>
       </div>
+      <div class="feedback" id="fb-q29"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>V-belts transmit power by:</strong></p>
-        <label><input type="radio" name="q30" value="a"> friction between the belt sidewalls and pulley grooves</label>
-        <label><input type="radio" name="q30" value="b"> positive engagement of teeth with sprockets</label>
-        <label><input type="radio" name="q30" value="c"> metal-to-metal contact only</label>
-        <label><input type="radio" name="q30" value="d"> rolling contact of rollers</label>
+    <!-- Q30 -->
+    <fieldset>
+      <legend>Q30</legend>
+      <p>What is the drive ratio (to two decimal places) of a drive where an 11-tooth sprocket drives a 60-tooth sprocket?</p>
+      <div class="options">
+        <label><input type="radio" name="q30" value="A"> 0.18:1</label>
+        <label><input type="radio" name="q30" value="B"> 5.45:1</label>
+        <label><input type="radio" name="q30" value="C"> 0.29:1</label>
+        <label><input type="radio" name="q30" value="D"> 2.75:1</label>
       </div>
+      <div class="feedback" id="fb-q30"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Compared with flat belts, V-belts:</strong></p>
-        <label><input type="radio" name="q31" value="a"> can transmit more power in a smaller space due to wedge action</label>
-        <label><input type="radio" name="q31" value="b"> are always less efficient</label>
-        <label><input type="radio" name="q31" value="c"> require crowned pulleys to track</label>
-        <label><input type="radio" name="q31" value="d"> cannot be used in multiple-belt drives</label>
+    <!-- Q31 -->
+    <fieldset>
+      <legend>Q31</legend>
+      <p>What is the drive ratio (to two decimal places) of a drive where an 8-inch drive pulley drives a 5.5-inch driven pulley?</p>
+      <div class="options">
+        <label><input type="radio" name="q31" value="A"> 1.45:1</label>
+        <label><input type="radio" name="q31" value="B"> 0.69:1</label>
+        <label><input type="radio" name="q31" value="C"> 0.36:1</label>
+        <label><input type="radio" name="q31" value="D"> 2.75:1</label>
       </div>
+      <div class="feedback" id="fb-q31"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>V-ribbed belts (serpentine belts) are best described as:</strong></p>
-        <label><input type="radio" name="q32" value="a"> flat belts with multiple longitudinal ribs that run in matching pulley grooves</label>
-        <label><input type="radio" name="q32" value="b"> round cords used on light drives</label>
-        <label><input type="radio" name="q32" value="c"> toothed belts for timing applications</label>
-        <label><input type="radio" name="q32" value="d"> single V-belts run side by side</label>
+    <!-- Q32 -->
+    <fieldset>
+      <legend>Q32</legend>
+      <p>A 1.5-inch diameter drive pulley turns at 3600 rpm and drives a 7-inch diameter driven pulley; what is the driven pulley RPM rounded to the nearest whole number?</p>
+      <div class="options">
+        <label><input type="radio" name="q32" value="A"> 771 rpm</label>
+        <label><input type="radio" name="q32" value="B"> 1164 rpm</label>
+        <label><input type="radio" name="q32" value="C"> 240 rpm</label>
+        <label><input type="radio" name="q32" value="D"> 486 rpm</label>
       </div>
+      <div class="feedback" id="fb-q32"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Timing (synchronous) belts differ from V-belts because they:</strong></p>
-        <label><input type="radio" name="q33" value="a"> have moulded teeth that engage matching pulley grooves for positive drive</label>
-        <label><input type="radio" name="q33" value="b"> are designed to slip under overload</label>
-        <label><input type="radio" name="q33" value="c"> cannot be used for timing applications</label>
-        <label><input type="radio" name="q33" value="d"> run only on flat pulleys</label>
+    <!-- Q33 -->
+    <fieldset>
+      <legend>Q33</legend>
+      <p>Which condition describes the operation when a smaller sprocket drives a larger sprocket?</p>
+      <div class="options">
+        <label><input type="radio" name="q33" value="A"> Speed increase and torque decrease (overdrive).</label>
+        <label><input type="radio" name="q33" value="B"> Speed reduction and torque increase (reduction).</label>
+        <label><input type="radio" name="q33" value="C"> Drive ratio less than 1:1.</label>
+        <label><input type="radio" name="q33" value="D"> Torque decrease and speed decrease.</label>
       </div>
+      <div class="feedback" id="fb-q33"></div>
+    </fieldset>
 
-      <div class="question">
-        <p><strong>Variable speed belts are used with:</strong></p>
-        <label><input type="radio" name="q34" value="a"> adjustable-diameter sheaves to provide a range of speed ratios</label>
-        <label><input type="radio" name="q34" value="b"> fixed pulleys only</label>
-        <label><input type="radio" name="q34" value="c"> gearboxes exclusively</label>
-        <label><input type="radio" name="q34" value="d"> chains and sprockets in combination</label>
-      </div>
+    <button type="button" onclick="gradeQuiz()">Submit Quiz</button>
+  </form>
 
-      <div class="question">
-        <p><strong>Link belts made from individual segments are useful because they:</strong></p>
-        <label><input type="radio" name="q35" value="a"> can be assembled to custom lengths without special tools</label>
-        <label><input type="radio" name="q35" value="b"> replace timing belts in all cases</label>
-        <label><input type="radio" name="q35" value="c"> require no tensioning</label>
-        <label><input type="radio" name="q35" value="d"> work only on toothed pulleys</label>
-      </div>
-
-      <div class="question">
-        <p><strong>Correct belt storage according to the ILM includes:</strong></p>
-        <label><input type="radio" name="q36" value="a"> keeping belts in a cool, dry place away from direct sunlight, ozone and sharp bends</label>
-        <label><input type="radio" name="q36" value="b"> hanging belts on small nails to save space</label>
-        <label><input type="radio" name="q36" value="c"> storing flat on heat registers to keep them warm</label>
-        <label><input type="radio" name="q36" value="d"> wrapping them tightly around small pipes</label>
-      </div>
-
-      <div class="question">
-        <p><strong>A sheave is another name for:</strong></p>
-        <label><input type="radio" name="q37" value="a"> a pulley used with belts or ropes</label>
-        <label><input type="radio" name="q37" value="b"> a drive sprocket</label>
-        <label><input type="radio" name="q37" value="c"> a gear hub</label>
-        <label><input type="radio" name="q37" value="d"> a shaft key</label>
-      </div>
-
-      <div class="question">
-        <p><strong>Changing the diameters of driver and driven pulleys will:</strong></p>
-        <label><input type="radio" name="q38" value="a"> change the speed ratio between input and output shafts</label>
-        <label><input type="radio" name="q38" value="b"> only change belt tension</label>
-        <label><input type="radio" name="q38" value="c"> have no effect on speed or torque</label>
-        <label><input type="radio" name="q38" value="d"> automatically change centre distance</label>
-      </div>
-
-      <div class="question">
-        <p><strong>In a belt or chain drive ratio, the driven member tooth or diameter count is:</strong></p>
-        <label><input type="radio" name="q39" value="a"> placed over the drive member count to express the ratio to 1</label>
-        <label><input type="radio" name="q39" value="b"> subtracted from the drive count</label>
-        <label><input type="radio" name="q39" value="c"> multiplied by centre distance</label>
-        <label><input type="radio" name="q39" value="d"> ignored if an idler is used</label>
-      </div>
-
-      <div class="question">
-        <p><strong>Step pulleys are used to:</strong></p>
-        <label><input type="radio" name="q40" value="a"> provide several discrete speed ratios by moving the belt between different diameter steps</label>
-        <label><input type="radio" name="q40" value="b"> tension chains automatically</label>
-        <label><input type="radio" name="q40" value="c"> support shaft bearings only</label>
-        <label><input type="radio" name="q40" value="d"> adjust lubricant viscosity</label>
-      </div>
-
-      <div class="exam-actions">
-        <button type="button" id="submit-btn" class="exam-button">
-          <span class="dot"></span>
-          <span>Submit Answers</span>
-        </button>
-      </div>
-
-      <div id="result-banner" class="result-banner"></div>
-    </form>
-  </main>
+  <div id="results" style="display:none;"></div>
 
   <script>
-    window.ANSWERS = {
-      "q1": "a",
-      "q2": "a",
-      "q3": "a",
-      "q4": "a",
-      "q5": "a",
-      "q6": "a",
-      "q7": "a",
-      "q8": "a",
-      "q9": "a",
-      "q10": "a",
-      "q11": "a",
-      "q12": "a",
-      "q13": "a",
-      "q14": "a",
-      "q15": "a",
-      "q16": "a",
-      "q17": "a",
-      "q18": "a",
-      "q19": "a",
-      "q20": "a",
-      "q21": "a",
-      "q22": "a",
-      "q23": "a",
-      "q24": "a",
-      "q25": "a",
-      "q26": "a",
-      "q27": "a",
-      "q28": "a",
-      "q29": "a",
-      "q30": "a",
-      "q31": "a",
-      "q32": "a",
-      "q33": "a",
-      "q34": "a",
-      "q35": "a",
-      "q36": "a",
-      "q37": "a",
-      "q38": "a",
-      "q39": "a",
-      "q40": "a"
+    const correctAnswers = {
+      q1: "B",
+      q2: "C",
+      q3: "D",
+      q4: "D",
+      q5: "B",
+      q6: "B",
+      q7: "A",
+      q8: "B",
+      q9: "C",
+      q10: "D",
+      q11: "C",
+      q12: "C",
+      q13: "C",
+      q14: "D",
+      q15: "C",
+      q16: "A",
+      q17: "C",
+      q18: "C",
+      q19: "C",
+      q20: "B",
+      q21: "B",
+      q22: "B",
+      q23: "B",
+      q24: "D",
+      q25: "B",
+      q26: "A",
+      q27: "A",
+      q28: "C",
+      q29: "A",
+      q30: "B",
+      q31: "B",
+      q32: "A",
+      q33: "B"
     };
+
+    function gradeQuiz() {
+      let score = 0;
+      const total = Object.keys(correctAnswers).length;
+
+      for (const qid in correctAnswers) {
+        const radios = document.querySelectorAll(`input[name="${qid}"]`);
+        let selected = null;
+        radios.forEach(r => {
+          if (r.checked) selected = r.value;
+        });
+
+        const fbEl = document.getElementById(`fb-${qid}`);
+        if (!selected) {
+          fbEl.textContent = "Not answered.";
+          fbEl.className = "feedback incorrect";
+          continue;
+        }
+
+        if (selected === correctAnswers[qid]) {
+          score++;
+          fbEl.textContent = "Correct.";
+          fbEl.className = "feedback correct";
+        } else {
+          fbEl.textContent = `Incorrect. Correct answer: ${correctAnswers[qid]}.`;
+          fbEl.className = "feedback incorrect";
+        }
+      }
+
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.style.display = "block";
+      resultsDiv.textContent = `You scored ${score} out of ${total} (${Math.round((score / total) * 100)}%).`;
+    }
   </script>
-  <script src="../script.js"></script>
 </body>
 </html>
