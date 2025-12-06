@@ -1,359 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>270204j - Tractors Practice Exam</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="exam-common.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div id="banner">
-    <h1>NAIT Parts Technician - 270204j - Tractors</h1>
-    <p>270204j - Tractors</p>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
   </div>
 
-  <div id="top-controls">
-    <button id="btnStart">Start Exam</button>
-    <button id="btnReset">Reset</button>
-  </div>
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>Tractors</h1>
+      <p>Tractors</p>
+    </div>
+  </header>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-    <span id="progress-text">0 / 40</span>
-  </div>
-
-  <div id="question-container">
-    <div class="question" data-question="1">
-      <p>1. The primary function of an agricultural tractor is to:</p>
-      <label><input type="radio" name="q1" value="A"> A. Harvest grain and forage</label>
-      <label><input type="radio" name="q1" value="B"> B. Provide power and traction for pulling and operating implements</label>
-      <label><input type="radio" name="q1" value="C"> C. Transport passengers on public roads</label>
-      <label><input type="radio" name="q1" value="D"> D. Mix livestock feed</label>
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
     </div>
-    <div class="question" data-question="2">
-      <p>2. Drawbar horsepower is best described as:</p>
-      <label><input type="radio" name="q2" value="A"> A. Engine power measured at the flywheel with no load</label>
-      <label><input type="radio" name="q2" value="B"> B. Power available at the hitch to pull implements</label>
-      <label><input type="radio" name="q2" value="C"> C. Electrical power available at the battery terminals</label>
-      <label><input type="radio" name="q2" value="D"> D. Power used to drive the cooling fan only</label>
-    </div>
-    <div class="question" data-question="3">
-      <p>3. PTO horsepower refers to:</p>
-      <label><input type="radio" name="q3" value="A"> A. Power delivered to the wheels</label>
-      <label><input type="radio" name="q3" value="B"> B. Power available at the power take-off shaft to operate implements</label>
-      <label><input type="radio" name="q3" value="C"> C. Engine starting power</label>
-      <label><input type="radio" name="q3" value="D"> D. Hydraulic pump capacity</label>
-    </div>
-    <div class="question" data-question="4">
-      <p>4. A three-point hitch allows implements to be:</p>
-      <label><input type="radio" name="q4" value="A"> A. Pulled only from a single point on the drawbar</label>
-      <label><input type="radio" name="q4" value="B"> B. Lifted, lowered and controlled in relation to the tractor</label>
-      <label><input type="radio" name="q4" value="C"> C. Mounted on the roof of the cab</label>
-      <label><input type="radio" name="q4" value="D"> D. Attached only to the front of the tractor</label>
-    </div>
-    <div class="question" data-question="5">
-      <p>5. Category II three-point hitch components differ from Category I mainly in:</p>
-      <label><input type="radio" name="q5" value="A"> A. Colour only</label>
-      <label><input type="radio" name="q5" value="B"> B. Pin diameter and spacing to suit larger tractors and implements</label>
-      <label><input type="radio" name="q5" value="C"> C. Use only on lawn tractors</label>
-      <label><input type="radio" name="q5" value="D"> D. Having fewer hitch points</label>
-    </div>
-    <div class="question" data-question="6">
-      <p>6. Draft control on a three-point hitch is used to:</p>
-      <label><input type="radio" name="q6" value="A"> A. Control engine speed</label>
-      <label><input type="radio" name="q6" value="B"> B. Automatically raise or lower mounted tillage implements in response to load</label>
-      <label><input type="radio" name="q6" value="C"> C. Operate the PTO clutch</label>
-      <label><input type="radio" name="q6" value="D"> D. Adjust tire pressure</label>
-    </div>
-    <div class="question" data-question="7">
-      <p>7. A live PTO system allows:</p>
-      <label><input type="radio" name="q7" value="A"> A. PTO to stop whenever clutch is depressed</label>
-      <label><input type="radio" name="q7" value="B"> B. Independent PTO operation even when the tractor is stopped or clutch is depressed (using a two-stage clutch or independent clutch)</label>
-      <label><input type="radio" name="q7" value="C"> C. Use of PTO only at full engine speed</label>
-      <label><input type="radio" name="q7" value="D"> D. PTO operation only in reverse</label>
-    </div>
-    <div class="question" data-question="8">
-      <p>8. Hydrostatic transmissions on compact tractors provide:</p>
-      <label><input type="radio" name="q8" value="A"> A. Fixed gear ratios only</label>
-      <label><input type="radio" name="q8" value="B"> B. Infinitely variable ground speed control within range using hydraulic drive</label>
-      <label><input type="radio" name="q8" value="C"> C. Only reverse travel</label>
-      <label><input type="radio" name="q8" value="D"> D. No ability to change speed under load</label>
-    </div>
-    <div class="question" data-question="9">
-      <p>9. MFWD (Mechanical Front Wheel Drive) tractors:</p>
-      <label><input type="radio" name="q9" value="A"> A. Drive rear wheels only</label>
-      <label><input type="radio" name="q9" value="B"> B. Provide power to both front and rear axles for improved traction</label>
-      <label><input type="radio" name="q9" value="C"> C. Are used only for road transport</label>
-      <label><input type="radio" name="q9" value="D"> D. Do not use differentials</label>
-    </div>
-    <div class="question" data-question="10">
-      <p>10. Articulated four-wheel drive tractors steer by:</p>
-      <label><input type="radio" name="q10" value="A"> A. Turning front wheels only</label>
-      <label><input type="radio" name="q10" value="B"> B. Pivoting the tractor in the middle using hydraulic cylinders</label>
-      <label><input type="radio" name="q10" value="C"> C. Varying PTO speed</label>
-      <label><input type="radio" name="q10" value="D"> D. Tilting the cab</label>
-    </div>
-    <div class="question" data-question="11">
-      <p>11. Ballasting a tractor involves:</p>
-      <label><input type="radio" name="q11" value="A"> A. Adding weight with wheel weights, liquid ballast or frame weights</label>
-      <label><input type="radio" name="q11" value="B"> B. Reducing tire pressure below specification</label>
-      <label><input type="radio" name="q11" value="C"> C. Repainting the body</label>
-      <label><input type="radio" name="q11" value="D"> D. Removing all weights for field work</label>
-    </div>
-    <div class="question" data-question="12">
-      <p>12. Proper ballast and tire inflation are important to:</p>
-      <label><input type="radio" name="q12" value="A"> A. Increase wheel slip</label>
-      <label><input type="radio" name="q12" value="B"> B. Improve traction and reduce soil compaction and fuel use</label>
-      <label><input type="radio" name="q12" value="C"> C. Prevent PTO use</label>
-      <label><input type="radio" name="q12" value="D"> D. Disable front axle drive</label>
-    </div>
-    <div class="question" data-question="13">
-      <p>13. Rear dual wheels on a tractor are used mainly to:</p>
-      <label><input type="radio" name="q13" value="A"> A. Increase road speed</label>
-      <label><input type="radio" name="q13" value="B"> B. Increase flotation and reduce compaction by spreading load over a larger area</label>
-      <label><input type="radio" name="q13" value="C"> C. Reduce implement draft</label>
-      <label><input type="radio" name="q13" value="D"> D. Replace the need for front wheels</label>
-    </div>
-    <div class="question" data-question="14">
-      <p>14. ROPS on a tractor stands for:</p>
-      <label><input type="radio" name="q14" value="A"> A. Rear Output Power Shaft</label>
-      <label><input type="radio" name="q14" value="B"> B. Rollover Protective Structure</label>
-      <label><input type="radio" name="q14" value="C"> C. Remote Oil Pressure System</label>
-      <label><input type="radio" name="q14" value="D"> D. Rotary Output Power Selector</label>
-    </div>
-    <div class="question" data-question="15">
-      <p>15. The main function of ROPS and seat belts is to:</p>
-      <label><input type="radio" name="q15" value="A"> A. Improve fuel economy</label>
-      <label><input type="radio" name="q15" value="B"> B. Protect the operator in the event of a rollover</label>
-      <label><input type="radio" name="q15" value="C"> C. Increase drawbar pull</label>
-      <label><input type="radio" name="q15" value="D"> D. Control hydraulic flow</label>
-    </div>
-    <div class="question" data-question="16">
-      <p>16. Three-point hitch lower links are usually attached to the implement at:</p>
-      <label><input type="radio" name="q16" value="A"> A. Top link bracket only</label>
-      <label><input type="radio" name="q16" value="B"> B. Two lower hitch points near the implement’s draft line</label>
-      <label><input type="radio" name="q16" value="C"> C. Front axle</label>
-      <label><input type="radio" name="q16" value="D"> D. Cab corners</label>
-    </div>
-    <div class="question" data-question="17">
-      <p>17. The PTO shaft speed commonly used on modern tractors for most implements is:</p>
-      <label><input type="radio" name="q17" value="A"> A. 360 rpm</label>
-      <label><input type="radio" name="q17" value="B"> B. 540 rpm or 1000 rpm, depending on equipment</label>
-      <label><input type="radio" name="q17" value="C"> C. 1600 rpm only</label>
-      <label><input type="radio" name="q17" value="D"> D. 250 rpm only</label>
-    </div>
-    <div class="question" data-question="18">
-      <p>18. A drawbar with incorrect length when operating PTO-driven implements can:</p>
-      <label><input type="radio" name="q18" value="A"> A. Improve driveline alignment automatically</label>
-      <label><input type="radio" name="q18" value="B"> B. Cause excessive universal joint angles and driveline vibration</label>
-      <label><input type="radio" name="q18" value="C"> C. Have no effect on operation</label>
-      <label><input type="radio" name="q18" value="D"> D. Increase hydraulic pressure</label>
-    </div>
-    <div class="question" data-question="19">
-      <p>19. Front-end loaders fitted to tractors require:</p>
-      <label><input type="radio" name="q19" value="A"> A. No changes to ballast</label>
-      <label><input type="radio" name="q19" value="B"> B. Additional rear ballast or wheel weights for stability</label>
-      <label><input type="radio" name="q19" value="C"> C. Removal of rear tires</label>
-      <label><input type="radio" name="q19" value="D"> D. Lower tire pressures than recommended</label>
-    </div>
-    <div class="question" data-question="20">
-      <p>20. Remote hydraulic valves on tractors are used to:</p>
-      <label><input type="radio" name="q20" value="A"> A. Operate cab heaters only</label>
-      <label><input type="radio" name="q20" value="B"> B. Control hydraulic cylinders and motors on attached implements</label>
-      <label><input type="radio" name="q20" value="C"> C. Lubricate the front axle</label>
-      <label><input type="radio" name="q20" value="D"> D. Vent fuel tanks</label>
-    </div>
-    <div class="question" data-question="21">
-      <p>21. Closed-centre hydraulic systems differ from open-centre systems because closed-centre:</p>
-      <label><input type="radio" name="q21" value="A"> A. Circulate oil continuously at full flow</label>
-      <label><input type="radio" name="q21" value="B"> B. Supply pressure on demand with flow varying to match load</label>
-      <label><input type="radio" name="q21" value="C"> C. Do not require filters</label>
-      <label><input type="radio" name="q21" value="D"> D. Operate only the steering system</label>
-    </div>
-    <div class="question" data-question="22">
-      <p>22. Tractor service brakes are typically located:</p>
-      <label><input type="radio" name="q22" value="A"> A. In the cab</label>
-      <label><input type="radio" name="q22" value="B"> B. At or near the rear axle final drives</label>
-      <label><input type="radio" name="q22" value="C"> C. On the front PTO shaft</label>
-      <label><input type="radio" name="q22" value="D"> D. Inside the engine oil pan</label>
-    </div>
-    <div class="question" data-question="23">
-      <p>23. Differential lock on a tractor is used to:</p>
-      <label><input type="radio" name="q23" value="A"> A. Allow one wheel to spin freely</label>
-      <label><input type="radio" name="q23" value="B"> B. Lock rear axle differentials to reduce wheel slip in low traction conditions</label>
-      <label><input type="radio" name="q23" value="C"> C. Steer the tractor</label>
-      <label><input type="radio" name="q23" value="D"> D. Control PTO engagement</label>
-    </div>
-    <div class="question" data-question="24">
-      <p>24. Tractors equipped with GPS guidance systems can:</p>
-      <label><input type="radio" name="q24" value="A"> A. Only monitor engine speed</label>
-      <label><input type="radio" name="q24" value="B"> B. Provide automatic steering and mapping for precise field operations</label>
-      <label><input type="radio" name="q24" value="C"> C. Control livestock feeding</label>
-      <label><input type="radio" name="q24" value="D"> D. Eliminate the need for operators</label>
-    </div>
-    <div class="question" data-question="25">
-      <p>25. Wheel tread width on a tractor is adjusted primarily to:</p>
-      <label><input type="radio" name="q25" value="A"> A. Change PTO speed</label>
-      <label><input type="radio" name="q25" value="B"> B. Match row spacing and improve stability on slopes</label>
-      <label><input type="radio" name="q25" value="C"> C. Lower hydraulic pressure</label>
-      <label><input type="radio" name="q25" value="D"> D. Increase cab size</label>
-    </div>
-    <div class="question" data-question="26">
-      <p>26. When selecting replacement tractor tires, important factors include:</p>
-      <label><input type="radio" name="q26" value="A"> A. Colour and sidewall graphics only</label>
-      <label><input type="radio" name="q26" value="B"> B. Size, ply rating or load index, tread design and application</label>
-      <label><input type="radio" name="q26" value="C"> C. Window tint level</label>
-      <label><input type="radio" name="q26" value="D"> D. Seat upholstery material</label>
-    </div>
-    <div class="question" data-question="27">
-      <p>27. Dual-purpose industrial/agricultural tractors often feature:</p>
-      <label><input type="radio" name="q27" value="A"> A. Only small turf tires</label>
-      <label><input type="radio" name="q27" value="B"> B. Different tire and axle options, heavy duty loaders and protective structures</label>
-      <label><input type="radio" name="q27" value="C"> C. No PTO or hydraulics</label>
-      <label><input type="radio" name="q27" value="D"> D. Fixed implements welded in place</label>
-    </div>
-    <div class="question" data-question="28">
-      <p>28. The ILM Tractor module helps parts technicians to:</p>
-      <label><input type="radio" name="q28" value="A"> A. Perform major engine overhauls</label>
-      <label><input type="radio" name="q28" value="B"> B. Identify tractor types, systems and components when supplying parts</label>
-      <label><input type="radio" name="q28" value="C"> C. Repair highway bridges</label>
-      <label><input type="radio" name="q28" value="D"> D. Calibrate sprayer nozzles</label>
-    </div>
-    <div class="question" data-question="29">
-      <p>29. Rated engine horsepower for tractors is usually measured:</p>
-      <label><input type="radio" name="q29" value="A"> A. At zero rpm</label>
-      <label><input type="radio" name="q29" value="B"> B. At a specified engine speed on a dynamometer</label>
-      <label><input type="radio" name="q29" value="C"> C. Only at idle</label>
-      <label><input type="radio" name="q29" value="D"> D. By measuring PTO torque by hand</label>
-    </div>
-    <div class="question" data-question="30">
-      <p>30. A power shuttle transmission on a tractor allows:</p>
-      <label><input type="radio" name="q30" value="A"> A. Only forward travel</label>
-      <label><input type="radio" name="q30" value="B"> B. Smooth direction changes between forward and reverse without clutching fully</label>
-      <label><input type="radio" name="q30" value="C"> C. No gear changes at all</label>
-      <label><input type="radio" name="q30" value="D"> D. Only manual gear selection when stopped</label>
-    </div>
-    <div class="question" data-question="31">
-      <p>31. Wheel slip in field work should normally be:</p>
-      <label><input type="radio" name="q31" value="A"> A. 0%</label>
-      <label><input type="radio" name="q31" value="B"> B. Within a recommended range (for example 8–15%) for efficient traction</label>
-      <label><input type="radio" name="q31" value="C"> C. As high as possible</label>
-      <label><input type="radio" name="q31" value="D"> D. Ignored completely</label>
-    </div>
-    <div class="question" data-question="32">
-      <p>32. Tractor operator’s manuals and safety decals stress that riders:</p>
-      <label><input type="radio" name="q32" value="A"> A. Are allowed if space permits</label>
-      <label><input type="radio" name="q32" value="B"> B. Should not ride on tractors unless a seat is provided for them</label>
-      <label><input type="radio" name="q32" value="C"> C. Should sit on fenders</label>
-      <label><input type="radio" name="q32" value="D"> D. May ride on implements during field work</label>
-    </div>
-    <div class="question" data-question="33">
-      <p>33. Cab filtration systems on tractors are important for:</p>
-      <label><input type="radio" name="q33" value="A"> A. Controlling PTO speed</label>
-      <label><input type="radio" name="q33" value="B"> B. Keeping dust, chemicals and noise levels within acceptable limits for the operator</label>
-      <label><input type="radio" name="q33" value="C"> C. Regulating engine coolant</label>
-      <label><input type="radio" name="q33" value="D"> D. Maintaining tire pressure</label>
-    </div>
-    <div class="question" data-question="34">
-      <p>34. When ordering hydraulic components for tractors, the parts technician must know:</p>
-      <label><input type="radio" name="q34" value="A"> A. Only tractor colour</label>
-      <label><input type="radio" name="q34" value="B"> B. Model, serial number, system type and component location</label>
-      <label><input type="radio" name="q34" value="C"> C. Only fuel tank capacity</label>
-      <label><input type="radio" name="q34" value="D"> D. Radio brand</label>
-    </div>
-    <div class="question" data-question="35">
-      <p>35. Front weights or weight brackets are installed on tractors to:</p>
-      <label><input type="radio" name="q35" value="A"> A. Reduce drawbar pull</label>
-      <label><input type="radio" name="q35" value="B"> B. Counterbalance heavy rear-mounted implements</label>
-      <label><input type="radio" name="q35" value="C"> C. Increase cab size</label>
-      <label><input type="radio" name="q35" value="D"> D. Replace ROPS</label>
-    </div>
-    <div class="question" data-question="36">
-      <p>36. When matching tractors to implements, key considerations are:</p>
-      <label><input type="radio" name="q36" value="A"> A. Paint colour compatibility</label>
-      <label><input type="radio" name="q36" value="B"> B. Horsepower, hitch category, hydraulic capacity, PTO requirements and weight</label>
-      <label><input type="radio" name="q36" value="C"> C. Cab upholstery design</label>
-      <label><input type="radio" name="q36" value="D"> D. Radio speaker locations</label>
-    </div>
-    <div class="question" data-question="37">
-      <p>37. Fender-mounted controls or remote switches on tractors are used to:</p>
-      <label><input type="radio" name="q37" value="A"> A. Adjust stereo volume</label>
-      <label><input type="radio" name="q37" value="B"> B. Operate three-point hitch or remote hydraulics while standing beside the implement</label>
-      <label><input type="radio" name="q37" value="C"> C. Control engine internal timing</label>
-      <label><input type="radio" name="q37" value="D"> D. Engage 4WD permanently</label>
-    </div>
-    <div class="question" data-question="38">
-      <p>38. The term 'utility tractor' generally describes:</p>
-      <label><input type="radio" name="q38" value="A"> A. Only lawn and garden tractors</label>
-      <label><input type="radio" name="q38" value="B"> B. Medium-sized tractors used for many tasks such as loader work, mowing and light field operations</label>
-      <label><input type="radio" name="q38" value="C"> C. Largest four-wheel-drive articulated tractors</label>
-      <label><input type="radio" name="q38" value="D"> D. Tractors used only on highways</label>
-    </div>
-    <div class="question" data-question="39">
-      <p>39. Engine-mounted front PTO systems on some tractors allow implements such as:</p>
-      <label><input type="radio" name="q39" value="A"> A. Rear three-point mowers only</label>
-      <label><input type="radio" name="q39" value="B"> B. Front-mounted mowers, snow blowers or pumps to be driven directly from the engine</label>
-      <label><input type="radio" name="q39" value="C"> C. Passenger cars to be towed</label>
-      <label><input type="radio" name="q39" value="D"> D. Hydraulic cylinders to be bypassed</label>
-    </div>
-    <div class="question" data-question="40">
-      <p>40. When supplying cab glass or doors for tractors, the parts technician must ensure:</p>
-      <label><input type="radio" name="q40" value="A"> A. Any glass of similar size is used</label>
-      <label><input type="radio" name="q40" value="B"> B. Correct tempered or laminated glass type, tint and mounting style according to model and safety requirements</label>
-      <label><input type="radio" name="q40" value="C"> C. Glass without safety markings is acceptable</label>
-      <label><input type="radio" name="q40" value="D"> D. Plastic sheeting is always used instead</label>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
     </div>
   </div>
 
-  <div id="bottom-controls">
-    <button id="btnPrev">Previous</button>
-    <button id="btnNext">Next</button>
-    <button id="btnSubmit">Submit</button>
-  </div>
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270204 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270204j &mdash; Tractors</h2>
+      <p>
+        Practice questions for Tractors.
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form">
+
+      <div class="question">
+        <p><strong>The primary function of an agricultural tractor is to:</strong></p>
+        <label><input type="radio" name="q1" value="a"> Harvest grain and forage</label>
+        <label><input type="radio" name="q1" value="b"> Provide power and traction for pulling and operating implements</label>
+        <label><input type="radio" name="q1" value="c"> Transport passengers on public roads</label>
+        <label><input type="radio" name="q1" value="d"> Mix livestock feed</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Drawbar horsepower is best described as:</strong></p>
+        <label><input type="radio" name="q2" value="a"> Engine power measured at the flywheel with no load</label>
+        <label><input type="radio" name="q2" value="b"> Power available at the hitch to pull implements</label>
+        <label><input type="radio" name="q2" value="c"> Electrical power available at the battery terminals</label>
+        <label><input type="radio" name="q2" value="d"> Power used to drive the cooling fan only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>PTO horsepower refers to:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Power delivered to the wheels</label>
+        <label><input type="radio" name="q3" value="b"> Power available at the power take-off shaft to operate implements</label>
+        <label><input type="radio" name="q3" value="c"> Engine starting power</label>
+        <label><input type="radio" name="q3" value="d"> Hydraulic pump capacity</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A three-point hitch allows implements to be:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Pulled only from a single point on the drawbar</label>
+        <label><input type="radio" name="q4" value="b"> Lifted, lowered and controlled in relation to the tractor</label>
+        <label><input type="radio" name="q4" value="c"> Mounted on the roof of the cab</label>
+        <label><input type="radio" name="q4" value="d"> Attached only to the front of the tractor</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Category II three-point hitch components differ from Category I mainly in:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Colour only</label>
+        <label><input type="radio" name="q5" value="b"> Pin diameter and spacing to suit larger tractors and implements</label>
+        <label><input type="radio" name="q5" value="c"> Use only on lawn tractors</label>
+        <label><input type="radio" name="q5" value="d"> Having fewer hitch points</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Draft control on a three-point hitch is used to:</strong></p>
+        <label><input type="radio" name="q6" value="a"> Control engine speed</label>
+        <label><input type="radio" name="q6" value="b"> Automatically raise or lower mounted tillage implements in response to load</label>
+        <label><input type="radio" name="q6" value="c"> Operate the PTO clutch</label>
+        <label><input type="radio" name="q6" value="d"> Adjust tire pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A live PTO system allows:</strong></p>
+        <label><input type="radio" name="q7" value="a"> PTO to stop whenever clutch is depressed</label>
+        <label><input type="radio" name="q7" value="b"> Independent PTO operation even when the tractor is stopped or clutch is depressed (using a two-stage clutch or independent clutch)</label>
+        <label><input type="radio" name="q7" value="c"> Use of PTO only at full engine speed</label>
+        <label><input type="radio" name="q7" value="d"> PTO operation only in reverse</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Hydrostatic transmissions on compact tractors provide:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Fixed gear ratios only</label>
+        <label><input type="radio" name="q8" value="b"> Infinitely variable ground speed control within range using hydraulic drive</label>
+        <label><input type="radio" name="q8" value="c"> Only reverse travel</label>
+        <label><input type="radio" name="q8" value="d"> No ability to change speed under load</label>
+      </div>
+
+      <div class="question">
+        <p><strong>MFWD (Mechanical Front Wheel Drive) tractors:</strong></p>
+        <label><input type="radio" name="q9" value="a"> Drive rear wheels only</label>
+        <label><input type="radio" name="q9" value="b"> Provide power to both front and rear axles for improved traction</label>
+        <label><input type="radio" name="q9" value="c"> Are used only for road transport</label>
+        <label><input type="radio" name="q9" value="d"> Do not use differentials</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Articulated four-wheel drive tractors steer by:</strong></p>
+        <label><input type="radio" name="q10" value="a"> Turning front wheels only</label>
+        <label><input type="radio" name="q10" value="b"> Pivoting the tractor in the middle using hydraulic cylinders</label>
+        <label><input type="radio" name="q10" value="c"> Varying PTO speed</label>
+        <label><input type="radio" name="q10" value="d"> Tilting the cab</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Ballasting a tractor involves:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Adding weight with wheel weights, liquid ballast or frame weights</label>
+        <label><input type="radio" name="q11" value="b"> Reducing tire pressure below specification</label>
+        <label><input type="radio" name="q11" value="c"> Repainting the body</label>
+        <label><input type="radio" name="q11" value="d"> Removing all weights for field work</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Proper ballast and tire inflation are important to:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Increase wheel slip</label>
+        <label><input type="radio" name="q12" value="b"> Improve traction and reduce soil compaction and fuel use</label>
+        <label><input type="radio" name="q12" value="c"> Prevent PTO use</label>
+        <label><input type="radio" name="q12" value="d"> Disable front axle drive</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Rear dual wheels on a tractor are used mainly to:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Increase road speed</label>
+        <label><input type="radio" name="q13" value="b"> Increase flotation and reduce compaction by spreading load over a larger area</label>
+        <label><input type="radio" name="q13" value="c"> Reduce implement draft</label>
+        <label><input type="radio" name="q13" value="d"> Replace the need for front wheels</label>
+      </div>
+
+      <div class="question">
+        <p><strong>ROPS on a tractor stands for:</strong></p>
+        <label><input type="radio" name="q14" value="a"> Rear Output Power Shaft</label>
+        <label><input type="radio" name="q14" value="b"> Rollover Protective Structure</label>
+        <label><input type="radio" name="q14" value="c"> Remote Oil Pressure System</label>
+        <label><input type="radio" name="q14" value="d"> Rotary Output Power Selector</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The main function of ROPS and seat belts is to:</strong></p>
+        <label><input type="radio" name="q15" value="a"> Improve fuel economy</label>
+        <label><input type="radio" name="q15" value="b"> Protect the operator in the event of a rollover</label>
+        <label><input type="radio" name="q15" value="c"> Increase drawbar pull</label>
+        <label><input type="radio" name="q15" value="d"> Control hydraulic flow</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Three-point hitch lower links are usually attached to the implement at:</strong></p>
+        <label><input type="radio" name="q16" value="a"> Top link bracket only</label>
+        <label><input type="radio" name="q16" value="b"> Two lower hitch points near the implement’s draft line</label>
+        <label><input type="radio" name="q16" value="c"> Front axle</label>
+        <label><input type="radio" name="q16" value="d"> Cab corners</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The PTO shaft speed commonly used on modern tractors for most implements is:</strong></p>
+        <label><input type="radio" name="q17" value="a"> 360 rpm</label>
+        <label><input type="radio" name="q17" value="b"> 540 rpm or 1000 rpm, depending on equipment</label>
+        <label><input type="radio" name="q17" value="c"> 1600 rpm only</label>
+        <label><input type="radio" name="q17" value="d"> 250 rpm only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A drawbar with incorrect length when operating PTO-driven implements can:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Improve driveline alignment automatically</label>
+        <label><input type="radio" name="q18" value="b"> Cause excessive universal joint angles and driveline vibration</label>
+        <label><input type="radio" name="q18" value="c"> Have no effect on operation</label>
+        <label><input type="radio" name="q18" value="d"> Increase hydraulic pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Front-end loaders fitted to tractors require:</strong></p>
+        <label><input type="radio" name="q19" value="a"> No changes to ballast</label>
+        <label><input type="radio" name="q19" value="b"> Additional rear ballast or wheel weights for stability</label>
+        <label><input type="radio" name="q19" value="c"> Removal of rear tires</label>
+        <label><input type="radio" name="q19" value="d"> Lower tire pressures than recommended</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Remote hydraulic valves on tractors are used to:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Operate cab heaters only</label>
+        <label><input type="radio" name="q20" value="b"> Control hydraulic cylinders and motors on attached implements</label>
+        <label><input type="radio" name="q20" value="c"> Lubricate the front axle</label>
+        <label><input type="radio" name="q20" value="d"> Vent fuel tanks</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Closed-centre hydraulic systems differ from open-centre systems because closed-centre:</strong></p>
+        <label><input type="radio" name="q21" value="a"> Circulate oil continuously at full flow</label>
+        <label><input type="radio" name="q21" value="b"> Supply pressure on demand with flow varying to match load</label>
+        <label><input type="radio" name="q21" value="c"> Do not require filters</label>
+        <label><input type="radio" name="q21" value="d"> Operate only the steering system</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Tractor service brakes are typically located:</strong></p>
+        <label><input type="radio" name="q22" value="a"> In the cab</label>
+        <label><input type="radio" name="q22" value="b"> At or near the rear axle final drives</label>
+        <label><input type="radio" name="q22" value="c"> On the front PTO shaft</label>
+        <label><input type="radio" name="q22" value="d"> Inside the engine oil pan</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Differential lock on a tractor is used to:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Allow one wheel to spin freely</label>
+        <label><input type="radio" name="q23" value="b"> Lock rear axle differentials to reduce wheel slip in low traction conditions</label>
+        <label><input type="radio" name="q23" value="c"> Steer the tractor</label>
+        <label><input type="radio" name="q23" value="d"> Control PTO engagement</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Tractors equipped with GPS guidance systems can:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Only monitor engine speed</label>
+        <label><input type="radio" name="q24" value="b"> Provide automatic steering and mapping for precise field operations</label>
+        <label><input type="radio" name="q24" value="c"> Control livestock feeding</label>
+        <label><input type="radio" name="q24" value="d"> Eliminate the need for operators</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Wheel tread width on a tractor is adjusted primarily to:</strong></p>
+        <label><input type="radio" name="q25" value="a"> Change PTO speed</label>
+        <label><input type="radio" name="q25" value="b"> Match row spacing and improve stability on slopes</label>
+        <label><input type="radio" name="q25" value="c"> Lower hydraulic pressure</label>
+        <label><input type="radio" name="q25" value="d"> Increase cab size</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When selecting replacement tractor tires, important factors include:</strong></p>
+        <label><input type="radio" name="q26" value="a"> Colour and sidewall graphics only</label>
+        <label><input type="radio" name="q26" value="b"> Size, ply rating or load index, tread design and application</label>
+        <label><input type="radio" name="q26" value="c"> Window tint level</label>
+        <label><input type="radio" name="q26" value="d"> Seat upholstery material</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Dual-purpose industrial/agricultural tractors often feature:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Only small turf tires</label>
+        <label><input type="radio" name="q27" value="b"> Different tire and axle options, heavy duty loaders and protective structures</label>
+        <label><input type="radio" name="q27" value="c"> No PTO or hydraulics</label>
+        <label><input type="radio" name="q27" value="d"> Fixed implements welded in place</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM Tractor module helps parts technicians to:</strong></p>
+        <label><input type="radio" name="q28" value="a"> Perform major engine overhauls</label>
+        <label><input type="radio" name="q28" value="b"> Identify tractor types, systems and components when supplying parts</label>
+        <label><input type="radio" name="q28" value="c"> Repair highway bridges</label>
+        <label><input type="radio" name="q28" value="d"> Calibrate sprayer nozzles</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Rated engine horsepower for tractors is usually measured:</strong></p>
+        <label><input type="radio" name="q29" value="a"> At zero rpm</label>
+        <label><input type="radio" name="q29" value="b"> At a specified engine speed on a dynamometer</label>
+        <label><input type="radio" name="q29" value="c"> Only at idle</label>
+        <label><input type="radio" name="q29" value="d"> By measuring PTO torque by hand</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A power shuttle transmission on a tractor allows:</strong></p>
+        <label><input type="radio" name="q30" value="a"> Only forward travel</label>
+        <label><input type="radio" name="q30" value="b"> Smooth direction changes between forward and reverse without clutching fully</label>
+        <label><input type="radio" name="q30" value="c"> No gear changes at all</label>
+        <label><input type="radio" name="q30" value="d"> Only manual gear selection when stopped</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Wheel slip in field work should normally be:</strong></p>
+        <label><input type="radio" name="q31" value="a"> 0%</label>
+        <label><input type="radio" name="q31" value="b"> Within a recommended range (for example 8–15%) for efficient traction</label>
+        <label><input type="radio" name="q31" value="c"> As high as possible</label>
+        <label><input type="radio" name="q31" value="d"> Ignored completely</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Tractor operator’s manuals and safety decals stress that riders:</strong></p>
+        <label><input type="radio" name="q32" value="a"> Are allowed if space permits</label>
+        <label><input type="radio" name="q32" value="b"> Should not ride on tractors unless a seat is provided for them</label>
+        <label><input type="radio" name="q32" value="c"> Should sit on fenders</label>
+        <label><input type="radio" name="q32" value="d"> May ride on implements during field work</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Cab filtration systems on tractors are important for:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Controlling PTO speed</label>
+        <label><input type="radio" name="q33" value="b"> Keeping dust, chemicals and noise levels within acceptable limits for the operator</label>
+        <label><input type="radio" name="q33" value="c"> Regulating engine coolant</label>
+        <label><input type="radio" name="q33" value="d"> Maintaining tire pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When ordering hydraulic components for tractors, the parts technician must know:</strong></p>
+        <label><input type="radio" name="q34" value="a"> Only tractor colour</label>
+        <label><input type="radio" name="q34" value="b"> Model, serial number, system type and component location</label>
+        <label><input type="radio" name="q34" value="c"> Only fuel tank capacity</label>
+        <label><input type="radio" name="q34" value="d"> Radio brand</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Front weights or weight brackets are installed on tractors to:</strong></p>
+        <label><input type="radio" name="q35" value="a"> Reduce drawbar pull</label>
+        <label><input type="radio" name="q35" value="b"> Counterbalance heavy rear-mounted implements</label>
+        <label><input type="radio" name="q35" value="c"> Increase cab size</label>
+        <label><input type="radio" name="q35" value="d"> Replace ROPS</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When matching tractors to implements, key considerations are:</strong></p>
+        <label><input type="radio" name="q36" value="a"> Paint colour compatibility</label>
+        <label><input type="radio" name="q36" value="b"> Horsepower, hitch category, hydraulic capacity, PTO requirements and weight</label>
+        <label><input type="radio" name="q36" value="c"> Cab upholstery design</label>
+        <label><input type="radio" name="q36" value="d"> Radio speaker locations</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Fender-mounted controls or remote switches on tractors are used to:</strong></p>
+        <label><input type="radio" name="q37" value="a"> Adjust stereo volume</label>
+        <label><input type="radio" name="q37" value="b"> Operate three-point hitch or remote hydraulics while standing beside the implement</label>
+        <label><input type="radio" name="q37" value="c"> Control engine internal timing</label>
+        <label><input type="radio" name="q37" value="d"> Engage 4WD permanently</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The term 'utility tractor' generally describes:</strong></p>
+        <label><input type="radio" name="q38" value="a"> Only lawn and garden tractors</label>
+        <label><input type="radio" name="q38" value="b"> Medium-sized tractors used for many tasks such as loader work, mowing and light field operations</label>
+        <label><input type="radio" name="q38" value="c"> Largest four-wheel-drive articulated tractors</label>
+        <label><input type="radio" name="q38" value="d"> Tractors used only on highways</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
 
   <script>
     window.ANSWERS = {
-  "1": "B",
-  "2": "B",
-  "3": "B",
-  "4": "B",
-  "5": "B",
-  "6": "B",
-  "7": "B",
-  "8": "B",
-  "9": "B",
-  "10": "B",
-  "11": "A",
-  "12": "B",
-  "13": "B",
-  "14": "B",
-  "15": "B",
-  "16": "B",
-  "17": "B",
-  "18": "B",
-  "19": "B",
-  "20": "B",
-  "21": "B",
-  "22": "B",
-  "23": "B",
-  "24": "B",
-  "25": "B",
-  "26": "B",
-  "27": "B",
-  "28": "B",
-  "29": "B",
-  "30": "B",
-  "31": "B",
-  "32": "B",
-  "33": "B",
-  "34": "B",
-  "35": "B",
-  "36": "B",
-  "37": "B",
-  "38": "B",
-  "39": "B",
-  "40": "B"
-};
+      "q1": "b",
+      "q2": "b",
+      "q3": "b",
+      "q4": "b",
+      "q5": "b",
+      "q6": "b",
+      "q7": "b",
+      "q8": "b",
+      "q9": "b",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "b",
+      "q20": "b",
+      "q21": "b",
+      "q22": "b",
+      "q23": "b",
+      "q24": "b",
+      "q25": "b",
+      "q26": "b",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "b",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b",
+      "q34": "b",
+      "q35": "b",
+      "q36": "b",
+      "q37": "b",
+      "q38": "b"
+    };
   </script>
+  <script src="../script.js"></script>
 </body>
 </html>

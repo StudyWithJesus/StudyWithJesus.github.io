@@ -1,359 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>270203h Air Brakes Truck and Tractor Practice Exam</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="exam-common.js"></script>
+  <meta charset="UTF-8">
+  <title>270203h - Air Brakes Truck and Tractor Practice Exam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div id="banner">
-    <h1>NAIT Parts Technician - 270203h Air Brakes Truck and Tractor</h1>
-    <p>270203h Air Brakes Truck and Tractor</p>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
   </div>
 
-  <div id="top-controls">
-    <button id="btnStart">Start Exam</button>
-    <button id="btnReset">Reset</button>
-  </div>
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>Air Brakes Truck and Tractor</h1>
+      <p>Air Brakes Truck and Tractor</p>
+    </div>
+  </header>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-    <span id="progress-text">0 / 40</span>
-  </div>
-
-  <div id="question-container">
-    <div class="question" data-question="1">
-      <p>1. On a typical highway tractor, the dual service circuits usually supply:</p>
-      <label><input type="radio" name="q1" value="A"> A. One circuit for headlights and one for horn</label>
-      <label><input type="radio" name="q1" value="B"> B. One circuit for front (steer) axle brakes and one for drive axle brakes</label>
-      <label><input type="radio" name="q1" value="C"> C. One circuit for tractor and one for trailer lighting</label>
-      <label><input type="radio" name="q1" value="D"> D. Only the trailer brakes</label>
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
     </div>
-    <div class="question" data-question="2">
-      <p>2. A tractor protection valve is installed to:</p>
-      <label><input type="radio" name="q2" value="A"> A. Control engine fuel pressure</label>
-      <label><input type="radio" name="q2" value="B"> B. Protect the tractor’s air supply if the trailer or supply line fails</label>
-      <label><input type="radio" name="q2" value="C"> C. Limit maximum tractor speed</label>
-      <label><input type="radio" name="q2" value="D"> D. Control cab air suspension</label>
-    </div>
-    <div class="question" data-question="3">
-      <p>3. The trailer supply (emergency) line on a tractor is typically colour coded:</p>
-      <label><input type="radio" name="q3" value="A"> A. Blue</label>
-      <label><input type="radio" name="q3" value="B"> B. Red</label>
-      <label><input type="radio" name="q3" value="C"> C. Green</label>
-      <label><input type="radio" name="q3" value="D"> D. Yellow</label>
-    </div>
-    <div class="question" data-question="4">
-      <p>4. The service (control) line to the trailer is typically colour coded:</p>
-      <label><input type="radio" name="q4" value="A"> A. Blue</label>
-      <label><input type="radio" name="q4" value="B"> B. Red</label>
-      <label><input type="radio" name="q4" value="C"> C. Yellow</label>
-      <label><input type="radio" name="q4" value="D"> D. Black</label>
-    </div>
-    <div class="question" data-question="5">
-      <p>5. Glad hands on the back of the tractor are used to:</p>
-      <label><input type="radio" name="q5" value="A"> A. Connect electrical power to the trailer</label>
-      <label><input type="radio" name="q5" value="B"> B. Connect tractor and trailer air lines using standard couplers</label>
-      <label><input type="radio" name="q5" value="C"> C. Attach safety chains</label>
-      <label><input type="radio" name="q5" value="D"> D. Adjust fifth wheel height</label>
-    </div>
-    <div class="question" data-question="6">
-      <p>6. Dummy (parking) couplers on the back of the cab are used to:</p>
-      <label><input type="radio" name="q6" value="A"> A. Store unused hoses and protect glad hand seals from dirt and damage</label>
-      <label><input type="radio" name="q6" value="B"> B. Increase air pressure</label>
-      <label><input type="radio" name="q6" value="C"> C. Attach hydraulic hoses</label>
-      <label><input type="radio" name="q6" value="D"> D. Lift the trailer</label>
-    </div>
-    <div class="question" data-question="7">
-      <p>7. The tractor parking control valve (dash valve) normally:</p>
-      <label><input type="radio" name="q7" value="A"> A. Applies only the front axle brakes</label>
-      <label><input type="radio" name="q7" value="B"> B. Controls air to the spring brake sections on tractor axles</label>
-      <label><input type="radio" name="q7" value="C"> C. Directly applies service brakes with hydraulic pressure</label>
-      <label><input type="radio" name="q7" value="D"> D. Controls engine shutdown</label>
-    </div>
-    <div class="question" data-question="8">
-      <p>8. The trailer parking (supply) valve in the tractor cab is typically:</p>
-      <label><input type="radio" name="q8" value="A"> A. A blue hand valve</label>
-      <label><input type="radio" name="q8" value="B"> B. A red, push-pull valve used to charge and exhaust the trailer supply line</label>
-      <label><input type="radio" name="q8" value="C"> C. A floor-mounted pedal</label>
-      <label><input type="radio" name="q8" value="D"> D. An electronic switch on the steering wheel</label>
-    </div>
-    <div class="question" data-question="9">
-      <p>9. Pulling out the trailer supply valve in the cab will:</p>
-      <label><input type="radio" name="q9" value="A"> A. Charge the trailer system with air</label>
-      <label><input type="radio" name="q9" value="B"> B. Exhaust air from the trailer supply line and apply trailer spring brakes</label>
-      <label><input type="radio" name="q9" value="C"> C. Release all service brakes</label>
-      <label><input type="radio" name="q9" value="D"> D. Shut down the engine</label>
-    </div>
-    <div class="question" data-question="10">
-      <p>10. The hand (trolley) valve on some tractors is used to:</p>
-      <label><input type="radio" name="q10" value="A"> A. Apply tractor front brakes only</label>
-      <label><input type="radio" name="q10" value="B"> B. Apply trailer service brakes independently for control or testing</label>
-      <label><input type="radio" name="q10" value="C"> C. Control engine retarder</label>
-      <label><input type="radio" name="q10" value="D"> D. Set axle alignment</label>
-    </div>
-    <div class="question" data-question="11">
-      <p>11. Using the hand valve for normal speed control instead of the foot valve is:</p>
-      <label><input type="radio" name="q11" value="A"> A. Recommended for everyday driving</label>
-      <label><input type="radio" name="q11" value="B"> B. Not recommended, as it can overheat trailer brakes and cause uneven wear</label>
-      <label><input type="radio" name="q11" value="C"> C. Mandatory by regulation</label>
-      <label><input type="radio" name="q11" value="D"> D. Required whenever descending hills</label>
-    </div>
-    <div class="question" data-question="12">
-      <p>12. On a dual-circuit tractor, a failure in the front axle service circuit should:</p>
-      <label><input type="radio" name="q12" value="A"> A. Remove all braking capability</label>
-      <label><input type="radio" name="q12" value="B"> B. Still allow braking on the drive axle circuit, although stopping distance is increased</label>
-      <label><input type="radio" name="q12" value="C"> C. Apply the trailer brakes automatically</label>
-      <label><input type="radio" name="q12" value="D"> D. Release parking brakes</label>
-    </div>
-    <div class="question" data-question="13">
-      <p>13. Air reservoirs on a tractor are normally mounted:</p>
-      <label><input type="radio" name="q13" value="A"> A. Only inside the cab</label>
-      <label><input type="radio" name="q13" value="B"> B. On the frame rails or crossmembers where they are supported and protected</label>
-      <label><input type="radio" name="q13" value="C"> C. On top of the cab</label>
-      <label><input type="radio" name="q13" value="D"> D. Inside the fuel tank</label>
-    </div>
-    <div class="question" data-question="14">
-      <p>14. Multi-circuit protection valves are used so that:</p>
-      <label><input type="radio" name="q14" value="A"> A. All circuits drain together if one fails</label>
-      <label><input type="radio" name="q14" value="B"> B. Each circuit is isolated so a failure in one does not completely empty the others</label>
-      <label><input type="radio" name="q14" value="C"> C. Only the front axle brakes receive air</label>
-      <label><input type="radio" name="q14" value="D"> D. Only the trailer receives air</label>
-    </div>
-    <div class="question" data-question="15">
-      <p>15. In many tractors, an application pressure gauge shows:</p>
-      <label><input type="radio" name="q15" value="A"> A. Reservoir pressure only</label>
-      <label><input type="radio" name="q15" value="B"> B. Service air pressure being delivered to the brake chambers during a brake application</label>
-      <label><input type="radio" name="q15" value="C"> C. Tire pressure</label>
-      <label><input type="radio" name="q15" value="D"> D. Compressor outlet temperature</label>
-    </div>
-    <div class="question" data-question="16">
-      <p>16. Tractor ABS typically monitors wheel speed on:</p>
-      <label><input type="radio" name="q16" value="A"> A. Only the steer axle</label>
-      <label><input type="radio" name="q16" value="B"> B. Selected wheels on steer and drive axles, depending on configuration</label>
-      <label><input type="radio" name="q16" value="C"> C. Trailer axles only</label>
-      <label><input type="radio" name="q16" value="D"> D. The fifth wheel plate</label>
-    </div>
-    <div class="question" data-question="17">
-      <p>17. ABS warning lamps on the tractor dashboard indicate that:</p>
-      <label><input type="radio" name="q17" value="A"> A. Brakes will not operate at all</label>
-      <label><input type="radio" name="q17" value="B"> B. The ABS system has detected a fault and has disabled ABS modulation on affected wheels</label>
-      <label><input type="radio" name="q17" value="C"> C. The parking brake is applied</label>
-      <label><input type="radio" name="q17" value="D"> D. The air dryer is purging</label>
-    </div>
-    <div class="question" data-question="18">
-      <p>18. The fifth wheel on a tractor is related to air brakes because it:</p>
-      <label><input type="radio" name="q18" value="A"> A. Provides an air reservoir mounting location</label>
-      <label><input type="radio" name="q18" value="B"> B. Supports the trailer and provides a pathway for air and electrical lines via hoses and cables</label>
-      <label><input type="radio" name="q18" value="C"> C. Acts as an ABS sensor</label>
-      <label><input type="radio" name="q18" value="D"> D. Controls governor cut-out</label>
-    </div>
-    <div class="question" data-question="19">
-      <p>19. Typical foundation brake arrangement on a highway tractor with tandem drives is:</p>
-      <label><input type="radio" name="q19" value="A"> A. Disc brakes on front axle only</label>
-      <label><input type="radio" name="q19" value="B"> B. Drum or disc brakes on steer and both drive axles, all air-operated</label>
-      <label><input type="radio" name="q19" value="C"> C. Hydraulic front and air rear</label>
-      <label><input type="radio" name="q19" value="D"> D. Electric brakes on all axles</label>
-    </div>
-    <div class="question" data-question="20">
-      <p>20. A common tractor air system test involves:</p>
-      <label><input type="radio" name="q20" value="A"> A. Measuring coolant pressure</label>
-      <label><input type="radio" name="q20" value="B"> B. Checking compressor build-up time, governor cut-in/cut-out and system leakage rates</label>
-      <label><input type="radio" name="q20" value="C"> C. Measuring engine oil pressure only</label>
-      <label><input type="radio" name="q20" value="D"> D. Testing tire tread depth</label>
-    </div>
-    <div class="question" data-question="21">
-      <p>21. When a tractor is operated without a trailer (bobtail), the air brake system:</p>
-      <label><input type="radio" name="q21" value="A"> A. Is disabled</label>
-      <label><input type="radio" name="q21" value="B"> B. Still operates the tractor service and parking brakes using its own reservoirs</label>
-      <label><input type="radio" name="q21" value="C"> C. Cannot be used</label>
-      <label><input type="radio" name="q21" value="D"> D. Must be filled with water</label>
-    </div>
-    <div class="question" data-question="22">
-      <p>22. Tractor air tanks are often labelled 'primary' and 'secondary' so that:</p>
-      <label><input type="radio" name="q22" value="A"> A. Drivers know which tank to fill with water</label>
-      <label><input type="radio" name="q22" value="B"> B. Circuits to specific axles can be identified and diagnosed</label>
-      <label><input type="radio" name="q22" value="C"> C. Only one tank is used for braking</label>
-      <label><input type="radio" name="q22" value="D"> D. Trailer brakes can be adjusted</label>
-    </div>
-    <div class="question" data-question="23">
-      <p>23. Parts technicians supplying valves or chambers for tractor air systems must match:</p>
-      <label><input type="radio" name="q23" value="A"> A. Colour and approximate size only</label>
-      <label><input type="radio" name="q23" value="B"> B. Port sizes, mounting style, function, crack pressures and approvals shown in catalogues</label>
-      <label><input type="radio" name="q23" value="C"> C. Any available part that threads in</label>
-      <label><input type="radio" name="q23" value="D"> D. Only the brand name</label>
-    </div>
-    <div class="question" data-question="24">
-      <p>24. A bobtail (tractor only) may have different braking characteristics because:</p>
-      <label><input type="radio" name="q24" value="A"> A. Weight on drive axles is higher</label>
-      <label><input type="radio" name="q24" value="B"> B. Weight on drive axles is lower and brakes can lock more easily without trailer load</label>
-      <label><input type="radio" name="q24" value="C"> C. There are more brakes applied</label>
-      <label><input type="radio" name="q24" value="D"> D. The compressor is disconnected</label>
-    </div>
-    <div class="question" data-question="25">
-      <p>25. The supply line from the tractor to the trailer also functions as:</p>
-      <label><input type="radio" name="q25" value="A"> A. The trailer service control line</label>
-      <label><input type="radio" name="q25" value="B"> B. The emergency line that charges trailer reservoirs and controls trailer spring brakes</label>
-      <label><input type="radio" name="q25" value="C"> C. A vent line for ABS</label>
-      <label><input type="radio" name="q25" value="D"> D. A cooling line for the compressor</label>
-    </div>
-    <div class="question" data-question="26">
-      <p>26. Pressure protection valves on tractors may be used to:</p>
-      <label><input type="radio" name="q26" value="A"> A. Isolate non-essential air-operated accessories until reservoir pressure reaches a safe level</label>
-      <label><input type="radio" name="q26" value="B"> B. Increase pressure to steering brakes</label>
-      <label><input type="radio" name="q26" value="C"> C. Reduce reservoir size</label>
-      <label><input type="radio" name="q26" value="D"> D. Control fuel delivery</label>
-    </div>
-    <div class="question" data-question="27">
-      <p>27. A typical tractor may use an in-line air dryer located:</p>
-      <label><input type="radio" name="q27" value="A"> A. Between the reservoirs and the brake chambers</label>
-      <label><input type="radio" name="q27" value="B"> B. In the discharge line between the compressor and the first reservoir</label>
-      <label><input type="radio" name="q27" value="C"> C. In the trailer service line only</label>
-      <label><input type="radio" name="q27" value="D"> D. In the cab heater duct</label>
-    </div>
-    <div class="question" data-question="28">
-      <p>28. The ILM Air Brakes Truck and Tractor module emphasizes that parts technicians should:</p>
-      <label><input type="radio" name="q28" value="A"> A. Carry out brake performance tests on the road</label>
-      <label><input type="radio" name="q28" value="B"> B. Recognize tractor air system layouts and identify correct replacement components</label>
-      <label><input type="radio" name="q28" value="C"> C. Adjust automatic slack adjusters</label>
-      <label><input type="radio" name="q28" value="D"> D. Program ABS ECUs</label>
-    </div>
-    <div class="question" data-question="29">
-      <p>29. Some tractors have additional reservoirs dedicated to:</p>
-      <label><input type="radio" name="q29" value="A"> A. Cab air suspension, horns and other accessories</label>
-      <label><input type="radio" name="q29" value="B"> B. Only engine lubrication</label>
-      <label><input type="radio" name="q29" value="C"> C. Fuel tank pressurization</label>
-      <label><input type="radio" name="q29" value="D"> D. Hydraulic steering</label>
-    </div>
-    <div class="question" data-question="30">
-      <p>30. Service manuals and ILMs show that typical compressor cut-out pressures for highway tractors are:</p>
-      <label><input type="radio" name="q30" value="A"> A. Extremely low (for example 200–300 kPa)</label>
-      <label><input type="radio" name="q30" value="B"> B. In a higher range (for example 690–930 kPa or 100–135 psi depending on jurisdiction)</label>
-      <label><input type="radio" name="q30" value="C"> C. Exactly 50 psi on all vehicles</label>
-      <label><input type="radio" name="q30" value="D"> D. Always beyond component ratings</label>
-    </div>
-    <div class="question" data-question="31">
-      <p>31. If the tractor protection valve closes due to a serious trailer air leak, the tractor service brakes:</p>
-      <label><input type="radio" name="q31" value="A"> A. Lose all air supply</label>
-      <label><input type="radio" name="q31" value="B"> B. Continue to function from the tractor’s own reservoirs</label>
-      <label><input type="radio" name="q31" value="C"> C. Release immediately</label>
-      <label><input type="radio" name="q31" value="D"> D. Lock full on</label>
-    </div>
-    <div class="question" data-question="32">
-      <p>32. On modern tractors with disc brakes, the air brake system operates:</p>
-      <label><input type="radio" name="q32" value="A"> A. Mechanical linkages only</label>
-      <label><input type="radio" name="q32" value="B"> B. Air-operated disc brake actuators instead of S-cam drum components</label>
-      <label><input type="radio" name="q32" value="C"> C. Hydraulic calipers only</label>
-      <label><input type="radio" name="q32" value="D"> D. Electric motors at each wheel</label>
-    </div>
-    <div class="question" data-question="33">
-      <p>33. Parking a tractor with the transmission in gear but without applying spring brakes:</p>
-      <label><input type="radio" name="q33" value="A"> A. Is acceptable if on level ground</label>
-      <label><input type="radio" name="q33" value="B"> B. Is unsafe because driveline forces may not hold and air leakage can release service brakes</label>
-      <label><input type="radio" name="q33" value="C"> C. Prevents any movement</label>
-      <label><input type="radio" name="q33" value="D"> D. Is required by regulation</label>
-    </div>
-    <div class="question" data-question="34">
-      <p>34. When ordering air tanks for tractors, key information includes:</p>
-      <label><input type="radio" name="q34" value="A"> A. Only approximate length</label>
-      <label><input type="radio" name="q34" value="B"> B. Capacity, diameter, length, port size and location, mounting style and certification markings</label>
-      <label><input type="radio" name="q34" value="C"> C. Colour and finish only</label>
-      <label><input type="radio" name="q34" value="D"> D. The type of fuel used in the truck</label>
-    </div>
-    <div class="question" data-question="35">
-      <p>35. On tractors with central tire inflation or air ride seats, the accessory air system is usually supplied from:</p>
-      <label><input type="radio" name="q35" value="A"> A. A separate electric compressor only</label>
-      <label><input type="radio" name="q35" value="B"> B. The main air system through pressure protection and check valves</label>
-      <label><input type="radio" name="q35" value="C"> C. Hydraulic pumps</label>
-      <label><input type="radio" name="q35" value="D"> D. Coolant lines</label>
-    </div>
-    <div class="question" data-question="36">
-      <p>36. Steer axle brakes on tractors are critical for:</p>
-      <label><input type="radio" name="q36" value="A"> A. Only holding the truck when parked</label>
-      <label><input type="radio" name="q36" value="B"> B. Directional control and balanced braking during stops</label>
-      <label><input type="radio" name="q36" value="C"> C. Trailer braking only</label>
-      <label><input type="radio" name="q36" value="D"> D. Controlling governor cut-out</label>
-    </div>
-    <div class="question" data-question="37">
-      <p>37. A common feature of tractor air systems is a dual-needle gauge that:</p>
-      <label><input type="radio" name="q37" value="A"> A. Shows oil temperature and coolant level</label>
-      <label><input type="radio" name="q37" value="B"> B. Displays pressures in the primary and secondary service reservoirs</label>
-      <label><input type="radio" name="q37" value="C"> C. Shows trailer tire pressure</label>
-      <label><input type="radio" name="q37" value="D"> D. Measures governor speed</label>
-    </div>
-    <div class="question" data-question="38">
-      <p>38. When coupling a tractor to a trailer, charging the trailer air system is done by:</p>
-      <label><input type="radio" name="q38" value="A"> A. Pulling out the trailer supply valve</label>
-      <label><input type="radio" name="q38" value="B"> B. Pushing in (opening) the trailer supply valve after lines are connected</label>
-      <label><input type="radio" name="q38" value="C"> C. Using only the hand valve</label>
-      <label><input type="radio" name="q38" value="D"> D. Applying the parking brake</label>
-    </div>
-    <div class="question" data-question="39">
-      <p>39. The mounting location of the tractor’s relay valves is important because:</p>
-      <label><input type="radio" name="q39" value="A"> A. They must be far from the brake chambers to delay application</label>
-      <label><input type="radio" name="q39" value="B"> B. Shorter air lines from relay valves to chambers help improve brake response time</label>
-      <label><input type="radio" name="q39" value="C"> C. They only control parking brakes</label>
-      <label><input type="radio" name="q39" value="D"> D. They must always be inside the cab</label>
-    </div>
-    <div class="question" data-question="40">
-      <p>40. The ILM uses schematics of typical tractor air systems so that parts technicians can:</p>
-      <label><input type="radio" name="q40" value="A"> A. Rewire the electrical system</label>
-      <label><input type="radio" name="q40" value="B"> B. See how valves and reservoirs are interconnected and locate likely replacement parts</label>
-      <label><input type="radio" name="q40" value="C"> C. Perform weld repairs on air tanks</label>
-      <label><input type="radio" name="q40" value="D"> D. Program transmission controls</label>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
     </div>
   </div>
 
-  <div id="bottom-controls">
-    <button id="btnPrev">Previous</button>
-    <button id="btnNext">Next</button>
-    <button id="btnSubmit">Submit</button>
-  </div>
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270203 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270203h &mdash; Air Brakes Truck and Tractor</h2>
+      <p>
+        Practice questions for Air Brakes Truck and Tractor.
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form">
+
+      <div class="question">
+        <p><strong>On a typical highway tractor, the dual service circuits usually supply:</strong></p>
+        <label><input type="radio" name="q1" value="a"> One circuit for headlights and one for horn</label>
+        <label><input type="radio" name="q1" value="b"> One circuit for front (steer) axle brakes and one for drive axle brakes</label>
+        <label><input type="radio" name="q1" value="c"> One circuit for tractor and one for trailer lighting</label>
+        <label><input type="radio" name="q1" value="d"> Only the trailer brakes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A tractor protection valve is installed to:</strong></p>
+        <label><input type="radio" name="q2" value="a"> Control engine fuel pressure</label>
+        <label><input type="radio" name="q2" value="b"> Protect the tractor’s air supply if the trailer or supply line fails</label>
+        <label><input type="radio" name="q2" value="c"> Limit maximum tractor speed</label>
+        <label><input type="radio" name="q2" value="d"> Control cab air suspension</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The trailer supply (emergency) line on a tractor is typically colour coded:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Blue</label>
+        <label><input type="radio" name="q3" value="b"> Red</label>
+        <label><input type="radio" name="q3" value="c"> Green</label>
+        <label><input type="radio" name="q3" value="d"> Yellow</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The service (control) line to the trailer is typically colour coded:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Blue</label>
+        <label><input type="radio" name="q4" value="b"> Red</label>
+        <label><input type="radio" name="q4" value="c"> Yellow</label>
+        <label><input type="radio" name="q4" value="d"> Black</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Glad hands on the back of the tractor are used to:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Connect electrical power to the trailer</label>
+        <label><input type="radio" name="q5" value="b"> Connect tractor and trailer air lines using standard couplers</label>
+        <label><input type="radio" name="q5" value="c"> Attach safety chains</label>
+        <label><input type="radio" name="q5" value="d"> Adjust fifth wheel height</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Dummy (parking) couplers on the back of the cab are used to:</strong></p>
+        <label><input type="radio" name="q6" value="a"> Store unused hoses and protect glad hand seals from dirt and damage</label>
+        <label><input type="radio" name="q6" value="b"> Increase air pressure</label>
+        <label><input type="radio" name="q6" value="c"> Attach hydraulic hoses</label>
+        <label><input type="radio" name="q6" value="d"> Lift the trailer</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The tractor parking control valve (dash valve) normally:</strong></p>
+        <label><input type="radio" name="q7" value="a"> Applies only the front axle brakes</label>
+        <label><input type="radio" name="q7" value="b"> Controls air to the spring brake sections on tractor axles</label>
+        <label><input type="radio" name="q7" value="c"> Directly applies service brakes with hydraulic pressure</label>
+        <label><input type="radio" name="q7" value="d"> Controls engine shutdown</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The trailer parking (supply) valve in the tractor cab is typically:</strong></p>
+        <label><input type="radio" name="q8" value="a"> A blue hand valve</label>
+        <label><input type="radio" name="q8" value="b"> A red, push-pull valve used to charge and exhaust the trailer supply line</label>
+        <label><input type="radio" name="q8" value="c"> A floor-mounted pedal</label>
+        <label><input type="radio" name="q8" value="d"> An electronic switch on the steering wheel</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pulling out the trailer supply valve in the cab will:</strong></p>
+        <label><input type="radio" name="q9" value="a"> Charge the trailer system with air</label>
+        <label><input type="radio" name="q9" value="b"> Exhaust air from the trailer supply line and apply trailer spring brakes</label>
+        <label><input type="radio" name="q9" value="c"> Release all service brakes</label>
+        <label><input type="radio" name="q9" value="d"> Shut down the engine</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The hand (trolley) valve on some tractors is used to:</strong></p>
+        <label><input type="radio" name="q10" value="a"> Apply tractor front brakes only</label>
+        <label><input type="radio" name="q10" value="b"> Apply trailer service brakes independently for control or testing</label>
+        <label><input type="radio" name="q10" value="c"> Control engine retarder</label>
+        <label><input type="radio" name="q10" value="d"> Set axle alignment</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Using the hand valve for normal speed control instead of the foot valve is:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Recommended for everyday driving</label>
+        <label><input type="radio" name="q11" value="b"> Not recommended, as it can overheat trailer brakes and cause uneven wear</label>
+        <label><input type="radio" name="q11" value="c"> Mandatory by regulation</label>
+        <label><input type="radio" name="q11" value="d"> Required whenever descending hills</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On a dual-circuit tractor, a failure in the front axle service circuit should:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Remove all braking capability</label>
+        <label><input type="radio" name="q12" value="b"> Still allow braking on the drive axle circuit, although stopping distance is increased</label>
+        <label><input type="radio" name="q12" value="c"> Apply the trailer brakes automatically</label>
+        <label><input type="radio" name="q12" value="d"> Release parking brakes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Air reservoirs on a tractor are normally mounted:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Only inside the cab</label>
+        <label><input type="radio" name="q13" value="b"> On the frame rails or crossmembers where they are supported and protected</label>
+        <label><input type="radio" name="q13" value="c"> On top of the cab</label>
+        <label><input type="radio" name="q13" value="d"> Inside the fuel tank</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Multi-circuit protection valves are used so that:</strong></p>
+        <label><input type="radio" name="q14" value="a"> All circuits drain together if one fails</label>
+        <label><input type="radio" name="q14" value="b"> Each circuit is isolated so a failure in one does not completely empty the others</label>
+        <label><input type="radio" name="q14" value="c"> Only the front axle brakes receive air</label>
+        <label><input type="radio" name="q14" value="d"> Only the trailer receives air</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In many tractors, an application pressure gauge shows:</strong></p>
+        <label><input type="radio" name="q15" value="a"> Reservoir pressure only</label>
+        <label><input type="radio" name="q15" value="b"> Service air pressure being delivered to the brake chambers during a brake application</label>
+        <label><input type="radio" name="q15" value="c"> Tire pressure</label>
+        <label><input type="radio" name="q15" value="d"> Compressor outlet temperature</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Tractor ABS typically monitors wheel speed on:</strong></p>
+        <label><input type="radio" name="q16" value="a"> Only the steer axle</label>
+        <label><input type="radio" name="q16" value="b"> Selected wheels on steer and drive axles, depending on configuration</label>
+        <label><input type="radio" name="q16" value="c"> Trailer axles only</label>
+        <label><input type="radio" name="q16" value="d"> The fifth wheel plate</label>
+      </div>
+
+      <div class="question">
+        <p><strong>ABS warning lamps on the tractor dashboard indicate that:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Brakes will not operate at all</label>
+        <label><input type="radio" name="q17" value="b"> The ABS system has detected a fault and has disabled ABS modulation on affected wheels</label>
+        <label><input type="radio" name="q17" value="c"> The parking brake is applied</label>
+        <label><input type="radio" name="q17" value="d"> The air dryer is purging</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The fifth wheel on a tractor is related to air brakes because it:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Provides an air reservoir mounting location</label>
+        <label><input type="radio" name="q18" value="b"> Supports the trailer and provides a pathway for air and electrical lines via hoses and cables</label>
+        <label><input type="radio" name="q18" value="c"> Acts as an ABS sensor</label>
+        <label><input type="radio" name="q18" value="d"> Controls governor cut-out</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Typical foundation brake arrangement on a highway tractor with tandem drives is:</strong></p>
+        <label><input type="radio" name="q19" value="a"> Disc brakes on front axle only</label>
+        <label><input type="radio" name="q19" value="b"> Drum or disc brakes on steer and both drive axles, all air-operated</label>
+        <label><input type="radio" name="q19" value="c"> Hydraulic front and air rear</label>
+        <label><input type="radio" name="q19" value="d"> Electric brakes on all axles</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A common tractor air system test involves:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Measuring coolant pressure</label>
+        <label><input type="radio" name="q20" value="b"> Checking compressor build-up time, governor cut-in/cut-out and system leakage rates</label>
+        <label><input type="radio" name="q20" value="c"> Measuring engine oil pressure only</label>
+        <label><input type="radio" name="q20" value="d"> Testing tire tread depth</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When a tractor is operated without a trailer (bobtail), the air brake system:</strong></p>
+        <label><input type="radio" name="q21" value="a"> Is disabled</label>
+        <label><input type="radio" name="q21" value="b"> Still operates the tractor service and parking brakes using its own reservoirs</label>
+        <label><input type="radio" name="q21" value="c"> Cannot be used</label>
+        <label><input type="radio" name="q21" value="d"> Must be filled with water</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Tractor air tanks are often labelled 'primary' and 'secondary' so that:</strong></p>
+        <label><input type="radio" name="q22" value="a"> Drivers know which tank to fill with water</label>
+        <label><input type="radio" name="q22" value="b"> Circuits to specific axles can be identified and diagnosed</label>
+        <label><input type="radio" name="q22" value="c"> Only one tank is used for braking</label>
+        <label><input type="radio" name="q22" value="d"> Trailer brakes can be adjusted</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Parts technicians supplying valves or chambers for tractor air systems must match:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Colour and approximate size only</label>
+        <label><input type="radio" name="q23" value="b"> Port sizes, mounting style, function, crack pressures and approvals shown in catalogues</label>
+        <label><input type="radio" name="q23" value="c"> Any available part that threads in</label>
+        <label><input type="radio" name="q23" value="d"> Only the brand name</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A bobtail (tractor only) may have different braking characteristics because:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Weight on drive axles is higher</label>
+        <label><input type="radio" name="q24" value="b"> Weight on drive axles is lower and brakes can lock more easily without trailer load</label>
+        <label><input type="radio" name="q24" value="c"> There are more brakes applied</label>
+        <label><input type="radio" name="q24" value="d"> The compressor is disconnected</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The supply line from the tractor to the trailer also functions as:</strong></p>
+        <label><input type="radio" name="q25" value="a"> The trailer service control line</label>
+        <label><input type="radio" name="q25" value="b"> The emergency line that charges trailer reservoirs and controls trailer spring brakes</label>
+        <label><input type="radio" name="q25" value="c"> A vent line for ABS</label>
+        <label><input type="radio" name="q25" value="d"> A cooling line for the compressor</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pressure protection valves on tractors may be used to:</strong></p>
+        <label><input type="radio" name="q26" value="a"> Isolate non-essential air-operated accessories until reservoir pressure reaches a safe level</label>
+        <label><input type="radio" name="q26" value="b"> Increase pressure to steering brakes</label>
+        <label><input type="radio" name="q26" value="c"> Reduce reservoir size</label>
+        <label><input type="radio" name="q26" value="d"> Control fuel delivery</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A typical tractor may use an in-line air dryer located:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Between the reservoirs and the brake chambers</label>
+        <label><input type="radio" name="q27" value="b"> In the discharge line between the compressor and the first reservoir</label>
+        <label><input type="radio" name="q27" value="c"> In the trailer service line only</label>
+        <label><input type="radio" name="q27" value="d"> In the cab heater duct</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM Air Brakes Truck and Tractor module emphasizes that parts technicians should:</strong></p>
+        <label><input type="radio" name="q28" value="a"> Carry out brake performance tests on the road</label>
+        <label><input type="radio" name="q28" value="b"> Recognize tractor air system layouts and identify correct replacement components</label>
+        <label><input type="radio" name="q28" value="c"> Adjust automatic slack adjusters</label>
+        <label><input type="radio" name="q28" value="d"> Program ABS ECUs</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Some tractors have additional reservoirs dedicated to:</strong></p>
+        <label><input type="radio" name="q29" value="a"> Cab air suspension, horns and other accessories</label>
+        <label><input type="radio" name="q29" value="b"> Only engine lubrication</label>
+        <label><input type="radio" name="q29" value="c"> Fuel tank pressurization</label>
+        <label><input type="radio" name="q29" value="d"> Hydraulic steering</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Service manuals and ILMs show that typical compressor cut-out pressures for highway tractors are:</strong></p>
+        <label><input type="radio" name="q30" value="a"> Extremely low (for example 200–300 kPa)</label>
+        <label><input type="radio" name="q30" value="b"> In a higher range (for example 690–930 kPa or 100–135 psi depending on jurisdiction)</label>
+        <label><input type="radio" name="q30" value="c"> Exactly 50 psi on all vehicles</label>
+        <label><input type="radio" name="q30" value="d"> Always beyond component ratings</label>
+      </div>
+
+      <div class="question">
+        <p><strong>If the tractor protection valve closes due to a serious trailer air leak, the tractor service brakes:</strong></p>
+        <label><input type="radio" name="q31" value="a"> Lose all air supply</label>
+        <label><input type="radio" name="q31" value="b"> Continue to function from the tractor’s own reservoirs</label>
+        <label><input type="radio" name="q31" value="c"> Release immediately</label>
+        <label><input type="radio" name="q31" value="d"> Lock full on</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On modern tractors with disc brakes, the air brake system operates:</strong></p>
+        <label><input type="radio" name="q32" value="a"> Mechanical linkages only</label>
+        <label><input type="radio" name="q32" value="b"> Air-operated disc brake actuators instead of S-cam drum components</label>
+        <label><input type="radio" name="q32" value="c"> Hydraulic calipers only</label>
+        <label><input type="radio" name="q32" value="d"> Electric motors at each wheel</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Parking a tractor with the transmission in gear but without applying spring brakes:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Is acceptable if on level ground</label>
+        <label><input type="radio" name="q33" value="b"> Is unsafe because driveline forces may not hold and air leakage can release service brakes</label>
+        <label><input type="radio" name="q33" value="c"> Prevents any movement</label>
+        <label><input type="radio" name="q33" value="d"> Is required by regulation</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When ordering air tanks for tractors, key information includes:</strong></p>
+        <label><input type="radio" name="q34" value="a"> Only approximate length</label>
+        <label><input type="radio" name="q34" value="b"> Capacity, diameter, length, port size and location, mounting style and certification markings</label>
+        <label><input type="radio" name="q34" value="c"> Colour and finish only</label>
+        <label><input type="radio" name="q34" value="d"> The type of fuel used in the truck</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On tractors with central tire inflation or air ride seats, the accessory air system is usually supplied from:</strong></p>
+        <label><input type="radio" name="q35" value="a"> A separate electric compressor only</label>
+        <label><input type="radio" name="q35" value="b"> The main air system through pressure protection and check valves</label>
+        <label><input type="radio" name="q35" value="c"> Hydraulic pumps</label>
+        <label><input type="radio" name="q35" value="d"> Coolant lines</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Steer axle brakes on tractors are critical for:</strong></p>
+        <label><input type="radio" name="q36" value="a"> Only holding the truck when parked</label>
+        <label><input type="radio" name="q36" value="b"> Directional control and balanced braking during stops</label>
+        <label><input type="radio" name="q36" value="c"> Trailer braking only</label>
+        <label><input type="radio" name="q36" value="d"> Controlling governor cut-out</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A common feature of tractor air systems is a dual-needle gauge that:</strong></p>
+        <label><input type="radio" name="q37" value="a"> Shows oil temperature and coolant level</label>
+        <label><input type="radio" name="q37" value="b"> Displays pressures in the primary and secondary service reservoirs</label>
+        <label><input type="radio" name="q37" value="c"> Shows trailer tire pressure</label>
+        <label><input type="radio" name="q37" value="d"> Measures governor speed</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When coupling a tractor to a trailer, charging the trailer air system is done by:</strong></p>
+        <label><input type="radio" name="q38" value="a"> Pulling out the trailer supply valve</label>
+        <label><input type="radio" name="q38" value="b"> Pushing in (opening) the trailer supply valve after lines are connected</label>
+        <label><input type="radio" name="q38" value="c"> Using only the hand valve</label>
+        <label><input type="radio" name="q38" value="d"> Applying the parking brake</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
 
   <script>
     window.ANSWERS = {
-  "1": "B",
-  "2": "B",
-  "3": "B",
-  "4": "A",
-  "5": "B",
-  "6": "A",
-  "7": "B",
-  "8": "B",
-  "9": "B",
-  "10": "B",
-  "11": "B",
-  "12": "B",
-  "13": "B",
-  "14": "B",
-  "15": "B",
-  "16": "B",
-  "17": "B",
-  "18": "B",
-  "19": "B",
-  "20": "B",
-  "21": "B",
-  "22": "B",
-  "23": "B",
-  "24": "B",
-  "25": "B",
-  "26": "B",
-  "27": "B",
-  "28": "B",
-  "29": "A",
-  "30": "B",
-  "31": "B",
-  "32": "B",
-  "33": "B",
-  "34": "B",
-  "35": "B",
-  "36": "B",
-  "37": "B",
-  "38": "B",
-  "39": "B",
-  "40": "B"
-};
+      "q1": "b",
+      "q2": "b",
+      "q3": "b",
+      "q4": "b",
+      "q5": "b",
+      "q6": "b",
+      "q7": "b",
+      "q8": "b",
+      "q9": "b",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "b",
+      "q20": "b",
+      "q21": "b",
+      "q22": "b",
+      "q23": "b",
+      "q24": "b",
+      "q25": "b",
+      "q26": "b",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "b",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b",
+      "q34": "b",
+      "q35": "b",
+      "q36": "b",
+      "q37": "b",
+      "q38": "b"
+    };
   </script>
+  <script src="../script.js"></script>
 </body>
 </html>

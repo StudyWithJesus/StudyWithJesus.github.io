@@ -1,359 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>270204i - Forage and Harvesting Equipment Practice Exam</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="exam-common.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div id="banner">
-    <h1>NAIT Parts Technician - 270204i - Forage and Harvesting Equipment</h1>
-    <p>270204i - Forage and Harvesting Equipment</p>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
   </div>
 
-  <div id="top-controls">
-    <button id="btnStart">Start Exam</button>
-    <button id="btnReset">Reset</button>
-  </div>
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>Forage and Harvesting Equipment</h1>
+      <p>Forage and Harvesting Equipment</p>
+    </div>
+  </header>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-    <span id="progress-text">0 / 40</span>
-  </div>
-
-  <div id="question-container">
-    <div class="question" data-question="1">
-      <p>1. Forage crops are grown primarily to:</p>
-      <label><input type="radio" name="q1" value="A"> A. Produce grain for human consumption only</label>
-      <label><input type="radio" name="q1" value="B"> B. Provide feed for livestock as pasture, hay or silage</label>
-      <label><input type="radio" name="q1" value="C"> C. Replace fertilizer requirements</label>
-      <label><input type="radio" name="q1" value="D"> D. Control soil erosion only</label>
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
     </div>
-    <div class="question" data-question="2">
-      <p>2. Legume forage crops commonly include:</p>
-      <label><input type="radio" name="q2" value="A"> A. Wheat and barley</label>
-      <label><input type="radio" name="q2" value="B"> B. Alfalfa and clover species</label>
-      <label><input type="radio" name="q2" value="C"> C. Corn and canola</label>
-      <label><input type="radio" name="q2" value="D"> D. Flax and rye</label>
-    </div>
-    <div class="question" data-question="3">
-      <p>3. A forage harvester is designed to:</p>
-      <label><input type="radio" name="q3" value="A"> A. Harvest grain only</label>
-      <label><input type="radio" name="q3" value="B"> B. Cut, chop and blow forage into a wagon or truck for silage</label>
-      <label><input type="radio" name="q3" value="C"> C. Bale dry hay into small squares</label>
-      <label><input type="radio" name="q3" value="D"> D. Combine oilseed crops</label>
-    </div>
-    <div class="question" data-question="4">
-      <p>4. Pull‑type forage harvesters are powered by:</p>
-      <label><input type="radio" name="q4" value="A"> A. Their own diesel engines only</label>
-      <label><input type="radio" name="q4" value="B"> B. The towing tractor via PTO shaft</label>
-      <label><input type="radio" name="q4" value="C"> C. Electric motors</label>
-      <label><input type="radio" name="q4" value="D"> D. Hydraulic drives from the baler</label>
-    </div>
-    <div class="question" data-question="5">
-      <p>5. Self‑propelled forage harvesters include:</p>
-      <label><input type="radio" name="q5" value="A"> A. Only the header</label>
-      <label><input type="radio" name="q5" value="B"> B. Engine, drive system, cutterhead, kernel processor (if equipped) and discharge spout on one machine</label>
-      <label><input type="radio" name="q5" value="C"> C. Only a bale chamber</label>
-      <label><input type="radio" name="q5" value="D"> D. No cab or controls</label>
-    </div>
-    <div class="question" data-question="6">
-      <p>6. Windrowers (swathers) are used to:</p>
-      <label><input type="radio" name="q6" value="A"> A. Pick up stones from the field</label>
-      <label><input type="radio" name="q6" value="B"> B. Cut the crop and lay it in windrows for drying or later pickup</label>
-      <label><input type="radio" name="q6" value="C"> C. Spread manure</label>
-      <label><input type="radio" name="q6" value="D"> D. Grind grain into flour</label>
-    </div>
-    <div class="question" data-question="7">
-      <p>7. Disc mower‑conditioners cut forage using:</p>
-      <label><input type="radio" name="q7" value="A"> A. Sickle sections on a cutter bar only</label>
-      <label><input type="radio" name="q7" value="B"> B. High‑speed rotating discs with attached knives</label>
-      <label><input type="radio" name="q7" value="C"> C. Shear bolts with no blades</label>
-      <label><input type="radio" name="q7" value="D"> D. Rotary rakes</label>
-    </div>
-    <div class="question" data-question="8">
-      <p>8. The conditioning system on a mower‑conditioner is used to:</p>
-      <label><input type="radio" name="q8" value="A"> A. Increase tractor engine speed</label>
-      <label><input type="radio" name="q8" value="B"> B. Crimp or abrade stems to speed drying</label>
-      <label><input type="radio" name="q8" value="C"> C. Compact bales</label>
-      <label><input type="radio" name="q8" value="D"> D. Separate grain from chaff</label>
-    </div>
-    <div class="question" data-question="9">
-      <p>9. Small square balers typically produce bales that:</p>
-      <label><input type="radio" name="q9" value="A"> A. Weigh several tonnes each</label>
-      <label><input type="radio" name="q9" value="B"> B. Are easy to handle manually and are often stored in stacks</label>
-      <label><input type="radio" name="q9" value="C"> C. Cannot be stacked</label>
-      <label><input type="radio" name="q9" value="D"> D. Are always wrapped in plastic</label>
-    </div>
-    <div class="question" data-question="10">
-      <p>10. Large round balers form bales by:</p>
-      <label><input type="radio" name="q10" value="A"> A. Compressing hay in a stationary chamber with ties</label>
-      <label><input type="radio" name="q10" value="B"> B. Rolling forage into a cylindrical bale using belts, rollers or chains</label>
-      <label><input type="radio" name="q10" value="C"> C. Casting concrete around the hay</label>
-      <label><input type="radio" name="q10" value="D"> D. Using square plungers only</label>
-    </div>
-    <div class="question" data-question="11">
-      <p>11. Net wrap on round bales is used instead of twine to:</p>
-      <label><input type="radio" name="q11" value="A"> A. Increase bale moisture</label>
-      <label><input type="radio" name="q11" value="B"> B. Provide faster wrapping and better weather protection</label>
-      <label><input type="radio" name="q11" value="C"> C. Reduce bale density</label>
-      <label><input type="radio" name="q11" value="D"> D. Eliminate the need for bale shape</label>
-    </div>
-    <div class="question" data-question="12">
-      <p>12. Bale density is important because:</p>
-      <label><input type="radio" name="q12" value="A"> A. Loose bales always preserve feed better</label>
-      <label><input type="radio" name="q12" value="B"> B. Proper density improves storage, handling and feed quality</label>
-      <label><input type="radio" name="q12" value="C"> C. High density always causes spoilage</label>
-      <label><input type="radio" name="q12" value="D"> D. Density has no effect on storage losses</label>
-    </div>
-    <div class="question" data-question="13">
-      <p>13. Forage moisture at baling should:</p>
-      <label><input type="radio" name="q13" value="A"> A. Be higher than 40% for dry hay</label>
-      <label><input type="radio" name="q13" value="B"> B. Be appropriate for hay or silage to avoid heating, mould or spoilage</label>
-      <label><input type="radio" name="q13" value="C"> C. Not be measured</label>
-      <label><input type="radio" name="q13" value="D"> D. Always be below 5%</label>
-    </div>
-    <div class="question" data-question="14">
-      <p>14. Combine harvesters perform which FOUR basic functions?</p>
-      <label><input type="radio" name="q14" value="A"> A. Cooling, heating, steering and braking</label>
-      <label><input type="radio" name="q14" value="B"> B. Cutting, threshing, separating and cleaning the crop</label>
-      <label><input type="radio" name="q14" value="C"> C. Crushing rocks, tilling and seeding</label>
-      <label><input type="radio" name="q14" value="D"> D. Fueling, greasing, painting and storage</label>
-    </div>
-    <div class="question" data-question="15">
-      <p>15. The header on a combine is responsible for:</p>
-      <label><input type="radio" name="q15" value="A"> A. Separating grain from chaff</label>
-      <label><input type="radio" name="q15" value="B"> B. Cutting and feeding crop into the machine</label>
-      <label><input type="radio" name="q15" value="C"> C. Cleaning sample in the sieve area</label>
-      <label><input type="radio" name="q15" value="D"> D. Driving the rear axle</label>
-    </div>
-    <div class="question" data-question="16">
-      <p>16. Conventional straw‑walker combines separate grain from straw by:</p>
-      <label><input type="radio" name="q16" value="A"> A. Passing material through a rotary cage only</label>
-      <label><input type="radio" name="q16" value="B"> B. Shaking straw so trapped grain falls through grates</label>
-      <label><input type="radio" name="q16" value="C"> C. Using air jets alone</label>
-      <label><input type="radio" name="q16" value="D"> D. Mixing grain with chaff</label>
-    </div>
-    <div class="question" data-question="17">
-      <p>17. Rotary combines use a rotor to:</p>
-      <label><input type="radio" name="q17" value="A"> A. Drive the tractor wheels</label>
-      <label><input type="radio" name="q17" value="B"> B. Thresh and separate crop material inside a cylindrical concave area</label>
-      <label><input type="radio" name="q17" value="C"> C. Pump hydraulic oil</label>
-      <label><input type="radio" name="q17" value="D"> D. Pack silage in the bunker</label>
-    </div>
-    <div class="question" data-question="18">
-      <p>18. Excessive grain loss out the back of a combine may indicate:</p>
-      <label><input type="radio" name="q18" value="A"> A. Proper setting of sieves and fan</label>
-      <label><input type="radio" name="q18" value="B"> B. Settings or ground speed that are too aggressive for crop conditions</label>
-      <label><input type="radio" name="q18" value="C"> C. Low engine power only</label>
-      <label><input type="radio" name="q18" value="D"> D. Insufficient header width</label>
-    </div>
-    <div class="question" data-question="19">
-      <p>19. Straw choppers and spreaders at the rear of a combine are designed to:</p>
-      <label><input type="radio" name="q19" value="A"> A. Harvest straw separately</label>
-      <label><input type="radio" name="q19" value="B"> B. Chop and distribute residue evenly over the field</label>
-      <label><input type="radio" name="q19" value="C"> C. Increase grain tank capacity</label>
-      <label><input type="radio" name="q19" value="D"> D. Reduce rotor speed</label>
-    </div>
-    <div class="question" data-question="20">
-      <p>20. Pickup headers are commonly used when:</p>
-      <label><input type="radio" name="q20" value="A"> A. Harvesting standing grain only</label>
-      <label><input type="radio" name="q20" value="B"> B. Crops have been swathed into windrows prior to combining</label>
-      <label><input type="radio" name="q20" value="C"> C. Spraying pre‑seed herbicide</label>
-      <label><input type="radio" name="q20" value="D"> D. Spreading fertilizer</label>
-    </div>
-    <div class="question" data-question="21">
-      <p>21. Common replacement parts for forage and harvesting equipment include:</p>
-      <label><input type="radio" name="q21" value="A"> A. Cab upholstery only</label>
-      <label><input type="radio" name="q21" value="B"> B. Knives, guards, belts, chains, pickup teeth, bearings and drive components</label>
-      <label><input type="radio" name="q21" value="C"> C. Pistons and crankshafts</label>
-      <label><input type="radio" name="q21" value="D"> D. Household wiring</label>
-    </div>
-    <div class="question" data-question="22">
-      <p>22. Kernel processors on forage harvesters are used mainly when harvesting:</p>
-      <label><input type="radio" name="q22" value="A"> A. Dry hay</label>
-      <label><input type="radio" name="q22" value="B"> B. Corn silage to crush kernels and improve digestibility</label>
-      <label><input type="radio" name="q22" value="C"> C. Small grain for seed</label>
-      <label><input type="radio" name="q22" value="D"> D. Oilseed crops</label>
-    </div>
-    <div class="question" data-question="23">
-      <p>23. Windrowing methods affect:</p>
-      <label><input type="radio" name="q23" value="A"> A. Only tractor fuel use</label>
-      <label><input type="radio" name="q23" value="B"> B. Drying rate, pickup efficiency and forage quality</label>
-      <label><input type="radio" name="q23" value="C"> C. Combine engine oil life only</label>
-      <label><input type="radio" name="q23" value="D"> D. Sprayer tank capacity</label>
-    </div>
-    <div class="question" data-question="24">
-      <p>24. Header flotation on swathers is important so that:</p>
-      <label><input type="radio" name="q24" value="A"> A. Header remains rigid on uneven ground</label>
-      <label><input type="radio" name="q24" value="B"> B. Header follows ground contours without scalping soil or leaving high spots</label>
-      <label><input type="radio" name="q24" value="C"> C. Machine can travel faster on the road</label>
-      <label><input type="radio" name="q24" value="D"> D. Cab stays level</label>
-    </div>
-    <div class="question" data-question="25">
-      <p>25. Reel speed relative to ground speed on a header should be adjusted so that:</p>
-      <label><input type="radio" name="q25" value="A"> A. Reel turns twice as fast as possible</label>
-      <label><input type="radio" name="q25" value="B"> B. Reel slightly outpaces crop speed to feed evenly without shattering</label>
-      <label><input type="radio" name="q25" value="C"> C. Reel does not turn at all</label>
-      <label><input type="radio" name="q25" value="D"> D. Reel turns backwards</label>
-    </div>
-    <div class="question" data-question="26">
-      <p>26. Hydraulic accumulators on balers or harvesters may be used to:</p>
-      <label><input type="radio" name="q26" value="A"> A. Store electrical energy</label>
-      <label><input type="radio" name="q26" value="B"> B. Absorb shock loads and maintain uniform pressure</label>
-      <label><input type="radio" name="q26" value="C"> C. Hold grain</label>
-      <label><input type="radio" name="q26" value="D"> D. Lubricate bearings</label>
-    </div>
-    <div class="question" data-question="27">
-      <p>27. When operating forage equipment, safety practices include:</p>
-      <label><input type="radio" name="q27" value="A"> A. Cleaning plugged equipment with PTO engaged</label>
-      <label><input type="radio" name="q27" value="B"> B. Shutting off power, disengaging PTO and stopping engine before servicing</label>
-      <label><input type="radio" name="q27" value="C"> C. Riding on drawn equipment</label>
-      <label><input type="radio" name="q27" value="D"> D. Removing shields for easy access</label>
-    </div>
-    <div class="question" data-question="28">
-      <p>28. Moisture testers for forage are used to:</p>
-      <label><input type="radio" name="q28" value="A"> A. Measure soil pH</label>
-      <label><input type="radio" name="q28" value="B"> B. Determine moisture content to decide on baling or chopping suitability</label>
-      <label><input type="radio" name="q28" value="C"> C. Check engine coolant</label>
-      <label><input type="radio" name="q28" value="D"> D. Test pesticide concentration</label>
-    </div>
-    <div class="question" data-question="29">
-      <p>29. Silage is produced by:</p>
-      <label><input type="radio" name="q29" value="A"> A. Drying hay completely before storage</label>
-      <label><input type="radio" name="q29" value="B"> B. Storing chopped forage at controlled moisture in an oxygen‑limited environment for fermentation</label>
-      <label><input type="radio" name="q29" value="C"> C. Storing grain only</label>
-      <label><input type="radio" name="q29" value="D"> D. Freezing forage</label>
-    </div>
-    <div class="question" data-question="30">
-      <p>30. Self‑unloading forage wagons are designed to:</p>
-      <label><input type="radio" name="q30" value="A"> A. Be unloaded manually only</label>
-      <label><input type="radio" name="q30" value="B"> B. Use chains or belts to move silage to the rear and discharge it mechanically</label>
-      <label><input type="radio" name="q30" value="C"> C. Carry only dry hay bales</label>
-      <label><input type="radio" name="q30" value="D"> D. Tow combines</label>
-    </div>
-    <div class="question" data-question="31">
-      <p>31. In the ILM Forage and Harvesting Equipment module, parts technicians are expected to:</p>
-      <label><input type="radio" name="q31" value="A"> A. Design new harvesting machines</label>
-      <label><input type="radio" name="q31" value="B"> B. Recognize major components, wear items and correct terminology for ordering parts</label>
-      <label><input type="radio" name="q31" value="C"> C. Perform engine rebuilds</label>
-      <label><input type="radio" name="q31" value="D"> D. Calibrate sprayer pumps</label>
-    </div>
-    <div class="question" data-question="32">
-      <p>32. Straw walkers and sieves are examples of components found in the:</p>
-      <label><input type="radio" name="q32" value="A"> A. Mower‑conditioner</label>
-      <label><input type="radio" name="q32" value="B"> B. Cleaning and separating area of a combine</label>
-      <label><input type="radio" name="q32" value="C"> C. Round baler chamber</label>
-      <label><input type="radio" name="q32" value="D"> D. Forage wagon</label>
-    </div>
-    <div class="question" data-question="33">
-      <p>33. Pickup teeth on balers and forage harvesters are designed to:</p>
-      <label><input type="radio" name="q33" value="A"> A. Cut stems</label>
-      <label><input type="radio" name="q33" value="B"> B. Lift and feed crop from the windrow into the machine</label>
-      <label><input type="radio" name="q33" value="C"> C. Measure moisture</label>
-      <label><input type="radio" name="q33" value="D"> D. Spread fertilizer</label>
-    </div>
-    <div class="question" data-question="34">
-      <p>34. Drive chains and belts on harvesting equipment require:</p>
-      <label><input type="radio" name="q34" value="A"> A. No maintenance</label>
-      <label><input type="radio" name="q34" value="B"> B. Correct tension, alignment and lubrication or replacement as specified</label>
-      <label><input type="radio" name="q34" value="C"> C. Removal before each use</label>
-      <label><input type="radio" name="q34" value="D"> D. Painting to prevent wear</label>
-    </div>
-    <div class="question" data-question="35">
-      <p>35. A lodged or down crop may require:</p>
-      <label><input type="radio" name="q35" value="A"> A. Standard settings only</label>
-      <label><input type="radio" name="q35" value="B"> B. Adjustments to header angle, reel position and ground speed for effective pickup</label>
-      <label><input type="radio" name="q35" value="C"> C. No change in operation</label>
-      <label><input type="radio" name="q35" value="D"> D. Harvesting at night only</label>
-    </div>
-    <div class="question" data-question="36">
-      <p>36. The grain tank or hopper on a combine is used to:</p>
-      <label><input type="radio" name="q36" value="A"> A. Store straw</label>
-      <label><input type="radio" name="q36" value="B"> B. Store cleaned grain before unloading</label>
-      <label><input type="radio" name="q36" value="C"> C. Hold fuel</label>
-      <label><input type="radio" name="q36" value="D"> D. Carry water for spraying</label>
-    </div>
-    <div class="question" data-question="37">
-      <p>37. Common wear parts on disc mower‑conditioners include:</p>
-      <label><input type="radio" name="q37" value="A"> A. Cab glass only</label>
-      <label><input type="radio" name="q37" value="B"> B. Knives, skid shoes, discs and conditioning rolls or flails</label>
-      <label><input type="radio" name="q37" value="C"> C. Engine pistons</label>
-      <label><input type="radio" name="q37" value="D"> D. Air filters on tractors only</label>
-    </div>
-    <div class="question" data-question="38">
-      <p>38. Straw chaff spread patterns that are too narrow can lead to:</p>
-      <label><input type="radio" name="q38" value="A"> A. Uniform residue distribution</label>
-      <label><input type="radio" name="q38" value="B"> B. Heavy residue bands that affect subsequent seeding and crop emergence</label>
-      <label><input type="radio" name="q38" value="C"> C. Reduced fuel use</label>
-      <label><input type="radio" name="q38" value="D"> D. Improved header performance</label>
-    </div>
-    <div class="question" data-question="39">
-      <p>39. Pickup reel tines on a swather should be adjusted so they:</p>
-      <label><input type="radio" name="q39" value="A"> A. Barely touch or slightly lift the crop without striking the ground excessively</label>
-      <label><input type="radio" name="q39" value="B"> B. Dig into the soil to loosen it</label>
-      <label><input type="radio" name="q39" value="C"> C. Turn backwards into the crop</label>
-      <label><input type="radio" name="q39" value="D"> D. Never contact the crop</label>
-    </div>
-    <div class="question" data-question="40">
-      <p>40. The operator’s manual and ILM stress that pre‑season inspection of harvesting equipment should include:</p>
-      <label><input type="radio" name="q40" value="A"> A. Painting only</label>
-      <label><input type="radio" name="q40" value="B"> B. Checking and replacing worn knives, chains, belts, bearings and guards before entering the field</label>
-      <label><input type="radio" name="q40" value="C"> C. Ignoring lubrication points</label>
-      <label><input type="radio" name="q40" value="D"> D. Running at full speed without load for extended periods</label>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
     </div>
   </div>
 
-  <div id="bottom-controls">
-    <button id="btnPrev">Previous</button>
-    <button id="btnNext">Next</button>
-    <button id="btnSubmit">Submit</button>
-  </div>
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270204 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270204i &mdash; Forage and Harvesting Equipment</h2>
+      <p>
+        Practice questions for Forage and Harvesting Equipment.
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form">
+
+      <div class="question">
+        <p><strong>Forage crops are grown primarily to:</strong></p>
+        <label><input type="radio" name="q1" value="a"> Produce grain for human consumption only</label>
+        <label><input type="radio" name="q1" value="b"> Provide feed for livestock as pasture, hay or silage</label>
+        <label><input type="radio" name="q1" value="c"> Replace fertilizer requirements</label>
+        <label><input type="radio" name="q1" value="d"> Control soil erosion only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Legume forage crops commonly include:</strong></p>
+        <label><input type="radio" name="q2" value="a"> Wheat and barley</label>
+        <label><input type="radio" name="q2" value="b"> Alfalfa and clover species</label>
+        <label><input type="radio" name="q2" value="c"> Corn and canola</label>
+        <label><input type="radio" name="q2" value="d"> Flax and rye</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A forage harvester is designed to:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Harvest grain only</label>
+        <label><input type="radio" name="q3" value="b"> Cut, chop and blow forage into a wagon or truck for silage</label>
+        <label><input type="radio" name="q3" value="c"> Bale dry hay into small squares</label>
+        <label><input type="radio" name="q3" value="d"> Combine oilseed crops</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pull‑type forage harvesters are powered by:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Their own diesel engines only</label>
+        <label><input type="radio" name="q4" value="b"> The towing tractor via PTO shaft</label>
+        <label><input type="radio" name="q4" value="c"> Electric motors</label>
+        <label><input type="radio" name="q4" value="d"> Hydraulic drives from the baler</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Self‑propelled forage harvesters include:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Only the header</label>
+        <label><input type="radio" name="q5" value="b"> Engine, drive system, cutterhead, kernel processor (if equipped) and discharge spout on one machine</label>
+        <label><input type="radio" name="q5" value="c"> Only a bale chamber</label>
+        <label><input type="radio" name="q5" value="d"> No cab or controls</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Windrowers (swathers) are used to:</strong></p>
+        <label><input type="radio" name="q6" value="a"> Pick up stones from the field</label>
+        <label><input type="radio" name="q6" value="b"> Cut the crop and lay it in windrows for drying or later pickup</label>
+        <label><input type="radio" name="q6" value="c"> Spread manure</label>
+        <label><input type="radio" name="q6" value="d"> Grind grain into flour</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Disc mower‑conditioners cut forage using:</strong></p>
+        <label><input type="radio" name="q7" value="a"> Sickle sections on a cutter bar only</label>
+        <label><input type="radio" name="q7" value="b"> High‑speed rotating discs with attached knives</label>
+        <label><input type="radio" name="q7" value="c"> Shear bolts with no blades</label>
+        <label><input type="radio" name="q7" value="d"> Rotary rakes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The conditioning system on a mower‑conditioner is used to:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Increase tractor engine speed</label>
+        <label><input type="radio" name="q8" value="b"> Crimp or abrade stems to speed drying</label>
+        <label><input type="radio" name="q8" value="c"> Compact bales</label>
+        <label><input type="radio" name="q8" value="d"> Separate grain from chaff</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Small square balers typically produce bales that:</strong></p>
+        <label><input type="radio" name="q9" value="a"> Weigh several tonnes each</label>
+        <label><input type="radio" name="q9" value="b"> Are easy to handle manually and are often stored in stacks</label>
+        <label><input type="radio" name="q9" value="c"> Cannot be stacked</label>
+        <label><input type="radio" name="q9" value="d"> Are always wrapped in plastic</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Large round balers form bales by:</strong></p>
+        <label><input type="radio" name="q10" value="a"> Compressing hay in a stationary chamber with ties</label>
+        <label><input type="radio" name="q10" value="b"> Rolling forage into a cylindrical bale using belts, rollers or chains</label>
+        <label><input type="radio" name="q10" value="c"> Casting concrete around the hay</label>
+        <label><input type="radio" name="q10" value="d"> Using square plungers only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Net wrap on round bales is used instead of twine to:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Increase bale moisture</label>
+        <label><input type="radio" name="q11" value="b"> Provide faster wrapping and better weather protection</label>
+        <label><input type="radio" name="q11" value="c"> Reduce bale density</label>
+        <label><input type="radio" name="q11" value="d"> Eliminate the need for bale shape</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Bale density is important because:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Loose bales always preserve feed better</label>
+        <label><input type="radio" name="q12" value="b"> Proper density improves storage, handling and feed quality</label>
+        <label><input type="radio" name="q12" value="c"> High density always causes spoilage</label>
+        <label><input type="radio" name="q12" value="d"> Density has no effect on storage losses</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Forage moisture at baling should:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Be higher than 40% for dry hay</label>
+        <label><input type="radio" name="q13" value="b"> Be appropriate for hay or silage to avoid heating, mould or spoilage</label>
+        <label><input type="radio" name="q13" value="c"> Not be measured</label>
+        <label><input type="radio" name="q13" value="d"> Always be below 5%</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Combine harvesters perform which FOUR basic functions?</strong></p>
+        <label><input type="radio" name="q14" value="a"> Cooling, heating, steering and braking</label>
+        <label><input type="radio" name="q14" value="b"> Cutting, threshing, separating and cleaning the crop</label>
+        <label><input type="radio" name="q14" value="c"> Crushing rocks, tilling and seeding</label>
+        <label><input type="radio" name="q14" value="d"> Fueling, greasing, painting and storage</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The header on a combine is responsible for:</strong></p>
+        <label><input type="radio" name="q15" value="a"> Separating grain from chaff</label>
+        <label><input type="radio" name="q15" value="b"> Cutting and feeding crop into the machine</label>
+        <label><input type="radio" name="q15" value="c"> Cleaning sample in the sieve area</label>
+        <label><input type="radio" name="q15" value="d"> Driving the rear axle</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Conventional straw‑walker combines separate grain from straw by:</strong></p>
+        <label><input type="radio" name="q16" value="a"> Passing material through a rotary cage only</label>
+        <label><input type="radio" name="q16" value="b"> Shaking straw so trapped grain falls through grates</label>
+        <label><input type="radio" name="q16" value="c"> Using air jets alone</label>
+        <label><input type="radio" name="q16" value="d"> Mixing grain with chaff</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Rotary combines use a rotor to:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Drive the tractor wheels</label>
+        <label><input type="radio" name="q17" value="b"> Thresh and separate crop material inside a cylindrical concave area</label>
+        <label><input type="radio" name="q17" value="c"> Pump hydraulic oil</label>
+        <label><input type="radio" name="q17" value="d"> Pack silage in the bunker</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive grain loss out the back of a combine may indicate:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Proper setting of sieves and fan</label>
+        <label><input type="radio" name="q18" value="b"> Settings or ground speed that are too aggressive for crop conditions</label>
+        <label><input type="radio" name="q18" value="c"> Low engine power only</label>
+        <label><input type="radio" name="q18" value="d"> Insufficient header width</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Straw choppers and spreaders at the rear of a combine are designed to:</strong></p>
+        <label><input type="radio" name="q19" value="a"> Harvest straw separately</label>
+        <label><input type="radio" name="q19" value="b"> Chop and distribute residue evenly over the field</label>
+        <label><input type="radio" name="q19" value="c"> Increase grain tank capacity</label>
+        <label><input type="radio" name="q19" value="d"> Reduce rotor speed</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pickup headers are commonly used when:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Harvesting standing grain only</label>
+        <label><input type="radio" name="q20" value="b"> Crops have been swathed into windrows prior to combining</label>
+        <label><input type="radio" name="q20" value="c"> Spraying pre‑seed herbicide</label>
+        <label><input type="radio" name="q20" value="d"> Spreading fertilizer</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Common replacement parts for forage and harvesting equipment include:</strong></p>
+        <label><input type="radio" name="q21" value="a"> Cab upholstery only</label>
+        <label><input type="radio" name="q21" value="b"> Knives, guards, belts, chains, pickup teeth, bearings and drive components</label>
+        <label><input type="radio" name="q21" value="c"> Pistons and crankshafts</label>
+        <label><input type="radio" name="q21" value="d"> Household wiring</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Kernel processors on forage harvesters are used mainly when harvesting:</strong></p>
+        <label><input type="radio" name="q22" value="a"> Dry hay</label>
+        <label><input type="radio" name="q22" value="b"> Corn silage to crush kernels and improve digestibility</label>
+        <label><input type="radio" name="q22" value="c"> Small grain for seed</label>
+        <label><input type="radio" name="q22" value="d"> Oilseed crops</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Windrowing methods affect:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Only tractor fuel use</label>
+        <label><input type="radio" name="q23" value="b"> Drying rate, pickup efficiency and forage quality</label>
+        <label><input type="radio" name="q23" value="c"> Combine engine oil life only</label>
+        <label><input type="radio" name="q23" value="d"> Sprayer tank capacity</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Header flotation on swathers is important so that:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Header remains rigid on uneven ground</label>
+        <label><input type="radio" name="q24" value="b"> Header follows ground contours without scalping soil or leaving high spots</label>
+        <label><input type="radio" name="q24" value="c"> Machine can travel faster on the road</label>
+        <label><input type="radio" name="q24" value="d"> Cab stays level</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Reel speed relative to ground speed on a header should be adjusted so that:</strong></p>
+        <label><input type="radio" name="q25" value="a"> Reel turns twice as fast as possible</label>
+        <label><input type="radio" name="q25" value="b"> Reel slightly outpaces crop speed to feed evenly without shattering</label>
+        <label><input type="radio" name="q25" value="c"> Reel does not turn at all</label>
+        <label><input type="radio" name="q25" value="d"> Reel turns backwards</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Hydraulic accumulators on balers or harvesters may be used to:</strong></p>
+        <label><input type="radio" name="q26" value="a"> Store electrical energy</label>
+        <label><input type="radio" name="q26" value="b"> Absorb shock loads and maintain uniform pressure</label>
+        <label><input type="radio" name="q26" value="c"> Hold grain</label>
+        <label><input type="radio" name="q26" value="d"> Lubricate bearings</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When operating forage equipment, safety practices include:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Cleaning plugged equipment with PTO engaged</label>
+        <label><input type="radio" name="q27" value="b"> Shutting off power, disengaging PTO and stopping engine before servicing</label>
+        <label><input type="radio" name="q27" value="c"> Riding on drawn equipment</label>
+        <label><input type="radio" name="q27" value="d"> Removing shields for easy access</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Moisture testers for forage are used to:</strong></p>
+        <label><input type="radio" name="q28" value="a"> Measure soil pH</label>
+        <label><input type="radio" name="q28" value="b"> Determine moisture content to decide on baling or chopping suitability</label>
+        <label><input type="radio" name="q28" value="c"> Check engine coolant</label>
+        <label><input type="radio" name="q28" value="d"> Test pesticide concentration</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Silage is produced by:</strong></p>
+        <label><input type="radio" name="q29" value="a"> Drying hay completely before storage</label>
+        <label><input type="radio" name="q29" value="b"> Storing chopped forage at controlled moisture in an oxygen‑limited environment for fermentation</label>
+        <label><input type="radio" name="q29" value="c"> Storing grain only</label>
+        <label><input type="radio" name="q29" value="d"> Freezing forage</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Self‑unloading forage wagons are designed to:</strong></p>
+        <label><input type="radio" name="q30" value="a"> Be unloaded manually only</label>
+        <label><input type="radio" name="q30" value="b"> Use chains or belts to move silage to the rear and discharge it mechanically</label>
+        <label><input type="radio" name="q30" value="c"> Carry only dry hay bales</label>
+        <label><input type="radio" name="q30" value="d"> Tow combines</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In the ILM Forage and Harvesting Equipment module, parts technicians are expected to:</strong></p>
+        <label><input type="radio" name="q31" value="a"> Design new harvesting machines</label>
+        <label><input type="radio" name="q31" value="b"> Recognize major components, wear items and correct terminology for ordering parts</label>
+        <label><input type="radio" name="q31" value="c"> Perform engine rebuilds</label>
+        <label><input type="radio" name="q31" value="d"> Calibrate sprayer pumps</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Straw walkers and sieves are examples of components found in the:</strong></p>
+        <label><input type="radio" name="q32" value="a"> Mower‑conditioner</label>
+        <label><input type="radio" name="q32" value="b"> Cleaning and separating area of a combine</label>
+        <label><input type="radio" name="q32" value="c"> Round baler chamber</label>
+        <label><input type="radio" name="q32" value="d"> Forage wagon</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pickup teeth on balers and forage harvesters are designed to:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Cut stems</label>
+        <label><input type="radio" name="q33" value="b"> Lift and feed crop from the windrow into the machine</label>
+        <label><input type="radio" name="q33" value="c"> Measure moisture</label>
+        <label><input type="radio" name="q33" value="d"> Spread fertilizer</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Drive chains and belts on harvesting equipment require:</strong></p>
+        <label><input type="radio" name="q34" value="a"> No maintenance</label>
+        <label><input type="radio" name="q34" value="b"> Correct tension, alignment and lubrication or replacement as specified</label>
+        <label><input type="radio" name="q34" value="c"> Removal before each use</label>
+        <label><input type="radio" name="q34" value="d"> Painting to prevent wear</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A lodged or down crop may require:</strong></p>
+        <label><input type="radio" name="q35" value="a"> Standard settings only</label>
+        <label><input type="radio" name="q35" value="b"> Adjustments to header angle, reel position and ground speed for effective pickup</label>
+        <label><input type="radio" name="q35" value="c"> No change in operation</label>
+        <label><input type="radio" name="q35" value="d"> Harvesting at night only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The grain tank or hopper on a combine is used to:</strong></p>
+        <label><input type="radio" name="q36" value="a"> Store straw</label>
+        <label><input type="radio" name="q36" value="b"> Store cleaned grain before unloading</label>
+        <label><input type="radio" name="q36" value="c"> Hold fuel</label>
+        <label><input type="radio" name="q36" value="d"> Carry water for spraying</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Common wear parts on disc mower‑conditioners include:</strong></p>
+        <label><input type="radio" name="q37" value="a"> Cab glass only</label>
+        <label><input type="radio" name="q37" value="b"> Knives, skid shoes, discs and conditioning rolls or flails</label>
+        <label><input type="radio" name="q37" value="c"> Engine pistons</label>
+        <label><input type="radio" name="q37" value="d"> Air filters on tractors only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Straw chaff spread patterns that are too narrow can lead to:</strong></p>
+        <label><input type="radio" name="q38" value="a"> Uniform residue distribution</label>
+        <label><input type="radio" name="q38" value="b"> Heavy residue bands that affect subsequent seeding and crop emergence</label>
+        <label><input type="radio" name="q38" value="c"> Reduced fuel use</label>
+        <label><input type="radio" name="q38" value="d"> Improved header performance</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
 
   <script>
     window.ANSWERS = {
-  "1": "B",
-  "2": "B",
-  "3": "B",
-  "4": "B",
-  "5": "B",
-  "6": "B",
-  "7": "B",
-  "8": "B",
-  "9": "B",
-  "10": "B",
-  "11": "B",
-  "12": "B",
-  "13": "B",
-  "14": "B",
-  "15": "B",
-  "16": "B",
-  "17": "B",
-  "18": "B",
-  "19": "B",
-  "20": "B",
-  "21": "B",
-  "22": "B",
-  "23": "B",
-  "24": "B",
-  "25": "B",
-  "26": "B",
-  "27": "B",
-  "28": "B",
-  "29": "B",
-  "30": "B",
-  "31": "B",
-  "32": "B",
-  "33": "B",
-  "34": "B",
-  "35": "B",
-  "36": "B",
-  "37": "B",
-  "38": "B",
-  "39": "A",
-  "40": "B"
-};
+      "q1": "b",
+      "q2": "b",
+      "q3": "b",
+      "q4": "b",
+      "q5": "b",
+      "q6": "b",
+      "q7": "b",
+      "q8": "b",
+      "q9": "b",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "b",
+      "q20": "b",
+      "q21": "b",
+      "q22": "b",
+      "q23": "b",
+      "q24": "b",
+      "q25": "b",
+      "q26": "b",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "b",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b",
+      "q34": "b",
+      "q35": "b",
+      "q36": "b",
+      "q37": "b",
+      "q38": "b"
+    };
   </script>
+  <script src="../script.js"></script>
 </body>
 </html>

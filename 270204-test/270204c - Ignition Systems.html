@@ -1,319 +1,361 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>270204c - Ignition Systems Practice Exam</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="exam-common.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div id="banner">
-    <h1>NAIT Parts Technician - 270204c - Ignition Systems</h1>
-    <p>270204c - Ignition Systems</p>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
   </div>
 
-  <div id="top-controls">
-    <button id="btnStart">Start Exam</button>
-    <button id="btnReset">Reset</button>
-  </div>
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>Ignition Systems</h1>
+      <p>Ignition Systems</p>
+    </div>
+  </header>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-    <span id="progress-text">0 / 40</span>
-  </div>
-
-  <div id="question-container">
-    <div class="question" data-question="1">
-      <p>1. The primary purpose of the ignition system in a spark ignition engine is to:</p>
-      <label><input type="radio" name="q1" value="A"> A. Provide fuel to the cylinders</label>
-      <label><input type="radio" name="q1" value="B"> B. Ignite the air fuel mixture at the correct time</label>
-      <label><input type="radio" name="q1" value="C"> C. Lubricate moving components</label>
-      <label><input type="radio" name="q1" value="D"> D. Control exhaust emissions mechanically</label>
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
     </div>
-    <div class="question" data-question="2">
-      <p>2. In a basic ignition coil, electrical energy is stored in the:</p>
-      <label><input type="radio" name="q2" value="A"> A. Primary and secondary windings magnetic field</label>
-      <label><input type="radio" name="q2" value="B"> B. Spark plug insulator</label>
-      <label><input type="radio" name="q2" value="C"> C. Distributor cap terminals</label>
-      <label><input type="radio" name="q2" value="D"> D. Battery plates only</label>
-    </div>
-    <div class="question" data-question="3">
-      <p>3. The primary winding of an ignition coil is connected to:</p>
-      <label><input type="radio" name="q3" value="A"> A. Battery positive and a switching device such as points or an ignition module</label>
-      <label><input type="radio" name="q3" value="B"> B. The spark plug centre electrode</label>
-      <label><input type="radio" name="q3" value="C"> C. The alternator stator windings</label>
-      <label><input type="radio" name="q3" value="D"> D. The starter solenoid S terminal</label>
-    </div>
-    <div class="question" data-question="4">
-      <p>4. Coil on plug (COP) ignition systems differ from distributor systems because COP:</p>
-      <label><input type="radio" name="q4" value="A"> A. Uses a single coil and mechanical rotor</label>
-      <label><input type="radio" name="q4" value="B"> B. Provides one coil for each cylinder mounted directly on the spark plug</label>
-      <label><input type="radio" name="q4" value="C"> C. Eliminates the need for any electronic control</label>
-      <label><input type="radio" name="q4" value="D"> D. Can only be used on carbureted engines</label>
-    </div>
-    <div class="question" data-question="5">
-      <p>5. Correct ignition timing is important because it:</p>
-      <label><input type="radio" name="q5" value="A"> A. Ensures maximum cylinder pressure occurs at the correct point after top dead centre</label>
-      <label><input type="radio" name="q5" value="B"> B. Prevents alternator overcharging</label>
-      <label><input type="radio" name="q5" value="C"> C. Controls starter motor torque</label>
-      <label><input type="radio" name="q5" value="D"> D. Eliminates the need for a cooling system</label>
-    </div>
-    <div class="question" data-question="6">
-      <p>6. The secondary winding in an ignition coil typically produces:</p>
-      <label><input type="radio" name="q6" value="A"> A. Battery voltage only</label>
-      <label><input type="radio" name="q6" value="B"> B. High voltage required to jump the spark plug gap</label>
-      <label><input type="radio" name="q6" value="C"> C. Low voltage for sensors</label>
-      <label><input type="radio" name="q6" value="D"> D. AC voltage for the charging system</label>
-    </div>
-    <div class="question" data-question="7">
-      <p>7. The heat range of a spark plug refers to its ability to:</p>
-      <label><input type="radio" name="q7" value="A"> A. Produce a stronger spark</label>
-      <label><input type="radio" name="q7" value="B"> B. Transfer heat from the firing end to the cylinder head</label>
-      <label><input type="radio" name="q7" value="C"> C. Change ignition timing</label>
-      <label><input type="radio" name="q7" value="D"> D. Increase fuel octane rating</label>
-    </div>
-    <div class="question" data-question="8">
-      <p>8. An ignition misfire under load is often caused by:</p>
-      <label><input type="radio" name="q8" value="A"> A. Too small a spark plug gap</label>
-      <label><input type="radio" name="q8" value="B"> B. Weak coil output or high resistance in secondary components</label>
-      <label><input type="radio" name="q8" value="C"> C. Excessive fuel octane</label>
-      <label><input type="radio" name="q8" value="D"> D. Low charging system voltage only</label>
-    </div>
-    <div class="question" data-question="9">
-      <p>9. Distributorless ignition systems (DIS) often use a waste spark strategy where:</p>
-      <label><input type="radio" name="q9" value="A"> A. Only half the cylinders receive a spark</label>
-      <label><input type="radio" name="q9" value="B"> B. Each coil fires two spark plugs simultaneously, one on compression and one on exhaust stroke</label>
-      <label><input type="radio" name="q9" value="C"> C. Spark occurs only every second engine cycle</label>
-      <label><input type="radio" name="q9" value="D"> D. Spark is provided only at idle speed</label>
-    </div>
-    <div class="question" data-question="10">
-      <p>10. Crankshaft position sensors are used in modern ignition systems to:</p>
-      <label><input type="radio" name="q10" value="A"> A. Measure engine oil pressure</label>
-      <label><input type="radio" name="q10" value="B"> B. Provide engine speed and position information for timing control</label>
-      <label><input type="radio" name="q10" value="C"> C. Control alternator output</label>
-      <label><input type="radio" name="q10" value="D"> D. Activate the starter drive</label>
-    </div>
-    <div class="question" data-question="11">
-      <p>11. On a basic electronic ignition system, the module or control unit replaces the function of:</p>
-      <label><input type="radio" name="q11" value="A"> A. Spark plugs</label>
-      <label><input type="radio" name="q11" value="B"> B. Mechanical breaker points</label>
-      <label><input type="radio" name="q11" value="C"> C. Pistons and rings</label>
-      <label><input type="radio" name="q11" value="D"> D. Battery terminals</label>
-    </div>
-    <div class="question" data-question="12">
-      <p>12. A larger than specified spark plug gap will generally:</p>
-      <label><input type="radio" name="q12" value="A"> A. Reduce the voltage required to fire the plug</label>
-      <label><input type="radio" name="q12" value="B"> B. Increase voltage demand and may cause misfire under load</label>
-      <label><input type="radio" name="q12" value="C"> C. Have no effect on ignition performance</label>
-      <label><input type="radio" name="q12" value="D"> D. Eliminate radio interference</label>
-    </div>
-    <div class="question" data-question="13">
-      <p>13. Ignition coils are usually supplied with battery voltage during:</p>
-      <label><input type="radio" name="q13" value="A"> A. Key OFF only</label>
-      <label><input type="radio" name="q13" value="B"> B. Cranking and run positions of the ignition switch</label>
-      <label><input type="radio" name="q13" value="C"> C. Accessory position only</label>
-      <label><input type="radio" name="q13" value="D"> D. Park position of the transmission</label>
-    </div>
-    <div class="question" data-question="14">
-      <p>14. High tension leads (spark plug wires) should have:</p>
-      <label><input type="radio" name="q14" value="A"> A. Very low resistance and no insulation</label>
-      <label><input type="radio" name="q14" value="B"> B. Proper insulation and controlled resistance to reduce radio interference</label>
-      <label><input type="radio" name="q14" value="C"> C. Direct metal conductors with no insulation</label>
-      <label><input type="radio" name="q14" value="D"> D. Resistance high enough to limit coil output</label>
-    </div>
-    <div class="question" data-question="15">
-      <p>15. A coil on plug system often simplifies diagnosis because:</p>
-      <label><input type="radio" name="q15" value="A"> A. There are no coils to test</label>
-      <label><input type="radio" name="q15" value="B"> B. Fewer components are shared between cylinders, so misfires can be related to individual coils or plugs</label>
-      <label><input type="radio" name="q15" value="C"> C. The ignition system is purely mechanical</label>
-      <label><input type="radio" name="q15" value="D"> D. It does not require any sensors</label>
-    </div>
-    <div class="question" data-question="16">
-      <p>16. Ignition advance is required at higher engine speeds because:</p>
-      <label><input type="radio" name="q16" value="A"> A. The air fuel mixture burns faster at high RPM</label>
-      <label><input type="radio" name="q16" value="B"> B. The air fuel mixture takes a relatively fixed time to burn, so the spark must occur earlier</label>
-      <label><input type="radio" name="q16" value="C"> C. The alternator output decreases at high RPM</label>
-      <label><input type="radio" name="q16" value="D"> D. Spark plugs fire multiple times per cycle</label>
-    </div>
-    <div class="question" data-question="17">
-      <p>17. Knock sensors are used so that the engine control module can:</p>
-      <label><input type="radio" name="q17" value="A"> A. Advance ignition timing until detonation occurs</label>
-      <label><input type="radio" name="q17" value="B"> B. Retard timing when knock is detected to protect the engine</label>
-      <label><input type="radio" name="q17" value="C"> C. Turn the ignition system off during knock</label>
-      <label><input type="radio" name="q17" value="D"> D. Control fuel pump operation only</label>
-    </div>
-    <div class="question" data-question="18">
-      <p>18. An ignition system that uses a single coil and distributor is MOST likely found on:</p>
-      <label><input type="radio" name="q18" value="A"> A. Older engines with mechanical distribution of secondary voltage</label>
-      <label><input type="radio" name="q18" value="B"> B. Modern coil on plug engines</label>
-      <label><input type="radio" name="q18" value="C"> C. Diesel engines only</label>
-      <label><input type="radio" name="q18" value="D"> D. Hybrid electric drives only</label>
-    </div>
-    <div class="question" data-question="19">
-      <p>19. Carbon tracking inside a distributor cap can cause:</p>
-      <label><input type="radio" name="q19" value="A"> A. Improved spark distribution</label>
-      <label><input type="radio" name="q19" value="B"> B. Cross firing and misfire between adjacent terminals</label>
-      <label><input type="radio" name="q19" value="C"> C. Higher charging voltage</label>
-      <label><input type="radio" name="q19" value="D"> D. Starter motor failure</label>
-    </div>
-    <div class="question" data-question="20">
-      <p>20. The correct sequence in which high voltage is delivered to engine cylinders is called the:</p>
-      <label><input type="radio" name="q20" value="A"> A. Timing chain alignment</label>
-      <label><input type="radio" name="q20" value="B"> B. Firing order</label>
-      <label><input type="radio" name="q20" value="C"> C. Compression ratio</label>
-      <label><input type="radio" name="q20" value="D"> D. Stroke sequence</label>
-    </div>
-    <div class="question" data-question="21">
-      <p>21. When replacing spark plugs, a parts technician must verify:</p>
-      <label><input type="radio" name="q21" value="A"> A. Thread size, reach, heat range and design match application requirements</label>
-      <label><input type="radio" name="q21" value="B"> B. Only that the plug physically fits the socket</label>
-      <label><input type="radio" name="q21" value="C"> C. That all plugs are the hottest range available</label>
-      <label><input type="radio" name="q21" value="D"> D. That gaps are all set as large as possible</label>
-    </div>
-    <div class="question" data-question="22">
-      <p>22. Ignition system primary current is usually switched on and off by:</p>
-      <label><input type="radio" name="q22" value="A"> A. The alternator rotor</label>
-      <label><input type="radio" name="q22" value="B"> B. An ignition module, PCM driver, or mechanical points</label>
-      <label><input type="radio" name="q22" value="C"> C. The starter relay</label>
-      <label><input type="radio" name="q22" value="D"> D. The horn switch</label>
-    </div>
-    <div class="question" data-question="23">
-      <p>23. A misfire on one cylinder that moves when the coil on plug unit is swapped to another cylinder indicates:</p>
-      <label><input type="radio" name="q23" value="A"> A. Faulty injector on the original cylinder</label>
-      <label><input type="radio" name="q23" value="B"> B. Faulty coil on plug unit</label>
-      <label><input type="radio" name="q23" value="C"> C. Mechanical engine fault only</label>
-      <label><input type="radio" name="q23" value="D"> D. Incorrect firing order</label>
-    </div>
-    <div class="question" data-question="24">
-      <p>24. On an engine with a coil pack and plug wires, a misfire on paired cylinders may indicate:</p>
-      <label><input type="radio" name="q24" value="A"> A. Faulty alternator rectifier</label>
-      <label><input type="radio" name="q24" value="B"> B. Faulty shared coil in a waste spark system</label>
-      <label><input type="radio" name="q24" value="C"> C. Seized starter drive</label>
-      <label><input type="radio" name="q24" value="D"> D. Low battery electrolyte level</label>
-    </div>
-    <div class="question" data-question="25">
-      <p>25. Dwell time in an electronic ignition system refers to:</p>
-      <label><input type="radio" name="q25" value="A"> A. Time required for the starter to engage</label>
-      <label><input type="radio" name="q25" value="B"> B. Length of time current flows in the coil primary winding before firing</label>
-      <label><input type="radio" name="q25" value="C"> C. Duration of spark at the plug</label>
-      <label><input type="radio" name="q25" value="D"> D. Time between oil changes</label>
-    </div>
-    <div class="question" data-question="26">
-      <p>26. Ignition systems on modern engines are often integrated with:</p>
-      <label><input type="radio" name="q26" value="A"> A. The charging and starting modules only</label>
-      <label><input type="radio" name="q26" value="B"> B. Engine management systems that also control fuel delivery and emissions</label>
-      <label><input type="radio" name="q26" value="C"> C. The cooling fan motor only</label>
-      <label><input type="radio" name="q26" value="D"> D. The power brake booster</label>
-    </div>
-    <div class="question" data-question="27">
-      <p>27. When checking for ignition spark using a spark tester, it is important to:</p>
-      <label><input type="radio" name="q27" value="A"> A. Hold the plug wire with bare hands</label>
-      <label><input type="radio" name="q27" value="B"> B. Use an approved tester and avoid creating open sparks near fuel vapours</label>
-      <label><input type="radio" name="q27" value="C"> C. Disconnect all engine grounds</label>
-      <label><input type="radio" name="q27" value="D"> D. Increase gap beyond the tester specification</label>
-    </div>
-    <div class="question" data-question="28">
-      <p>28. Extended cranking with no start and strong fuel smell from the exhaust may indicate:</p>
-      <label><input type="radio" name="q28" value="A"> A. Ignition system fault with no spark</label>
-      <label><input type="radio" name="q28" value="B"> B. Strong ignition spark and no fuel</label>
-      <label><input type="radio" name="q28" value="C"> C. Correct operation of all systems</label>
-      <label><input type="radio" name="q28" value="D"> D. Only a weak battery</label>
-    </div>
-    <div class="question" data-question="29">
-      <p>29. Ignition system service information in the ILM helps the parts technician to:</p>
-      <label><input type="radio" name="q29" value="A"> A. Ignore manufacturer specifications</label>
-      <label><input type="radio" name="q29" value="B"> B. Select correct coils, modules, sensors and spark plugs for the application</label>
-      <label><input type="radio" name="q29" value="C"> C. Supply any component that is in stock</label>
-      <label><input type="radio" name="q29" value="D"> D. Decide which engine to install</label>
-    </div>
-    <div class="question" data-question="30">
-      <p>30. A spark plug that is oil fouled may indicate:</p>
-      <label><input type="radio" name="q30" value="A"> A. High alternator output</label>
-      <label><input type="radio" name="q30" value="B"> B. Engine mechanical problems such as worn rings or valve guides</label>
-      <label><input type="radio" name="q30" value="C"> C. Correct ignition system operation</label>
-      <label><input type="radio" name="q30" value="D"> D. Low engine coolant level only</label>
-    </div>
-    <div class="question" data-question="31">
-      <p>31. Ignition wires should be routed and clipped correctly to:</p>
-      <label><input type="radio" name="q31" value="A"> A. Increase radio noise</label>
-      <label><input type="radio" name="q31" value="B"> B. Prevent cross firing and avoid contact with hot or moving parts</label>
-      <label><input type="radio" name="q31" value="C"> C. Reduce alternator speed</label>
-      <label><input type="radio" name="q31" value="D"> D. Increase starter torque</label>
-    </div>
-    <div class="question" data-question="32">
-      <p>32. An open circuit in a crankshaft position sensor will MOST likely result in:</p>
-      <label><input type="radio" name="q32" value="A"> A. No effect on engine operation</label>
-      <label><input type="radio" name="q32" value="B"> B. No start because the control module cannot determine engine position</label>
-      <label><input type="radio" name="q32" value="C"> C. High charging voltage</label>
-      <label><input type="radio" name="q32" value="D"> D. Starter running continuously</label>
-    </div>
-    <div class="question" data-question="33">
-      <p>33. When inspecting an ignition system component catalogue, a parts technician should note:</p>
-      <label><input type="radio" name="q33" value="A"> A. Coil and plug specifications, connector styles and system type for correct application</label>
-      <label><input type="radio" name="q33" value="B"> B. Only the price of each component</label>
-      <label><input type="radio" name="q33" value="C"> C. That any coil can be used on any engine</label>
-      <label><input type="radio" name="q33" value="D"> D. That ILM information is not required</label>
-    </div>
-    <div class="question" data-question="34">
-      <p>34. A vehicle equipped with direct ignition and coil on plug requires replacement coils that:</p>
-      <label><input type="radio" name="q34" value="A"> A. Match the original coil primary resistance, connector and mounting design</label>
-      <label><input type="radio" name="q34" value="B"> B. Have the highest possible output regardless of design</label>
-      <label><input type="radio" name="q34" value="C"> C. Are designed for diesel glow plug circuits</label>
-      <label><input type="radio" name="q34" value="D"> D. Operate only on 6 V systems</label>
-    </div>
-    <div class="question" data-question="35">
-      <p>35. Ignition system components should be handled carefully because:</p>
-      <label><input type="radio" name="q35" value="A"> A. They are not affected by impact or contamination</label>
-      <label><input type="radio" name="q35" value="B"> B. Electronic modules and coils can be damaged by impact, heat or moisture</label>
-      <label><input type="radio" name="q35" value="C"> C. Spark plugs are unbreakable</label>
-      <label><input type="radio" name="q35" value="D"> D. Rough handling improves electrical contact</label>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
     </div>
   </div>
 
-  <div id="bottom-controls">
-    <button id="btnPrev">Previous</button>
-    <button id="btnNext">Next</button>
-    <button id="btnSubmit">Submit</button>
-  </div>
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270204 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270204c &mdash; Ignition Systems</h2>
+      <p>
+        Practice questions for Ignition Systems.
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form">
+
+      <div class="question">
+        <p><strong>The primary purpose of the ignition system in a spark ignition engine is to:</strong></p>
+        <label><input type="radio" name="q1" value="a"> Provide fuel to the cylinders</label>
+        <label><input type="radio" name="q1" value="b"> Ignite the air fuel mixture at the correct time</label>
+        <label><input type="radio" name="q1" value="c"> Lubricate moving components</label>
+        <label><input type="radio" name="q1" value="d"> Control exhaust emissions mechanically</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a basic ignition coil, electrical energy is stored in the:</strong></p>
+        <label><input type="radio" name="q2" value="a"> Primary and secondary windings magnetic field</label>
+        <label><input type="radio" name="q2" value="b"> Spark plug insulator</label>
+        <label><input type="radio" name="q2" value="c"> Distributor cap terminals</label>
+        <label><input type="radio" name="q2" value="d"> Battery plates only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The primary winding of an ignition coil is connected to:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Battery positive and a switching device such as points or an ignition module</label>
+        <label><input type="radio" name="q3" value="b"> The spark plug centre electrode</label>
+        <label><input type="radio" name="q3" value="c"> The alternator stator windings</label>
+        <label><input type="radio" name="q3" value="d"> The starter solenoid S terminal</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Coil on plug (COP) ignition systems differ from distributor systems because COP:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Uses a single coil and mechanical rotor</label>
+        <label><input type="radio" name="q4" value="b"> Provides one coil for each cylinder mounted directly on the spark plug</label>
+        <label><input type="radio" name="q4" value="c"> Eliminates the need for any electronic control</label>
+        <label><input type="radio" name="q4" value="d"> Can only be used on carbureted engines</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Correct ignition timing is important because it:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Ensures maximum cylinder pressure occurs at the correct point after top dead centre</label>
+        <label><input type="radio" name="q5" value="b"> Prevents alternator overcharging</label>
+        <label><input type="radio" name="q5" value="c"> Controls starter motor torque</label>
+        <label><input type="radio" name="q5" value="d"> Eliminates the need for a cooling system</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The secondary winding in an ignition coil typically produces:</strong></p>
+        <label><input type="radio" name="q6" value="a"> Battery voltage only</label>
+        <label><input type="radio" name="q6" value="b"> High voltage required to jump the spark plug gap</label>
+        <label><input type="radio" name="q6" value="c"> Low voltage for sensors</label>
+        <label><input type="radio" name="q6" value="d"> AC voltage for the charging system</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The heat range of a spark plug refers to its ability to:</strong></p>
+        <label><input type="radio" name="q7" value="a"> Produce a stronger spark</label>
+        <label><input type="radio" name="q7" value="b"> Transfer heat from the firing end to the cylinder head</label>
+        <label><input type="radio" name="q7" value="c"> Change ignition timing</label>
+        <label><input type="radio" name="q7" value="d"> Increase fuel octane rating</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An ignition misfire under load is often caused by:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Too small a spark plug gap</label>
+        <label><input type="radio" name="q8" value="b"> Weak coil output or high resistance in secondary components</label>
+        <label><input type="radio" name="q8" value="c"> Excessive fuel octane</label>
+        <label><input type="radio" name="q8" value="d"> Low charging system voltage only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Distributorless ignition systems (DIS) often use a waste spark strategy where:</strong></p>
+        <label><input type="radio" name="q9" value="a"> Only half the cylinders receive a spark</label>
+        <label><input type="radio" name="q9" value="b"> Each coil fires two spark plugs simultaneously, one on compression and one on exhaust stroke</label>
+        <label><input type="radio" name="q9" value="c"> Spark occurs only every second engine cycle</label>
+        <label><input type="radio" name="q9" value="d"> Spark is provided only at idle speed</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Crankshaft position sensors are used in modern ignition systems to:</strong></p>
+        <label><input type="radio" name="q10" value="a"> Measure engine oil pressure</label>
+        <label><input type="radio" name="q10" value="b"> Provide engine speed and position information for timing control</label>
+        <label><input type="radio" name="q10" value="c"> Control alternator output</label>
+        <label><input type="radio" name="q10" value="d"> Activate the starter drive</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On a basic electronic ignition system, the module or control unit replaces the function of:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Spark plugs</label>
+        <label><input type="radio" name="q11" value="b"> Mechanical breaker points</label>
+        <label><input type="radio" name="q11" value="c"> Pistons and rings</label>
+        <label><input type="radio" name="q11" value="d"> Battery terminals</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A larger than specified spark plug gap will generally:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Reduce the voltage required to fire the plug</label>
+        <label><input type="radio" name="q12" value="b"> Increase voltage demand and may cause misfire under load</label>
+        <label><input type="radio" name="q12" value="c"> Have no effect on ignition performance</label>
+        <label><input type="radio" name="q12" value="d"> Eliminate radio interference</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Ignition coils are usually supplied with battery voltage during:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Key OFF only</label>
+        <label><input type="radio" name="q13" value="b"> Cranking and run positions of the ignition switch</label>
+        <label><input type="radio" name="q13" value="c"> Accessory position only</label>
+        <label><input type="radio" name="q13" value="d"> Park position of the transmission</label>
+      </div>
+
+      <div class="question">
+        <p><strong>High tension leads (spark plug wires) should have:</strong></p>
+        <label><input type="radio" name="q14" value="a"> Very low resistance and no insulation</label>
+        <label><input type="radio" name="q14" value="b"> Proper insulation and controlled resistance to reduce radio interference</label>
+        <label><input type="radio" name="q14" value="c"> Direct metal conductors with no insulation</label>
+        <label><input type="radio" name="q14" value="d"> Resistance high enough to limit coil output</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A coil on plug system often simplifies diagnosis because:</strong></p>
+        <label><input type="radio" name="q15" value="a"> There are no coils to test</label>
+        <label><input type="radio" name="q15" value="b"> Fewer components are shared between cylinders, so misfires can be related to individual coils or plugs</label>
+        <label><input type="radio" name="q15" value="c"> The ignition system is purely mechanical</label>
+        <label><input type="radio" name="q15" value="d"> It does not require any sensors</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Ignition advance is required at higher engine speeds because:</strong></p>
+        <label><input type="radio" name="q16" value="a"> The air fuel mixture burns faster at high RPM</label>
+        <label><input type="radio" name="q16" value="b"> The air fuel mixture takes a relatively fixed time to burn, so the spark must occur earlier</label>
+        <label><input type="radio" name="q16" value="c"> The alternator output decreases at high RPM</label>
+        <label><input type="radio" name="q16" value="d"> Spark plugs fire multiple times per cycle</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Knock sensors are used so that the engine control module can:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Advance ignition timing until detonation occurs</label>
+        <label><input type="radio" name="q17" value="b"> Retard timing when knock is detected to protect the engine</label>
+        <label><input type="radio" name="q17" value="c"> Turn the ignition system off during knock</label>
+        <label><input type="radio" name="q17" value="d"> Control fuel pump operation only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An ignition system that uses a single coil and distributor is MOST likely found on:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Older engines with mechanical distribution of secondary voltage</label>
+        <label><input type="radio" name="q18" value="b"> Modern coil on plug engines</label>
+        <label><input type="radio" name="q18" value="c"> Diesel engines only</label>
+        <label><input type="radio" name="q18" value="d"> Hybrid electric drives only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Carbon tracking inside a distributor cap can cause:</strong></p>
+        <label><input type="radio" name="q19" value="a"> Improved spark distribution</label>
+        <label><input type="radio" name="q19" value="b"> Cross firing and misfire between adjacent terminals</label>
+        <label><input type="radio" name="q19" value="c"> Higher charging voltage</label>
+        <label><input type="radio" name="q19" value="d"> Starter motor failure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The correct sequence in which high voltage is delivered to engine cylinders is called the:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Timing chain alignment</label>
+        <label><input type="radio" name="q20" value="b"> Firing order</label>
+        <label><input type="radio" name="q20" value="c"> Compression ratio</label>
+        <label><input type="radio" name="q20" value="d"> Stroke sequence</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When replacing spark plugs, a parts technician must verify:</strong></p>
+        <label><input type="radio" name="q21" value="a"> Thread size, reach, heat range and design match application requirements</label>
+        <label><input type="radio" name="q21" value="b"> Only that the plug physically fits the socket</label>
+        <label><input type="radio" name="q21" value="c"> That all plugs are the hottest range available</label>
+        <label><input type="radio" name="q21" value="d"> That gaps are all set as large as possible</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Ignition system primary current is usually switched on and off by:</strong></p>
+        <label><input type="radio" name="q22" value="a"> The alternator rotor</label>
+        <label><input type="radio" name="q22" value="b"> An ignition module, PCM driver, or mechanical points</label>
+        <label><input type="radio" name="q22" value="c"> The starter relay</label>
+        <label><input type="radio" name="q22" value="d"> The horn switch</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A misfire on one cylinder that moves when the coil on plug unit is swapped to another cylinder indicates:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Faulty injector on the original cylinder</label>
+        <label><input type="radio" name="q23" value="b"> Faulty coil on plug unit</label>
+        <label><input type="radio" name="q23" value="c"> Mechanical engine fault only</label>
+        <label><input type="radio" name="q23" value="d"> Incorrect firing order</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On an engine with a coil pack and plug wires, a misfire on paired cylinders may indicate:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Faulty alternator rectifier</label>
+        <label><input type="radio" name="q24" value="b"> Faulty shared coil in a waste spark system</label>
+        <label><input type="radio" name="q24" value="c"> Seized starter drive</label>
+        <label><input type="radio" name="q24" value="d"> Low battery electrolyte level</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Dwell time in an electronic ignition system refers to:</strong></p>
+        <label><input type="radio" name="q25" value="a"> Time required for the starter to engage</label>
+        <label><input type="radio" name="q25" value="b"> Length of time current flows in the coil primary winding before firing</label>
+        <label><input type="radio" name="q25" value="c"> Duration of spark at the plug</label>
+        <label><input type="radio" name="q25" value="d"> Time between oil changes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Ignition systems on modern engines are often integrated with:</strong></p>
+        <label><input type="radio" name="q26" value="a"> The charging and starting modules only</label>
+        <label><input type="radio" name="q26" value="b"> Engine management systems that also control fuel delivery and emissions</label>
+        <label><input type="radio" name="q26" value="c"> The cooling fan motor only</label>
+        <label><input type="radio" name="q26" value="d"> The power brake booster</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When checking for ignition spark using a spark tester, it is important to:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Hold the plug wire with bare hands</label>
+        <label><input type="radio" name="q27" value="b"> Use an approved tester and avoid creating open sparks near fuel vapours</label>
+        <label><input type="radio" name="q27" value="c"> Disconnect all engine grounds</label>
+        <label><input type="radio" name="q27" value="d"> Increase gap beyond the tester specification</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Extended cranking with no start and strong fuel smell from the exhaust may indicate:</strong></p>
+        <label><input type="radio" name="q28" value="a"> Ignition system fault with no spark</label>
+        <label><input type="radio" name="q28" value="b"> Strong ignition spark and no fuel</label>
+        <label><input type="radio" name="q28" value="c"> Correct operation of all systems</label>
+        <label><input type="radio" name="q28" value="d"> Only a weak battery</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Ignition system service information in the ILM helps the parts technician to:</strong></p>
+        <label><input type="radio" name="q29" value="a"> Ignore manufacturer specifications</label>
+        <label><input type="radio" name="q29" value="b"> Select correct coils, modules, sensors and spark plugs for the application</label>
+        <label><input type="radio" name="q29" value="c"> Supply any component that is in stock</label>
+        <label><input type="radio" name="q29" value="d"> Decide which engine to install</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A spark plug that is oil fouled may indicate:</strong></p>
+        <label><input type="radio" name="q30" value="a"> High alternator output</label>
+        <label><input type="radio" name="q30" value="b"> Engine mechanical problems such as worn rings or valve guides</label>
+        <label><input type="radio" name="q30" value="c"> Correct ignition system operation</label>
+        <label><input type="radio" name="q30" value="d"> Low engine coolant level only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Ignition wires should be routed and clipped correctly to:</strong></p>
+        <label><input type="radio" name="q31" value="a"> Increase radio noise</label>
+        <label><input type="radio" name="q31" value="b"> Prevent cross firing and avoid contact with hot or moving parts</label>
+        <label><input type="radio" name="q31" value="c"> Reduce alternator speed</label>
+        <label><input type="radio" name="q31" value="d"> Increase starter torque</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An open circuit in a crankshaft position sensor will MOST likely result in:</strong></p>
+        <label><input type="radio" name="q32" value="a"> No effect on engine operation</label>
+        <label><input type="radio" name="q32" value="b"> No start because the control module cannot determine engine position</label>
+        <label><input type="radio" name="q32" value="c"> High charging voltage</label>
+        <label><input type="radio" name="q32" value="d"> Starter running continuously</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When inspecting an ignition system component catalogue, a parts technician should note:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Coil and plug specifications, connector styles and system type for correct application</label>
+        <label><input type="radio" name="q33" value="b"> Only the price of each component</label>
+        <label><input type="radio" name="q33" value="c"> That any coil can be used on any engine</label>
+        <label><input type="radio" name="q33" value="d"> That ILM information is not required</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
 
   <script>
     window.ANSWERS = {
-  "1": "B",
-  "2": "A",
-  "3": "A",
-  "4": "B",
-  "5": "A",
-  "6": "B",
-  "7": "B",
-  "8": "B",
-  "9": "B",
-  "10": "B",
-  "11": "B",
-  "12": "B",
-  "13": "B",
-  "14": "B",
-  "15": "B",
-  "16": "B",
-  "17": "B",
-  "18": "A",
-  "19": "B",
-  "20": "B",
-  "21": "A",
-  "22": "B",
-  "23": "B",
-  "24": "B",
-  "25": "B",
-  "26": "B",
-  "27": "B",
-  "28": "A",
-  "29": "B",
-  "30": "B",
-  "31": "B",
-  "32": "B",
-  "33": "A",
-  "34": "A",
-  "35": "B"
-};
+      "q1": "b",
+      "q2": "b",
+      "q3": "b",
+      "q4": "b",
+      "q5": "b",
+      "q6": "b",
+      "q7": "b",
+      "q8": "b",
+      "q9": "b",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "b",
+      "q20": "b",
+      "q21": "b",
+      "q22": "b",
+      "q23": "b",
+      "q24": "b",
+      "q25": "b",
+      "q26": "b",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "b",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b"
+    };
   </script>
+  <script src="../script.js"></script>
 </body>
 </html>

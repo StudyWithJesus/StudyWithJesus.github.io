@@ -1,359 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>270203i Air Brakes Trailers Practice Exam</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="exam-common.js"></script>
+  <meta charset="UTF-8">
+  <title>270203i - Air Brakes Trailers Practice Exam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div id="banner">
-    <h1>NAIT Parts Technician - 270203i Air Brakes Trailers</h1>
-    <p>270203i Air Brakes Trailers</p>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
   </div>
 
-  <div id="top-controls">
-    <button id="btnStart">Start Exam</button>
-    <button id="btnReset">Reset</button>
-  </div>
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>Air Brakes Trailers</h1>
+      <p>Air Brakes Trailers</p>
+    </div>
+  </header>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-    <span id="progress-text">0 / 40</span>
-  </div>
-
-  <div id="question-container">
-    <div class="question" data-question="1">
-      <p>1. On a semi-trailer, the air brake system normally receives air from the tractor via:</p>
-      <label><input type="radio" name="q1" value="A"> A. A hydraulic hose</label>
-      <label><input type="radio" name="q1" value="B"> B. The red supply (emergency) line and blue service (control) line through glad hands</label>
-      <label><input type="radio" name="q1" value="C"> C. An electrical plug only</label>
-      <label><input type="radio" name="q1" value="D"> D. The fifth wheel locks</label>
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
     </div>
-    <div class="question" data-question="2">
-      <p>2. The trailer supply (emergency) line is used to:</p>
-      <label><input type="radio" name="q2" value="A"> A. Control service brake applications only</label>
-      <label><input type="radio" name="q2" value="B"> B. Charge the trailer reservoirs and control trailer spring brake release</label>
-      <label><input type="radio" name="q2" value="C"> C. Control trailer lighting</label>
-      <label><input type="radio" name="q2" value="D"> D. Vent air from the brake chambers</label>
-    </div>
-    <div class="question" data-question="3">
-      <p>3. When the trailer supply line loses pressure suddenly (for example, line separation), the trailer brakes:</p>
-      <label><input type="radio" name="q3" value="A"> A. Release completely</label>
-      <label><input type="radio" name="q3" value="B"> B. Apply automatically as spring brakes come on through the emergency relay/spring brake valve</label>
-      <label><input type="radio" name="q3" value="C"> C. Do nothing</label>
-      <label><input type="radio" name="q3" value="D"> D. Operate only the ABS</label>
-    </div>
-    <div class="question" data-question="4">
-      <p>4. The service (control) line on a trailer system carries:</p>
-      <label><input type="radio" name="q4" value="A"> A. Reservoir supply air to charge tanks</label>
-      <label><input type="radio" name="q4" value="B"> B. Control signal air from the tractor service valve to trailer relay valves</label>
-      <label><input type="radio" name="q4" value="C"> C. Hydraulic fluid</label>
-      <label><input type="radio" name="q4" value="D"> D. Only exhaust air from the chambers</label>
-    </div>
-    <div class="question" data-question="5">
-      <p>5. Relay emergency valves (or spring brake control valves) on trailers are used to:</p>
-      <label><input type="radio" name="q5" value="A"> A. Operate the lights</label>
-      <label><input type="radio" name="q5" value="B"> B. Automatically apply trailer spring brakes if supply pressure is lost and control charging of reservoirs</label>
-      <label><input type="radio" name="q5" value="C"> C. Reduce tire wear</label>
-      <label><input type="radio" name="q5" value="D"> D. Operate suspension air bags</label>
-    </div>
-    <div class="question" data-question="6">
-      <p>6. Trailer reservoirs are usually mounted:</p>
-      <label><input type="radio" name="q6" value="A"> A. Inside the kingpin</label>
-      <label><input type="radio" name="q6" value="B"> B. On the trailer frame where they are protected and accessible</label>
-      <label><input type="radio" name="q6" value="C"> C. On the tractor cab</label>
-      <label><input type="radio" name="q6" value="D"> D. Inside the tires</label>
-    </div>
-    <div class="question" data-question="7">
-      <p>7. Shutoff cocks at the rear of a trailer are used to:</p>
-      <label><input type="radio" name="q7" value="A"> A. Adjust brake shoe clearance</label>
-      <label><input type="radio" name="q7" value="B"> B. Open or close air flow to additional trailers in a multi-trailer combination</label>
-      <label><input type="radio" name="q7" value="C"> C. Control suspension height</label>
-      <label><input type="radio" name="q7" value="D"> D. Bleed hydraulic fluid</label>
-    </div>
-    <div class="question" data-question="8">
-      <p>8. On converter dollies used between trailers, air brake equipment includes:</p>
-      <label><input type="radio" name="q8" value="A"> A. Only hand brakes</label>
-      <label><input type="radio" name="q8" value="B"> B. Reservoirs, relay valves, spring brake chambers and glad hands similar to trailers</label>
-      <label><input type="radio" name="q8" value="C"> C. Only spring brakes with no service brakes</label>
-      <label><input type="radio" name="q8" value="D"> D. Hydraulic disc brakes</label>
-    </div>
-    <div class="question" data-question="9">
-      <p>9. ABS on trailers is identified by:</p>
-      <label><input type="radio" name="q9" value="A"> A. An ABS lamp on the tractor dash only</label>
-      <label><input type="radio" name="q9" value="B"> B. A yellow or amber ABS indicator lamp on the left rear of the trailer and sometimes diagnostic connectors</label>
-      <label><input type="radio" name="q9" value="C"> C. Red reflectors only</label>
-      <label><input type="radio" name="q9" value="D"> D. Special spring brakes</label>
-    </div>
-    <div class="question" data-question="10">
-      <p>10. A 'no-ABS' trailer will:</p>
-      <label><input type="radio" name="q10" value="A"> A. Not have any brakes</label>
-      <label><input type="radio" name="q10" value="B"> B. Still have conventional air brakes but without electronic wheel-lock control</label>
-      <label><input type="radio" name="q10" value="C"> C. Use hydraulic braking</label>
-      <label><input type="radio" name="q10" value="D"> D. Not be allowed on any roads</label>
-    </div>
-    <div class="question" data-question="11">
-      <p>11. Service relay valves on trailers are located near the axles so that:</p>
-      <label><input type="radio" name="q11" value="A"> A. Long control lines delay brake application</label>
-      <label><input type="radio" name="q11" value="B"> B. Short lines from the relay valves to the chambers reduce application and release time</label>
-      <label><input type="radio" name="q11" value="C"> C. Brakes apply only when parked</label>
-      <label><input type="radio" name="q11" value="D"> D. They can be mounted on the kingpin</label>
-    </div>
-    <div class="question" data-question="12">
-      <p>12. The 'spring brake priority' feature in some trailer valves ensures that:</p>
-      <label><input type="radio" name="q12" value="A"> A. Service brakes get air before spring brakes release</label>
-      <label><input type="radio" name="q12" value="B"> B. Trailer spring brakes release first when charging a depleted system to allow vehicle movement</label>
-      <label><input type="radio" name="q12" value="C"> C. Only the hand valve can apply trailer brakes</label>
-      <label><input type="radio" name="q12" value="D"> D. Only parking brakes work when fully charged</label>
-    </div>
-    <div class="question" data-question="13">
-      <p>13. Trailer parking brakes are typically applied by:</p>
-      <label><input type="radio" name="q13" value="A"> A. Hydraulic pressure from the tractor</label>
-      <label><input type="radio" name="q13" value="B"> B. Spring force in dual-chamber brake actuators when supply air is removed</label>
-      <label><input type="radio" name="q13" value="C"> C. Electric motors</label>
-      <label><input type="radio" name="q13" value="D"> D. Manual screw jacks on the axles</label>
-    </div>
-    <div class="question" data-question="14">
-      <p>14. The service reservoir on a trailer is linked to the supply line through:</p>
-      <label><input type="radio" name="q14" value="A"> A. A direct open pipe</label>
-      <label><input type="radio" name="q14" value="B"> B. A one-way check valve so reservoir air is retained if supply pressure drops</label>
-      <label><input type="radio" name="q14" value="C"> C. A hand valve only</label>
-      <label><input type="radio" name="q14" value="D"> D. The fifth wheel jaws</label>
-    </div>
-    <div class="question" data-question="15">
-      <p>15. When coupling a trailer, one important step regarding air lines is to:</p>
-      <label><input type="radio" name="q15" value="A"> A. Cross the supply and service lines for better flexibility</label>
-      <label><input type="radio" name="q15" value="B"> B. Connect the red supply line to the red glad hand and the blue service line to the blue glad hand</label>
-      <label><input type="radio" name="q15" value="C"> C. Connect both hoses to any glad hand</label>
-      <label><input type="radio" name="q15" value="D"> D. Connect them to the electrical plug</label>
-    </div>
-    <div class="question" data-question="16">
-      <p>16. Spring brake chambers on trailers are usually located:</p>
-      <label><input type="radio" name="q16" value="A"> A. Only on the steer axle</label>
-      <label><input type="radio" name="q16" value="B"> B. On the trailer axles, often in dual chamber units combining service and parking/emergency functions</label>
-      <label><input type="radio" name="q16" value="C"> C. Inside the kingpin</label>
-      <label><input type="radio" name="q16" value="D"> D. On the tractor frame</label>
-    </div>
-    <div class="question" data-question="17">
-      <p>17. A trailer with a 'dead' or capped service line but charged supply line will:</p>
-      <label><input type="radio" name="q17" value="A"> A. Have no brakes at all</label>
-      <label><input type="radio" name="q17" value="B"> B. Have parking brakes released but no normal service brake control from the tractor</label>
-      <label><input type="radio" name="q17" value="C"> C. Operate normally</label>
-      <label><input type="radio" name="q17" value="D"> D. Apply only the steer axle brakes</label>
-    </div>
-    <div class="question" data-question="18">
-      <p>18. The ILM Air Brakes Trailers module expects parts technicians to:</p>
-      <label><input type="radio" name="q18" value="A"> A. Perform trailer road tests and inspections</label>
-      <label><input type="radio" name="q18" value="B"> B. Identify trailer brake system layouts, valves, chambers and reservoirs when supplying parts</label>
-      <label><input type="radio" name="q18" value="C"> C. Install kingpins and fifth wheels</label>
-      <label><input type="radio" name="q18" value="D"> D. Program trailer ABS ECUs in the shop</label>
-    </div>
-    <div class="question" data-question="19">
-      <p>19. Typical foundation brakes on highway trailers are:</p>
-      <label><input type="radio" name="q19" value="A"> A. Hydraulic drum brakes</label>
-      <label><input type="radio" name="q19" value="B"> B. Air-operated S-cam drum or disc brakes on each wheel end</label>
-      <label><input type="radio" name="q19" value="C"> C. Mechanical cable drum brakes</label>
-      <label><input type="radio" name="q19" value="D"> D. Electric drum brakes only</label>
-    </div>
-    <div class="question" data-question="20">
-      <p>20. ABS modulator valves on trailers are installed:</p>
-      <label><input type="radio" name="q20" value="A"> A. At the compressor outlet</label>
-      <label><input type="radio" name="q20" value="B"> B. Near the service brake chambers to rapidly modulate pressure during ABS events</label>
-      <label><input type="radio" name="q20" value="C"> C. Inside the tractor cab</label>
-      <label><input type="radio" name="q20" value="D"> D. Only on steer axles</label>
-    </div>
-    <div class="question" data-question="21">
-      <p>21. The electrical ABS power and control for the trailer usually comes through:</p>
-      <label><input type="radio" name="q21" value="A"> A. The red air line</label>
-      <label><input type="radio" name="q21" value="B"> B. The 7-way (or similar) electrical connector between tractor and trailer</label>
-      <label><input type="radio" name="q21" value="C"> C. The fifth wheel jaws</label>
-      <label><input type="radio" name="q21" value="D"> D. A ground strap only</label>
-    </div>
-    <div class="question" data-question="22">
-      <p>22. Trailer spring brake chambers may be labelled:</p>
-      <label><input type="radio" name="q22" value="A"> A. Type 9 only</label>
-      <label><input type="radio" name="q22" value="B"> B. With service and spring brake section sizes (for example 30/30)</label>
-      <label><input type="radio" name="q22" value="C"> C. Only by manufacturer name</label>
-      <label><input type="radio" name="q22" value="D"> D. With tire size</label>
-    </div>
-    <div class="question" data-question="23">
-      <p>23. Relay emergency valves often combine the functions of:</p>
-      <label><input type="radio" name="q23" value="A"> A. Lighting and suspension valves</label>
-      <label><input type="radio" name="q23" value="B"> B. Service relay, emergency application and reservoir charging control</label>
-      <label><input type="radio" name="q23" value="C"> C. Compressor and governor</label>
-      <label><input type="radio" name="q23" value="D"> D. ABS and traction control</label>
-    </div>
-    <div class="question" data-question="24">
-      <p>24. In a trailer air system, a breakaway cable or device may be present to:</p>
-      <label><input type="radio" name="q24" value="A"> A. Disconnect the fifth wheel</label>
-      <label><input type="radio" name="q24" value="B"> B. Ensure supply line pressure is lost and spring brakes apply if the trailer separates from the tractor</label>
-      <label><input type="radio" name="q24" value="C"> C. Shut off the engine</label>
-      <label><input type="radio" name="q24" value="D"> D. Apply hydraulic brakes</label>
-    </div>
-    <div class="question" data-question="25">
-      <p>25. Some trailers use 'service reservoir priority' so that:</p>
-      <label><input type="radio" name="q25" value="A"> A. Trailer parking brakes release before service reservoir is charged</label>
-      <label><input type="radio" name="q25" value="B"> B. Service reservoir reaches a usable pressure before spring brakes fully release</label>
-      <label><input type="radio" name="q25" value="C"> C. Only parking brakes operate</label>
-      <label><input type="radio" name="q25" value="D"> D. ABS is disabled</label>
-    </div>
-    <div class="question" data-question="26">
-      <p>26. Trailer air tanks must meet standards that require:</p>
-      <label><input type="radio" name="q26" value="A"> A. Lightweight plastic construction</label>
-      <label><input type="radio" name="q26" value="B"> B. Pressure ratings, drain provisions and identification markings for inspection</label>
-      <label><input type="radio" name="q26" value="C"> C. No drains or markings</label>
-      <label><input type="radio" name="q26" value="D"> D. Single-port designs only</label>
-    </div>
-    <div class="question" data-question="27">
-      <p>27. Combination vehicles with multiple trailers (road trains) require air systems designed to:</p>
-      <label><input type="radio" name="q27" value="A"> A. Operate only the first trailer brakes</label>
-      <label><input type="radio" name="q27" value="B"> B. Supply all trailers with adequate pressure and response time through additional valves and reservoirs</label>
-      <label><input type="radio" name="q27" value="C"> C. Use hydraulic boosters</label>
-      <label><input type="radio" name="q27" value="D"> D. Eliminate the need for spring brakes</label>
-    </div>
-    <div class="question" data-question="28">
-      <p>28. When supplying replacement glad hands for trailers, parts technicians must match:</p>
-      <label><input type="radio" name="q28" value="A"> A. Any general connector</label>
-      <label><input type="radio" name="q28" value="B"> B. Service vs emergency styles, seal type, mounting and hose connection type</label>
-      <label><input type="radio" name="q28" value="C"> C. Only colour</label>
-      <label><input type="radio" name="q28" value="D"> D. Electrical pin layout</label>
-    </div>
-    <div class="question" data-question="29">
-      <p>29. Dump trailers with lift axles may include air valves that:</p>
-      <label><input type="radio" name="q29" value="A"> A. Control cooling system operation</label>
-      <label><input type="radio" name="q29" value="B"> B. Raise or lower axles using suspension air circuits based on load or driver control</label>
-      <label><input type="radio" name="q29" value="C"> C. Open tailgates only</label>
-      <label><input type="radio" name="q29" value="D"> D. Operate ABS</label>
-    </div>
-    <div class="question" data-question="30">
-      <p>30. Trailer brake adjustment requirements are similar to tractors in that:</p>
-      <label><input type="radio" name="q30" value="A"> A. Linings do not wear</label>
-      <label><input type="radio" name="q30" value="B"> B. Slack adjuster stroke must remain within specified limits for safe operation</label>
-      <label><input type="radio" name="q30" value="C"> C. Any stroke is acceptable</label>
-      <label><input type="radio" name="q30" value="D"> D. Only steer axles matter</label>
-    </div>
-    <div class="question" data-question="31">
-      <p>31. A trailer equipped with disc brakes instead of S-cam drums will still:</p>
-      <label><input type="radio" name="q31" value="A"> A. Use air-operated actuators and similar control valves</label>
-      <label><input type="radio" name="q31" value="B"> B. Use hydraulic fluid only</label>
-      <label><input type="radio" name="q31" value="C"> C. Use mechanical cables</label>
-      <label><input type="radio" name="q31" value="D"> D. Require no air lines</label>
-    </div>
-    <div class="question" data-question="32">
-      <p>32. The term 'piggyback' in some trailer brake catalogues may refer to:</p>
-      <label><input type="radio" name="q32" value="A"> A. Stacked trailers for shipping</label>
-      <label><input type="radio" name="q32" value="B"> B. Combined spring brake and service brake chamber assemblies supplied as one unit</label>
-      <label><input type="radio" name="q32" value="C"> C. Multi-axle suspension</label>
-      <label><input type="radio" name="q32" value="D"> D. Spare wheels carried on the frame</label>
-    </div>
-    <div class="question" data-question="33">
-      <p>33. Trailer air system diagrams in the ILM help parts technicians:</p>
-      <label><input type="radio" name="q33" value="A"> A. Align wheels</label>
-      <label><input type="radio" name="q33" value="B"> B. Trace supply and control circuits, locate valves and identify correct replacement parts</label>
-      <label><input type="radio" name="q33" value="C"> C. Adjust clutches</label>
-      <label><input type="radio" name="q33" value="D"> D. Specify engine horsepower</label>
-    </div>
-    <div class="question" data-question="34">
-      <p>34. On some trailers, a 'service glad hand' may be mounted:</p>
-      <label><input type="radio" name="q34" value="A"> A. On the roof only</label>
-      <label><input type="radio" name="q34" value="B"> B. On the front and rear so the trailer can be positioned as lead or tail in a combination</label>
-      <label><input type="radio" name="q34" value="C"> C. Only under the floor</label>
-      <label><input type="radio" name="q34" value="D"> D. Inside the kingpin housing</label>
-    </div>
-    <div class="question" data-question="35">
-      <p>35. Trailer air system drains should be opened periodically to:</p>
-      <label><input type="radio" name="q35" value="A"> A. Increase air pressure</label>
-      <label><input type="radio" name="q35" value="B"> B. Remove accumulated moisture and contaminants from reservoirs</label>
-      <label><input type="radio" name="q35" value="C"> C. Fill tanks with water</label>
-      <label><input type="radio" name="q35" value="D"> D. Check engine oil level</label>
-    </div>
-    <div class="question" data-question="36">
-      <p>36. When ordering replacement relay or relay-emergency valves for trailers, important details include:</p>
-      <label><input type="radio" name="q36" value="A"> A. Paint colour and logo only</label>
-      <label><input type="radio" name="q36" value="B"> B. Port size and location, crack pressure, mounting pattern and application type</label>
-      <label><input type="radio" name="q36" value="C"> C. Approximate weight only</label>
-      <label><input type="radio" name="q36" value="D"> D. Number of wheel studs</label>
-    </div>
-    <div class="question" data-question="37">
-      <p>37. Trailer ABS fault codes and diagnostics are usually accessed:</p>
-      <label><input type="radio" name="q37" value="A"> A. Only at the tractor dashboard</label>
-      <label><input type="radio" name="q37" value="B"> B. Through ABS indicator light flash codes or diagnostic connectors near the trailer ECU</label>
-      <label><input type="radio" name="q37" value="C"> C. Through the fuel tank cap</label>
-      <label><input type="radio" name="q37" value="D"> D. By reading tire brand</label>
-    </div>
-    <div class="question" data-question="38">
-      <p>38. A trailer that is 'air-locked' (air trapped and not flowing correctly) after coupling may require:</p>
-      <label><input type="radio" name="q38" value="A"> A. Higher engine RPM only</label>
-      <label><input type="radio" name="q38" value="B"> B. Operating the trailer supply valve off and on to fully charge and stabilize the system</label>
-      <label><input type="radio" name="q38" value="C"> C. Removing all reservoirs</label>
-      <label><input type="radio" name="q38" value="D"> D. Disconnecting ABS sensors</label>
-    </div>
-    <div class="question" data-question="39">
-      <p>39. On some specialized trailers, load-sensing proportioning valves adjust:</p>
-      <label><input type="radio" name="q39" value="A"> A. Suspension ride height only</label>
-      <label><input type="radio" name="q39" value="B"> B. Brake application pressure in relation to trailer load to reduce wheel lock on empty trailers</label>
-      <label><input type="radio" name="q39" value="C"> C. Compressor cut-out pressure</label>
-      <label><input type="radio" name="q39" value="D"> D. Engine fuel rate</label>
-    </div>
-    <div class="question" data-question="40">
-      <p>40. Multi-axle trailers may use additional relay valves so that:</p>
-      <label><input type="radio" name="q40" value="A"> A. Only the front axle brakes apply</label>
-      <label><input type="radio" name="q40" value="B"> B. Each axle group receives adequate air volume and correct timing during brake applications</label>
-      <label><input type="radio" name="q40" value="C"> C. No air reaches the rear axles</label>
-      <label><input type="radio" name="q40" value="D"> D. Parking brakes cannot be applied</label>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
     </div>
   </div>
 
-  <div id="bottom-controls">
-    <button id="btnPrev">Previous</button>
-    <button id="btnNext">Next</button>
-    <button id="btnSubmit">Submit</button>
-  </div>
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270203 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270203i &mdash; Air Brakes Trailers</h2>
+      <p>
+        Practice questions for Air Brakes Trailers.
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form">
+
+      <div class="question">
+        <p><strong>On a semi-trailer, the air brake system normally receives air from the tractor via:</strong></p>
+        <label><input type="radio" name="q1" value="a"> A hydraulic hose</label>
+        <label><input type="radio" name="q1" value="b"> The red supply (emergency) line and blue service (control) line through glad hands</label>
+        <label><input type="radio" name="q1" value="c"> An electrical plug only</label>
+        <label><input type="radio" name="q1" value="d"> The fifth wheel locks</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The trailer supply (emergency) line is used to:</strong></p>
+        <label><input type="radio" name="q2" value="a"> Control service brake applications only</label>
+        <label><input type="radio" name="q2" value="b"> Charge the trailer reservoirs and control trailer spring brake release</label>
+        <label><input type="radio" name="q2" value="c"> Control trailer lighting</label>
+        <label><input type="radio" name="q2" value="d"> Vent air from the brake chambers</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When the trailer supply line loses pressure suddenly (for example, line separation), the trailer brakes:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Release completely</label>
+        <label><input type="radio" name="q3" value="b"> Apply automatically as spring brakes come on through the emergency relay/spring brake valve</label>
+        <label><input type="radio" name="q3" value="c"> Do nothing</label>
+        <label><input type="radio" name="q3" value="d"> Operate only the ABS</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The service (control) line on a trailer system carries:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Reservoir supply air to charge tanks</label>
+        <label><input type="radio" name="q4" value="b"> Control signal air from the tractor service valve to trailer relay valves</label>
+        <label><input type="radio" name="q4" value="c"> Hydraulic fluid</label>
+        <label><input type="radio" name="q4" value="d"> Only exhaust air from the chambers</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Relay emergency valves (or spring brake control valves) on trailers are used to:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Operate the lights</label>
+        <label><input type="radio" name="q5" value="b"> Automatically apply trailer spring brakes if supply pressure is lost and control charging of reservoirs</label>
+        <label><input type="radio" name="q5" value="c"> Reduce tire wear</label>
+        <label><input type="radio" name="q5" value="d"> Operate suspension air bags</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Trailer reservoirs are usually mounted:</strong></p>
+        <label><input type="radio" name="q6" value="a"> Inside the kingpin</label>
+        <label><input type="radio" name="q6" value="b"> On the trailer frame where they are protected and accessible</label>
+        <label><input type="radio" name="q6" value="c"> On the tractor cab</label>
+        <label><input type="radio" name="q6" value="d"> Inside the tires</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Shutoff cocks at the rear of a trailer are used to:</strong></p>
+        <label><input type="radio" name="q7" value="a"> Adjust brake shoe clearance</label>
+        <label><input type="radio" name="q7" value="b"> Open or close air flow to additional trailers in a multi-trailer combination</label>
+        <label><input type="radio" name="q7" value="c"> Control suspension height</label>
+        <label><input type="radio" name="q7" value="d"> Bleed hydraulic fluid</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On converter dollies used between trailers, air brake equipment includes:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Only hand brakes</label>
+        <label><input type="radio" name="q8" value="b"> Reservoirs, relay valves, spring brake chambers and glad hands similar to trailers</label>
+        <label><input type="radio" name="q8" value="c"> Only spring brakes with no service brakes</label>
+        <label><input type="radio" name="q8" value="d"> Hydraulic disc brakes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>ABS on trailers is identified by:</strong></p>
+        <label><input type="radio" name="q9" value="a"> An ABS lamp on the tractor dash only</label>
+        <label><input type="radio" name="q9" value="b"> A yellow or amber ABS indicator lamp on the left rear of the trailer and sometimes diagnostic connectors</label>
+        <label><input type="radio" name="q9" value="c"> Red reflectors only</label>
+        <label><input type="radio" name="q9" value="d"> Special spring brakes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A 'no-ABS' trailer will:</strong></p>
+        <label><input type="radio" name="q10" value="a"> Not have any brakes</label>
+        <label><input type="radio" name="q10" value="b"> Still have conventional air brakes but without electronic wheel-lock control</label>
+        <label><input type="radio" name="q10" value="c"> Use hydraulic braking</label>
+        <label><input type="radio" name="q10" value="d"> Not be allowed on any roads</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Service relay valves on trailers are located near the axles so that:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Long control lines delay brake application</label>
+        <label><input type="radio" name="q11" value="b"> Short lines from the relay valves to the chambers reduce application and release time</label>
+        <label><input type="radio" name="q11" value="c"> Brakes apply only when parked</label>
+        <label><input type="radio" name="q11" value="d"> They can be mounted on the kingpin</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The 'spring brake priority' feature in some trailer valves ensures that:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Service brakes get air before spring brakes release</label>
+        <label><input type="radio" name="q12" value="b"> Trailer spring brakes release first when charging a depleted system to allow vehicle movement</label>
+        <label><input type="radio" name="q12" value="c"> Only the hand valve can apply trailer brakes</label>
+        <label><input type="radio" name="q12" value="d"> Only parking brakes work when fully charged</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Trailer parking brakes are typically applied by:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Hydraulic pressure from the tractor</label>
+        <label><input type="radio" name="q13" value="b"> Spring force in dual-chamber brake actuators when supply air is removed</label>
+        <label><input type="radio" name="q13" value="c"> Electric motors</label>
+        <label><input type="radio" name="q13" value="d"> Manual screw jacks on the axles</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The service reservoir on a trailer is linked to the supply line through:</strong></p>
+        <label><input type="radio" name="q14" value="a"> A direct open pipe</label>
+        <label><input type="radio" name="q14" value="b"> A one-way check valve so reservoir air is retained if supply pressure drops</label>
+        <label><input type="radio" name="q14" value="c"> A hand valve only</label>
+        <label><input type="radio" name="q14" value="d"> The fifth wheel jaws</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When coupling a trailer, one important step regarding air lines is to:</strong></p>
+        <label><input type="radio" name="q15" value="a"> Cross the supply and service lines for better flexibility</label>
+        <label><input type="radio" name="q15" value="b"> Connect the red supply line to the red glad hand and the blue service line to the blue glad hand</label>
+        <label><input type="radio" name="q15" value="c"> Connect both hoses to any glad hand</label>
+        <label><input type="radio" name="q15" value="d"> Connect them to the electrical plug</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Spring brake chambers on trailers are usually located:</strong></p>
+        <label><input type="radio" name="q16" value="a"> Only on the steer axle</label>
+        <label><input type="radio" name="q16" value="b"> On the trailer axles, often in dual chamber units combining service and parking/emergency functions</label>
+        <label><input type="radio" name="q16" value="c"> Inside the kingpin</label>
+        <label><input type="radio" name="q16" value="d"> On the tractor frame</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A trailer with a 'dead' or capped service line but charged supply line will:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Have no brakes at all</label>
+        <label><input type="radio" name="q17" value="b"> Have parking brakes released but no normal service brake control from the tractor</label>
+        <label><input type="radio" name="q17" value="c"> Operate normally</label>
+        <label><input type="radio" name="q17" value="d"> Apply only the steer axle brakes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM Air Brakes Trailers module expects parts technicians to:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Perform trailer road tests and inspections</label>
+        <label><input type="radio" name="q18" value="b"> Identify trailer brake system layouts, valves, chambers and reservoirs when supplying parts</label>
+        <label><input type="radio" name="q18" value="c"> Install kingpins and fifth wheels</label>
+        <label><input type="radio" name="q18" value="d"> Program trailer ABS ECUs in the shop</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Typical foundation brakes on highway trailers are:</strong></p>
+        <label><input type="radio" name="q19" value="a"> Hydraulic drum brakes</label>
+        <label><input type="radio" name="q19" value="b"> Air-operated S-cam drum or disc brakes on each wheel end</label>
+        <label><input type="radio" name="q19" value="c"> Mechanical cable drum brakes</label>
+        <label><input type="radio" name="q19" value="d"> Electric drum brakes only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>ABS modulator valves on trailers are installed:</strong></p>
+        <label><input type="radio" name="q20" value="a"> At the compressor outlet</label>
+        <label><input type="radio" name="q20" value="b"> Near the service brake chambers to rapidly modulate pressure during ABS events</label>
+        <label><input type="radio" name="q20" value="c"> Inside the tractor cab</label>
+        <label><input type="radio" name="q20" value="d"> Only on steer axles</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The electrical ABS power and control for the trailer usually comes through:</strong></p>
+        <label><input type="radio" name="q21" value="a"> The red air line</label>
+        <label><input type="radio" name="q21" value="b"> The 7-way (or similar) electrical connector between tractor and trailer</label>
+        <label><input type="radio" name="q21" value="c"> The fifth wheel jaws</label>
+        <label><input type="radio" name="q21" value="d"> A ground strap only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Trailer spring brake chambers may be labelled:</strong></p>
+        <label><input type="radio" name="q22" value="a"> Type 9 only</label>
+        <label><input type="radio" name="q22" value="b"> With service and spring brake section sizes (for example 30/30)</label>
+        <label><input type="radio" name="q22" value="c"> Only by manufacturer name</label>
+        <label><input type="radio" name="q22" value="d"> With tire size</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Relay emergency valves often combine the functions of:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Lighting and suspension valves</label>
+        <label><input type="radio" name="q23" value="b"> Service relay, emergency application and reservoir charging control</label>
+        <label><input type="radio" name="q23" value="c"> Compressor and governor</label>
+        <label><input type="radio" name="q23" value="d"> ABS and traction control</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a trailer air system, a breakaway cable or device may be present to:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Disconnect the fifth wheel</label>
+        <label><input type="radio" name="q24" value="b"> Ensure supply line pressure is lost and spring brakes apply if the trailer separates from the tractor</label>
+        <label><input type="radio" name="q24" value="c"> Shut off the engine</label>
+        <label><input type="radio" name="q24" value="d"> Apply hydraulic brakes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Some trailers use 'service reservoir priority' so that:</strong></p>
+        <label><input type="radio" name="q25" value="a"> Trailer parking brakes release before service reservoir is charged</label>
+        <label><input type="radio" name="q25" value="b"> Service reservoir reaches a usable pressure before spring brakes fully release</label>
+        <label><input type="radio" name="q25" value="c"> Only parking brakes operate</label>
+        <label><input type="radio" name="q25" value="d"> ABS is disabled</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Trailer air tanks must meet standards that require:</strong></p>
+        <label><input type="radio" name="q26" value="a"> Lightweight plastic construction</label>
+        <label><input type="radio" name="q26" value="b"> Pressure ratings, drain provisions and identification markings for inspection</label>
+        <label><input type="radio" name="q26" value="c"> No drains or markings</label>
+        <label><input type="radio" name="q26" value="d"> Single-port designs only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Combination vehicles with multiple trailers (road trains) require air systems designed to:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Operate only the first trailer brakes</label>
+        <label><input type="radio" name="q27" value="b"> Supply all trailers with adequate pressure and response time through additional valves and reservoirs</label>
+        <label><input type="radio" name="q27" value="c"> Use hydraulic boosters</label>
+        <label><input type="radio" name="q27" value="d"> Eliminate the need for spring brakes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When supplying replacement glad hands for trailers, parts technicians must match:</strong></p>
+        <label><input type="radio" name="q28" value="a"> Any general connector</label>
+        <label><input type="radio" name="q28" value="b"> Service vs emergency styles, seal type, mounting and hose connection type</label>
+        <label><input type="radio" name="q28" value="c"> Only colour</label>
+        <label><input type="radio" name="q28" value="d"> Electrical pin layout</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Dump trailers with lift axles may include air valves that:</strong></p>
+        <label><input type="radio" name="q29" value="a"> Control cooling system operation</label>
+        <label><input type="radio" name="q29" value="b"> Raise or lower axles using suspension air circuits based on load or driver control</label>
+        <label><input type="radio" name="q29" value="c"> Open tailgates only</label>
+        <label><input type="radio" name="q29" value="d"> Operate ABS</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Trailer brake adjustment requirements are similar to tractors in that:</strong></p>
+        <label><input type="radio" name="q30" value="a"> Linings do not wear</label>
+        <label><input type="radio" name="q30" value="b"> Slack adjuster stroke must remain within specified limits for safe operation</label>
+        <label><input type="radio" name="q30" value="c"> Any stroke is acceptable</label>
+        <label><input type="radio" name="q30" value="d"> Only steer axles matter</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A trailer equipped with disc brakes instead of S-cam drums will still:</strong></p>
+        <label><input type="radio" name="q31" value="a"> Use air-operated actuators and similar control valves</label>
+        <label><input type="radio" name="q31" value="b"> Use hydraulic fluid only</label>
+        <label><input type="radio" name="q31" value="c"> Use mechanical cables</label>
+        <label><input type="radio" name="q31" value="d"> Require no air lines</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The term 'piggyback' in some trailer brake catalogues may refer to:</strong></p>
+        <label><input type="radio" name="q32" value="a"> Stacked trailers for shipping</label>
+        <label><input type="radio" name="q32" value="b"> Combined spring brake and service brake chamber assemblies supplied as one unit</label>
+        <label><input type="radio" name="q32" value="c"> Multi-axle suspension</label>
+        <label><input type="radio" name="q32" value="d"> Spare wheels carried on the frame</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Trailer air system diagrams in the ILM help parts technicians:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Align wheels</label>
+        <label><input type="radio" name="q33" value="b"> Trace supply and control circuits, locate valves and identify correct replacement parts</label>
+        <label><input type="radio" name="q33" value="c"> Adjust clutches</label>
+        <label><input type="radio" name="q33" value="d"> Specify engine horsepower</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On some trailers, a 'service glad hand' may be mounted:</strong></p>
+        <label><input type="radio" name="q34" value="a"> On the roof only</label>
+        <label><input type="radio" name="q34" value="b"> On the front and rear so the trailer can be positioned as lead or tail in a combination</label>
+        <label><input type="radio" name="q34" value="c"> Only under the floor</label>
+        <label><input type="radio" name="q34" value="d"> Inside the kingpin housing</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Trailer air system drains should be opened periodically to:</strong></p>
+        <label><input type="radio" name="q35" value="a"> Increase air pressure</label>
+        <label><input type="radio" name="q35" value="b"> Remove accumulated moisture and contaminants from reservoirs</label>
+        <label><input type="radio" name="q35" value="c"> Fill tanks with water</label>
+        <label><input type="radio" name="q35" value="d"> Check engine oil level</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When ordering replacement relay or relay-emergency valves for trailers, important details include:</strong></p>
+        <label><input type="radio" name="q36" value="a"> Paint colour and logo only</label>
+        <label><input type="radio" name="q36" value="b"> Port size and location, crack pressure, mounting pattern and application type</label>
+        <label><input type="radio" name="q36" value="c"> Approximate weight only</label>
+        <label><input type="radio" name="q36" value="d"> Number of wheel studs</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Trailer ABS fault codes and diagnostics are usually accessed:</strong></p>
+        <label><input type="radio" name="q37" value="a"> Only at the tractor dashboard</label>
+        <label><input type="radio" name="q37" value="b"> Through ABS indicator light flash codes or diagnostic connectors near the trailer ECU</label>
+        <label><input type="radio" name="q37" value="c"> Through the fuel tank cap</label>
+        <label><input type="radio" name="q37" value="d"> By reading tire brand</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A trailer that is 'air-locked' (air trapped and not flowing correctly) after coupling may require:</strong></p>
+        <label><input type="radio" name="q38" value="a"> Higher engine RPM only</label>
+        <label><input type="radio" name="q38" value="b"> Operating the trailer supply valve off and on to fully charge and stabilize the system</label>
+        <label><input type="radio" name="q38" value="c"> Removing all reservoirs</label>
+        <label><input type="radio" name="q38" value="d"> Disconnecting ABS sensors</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
 
   <script>
     window.ANSWERS = {
-  "1": "B",
-  "2": "B",
-  "3": "B",
-  "4": "B",
-  "5": "B",
-  "6": "B",
-  "7": "B",
-  "8": "B",
-  "9": "B",
-  "10": "B",
-  "11": "B",
-  "12": "B",
-  "13": "B",
-  "14": "B",
-  "15": "B",
-  "16": "B",
-  "17": "B",
-  "18": "B",
-  "19": "B",
-  "20": "B",
-  "21": "B",
-  "22": "B",
-  "23": "B",
-  "24": "B",
-  "25": "B",
-  "26": "B",
-  "27": "B",
-  "28": "B",
-  "29": "B",
-  "30": "B",
-  "31": "B",
-  "32": "B",
-  "33": "B",
-  "34": "B",
-  "35": "B",
-  "36": "B",
-  "37": "B",
-  "38": "B",
-  "39": "B",
-  "40": "B"
-};
+      "q1": "b",
+      "q2": "b",
+      "q3": "b",
+      "q4": "b",
+      "q5": "b",
+      "q6": "b",
+      "q7": "b",
+      "q8": "b",
+      "q9": "b",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "b",
+      "q20": "b",
+      "q21": "b",
+      "q22": "b",
+      "q23": "b",
+      "q24": "b",
+      "q25": "b",
+      "q26": "b",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "b",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b",
+      "q34": "b",
+      "q35": "b",
+      "q36": "b",
+      "q37": "b",
+      "q38": "b"
+    };
   </script>
+  <script src="../script.js"></script>
 </body>
 </html>

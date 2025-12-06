@@ -1,359 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>270201h Engine Lubrication Systems Practice Exam</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="exam-common.js"></script>
+  <meta charset="UTF-8">
+  <title>270201h - Engine Lubrication Systems Practice Exam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div id="banner">
-    <h1>NAIT Parts Technician - 270201h Engine Lubrication Systems</h1>
-    <p>270201h Engine Lubrication Systems</p>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
   </div>
 
-  <div id="top-controls">
-    <button id="btnStart">Start Exam</button>
-    <button id="btnReset">Reset</button>
-  </div>
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>Engine Lubrication Systems</h1>
+      <p>Engine Lubrication Systems</p>
+    </div>
+  </header>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-    <span id="progress-text">0 / 40</span>
-  </div>
-
-  <div id="question-container">
-    <div class="question" data-question="1">
-      <p>1. The ILM states that the primary functions of engine lubricating oil include lubrication, cooling and:</p>
-      <label><input type="radio" name="q1" value="A"> A. Increasing combustion temperature</label>
-      <label><input type="radio" name="q1" value="B"> B. Cleaning and sealing as well as protecting against corrosion</label>
-      <label><input type="radio" name="q1" value="C"> C. Raising octane rating of fuel</label>
-      <label><input type="radio" name="q1" value="D"> D. Changing coolant boiling point</label>
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
     </div>
-    <div class="question" data-question="2">
-      <p>2. Viscosity, as applied to engine oil, is defined in the ILM as:</p>
-      <label><input type="radio" name="q2" value="A"> A. The colour of the oil</label>
-      <label><input type="radio" name="q2" value="B"> B. The oil’s resistance to flow</label>
-      <label><input type="radio" name="q2" value="C"> C. The amount of detergent in the oil</label>
-      <label><input type="radio" name="q2" value="D"> D. The amount of fuel dilution in the oil</label>
-    </div>
-    <div class="question" data-question="3">
-      <p>3. Multigrade oils such as 5W–30 are formulated to:</p>
-      <label><input type="radio" name="q3" value="A"> A. Behave like very thick oil at all temperatures</label>
-      <label><input type="radio" name="q3" value="B"> B. Provide suitable viscosity at both low and high operating temperatures</label>
-      <label><input type="radio" name="q3" value="C"> C. Eliminate the need for oil pumps</label>
-      <label><input type="radio" name="q3" value="D"> D. Be used only in manual transmissions</label>
-    </div>
-    <div class="question" data-question="4">
-      <p>4. The 'W' in an oil grade such as 5W–30 indicates:</p>
-      <label><input type="radio" name="q4" value="A"> A. Winter performance characteristics at low temperature</label>
-      <label><input type="radio" name="q4" value="B"> B. Weight in kilograms</label>
-      <label><input type="radio" name="q4" value="C"> C. Water content of the oil</label>
-      <label><input type="radio" name="q4" value="D"> D. Warranty period</label>
-    </div>
-    <div class="question" data-question="5">
-      <p>5. The ILM explains that engine oil additive packages may include:</p>
-      <label><input type="radio" name="q5" value="A"> A. Only dyes for colour</label>
-      <label><input type="radio" name="q5" value="B"> B. Detergents, dispersants, anti-wear agents, corrosion inhibitors and viscosity index improvers</label>
-      <label><input type="radio" name="q5" value="C"> C. Only friction modifiers</label>
-      <label><input type="radio" name="q5" value="D"> D. Only water-repellent agents</label>
-    </div>
-    <div class="question" data-question="6">
-      <p>6. A typical full-flow oil filter:</p>
-      <label><input type="radio" name="q6" value="A"> A. Filters only a small bypass portion of the oil</label>
-      <label><input type="radio" name="q6" value="B"> B. Filters all oil before it reaches the engine bearings</label>
-      <label><input type="radio" name="q6" value="C"> C. Filters only coolant</label>
-      <label><input type="radio" name="q6" value="D"> D. Filters only crankcase vapours</label>
-    </div>
-    <div class="question" data-question="7">
-      <p>7. A bypass oil filter system, described in the ILM, is used to:</p>
-      <label><input type="radio" name="q7" value="A"> A. Filter fuel in the tank</label>
-      <label><input type="radio" name="q7" value="B"> B. Filter a small amount of oil at a finer level in parallel with the main system</label>
-      <label><input type="radio" name="q7" value="C"> C. Control coolant flow</label>
-      <label><input type="radio" name="q7" value="D"> D. Filter intake air</label>
-    </div>
-    <div class="question" data-question="8">
-      <p>8. The oil pump used in most automotive engines is usually a:</p>
-      <label><input type="radio" name="q8" value="A"> A. Centrifugal pump</label>
-      <label><input type="radio" name="q8" value="B"> B. Gear or rotor (gerotor) type positive displacement pump</label>
-      <label><input type="radio" name="q8" value="C"> C. Diaphragm pump</label>
-      <label><input type="radio" name="q8" value="D"> D. Hand-operated pump</label>
-    </div>
-    <div class="question" data-question="9">
-      <p>9. Oil pumps are commonly driven by:</p>
-      <label><input type="radio" name="q9" value="A"> A. The water pump</label>
-      <label><input type="radio" name="q9" value="B"> B. The crankshaft or distributor/camshaft drive</label>
-      <label><input type="radio" name="q9" value="C"> C. The alternator belt only</label>
-      <label><input type="radio" name="q9" value="D"> D. Vehicle road speed sensors</label>
-    </div>
-    <div class="question" data-question="10">
-      <p>10. The ILM notes that oil pressure relief valves are designed to:</p>
-      <label><input type="radio" name="q10" value="A"> A. Increase oil pressure indefinitely</label>
-      <label><input type="radio" name="q10" value="B"> B. Limit maximum oil pressure by bypassing excess flow</label>
-      <label><input type="radio" name="q10" value="C"> C. Reduce coolant temperature</label>
-      <label><input type="radio" name="q10" value="D"> D. Control fuel pressure</label>
-    </div>
-    <div class="question" data-question="11">
-      <p>11. Low oil pressure at hot idle may indicate:</p>
-      <label><input type="radio" name="q11" value="A"> A. Perfect bearing clearances</label>
-      <label><input type="radio" name="q11" value="B"> B. Excessive bearing clearances, worn pump or very low oil level</label>
-      <label><input type="radio" name="q11" value="C"> C. Correct oil viscosity</label>
-      <label><input type="radio" name="q11" value="D"> D. A plugged air filter only</label>
-    </div>
-    <div class="question" data-question="12">
-      <p>12. The ILM describes that oil is delivered under pressure primarily to:</p>
-      <label><input type="radio" name="q12" value="A"> A. Pistons only</label>
-      <label><input type="radio" name="q12" value="B"> B. Main bearings, rod bearings and often camshaft bearings and valve train components</label>
-      <label><input type="radio" name="q12" value="C"> C. Radiator core</label>
-      <label><input type="radio" name="q12" value="D"> D. Fuel injectors</label>
-    </div>
-    <div class="question" data-question="13">
-      <p>13. Oil return passages in the engine are used to:</p>
-      <label><input type="radio" name="q13" value="A"> A. Carry oil from the crankcase to the radiator</label>
-      <label><input type="radio" name="q13" value="B"> B. Allow oil draining back from the top of the engine to the sump</label>
-      <label><input type="radio" name="q13" value="C"> C. Carry fuel vapours out of the tank</label>
-      <label><input type="radio" name="q13" value="D"> D. Carry coolant to the heater core</label>
-    </div>
-    <div class="question" data-question="14">
-      <p>14. Positive Crankcase Ventilation (PCV), as mentioned in the module, is used to:</p>
-      <label><input type="radio" name="q14" value="A"> A. Increase crankcase pressure</label>
-      <label><input type="radio" name="q14" value="B"> B. Remove blow-by gases from the crankcase and reburn them in the engine</label>
-      <label><input type="radio" name="q14" value="C"> C. Vent exhaust gases directly to atmosphere</label>
-      <label><input type="radio" name="q14" value="D"> D. Pressurize the fuel tank</label>
-    </div>
-    <div class="question" data-question="15">
-      <p>15. Oil coolers are installed on some engines to:</p>
-      <label><input type="radio" name="q15" value="A"> A. Heat the oil for cold starts</label>
-      <label><input type="radio" name="q15" value="B"> B. Remove excess heat from the engine oil under heavy operating conditions</label>
-      <label><input type="radio" name="q15" value="C"> C. Cool only the coolant</label>
-      <label><input type="radio" name="q15" value="D"> D. Improve windshield defrosting</label>
-    </div>
-    <div class="question" data-question="16">
-      <p>16. Oil analysis, according to the ILM, is used as a diagnostic tool to:</p>
-      <label><input type="radio" name="q16" value="A"> A. Measure tire wear</label>
-      <label><input type="radio" name="q16" value="B"> B. Detect contaminants, wear metals and coolant or fuel dilution to assess engine condition</label>
-      <label><input type="radio" name="q16" value="C"> C. Check paint thickness</label>
-      <label><input type="radio" name="q16" value="D"> D. Measure brake pad thickness</label>
-    </div>
-    <div class="question" data-question="17">
-      <p>17. API and SAE oil ratings are important because they:</p>
-      <label><input type="radio" name="q17" value="A"> A. Specify tire pressure</label>
-      <label><input type="radio" name="q17" value="B"> B. Indicate performance level and viscosity grade required by manufacturers</label>
-      <label><input type="radio" name="q17" value="C"> C. Determine coolant colour</label>
-      <label><input type="radio" name="q17" value="D"> D. Set radio presets</label>
-    </div>
-    <div class="question" data-question="18">
-      <p>18. The ILM notes that using oil not meeting manufacturer specifications can:</p>
-      <label><input type="radio" name="q18" value="A"> A. Improve emissions</label>
-      <label><input type="radio" name="q18" value="B"> B. Lead to increased wear, deposits, warranty issues and possible engine damage</label>
-      <label><input type="radio" name="q18" value="C"> C. Always improve fuel economy</label>
-      <label><input type="radio" name="q18" value="D"> D. Have no effect on engine performance</label>
-    </div>
-    <div class="question" data-question="19">
-      <p>19. Synthetic engine oils differ from conventional mineral oils mainly because they:</p>
-      <label><input type="radio" name="q19" value="A"> A. Always have lower viscosity at all temperatures</label>
-      <label><input type="radio" name="q19" value="B"> B. Are formulated from chemically engineered base stocks with improved high- and low-temperature performance</label>
-      <label><input type="radio" name="q19" value="C"> C. Cannot contain additives</label>
-      <label><input type="radio" name="q19" value="D"> D. Are not suitable for modern engines</label>
-    </div>
-    <div class="question" data-question="20">
-      <p>20. An oil filter's bypass valve is designed to:</p>
-      <label><input type="radio" name="q20" value="A"> A. Prevent any oil from bypassing the filter</label>
-      <label><input type="radio" name="q20" value="B"> B. Allow oil to flow around a plugged filter element to prevent oil starvation</label>
-      <label><input type="radio" name="q20" value="C"> C. Control coolant flow</label>
-      <label><input type="radio" name="q20" value="D"> D. Increase oil viscosity</label>
-    </div>
-    <div class="question" data-question="21">
-      <p>21. The ILM explains that extended oil change intervals are acceptable only when:</p>
-      <label><input type="radio" name="q21" value="A"> A. Any oil is used with any filter</label>
-      <label><input type="radio" name="q21" value="B"> B. The oil, filter and operating conditions meet manufacturer and industry specifications</label>
-      <label><input type="radio" name="q21" value="C"> C. The vehicle is never driven</label>
-      <label><input type="radio" name="q21" value="D"> D. Fuel economy is poor</label>
-    </div>
-    <div class="question" data-question="22">
-      <p>22. Lubrication in the valve train area is usually supplied by:</p>
-      <label><input type="radio" name="q22" value="A"> A. Splash only from the crankcase</label>
-      <label><input type="radio" name="q22" value="B"> B. Oil galleries feeding up through the block/head to rocker arms, camshafts or followers</label>
-      <label><input type="radio" name="q22" value="C"> C. Coolant passages</label>
-      <label><input type="radio" name="q22" value="D"> D. Exhaust pressure</label>
-    </div>
-    <div class="question" data-question="23">
-      <p>23. Oil foaming in the crankcase can lead to:</p>
-      <label><input type="radio" name="q23" value="A"> A. Increased effective oil pressure</label>
-      <label><input type="radio" name="q23" value="B"> B. Aerated oil with reduced film strength and pressure fluctuations</label>
-      <label><input type="radio" name="q23" value="C"> C. Improved lubrication</label>
-      <label><input type="radio" name="q23" value="D"> D. Lower operating temperature</label>
-    </div>
-    <div class="question" data-question="24">
-      <p>24. The lubrication systems ILM emphasizes correct disposal of used oil because:</p>
-      <label><input type="radio" name="q24" value="A"> A. Oil is biodegradable in all cases</label>
-      <label><input type="radio" name="q24" value="B"> B. Used oil is a controlled waste that must be recycled or disposed of according to regulations</label>
-      <label><input type="radio" name="q24" value="C"> C. Oil can always be dumped on the ground safely</label>
-      <label><input type="radio" name="q24" value="D"> D. Oil disposal has no legal implications</label>
-    </div>
-    <div class="question" data-question="25">
-      <p>25. A clogged oil pickup screen in the sump can cause:</p>
-      <label><input type="radio" name="q25" value="A"> A. Higher oil pressure at all times</label>
-      <label><input type="radio" name="q25" value="B"> B. Oil starvation and low oil pressure to the engine</label>
-      <label><input type="radio" name="q25" value="C"> C. Improved lubrication to bearings</label>
-      <label><input type="radio" name="q25" value="D"> D. Higher fuel economy</label>
-    </div>
-    <div class="question" data-question="26">
-      <p>26. From a parts technician’s perspective, lubrication system parts include:</p>
-      <label><input type="radio" name="q26" value="A"> A. Only spark plugs</label>
-      <label><input type="radio" name="q26" value="B"> B. Oil pumps, pickup screens, pans, filters, cooler assemblies, gaskets and senders</label>
-      <label><input type="radio" name="q26" value="C"> C. Radiator caps only</label>
-      <label><input type="radio" name="q26" value="D"> D. Exhaust pipes and mufflers</label>
-    </div>
-    <div class="question" data-question="27">
-      <p>27. Engine oil also helps to cool engine components by:</p>
-      <label><input type="radio" name="q27" value="A"> A. Insulating them from heat</label>
-      <label><input type="radio" name="q27" value="B"> B. Carrying heat away from internal parts to the sump and oil cooler if equipped</label>
-      <label><input type="radio" name="q27" value="C"> C. Stopping all heat transfer</label>
-      <label><input type="radio" name="q27" value="D"> D. Absorbing coolant</label>
-    </div>
-    <div class="question" data-question="28">
-      <p>28. The ILM points out that frequent short-trip operation can cause:</p>
-      <label><input type="radio" name="q28" value="A"> A. Less condensation in the crankcase</label>
-      <label><input type="radio" name="q28" value="B"> B. Increased moisture and fuel dilution in the oil, requiring more frequent changes</label>
-      <label><input type="radio" name="q28" value="C"> C. Improved oil life</label>
-      <label><input type="radio" name="q28" value="D"> D. Higher operating temperatures</label>
-    </div>
-    <div class="question" data-question="29">
-      <p>29. An oil pressure warning light that flickers at idle usually indicates:</p>
-      <label><input type="radio" name="q29" value="A"> A. High oil pressure</label>
-      <label><input type="radio" name="q29" value="B"> B. Marginal oil pressure due to low level, thin oil or worn components</label>
-      <label><input type="radio" name="q29" value="C"> C. Normal operation</label>
-      <label><input type="radio" name="q29" value="D"> D. A full oil filter</label>
-    </div>
-    <div class="question" data-question="30">
-      <p>30. Oil galleries are usually cast or drilled into the block and head to:</p>
-      <label><input type="radio" name="q30" value="A"> A. Carry coolant</label>
-      <label><input type="radio" name="q30" value="B"> B. Direct pressurized oil to bearings and valve train parts</label>
-      <label><input type="radio" name="q30" value="C"> C. Hold head bolts</label>
-      <label><input type="radio" name="q30" value="D"> D. Route exhaust gases</label>
-    </div>
-    <div class="question" data-question="31">
-      <p>31. High-detergent oils as described in the ILM are used to:</p>
-      <label><input type="radio" name="q31" value="A"> A. Deposit sludge in cool areas</label>
-      <label><input type="radio" name="q31" value="B"> B. Keep contaminants suspended until they can be removed by the filter</label>
-      <label><input type="radio" name="q31" value="C"> C. Reduce oil flow</label>
-      <label><input type="radio" name="q31" value="D"> D. Increase foaming</label>
-    </div>
-    <div class="question" data-question="32">
-      <p>32. The ILM stresses that mixing different viscosity grades of oil:</p>
-      <label><input type="radio" name="q32" value="A"> A. Always improves protection</label>
-      <label><input type="radio" name="q32" value="B"> B. Can change the overall viscosity and may not meet manufacturer specifications</label>
-      <label><input type="radio" name="q32" value="C"> C. Has no effect on oil characteristics</label>
-      <label><input type="radio" name="q32" value="D"> D. Is required at every service</label>
-    </div>
-    <div class="question" data-question="33">
-      <p>33. Oil pressure sending units and switches are used to:</p>
-      <label><input type="radio" name="q33" value="A"> A. Control radiator fans</label>
-      <label><input type="radio" name="q33" value="B"> B. Provide oil pressure information to gauges or warning lamps</label>
-      <label><input type="radio" name="q33" value="C"> C. Measure coolant temperature</label>
-      <label><input type="radio" name="q33" value="D"> D. Operate door locks</label>
-    </div>
-    <div class="question" data-question="34">
-      <p>34. Severe-service schedules mentioned in the ILM include conditions such as:</p>
-      <label><input type="radio" name="q34" value="A"> A. Highway cruising only in mild weather</label>
-      <label><input type="radio" name="q34" value="B"> B. Frequent short trips, dusty conditions, heavy loads and extreme temperatures</label>
-      <label><input type="radio" name="q34" value="C"> C. Vehicle storage in a heated garage</label>
-      <label><input type="radio" name="q34" value="D"> D. Display vehicles that are never run</label>
-    </div>
-    <div class="question" data-question="35">
-      <p>35. Oil leaks at gaskets and seals may indicate:</p>
-      <label><input type="radio" name="q35" value="A"> A. Correct crankcase ventilation</label>
-      <label><input type="radio" name="q35" value="B"> B. Excess crankcase pressure, hardened seals or gasket failure</label>
-      <label><input type="radio" name="q35" value="C"> C. Low oil level only</label>
-      <label><input type="radio" name="q35" value="D"> D. Proper maintenance</label>
-    </div>
-    <div class="question" data-question="36">
-      <p>36. The ILM notes that some engines use oil jets under the pistons to:</p>
-      <label><input type="radio" name="q36" value="A"> A. Pressurize the cooling system</label>
-      <label><input type="radio" name="q36" value="B"> B. Spray oil on piston undersides to assist cooling and lubrication</label>
-      <label><input type="radio" name="q36" value="C"> C. Lubricate the exhaust system</label>
-      <label><input type="radio" name="q36" value="D"> D. Cool the fuel tank</label>
-    </div>
-    <div class="question" data-question="37">
-      <p>37. From the ILM perspective, understanding lubrication systems allows the parts technician to:</p>
-      <label><input type="radio" name="q37" value="A"> A. Perform wheel alignments</label>
-      <label><input type="radio" name="q37" value="B"> B. Recommend correct oil types, filters and lubrication components for each application</label>
-      <label><input type="radio" name="q37" value="C"> C. Set emission standards</label>
-      <label><input type="radio" name="q37" value="D"> D. Replace body panels</label>
-    </div>
-    <div class="question" data-question="38">
-      <p>38. Oil level should be checked with the vehicle on level ground because:</p>
-      <label><input type="radio" name="q38" value="A"> A. It changes oil viscosity</label>
-      <label><input type="radio" name="q38" value="B"> B. Tilted vehicles can give false high or low readings on the dipstick</label>
-      <label><input type="radio" name="q38" value="C"> C. It improves fuel economy</label>
-      <label><input type="radio" name="q38" value="D"> D. It affects coolant flow</label>
-    </div>
-    <div class="question" data-question="39">
-      <p>39. Using an oil filter with the wrong bypass or anti-drainback valve characteristics can:</p>
-      <label><input type="radio" name="q39" value="A"> A. Never harm the engine</label>
-      <label><input type="radio" name="q39" value="B"> B. Lead to noisy starts, reduced protection or oil starvation in some conditions</label>
-      <label><input type="radio" name="q39" value="C"> C. Improve filtration in all cases</label>
-      <label><input type="radio" name="q39" value="D"> D. Always increase oil pressure</label>
-    </div>
-    <div class="question" data-question="40">
-      <p>40. The ILM cautions that overfilling the crankcase with oil may:</p>
-      <label><input type="radio" name="q40" value="A"> A. Be harmless or beneficial</label>
-      <label><input type="radio" name="q40" value="B"> B. Cause aeration, increased oil consumption and possible catalyst damage from burning oil</label>
-      <label><input type="radio" name="q40" value="C"> C. Improve bearing life</label>
-      <label><input type="radio" name="q40" value="D"> D. Reduce crankcase windage losses</label>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
     </div>
   </div>
 
-  <div id="bottom-controls">
-    <button id="btnPrev">Previous</button>
-    <button id="btnNext">Next</button>
-    <button id="btnSubmit">Submit</button>
-  </div>
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270201 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270201h &mdash; Engine Lubrication Systems</h2>
+      <p>
+        Practice questions for Engine Lubrication Systems.
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form">
+
+      <div class="question">
+        <p><strong>The ILM states that the primary functions of engine lubricating oil include lubrication, cooling and:</strong></p>
+        <label><input type="radio" name="q1" value="a"> Increasing combustion temperature</label>
+        <label><input type="radio" name="q1" value="b"> Cleaning and sealing as well as protecting against corrosion</label>
+        <label><input type="radio" name="q1" value="c"> Raising octane rating of fuel</label>
+        <label><input type="radio" name="q1" value="d"> Changing coolant boiling point</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Viscosity, as applied to engine oil, is defined in the ILM as:</strong></p>
+        <label><input type="radio" name="q2" value="a"> The colour of the oil</label>
+        <label><input type="radio" name="q2" value="b"> The oil’s resistance to flow</label>
+        <label><input type="radio" name="q2" value="c"> The amount of detergent in the oil</label>
+        <label><input type="radio" name="q2" value="d"> The amount of fuel dilution in the oil</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Multigrade oils such as 5W–30 are formulated to:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Behave like very thick oil at all temperatures</label>
+        <label><input type="radio" name="q3" value="b"> Provide suitable viscosity at both low and high operating temperatures</label>
+        <label><input type="radio" name="q3" value="c"> Eliminate the need for oil pumps</label>
+        <label><input type="radio" name="q3" value="d"> Be used only in manual transmissions</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The 'W' in an oil grade such as 5W–30 indicates:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Winter performance characteristics at low temperature</label>
+        <label><input type="radio" name="q4" value="b"> Weight in kilograms</label>
+        <label><input type="radio" name="q4" value="c"> Water content of the oil</label>
+        <label><input type="radio" name="q4" value="d"> Warranty period</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM explains that engine oil additive packages may include:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Only dyes for colour</label>
+        <label><input type="radio" name="q5" value="b"> Detergents, dispersants, anti-wear agents, corrosion inhibitors and viscosity index improvers</label>
+        <label><input type="radio" name="q5" value="c"> Only friction modifiers</label>
+        <label><input type="radio" name="q5" value="d"> Only water-repellent agents</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A typical full-flow oil filter:</strong></p>
+        <label><input type="radio" name="q6" value="a"> Filters only a small bypass portion of the oil</label>
+        <label><input type="radio" name="q6" value="b"> Filters all oil before it reaches the engine bearings</label>
+        <label><input type="radio" name="q6" value="c"> Filters only coolant</label>
+        <label><input type="radio" name="q6" value="d"> Filters only crankcase vapours</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A bypass oil filter system, described in the ILM, is used to:</strong></p>
+        <label><input type="radio" name="q7" value="a"> Filter fuel in the tank</label>
+        <label><input type="radio" name="q7" value="b"> Filter a small amount of oil at a finer level in parallel with the main system</label>
+        <label><input type="radio" name="q7" value="c"> Control coolant flow</label>
+        <label><input type="radio" name="q7" value="d"> Filter intake air</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The oil pump used in most automotive engines is usually a:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Centrifugal pump</label>
+        <label><input type="radio" name="q8" value="b"> Gear or rotor (gerotor) type positive displacement pump</label>
+        <label><input type="radio" name="q8" value="c"> Diaphragm pump</label>
+        <label><input type="radio" name="q8" value="d"> Hand-operated pump</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Oil pumps are commonly driven by:</strong></p>
+        <label><input type="radio" name="q9" value="a"> The water pump</label>
+        <label><input type="radio" name="q9" value="b"> The crankshaft or distributor/camshaft drive</label>
+        <label><input type="radio" name="q9" value="c"> The alternator belt only</label>
+        <label><input type="radio" name="q9" value="d"> Vehicle road speed sensors</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM notes that oil pressure relief valves are designed to:</strong></p>
+        <label><input type="radio" name="q10" value="a"> Increase oil pressure indefinitely</label>
+        <label><input type="radio" name="q10" value="b"> Limit maximum oil pressure by bypassing excess flow</label>
+        <label><input type="radio" name="q10" value="c"> Reduce coolant temperature</label>
+        <label><input type="radio" name="q10" value="d"> Control fuel pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Low oil pressure at hot idle may indicate:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Perfect bearing clearances</label>
+        <label><input type="radio" name="q11" value="b"> Excessive bearing clearances, worn pump or very low oil level</label>
+        <label><input type="radio" name="q11" value="c"> Correct oil viscosity</label>
+        <label><input type="radio" name="q11" value="d"> A plugged air filter only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM describes that oil is delivered under pressure primarily to:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Pistons only</label>
+        <label><input type="radio" name="q12" value="b"> Main bearings, rod bearings and often camshaft bearings and valve train components</label>
+        <label><input type="radio" name="q12" value="c"> Radiator core</label>
+        <label><input type="radio" name="q12" value="d"> Fuel injectors</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Oil return passages in the engine are used to:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Carry oil from the crankcase to the radiator</label>
+        <label><input type="radio" name="q13" value="b"> Allow oil draining back from the top of the engine to the sump</label>
+        <label><input type="radio" name="q13" value="c"> Carry fuel vapours out of the tank</label>
+        <label><input type="radio" name="q13" value="d"> Carry coolant to the heater core</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Positive Crankcase Ventilation (PCV), as mentioned in the module, is used to:</strong></p>
+        <label><input type="radio" name="q14" value="a"> Increase crankcase pressure</label>
+        <label><input type="radio" name="q14" value="b"> Remove blow-by gases from the crankcase and reburn them in the engine</label>
+        <label><input type="radio" name="q14" value="c"> Vent exhaust gases directly to atmosphere</label>
+        <label><input type="radio" name="q14" value="d"> Pressurize the fuel tank</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Oil coolers are installed on some engines to:</strong></p>
+        <label><input type="radio" name="q15" value="a"> Heat the oil for cold starts</label>
+        <label><input type="radio" name="q15" value="b"> Remove excess heat from the engine oil under heavy operating conditions</label>
+        <label><input type="radio" name="q15" value="c"> Cool only the coolant</label>
+        <label><input type="radio" name="q15" value="d"> Improve windshield defrosting</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Oil analysis, according to the ILM, is used as a diagnostic tool to:</strong></p>
+        <label><input type="radio" name="q16" value="a"> Measure tire wear</label>
+        <label><input type="radio" name="q16" value="b"> Detect contaminants, wear metals and coolant or fuel dilution to assess engine condition</label>
+        <label><input type="radio" name="q16" value="c"> Check paint thickness</label>
+        <label><input type="radio" name="q16" value="d"> Measure brake pad thickness</label>
+      </div>
+
+      <div class="question">
+        <p><strong>API and SAE oil ratings are important because they:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Specify tire pressure</label>
+        <label><input type="radio" name="q17" value="b"> Indicate performance level and viscosity grade required by manufacturers</label>
+        <label><input type="radio" name="q17" value="c"> Determine coolant colour</label>
+        <label><input type="radio" name="q17" value="d"> Set radio presets</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM notes that using oil not meeting manufacturer specifications can:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Improve emissions</label>
+        <label><input type="radio" name="q18" value="b"> Lead to increased wear, deposits, warranty issues and possible engine damage</label>
+        <label><input type="radio" name="q18" value="c"> Always improve fuel economy</label>
+        <label><input type="radio" name="q18" value="d"> Have no effect on engine performance</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Synthetic engine oils differ from conventional mineral oils mainly because they:</strong></p>
+        <label><input type="radio" name="q19" value="a"> Always have lower viscosity at all temperatures</label>
+        <label><input type="radio" name="q19" value="b"> Are formulated from chemically engineered base stocks with improved high- and low-temperature performance</label>
+        <label><input type="radio" name="q19" value="c"> Cannot contain additives</label>
+        <label><input type="radio" name="q19" value="d"> Are not suitable for modern engines</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An oil filter's bypass valve is designed to:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Prevent any oil from bypassing the filter</label>
+        <label><input type="radio" name="q20" value="b"> Allow oil to flow around a plugged filter element to prevent oil starvation</label>
+        <label><input type="radio" name="q20" value="c"> Control coolant flow</label>
+        <label><input type="radio" name="q20" value="d"> Increase oil viscosity</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM explains that extended oil change intervals are acceptable only when:</strong></p>
+        <label><input type="radio" name="q21" value="a"> Any oil is used with any filter</label>
+        <label><input type="radio" name="q21" value="b"> The oil, filter and operating conditions meet manufacturer and industry specifications</label>
+        <label><input type="radio" name="q21" value="c"> The vehicle is never driven</label>
+        <label><input type="radio" name="q21" value="d"> Fuel economy is poor</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Lubrication in the valve train area is usually supplied by:</strong></p>
+        <label><input type="radio" name="q22" value="a"> Splash only from the crankcase</label>
+        <label><input type="radio" name="q22" value="b"> Oil galleries feeding up through the block/head to rocker arms, camshafts or followers</label>
+        <label><input type="radio" name="q22" value="c"> Coolant passages</label>
+        <label><input type="radio" name="q22" value="d"> Exhaust pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Oil foaming in the crankcase can lead to:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Increased effective oil pressure</label>
+        <label><input type="radio" name="q23" value="b"> Aerated oil with reduced film strength and pressure fluctuations</label>
+        <label><input type="radio" name="q23" value="c"> Improved lubrication</label>
+        <label><input type="radio" name="q23" value="d"> Lower operating temperature</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The lubrication systems ILM emphasizes correct disposal of used oil because:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Oil is biodegradable in all cases</label>
+        <label><input type="radio" name="q24" value="b"> Used oil is a controlled waste that must be recycled or disposed of according to regulations</label>
+        <label><input type="radio" name="q24" value="c"> Oil can always be dumped on the ground safely</label>
+        <label><input type="radio" name="q24" value="d"> Oil disposal has no legal implications</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A clogged oil pickup screen in the sump can cause:</strong></p>
+        <label><input type="radio" name="q25" value="a"> Higher oil pressure at all times</label>
+        <label><input type="radio" name="q25" value="b"> Oil starvation and low oil pressure to the engine</label>
+        <label><input type="radio" name="q25" value="c"> Improved lubrication to bearings</label>
+        <label><input type="radio" name="q25" value="d"> Higher fuel economy</label>
+      </div>
+
+      <div class="question">
+        <p><strong>From a parts technician’s perspective, lubrication system parts include:</strong></p>
+        <label><input type="radio" name="q26" value="a"> Only spark plugs</label>
+        <label><input type="radio" name="q26" value="b"> Oil pumps, pickup screens, pans, filters, cooler assemblies, gaskets and senders</label>
+        <label><input type="radio" name="q26" value="c"> Radiator caps only</label>
+        <label><input type="radio" name="q26" value="d"> Exhaust pipes and mufflers</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Engine oil also helps to cool engine components by:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Insulating them from heat</label>
+        <label><input type="radio" name="q27" value="b"> Carrying heat away from internal parts to the sump and oil cooler if equipped</label>
+        <label><input type="radio" name="q27" value="c"> Stopping all heat transfer</label>
+        <label><input type="radio" name="q27" value="d"> Absorbing coolant</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM points out that frequent short-trip operation can cause:</strong></p>
+        <label><input type="radio" name="q28" value="a"> Less condensation in the crankcase</label>
+        <label><input type="radio" name="q28" value="b"> Increased moisture and fuel dilution in the oil, requiring more frequent changes</label>
+        <label><input type="radio" name="q28" value="c"> Improved oil life</label>
+        <label><input type="radio" name="q28" value="d"> Higher operating temperatures</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An oil pressure warning light that flickers at idle usually indicates:</strong></p>
+        <label><input type="radio" name="q29" value="a"> High oil pressure</label>
+        <label><input type="radio" name="q29" value="b"> Marginal oil pressure due to low level, thin oil or worn components</label>
+        <label><input type="radio" name="q29" value="c"> Normal operation</label>
+        <label><input type="radio" name="q29" value="d"> A full oil filter</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Oil galleries are usually cast or drilled into the block and head to:</strong></p>
+        <label><input type="radio" name="q30" value="a"> Carry coolant</label>
+        <label><input type="radio" name="q30" value="b"> Direct pressurized oil to bearings and valve train parts</label>
+        <label><input type="radio" name="q30" value="c"> Hold head bolts</label>
+        <label><input type="radio" name="q30" value="d"> Route exhaust gases</label>
+      </div>
+
+      <div class="question">
+        <p><strong>High-detergent oils as described in the ILM are used to:</strong></p>
+        <label><input type="radio" name="q31" value="a"> Deposit sludge in cool areas</label>
+        <label><input type="radio" name="q31" value="b"> Keep contaminants suspended until they can be removed by the filter</label>
+        <label><input type="radio" name="q31" value="c"> Reduce oil flow</label>
+        <label><input type="radio" name="q31" value="d"> Increase foaming</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM stresses that mixing different viscosity grades of oil:</strong></p>
+        <label><input type="radio" name="q32" value="a"> Always improves protection</label>
+        <label><input type="radio" name="q32" value="b"> Can change the overall viscosity and may not meet manufacturer specifications</label>
+        <label><input type="radio" name="q32" value="c"> Has no effect on oil characteristics</label>
+        <label><input type="radio" name="q32" value="d"> Is required at every service</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Oil pressure sending units and switches are used to:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Control radiator fans</label>
+        <label><input type="radio" name="q33" value="b"> Provide oil pressure information to gauges or warning lamps</label>
+        <label><input type="radio" name="q33" value="c"> Measure coolant temperature</label>
+        <label><input type="radio" name="q33" value="d"> Operate door locks</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Severe-service schedules mentioned in the ILM include conditions such as:</strong></p>
+        <label><input type="radio" name="q34" value="a"> Highway cruising only in mild weather</label>
+        <label><input type="radio" name="q34" value="b"> Frequent short trips, dusty conditions, heavy loads and extreme temperatures</label>
+        <label><input type="radio" name="q34" value="c"> Vehicle storage in a heated garage</label>
+        <label><input type="radio" name="q34" value="d"> Display vehicles that are never run</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Oil leaks at gaskets and seals may indicate:</strong></p>
+        <label><input type="radio" name="q35" value="a"> Correct crankcase ventilation</label>
+        <label><input type="radio" name="q35" value="b"> Excess crankcase pressure, hardened seals or gasket failure</label>
+        <label><input type="radio" name="q35" value="c"> Low oil level only</label>
+        <label><input type="radio" name="q35" value="d"> Proper maintenance</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM notes that some engines use oil jets under the pistons to:</strong></p>
+        <label><input type="radio" name="q36" value="a"> Pressurize the cooling system</label>
+        <label><input type="radio" name="q36" value="b"> Spray oil on piston undersides to assist cooling and lubrication</label>
+        <label><input type="radio" name="q36" value="c"> Lubricate the exhaust system</label>
+        <label><input type="radio" name="q36" value="d"> Cool the fuel tank</label>
+      </div>
+
+      <div class="question">
+        <p><strong>From the ILM perspective, understanding lubrication systems allows the parts technician to:</strong></p>
+        <label><input type="radio" name="q37" value="a"> Perform wheel alignments</label>
+        <label><input type="radio" name="q37" value="b"> Recommend correct oil types, filters and lubrication components for each application</label>
+        <label><input type="radio" name="q37" value="c"> Set emission standards</label>
+        <label><input type="radio" name="q37" value="d"> Replace body panels</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Oil level should be checked with the vehicle on level ground because:</strong></p>
+        <label><input type="radio" name="q38" value="a"> It changes oil viscosity</label>
+        <label><input type="radio" name="q38" value="b"> Tilted vehicles can give false high or low readings on the dipstick</label>
+        <label><input type="radio" name="q38" value="c"> It improves fuel economy</label>
+        <label><input type="radio" name="q38" value="d"> It affects coolant flow</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
 
   <script>
     window.ANSWERS = {
-  "1": "B",
-  "2": "B",
-  "3": "B",
-  "4": "B",
-  "5": "B",
-  "6": "B",
-  "7": "B",
-  "8": "B",
-  "9": "B",
-  "10": "B",
-  "11": "B",
-  "12": "B",
-  "13": "B",
-  "14": "B",
-  "15": "B",
-  "16": "B",
-  "17": "B",
-  "18": "B",
-  "19": "B",
-  "20": "B",
-  "21": "B",
-  "22": "B",
-  "23": "B",
-  "24": "B",
-  "25": "B",
-  "26": "B",
-  "27": "B",
-  "28": "B",
-  "29": "B",
-  "30": "B",
-  "31": "B",
-  "32": "B",
-  "33": "B",
-  "34": "B",
-  "35": "B",
-  "36": "B",
-  "37": "B",
-  "38": "B",
-  "39": "B",
-  "40": "B"
-};
+      "q1": "b",
+      "q2": "b",
+      "q3": "b",
+      "q4": "b",
+      "q5": "b",
+      "q6": "b",
+      "q7": "b",
+      "q8": "b",
+      "q9": "b",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "b",
+      "q20": "b",
+      "q21": "b",
+      "q22": "b",
+      "q23": "b",
+      "q24": "b",
+      "q25": "b",
+      "q26": "b",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "b",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b",
+      "q34": "b",
+      "q35": "b",
+      "q36": "b",
+      "q37": "b",
+      "q38": "b"
+    };
   </script>
+  <script src="../script.js"></script>
 </body>
 </html>

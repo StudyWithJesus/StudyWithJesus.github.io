@@ -1,327 +1,370 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>270201f Cylinder Heads and Related Parts Practice Exam</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="exam-common.js"></script>
+  <meta charset="UTF-8">
+  <title>270201f - Cylinder Heads and Related Parts Practice Exam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div id="banner">
-    <h1>NAIT Parts Technician - 270201f Cylinder Heads and Related Parts</h1>
-    <p>270201f Cylinder Heads and Related Parts</p>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
   </div>
 
-  <div id="top-controls">
-    <button id="btnStart">Start Exam</button>
-    <button id="btnReset">Reset</button>
-  </div>
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>Cylinder Heads and Related Parts</h1>
+      <p>Cylinder Heads and Related Parts</p>
+    </div>
+  </header>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-    <span id="progress-text">0 / 40</span>
-  </div>
-
-  <div id="question-container">
-    <div class="question" data-question="1">
-      <p>1. The primary function of the cylinder head is to:</p>
-      <label><input type="radio" name="q1" value="A"> A. Support the crankshaft</label>
-      <label><input type="radio" name="q1" value="B"> B. Close the top of the cylinders, form part of the combustion chamber and support valves and related components</label>
-      <label><input type="radio" name="q1" value="C"> C. Store engine oil only</label>
-      <label><input type="radio" name="q1" value="D"> D. Hold the engine mounts</label>
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
     </div>
-    <div class="question" data-question="2">
-      <p>2. Most modern cylinder heads are manufactured from:</p>
-      <label><input type="radio" name="q2" value="A"> A. Plastic</label>
-      <label><input type="radio" name="q2" value="B"> B. Cast iron or aluminum alloys depending on application</label>
-      <label><input type="radio" name="q2" value="C"> C. Glass</label>
-      <label><input type="radio" name="q2" value="D"> D. Wood composites</label>
-    </div>
-    <div class="question" data-question="3">
-      <p>3. Combustion chamber shape in the head is important because it:</p>
-      <label><input type="radio" name="q3" value="A"> A. Determines tire size</label>
-      <label><input type="radio" name="q3" value="B"> B. Affects compression ratio, mixture motion, combustion speed and emissions</label>
-      <label><input type="radio" name="q3" value="C"> C. Has no effect on engine operation</label>
-      <label><input type="radio" name="q3" value="D"> D. Only affects paint colour</label>
-    </div>
-    <div class="question" data-question="4">
-      <p>4. The ILM explains that valve seats provide:</p>
-      <label><input type="radio" name="q4" value="A"> A. Decoration around the valves</label>
-      <label><input type="radio" name="q4" value="B"> B. A hardened sealing surface where valves contact the head</label>
-      <label><input type="radio" name="q4" value="C"> C. A location for spark plug threads</label>
-      <label><input type="radio" name="q4" value="D"> D. Oil storage for the valve train</label>
-    </div>
-    <div class="question" data-question="5">
-      <p>5. Valve guides are used to:</p>
-      <label><input type="radio" name="q5" value="A"> A. Control coolant flow</label>
-      <label><input type="radio" name="q5" value="B"> B. Guide and support valve stems as they move up and down</label>
-      <label><input type="radio" name="q5" value="C"> C. Drive the camshaft</label>
-      <label><input type="radio" name="q5" value="D"> D. Support the crankshaft mains</label>
-    </div>
-    <div class="question" data-question="6">
-      <p>6. Valve stem seals are installed to:</p>
-      <label><input type="radio" name="q6" value="A"> A. Increase oil flow into the combustion chamber</label>
-      <label><input type="radio" name="q6" value="B"> B. Control the amount of oil that passes down the valve stem into the guide</label>
-      <label><input type="radio" name="q6" value="C"> C. Seal combustion gases at the valve face</label>
-      <label><input type="radio" name="q6" value="D"> D. Replace head gaskets</label>
-    </div>
-    <div class="question" data-question="7">
-      <p>7. According to the ILM, intake valves are often larger in diameter than exhaust valves because:</p>
-      <label><input type="radio" name="q7" value="A"> A. Exhaust gas is lighter than intake charge</label>
-      <label><input type="radio" name="q7" value="B"> B. A larger opening helps fill the cylinder with fresh mixture or air</label>
-      <label><input type="radio" name="q7" value="C"> C. They operate at higher temperature</label>
-      <label><input type="radio" name="q7" value="D"> D. They require less flow</label>
-    </div>
-    <div class="question" data-question="8">
-      <p>8. Exhaust valves typically run hotter than intake valves because they:</p>
-      <label><input type="radio" name="q8" value="A"> A. Are cooled directly by incoming air–fuel mixture</label>
-      <label><input type="radio" name="q8" value="B"> B. Are exposed to hot exhaust gases leaving the combustion chamber</label>
-      <label><input type="radio" name="q8" value="C"> C. Are made of cooler materials</label>
-      <label><input type="radio" name="q8" value="D"> D. Operate only at idle</label>
-    </div>
-    <div class="question" data-question="9">
-      <p>9. Multi-valve heads (such as four valves per cylinder) are used because they:</p>
-      <label><input type="radio" name="q9" value="A"> A. Reduce airflow</label>
-      <label><input type="radio" name="q9" value="B"> B. Improve breathing, efficiency and power by providing more total valve area</label>
-      <label><input type="radio" name="q9" value="C"> C. Eliminate the need for camshafts</label>
-      <label><input type="radio" name="q9" value="D"> D. Reduce manufacturing cost only</label>
-    </div>
-    <div class="question" data-question="10">
-      <p>10. The head gasket is designed to:</p>
-      <label><input type="radio" name="q10" value="A"> A. Lubricate the valves</label>
-      <label><input type="radio" name="q10" value="B"> B. Seal combustion pressure, coolant and oil passages between block and head</label>
-      <label><input type="radio" name="q10" value="C"> C. Control valve timing</label>
-      <label><input type="radio" name="q10" value="D"> D. Store fuel in the head</label>
-    </div>
-    <div class="question" data-question="11">
-      <p>11. Torque-to-yield (TTY) head bolts are designed to:</p>
-      <label><input type="radio" name="q11" value="A"> A. Be reused indefinitely</label>
-      <label><input type="radio" name="q11" value="B"> B. Stretch into a controlled elastic range when torqued to specification and are often replaced, not reused</label>
-      <label><input type="radio" name="q11" value="C"> C. Require no torque specification</label>
-      <label><input type="radio" name="q11" value="D"> D. Be stronger when over-tightened repeatedly</label>
-    </div>
-    <div class="question" data-question="12">
-      <p>12. Cylinder head warpage can result from:</p>
-      <label><input type="radio" name="q12" value="A"> A. Low engine temperature</label>
-      <label><input type="radio" name="q12" value="B"> B. Overheating and uneven thermal expansion</label>
-      <label><input type="radio" name="q12" value="C"> C. Clean coolant</label>
-      <label><input type="radio" name="q12" value="D"> D. Correct torque procedures</label>
-    </div>
-    <div class="question" data-question="13">
-      <p>13. Signs of a leaking head gasket described in the ILM include:</p>
-      <label><input type="radio" name="q13" value="A"> A. Higher fuel economy only</label>
-      <label><input type="radio" name="q13" value="B"> B. Coolant in the oil, white exhaust smoke, compression loss or combustion gases in coolant</label>
-      <label><input type="radio" name="q13" value="C"> C. Dry spark plugs</label>
-      <label><input type="radio" name="q13" value="D"> D. Smooth idle with no coolant loss</label>
-    </div>
-    <div class="question" data-question="14">
-      <p>14. Valve spring pressure is important because it:</p>
-      <label><input type="radio" name="q14" value="A"> A. Controls coolant flow</label>
-      <label><input type="radio" name="q14" value="B"> B. Keeps valves seated and follows cam motion without float at operating speeds</label>
-      <label><input type="radio" name="q14" value="C"> C. Prevents oil from reaching the valve stem</label>
-      <label><input type="radio" name="q14" value="D"> D. Determines compression ratio</label>
-    </div>
-    <div class="question" data-question="15">
-      <p>15. Valve keepers (collets) and retainers are used together to:</p>
-      <label><input type="radio" name="q15" value="A"> A. Hold the valve head to the stem</label>
-      <label><input type="radio" name="q15" value="B"> B. Secure the valve spring to the valve stem groove</label>
-      <label><input type="radio" name="q15" value="C"> C. Adjust valve lash</label>
-      <label><input type="radio" name="q15" value="D"> D. Seal oil drain-back holes</label>
-    </div>
-    <div class="question" data-question="16">
-      <p>16. When reconditioning cylinder heads, the ILM notes that machinists may:</p>
-      <label><input type="radio" name="q16" value="A"> A. Replace tires and wheels</label>
-      <label><input type="radio" name="q16" value="B"> B. Resurface head faces, replace or recondition valves and seats, and replace guides as needed</label>
-      <label><input type="radio" name="q16" value="C"> C. Adjust wheel alignment</label>
-      <label><input type="radio" name="q16" value="D"> D. Service transmissions</label>
-    </div>
-    <div class="question" data-question="17">
-      <p>17. Aluminum cylinder heads often use inserted valve seats because:</p>
-      <label><input type="radio" name="q17" value="A"> A. Aluminum provides sufficient hardness on its own</label>
-      <label><input type="radio" name="q17" value="B"> B. Hardened seat inserts handle the high temperature and wear better than the aluminum casting</label>
-      <label><input type="radio" name="q17" value="C"> C. They are easier to paint</label>
-      <label><input type="radio" name="q17" value="D"> D. They reduce combustion temperature</label>
-    </div>
-    <div class="question" data-question="18">
-      <p>18. A 'cracked head' may cause:</p>
-      <label><input type="radio" name="q18" value="A"> A. Improved emissions</label>
-      <label><input type="radio" name="q18" value="B"> B. Coolant loss, oil contamination and compression leakage</label>
-      <label><input type="radio" name="q18" value="C"> C. Higher compression ratio with no side effects</label>
-      <label><input type="radio" name="q18" value="D"> D. Better starting</label>
-    </div>
-    <div class="question" data-question="19">
-      <p>19. From a parts technician’s standpoint, common cylinder head-related parts include:</p>
-      <label><input type="radio" name="q19" value="A"> A. Only spark plugs</label>
-      <label><input type="radio" name="q19" value="B"> B. Complete heads, valve train components, head gaskets, head bolt sets, intake and exhaust gaskets</label>
-      <label><input type="radio" name="q19" value="C"> C. Only fuel tanks</label>
-      <label><input type="radio" name="q19" value="D"> D. Only radiators</label>
-    </div>
-    <div class="question" data-question="20">
-      <p>20. The ILM explains that different head gasket designs (multi-layer steel vs composite) are chosen based on:</p>
-      <label><input type="radio" name="q20" value="A"> A. Vehicle colour</label>
-      <label><input type="radio" name="q20" value="B"> B. Engine design, surface finish requirements, clamping loads and durability needs</label>
-      <label><input type="radio" name="q20" value="C"> C. Radio options</label>
-      <label><input type="radio" name="q20" value="D"> D. Tire size</label>
-    </div>
-    <div class="question" data-question="21">
-      <p>21. Overhead cam cylinder heads often incorporate:</p>
-      <label><input type="radio" name="q21" value="A"> A. Camshaft(s), cam bearings, followers and sometimes variable valve timing hardware directly in the head casting</label>
-      <label><input type="radio" name="q21" value="B"> B. No moving parts</label>
-      <label><input type="radio" name="q21" value="C"> C. The crankshaft only</label>
-      <label><input type="radio" name="q21" value="D"> D. Only exhaust manifolds</label>
-    </div>
-    <div class="question" data-question="22">
-      <p>22. Valve recession into the seat can lead to:</p>
-      <label><input type="radio" name="q22" value="A"> A. Increased valve lash and higher compression</label>
-      <label><input type="radio" name="q22" value="B"> B. Loss of valve clearance, poor sealing and burnt valves</label>
-      <label><input type="radio" name="q22" value="C"> C. Improved fuel economy</label>
-      <label><input type="radio" name="q22" value="D"> D. Reduced exhaust temperature</label>
-    </div>
-    <div class="question" data-question="23">
-      <p>23. Coolant passages in the cylinder head are important to:</p>
-      <label><input type="radio" name="q23" value="A"> A. Provide mounting for accessories only</label>
-      <label><input type="radio" name="q23" value="B"> B. Carry heat away from combustion areas and valve bridges</label>
-      <label><input type="radio" name="q23" value="C"> C. Store extra oil</label>
-      <label><input type="radio" name="q23" value="D"> D. Control ignition timing</label>
-    </div>
-    <div class="question" data-question="24">
-      <p>24. In diesel engines, some cylinder heads incorporate pre-combustion chambers or swirl chambers to:</p>
-      <label><input type="radio" name="q24" value="A"> A. Store coolant</label>
-      <label><input type="radio" name="q24" value="B"> B. Improve mixture formation and combustion at lower injection pressures</label>
-      <label><input type="radio" name="q24" value="C"> C. Hold spark plugs</label>
-      <label><input type="radio" name="q24" value="D"> D. Support exhaust manifolds</label>
-    </div>
-    <div class="question" data-question="25">
-      <p>25. Head bolt tightening patterns are specified so that:</p>
-      <label><input type="radio" name="q25" value="A"> A. Warping of the head and uneven gasket loading is minimized</label>
-      <label><input type="radio" name="q25" value="B"> B. The paint cures evenly</label>
-      <label><input type="radio" name="q25" value="C"> C. Coolant flows more quickly</label>
-      <label><input type="radio" name="q25" value="D"> D. Valve timing is automatically set</label>
-    </div>
-    <div class="question" data-question="26">
-      <p>26. The ILM notes that resurfacing a cylinder head affects:</p>
-      <label><input type="radio" name="q26" value="A"> A. Only the appearance</label>
-      <label><input type="radio" name="q26" value="B"> B. Combustion chamber volume, compression ratio and cam timing (on some OHC engines)</label>
-      <label><input type="radio" name="q26" value="C"> C. Only exhaust noise</label>
-      <label><input type="radio" name="q26" value="D"> D. Only fuel tank capacity</label>
-    </div>
-    <div class="question" data-question="27">
-      <p>27. Intake and exhaust manifolds attach to the head to:</p>
-      <label><input type="radio" name="q27" value="A"> A. Support the crankshaft</label>
-      <label><input type="radio" name="q27" value="B"> B. Distribute intake charge to cylinders and carry exhaust gases away</label>
-      <label><input type="radio" name="q27" value="C"> C. Pump coolant</label>
-      <label><input type="radio" name="q27" value="D"> D. Control oil level</label>
-    </div>
-    <div class="question" data-question="28">
-      <p>28. When ordering a replacement cylinder head, parts technicians must confirm:</p>
-      <label><input type="radio" name="q28" value="A"> A. Only the colour of the valve cover</label>
-      <label><input type="radio" name="q28" value="B"> B. Engine family/code, casting number, number of valves, port layout and emissions equipment provisions</label>
-      <label><input type="radio" name="q28" value="C"> C. Only tire size</label>
-      <label><input type="radio" name="q28" value="D"> D. Only transmission type</label>
-    </div>
-    <div class="question" data-question="29">
-      <p>29. The ILM explains that some engines use separate cam carrier assemblies which:</p>
-      <label><input type="radio" name="q29" value="A"> A. Hold crankshaft bearings</label>
-      <label><input type="radio" name="q29" value="B"> B. Bolt to the head and contain the camshaft journals and caps</label>
-      <label><input type="radio" name="q29" value="C"> C. Replace pistons</label>
-      <label><input type="radio" name="q29" value="D"> D. Support the flywheel</label>
-    </div>
-    <div class="question" data-question="30">
-      <p>30. Valve seat angle and width are important because they:</p>
-      <label><input type="radio" name="q30" value="A"> A. Determine coolant flow only</label>
-      <label><input type="radio" name="q30" value="B"> B. Affect sealing, heat transfer and valve life</label>
-      <label><input type="radio" name="q30" value="C"> C. Determine oil viscosity</label>
-      <label><input type="radio" name="q30" value="D"> D. Set spark plug gap</label>
-    </div>
-    <div class="question" data-question="31">
-      <p>31. Excessive oil consumption that is not from rings may be caused by:</p>
-      <label><input type="radio" name="q31" value="A"> A. Dry air filters</label>
-      <label><input type="radio" name="q31" value="B"> B. Worn valve guides or defective stem seals</label>
-      <label><input type="radio" name="q31" value="C"> C. Correct valve lash</label>
-      <label><input type="radio" name="q31" value="D"> D. High-quality fuel</label>
-    </div>
-    <div class="question" data-question="32">
-      <p>32. Pressure testing a cylinder head is used to:</p>
-      <label><input type="radio" name="q32" value="A"> A. Measure compression ratio</label>
-      <label><input type="radio" name="q32" value="B"> B. Check for internal cracks or porosity that allow coolant leakage</label>
-      <label><input type="radio" name="q32" value="C"> C. Adjust valve timing</label>
-      <label><input type="radio" name="q32" value="D"> D. Determine oil capacity</label>
-    </div>
-    <div class="question" data-question="33">
-      <p>33. Double overhead cam multi-valve heads may require parts technicians to supply:</p>
-      <label><input type="radio" name="q33" value="A"> A. Only one rocker arm</label>
-      <label><input type="radio" name="q33" value="B"> B. Multiple camshafts, unique followers, different intake/exhaust valves and complex gasket sets</label>
-      <label><input type="radio" name="q33" value="C"> C. Only spark plug wires</label>
-      <label><input type="radio" name="q33" value="D"> D. Only crankshafts</label>
-    </div>
-    <div class="question" data-question="34">
-      <p>34. The ILM stresses that mixing head bolts of different lengths or types:</p>
-      <label><input type="radio" name="q34" value="A"> A. Is acceptable if torque is correct</label>
-      <label><input type="radio" name="q34" value="B"> B. Can lead to uneven clamping and gasket failure</label>
-      <label><input type="radio" name="q34" value="C"> C. Improves gasket sealing</label>
-      <label><input type="radio" name="q34" value="D"> D. Has no effect on service life</label>
-    </div>
-    <div class="question" data-question="35">
-      <p>35. Diesel cylinder heads often have reinforced areas around injector bores because:</p>
-      <label><input type="radio" name="q35" value="A"> A. Injectors are light and cool</label>
-      <label><input type="radio" name="q35" value="B"> B. Injector clamping forces and high combustion pressures are concentrated there</label>
-      <label><input type="radio" name="q35" value="C"> C. They do not need cooling</label>
-      <label><input type="radio" name="q35" value="D"> D. They are only decorative</label>
-    </div>
-    <div class="question" data-question="36">
-      <p>36. From a parts technician’s perspective, understanding cylinder heads and related parts helps to:</p>
-      <label><input type="radio" name="q36" value="A"> A. Perform body repairs</label>
-      <label><input type="radio" name="q36" value="B"> B. Supply correct gasket sets, bolt kits, valve train parts and bare or complete heads to match engine codes</label>
-      <label><input type="radio" name="q36" value="C"> C. Determine wheel alignment specs</label>
-      <label><input type="radio" name="q36" value="D"> D. Select audio system components</label>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
     </div>
   </div>
 
-  <div id="bottom-controls">
-    <button id="btnPrev">Previous</button>
-    <button id="btnNext">Next</button>
-    <button id="btnSubmit">Submit</button>
-  </div>
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270201 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270201f &mdash; Cylinder Heads and Related Parts</h2>
+      <p>
+        Practice questions for Cylinder Heads and Related Parts.
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form">
+
+      <div class="question">
+        <p><strong>The primary function of the cylinder head is to:</strong></p>
+        <label><input type="radio" name="q1" value="a"> Support the crankshaft</label>
+        <label><input type="radio" name="q1" value="b"> Close the top of the cylinders, form part of the combustion chamber and support valves and related components</label>
+        <label><input type="radio" name="q1" value="c"> Store engine oil only</label>
+        <label><input type="radio" name="q1" value="d"> Hold the engine mounts</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Most modern cylinder heads are manufactured from:</strong></p>
+        <label><input type="radio" name="q2" value="a"> Plastic</label>
+        <label><input type="radio" name="q2" value="b"> Cast iron or aluminum alloys depending on application</label>
+        <label><input type="radio" name="q2" value="c"> Glass</label>
+        <label><input type="radio" name="q2" value="d"> Wood composites</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Combustion chamber shape in the head is important because it:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Determines tire size</label>
+        <label><input type="radio" name="q3" value="b"> Affects compression ratio, mixture motion, combustion speed and emissions</label>
+        <label><input type="radio" name="q3" value="c"> Has no effect on engine operation</label>
+        <label><input type="radio" name="q3" value="d"> Only affects paint colour</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM explains that valve seats provide:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Decoration around the valves</label>
+        <label><input type="radio" name="q4" value="b"> A hardened sealing surface where valves contact the head</label>
+        <label><input type="radio" name="q4" value="c"> A location for spark plug threads</label>
+        <label><input type="radio" name="q4" value="d"> Oil storage for the valve train</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Valve guides are used to:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Control coolant flow</label>
+        <label><input type="radio" name="q5" value="b"> Guide and support valve stems as they move up and down</label>
+        <label><input type="radio" name="q5" value="c"> Drive the camshaft</label>
+        <label><input type="radio" name="q5" value="d"> Support the crankshaft mains</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Valve stem seals are installed to:</strong></p>
+        <label><input type="radio" name="q6" value="a"> Increase oil flow into the combustion chamber</label>
+        <label><input type="radio" name="q6" value="b"> Control the amount of oil that passes down the valve stem into the guide</label>
+        <label><input type="radio" name="q6" value="c"> Seal combustion gases at the valve face</label>
+        <label><input type="radio" name="q6" value="d"> Replace head gaskets</label>
+      </div>
+
+      <div class="question">
+        <p><strong>According to the ILM, intake valves are often larger in diameter than exhaust valves because:</strong></p>
+        <label><input type="radio" name="q7" value="a"> Exhaust gas is lighter than intake charge</label>
+        <label><input type="radio" name="q7" value="b"> A larger opening helps fill the cylinder with fresh mixture or air</label>
+        <label><input type="radio" name="q7" value="c"> They operate at higher temperature</label>
+        <label><input type="radio" name="q7" value="d"> They require less flow</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Exhaust valves typically run hotter than intake valves because they:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Are cooled directly by incoming air–fuel mixture</label>
+        <label><input type="radio" name="q8" value="b"> Are exposed to hot exhaust gases leaving the combustion chamber</label>
+        <label><input type="radio" name="q8" value="c"> Are made of cooler materials</label>
+        <label><input type="radio" name="q8" value="d"> Operate only at idle</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Multi-valve heads (such as four valves per cylinder) are used because they:</strong></p>
+        <label><input type="radio" name="q9" value="a"> Reduce airflow</label>
+        <label><input type="radio" name="q9" value="b"> Improve breathing, efficiency and power by providing more total valve area</label>
+        <label><input type="radio" name="q9" value="c"> Eliminate the need for camshafts</label>
+        <label><input type="radio" name="q9" value="d"> Reduce manufacturing cost only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The head gasket is designed to:</strong></p>
+        <label><input type="radio" name="q10" value="a"> Lubricate the valves</label>
+        <label><input type="radio" name="q10" value="b"> Seal combustion pressure, coolant and oil passages between block and head</label>
+        <label><input type="radio" name="q10" value="c"> Control valve timing</label>
+        <label><input type="radio" name="q10" value="d"> Store fuel in the head</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Torque-to-yield (TTY) head bolts are designed to:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Be reused indefinitely</label>
+        <label><input type="radio" name="q11" value="b"> Stretch into a controlled elastic range when torqued to specification and are often replaced, not reused</label>
+        <label><input type="radio" name="q11" value="c"> Require no torque specification</label>
+        <label><input type="radio" name="q11" value="d"> Be stronger when over-tightened repeatedly</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Cylinder head warpage can result from:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Low engine temperature</label>
+        <label><input type="radio" name="q12" value="b"> Overheating and uneven thermal expansion</label>
+        <label><input type="radio" name="q12" value="c"> Clean coolant</label>
+        <label><input type="radio" name="q12" value="d"> Correct torque procedures</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Signs of a leaking head gasket described in the ILM include:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Higher fuel economy only</label>
+        <label><input type="radio" name="q13" value="b"> Coolant in the oil, white exhaust smoke, compression loss or combustion gases in coolant</label>
+        <label><input type="radio" name="q13" value="c"> Dry spark plugs</label>
+        <label><input type="radio" name="q13" value="d"> Smooth idle with no coolant loss</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Valve spring pressure is important because it:</strong></p>
+        <label><input type="radio" name="q14" value="a"> Controls coolant flow</label>
+        <label><input type="radio" name="q14" value="b"> Keeps valves seated and follows cam motion without float at operating speeds</label>
+        <label><input type="radio" name="q14" value="c"> Prevents oil from reaching the valve stem</label>
+        <label><input type="radio" name="q14" value="d"> Determines compression ratio</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Valve keepers (collets) and retainers are used together to:</strong></p>
+        <label><input type="radio" name="q15" value="a"> Hold the valve head to the stem</label>
+        <label><input type="radio" name="q15" value="b"> Secure the valve spring to the valve stem groove</label>
+        <label><input type="radio" name="q15" value="c"> Adjust valve lash</label>
+        <label><input type="radio" name="q15" value="d"> Seal oil drain-back holes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When reconditioning cylinder heads, the ILM notes that machinists may:</strong></p>
+        <label><input type="radio" name="q16" value="a"> Replace tires and wheels</label>
+        <label><input type="radio" name="q16" value="b"> Resurface head faces, replace or recondition valves and seats, and replace guides as needed</label>
+        <label><input type="radio" name="q16" value="c"> Adjust wheel alignment</label>
+        <label><input type="radio" name="q16" value="d"> Service transmissions</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Aluminum cylinder heads often use inserted valve seats because:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Aluminum provides sufficient hardness on its own</label>
+        <label><input type="radio" name="q17" value="b"> Hardened seat inserts handle the high temperature and wear better than the aluminum casting</label>
+        <label><input type="radio" name="q17" value="c"> They are easier to paint</label>
+        <label><input type="radio" name="q17" value="d"> They reduce combustion temperature</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A 'cracked head' may cause:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Improved emissions</label>
+        <label><input type="radio" name="q18" value="b"> Coolant loss, oil contamination and compression leakage</label>
+        <label><input type="radio" name="q18" value="c"> Higher compression ratio with no side effects</label>
+        <label><input type="radio" name="q18" value="d"> Better starting</label>
+      </div>
+
+      <div class="question">
+        <p><strong>From a parts technician’s standpoint, common cylinder head-related parts include:</strong></p>
+        <label><input type="radio" name="q19" value="a"> Only spark plugs</label>
+        <label><input type="radio" name="q19" value="b"> Complete heads, valve train components, head gaskets, head bolt sets, intake and exhaust gaskets</label>
+        <label><input type="radio" name="q19" value="c"> Only fuel tanks</label>
+        <label><input type="radio" name="q19" value="d"> Only radiators</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM explains that different head gasket designs (multi-layer steel vs composite) are chosen based on:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Vehicle colour</label>
+        <label><input type="radio" name="q20" value="b"> Engine design, surface finish requirements, clamping loads and durability needs</label>
+        <label><input type="radio" name="q20" value="c"> Radio options</label>
+        <label><input type="radio" name="q20" value="d"> Tire size</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Overhead cam cylinder heads often incorporate:</strong></p>
+        <label><input type="radio" name="q21" value="a"> Camshaft(s), cam bearings, followers and sometimes variable valve timing hardware directly in the head casting</label>
+        <label><input type="radio" name="q21" value="b"> No moving parts</label>
+        <label><input type="radio" name="q21" value="c"> The crankshaft only</label>
+        <label><input type="radio" name="q21" value="d"> Only exhaust manifolds</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Valve recession into the seat can lead to:</strong></p>
+        <label><input type="radio" name="q22" value="a"> Increased valve lash and higher compression</label>
+        <label><input type="radio" name="q22" value="b"> Loss of valve clearance, poor sealing and burnt valves</label>
+        <label><input type="radio" name="q22" value="c"> Improved fuel economy</label>
+        <label><input type="radio" name="q22" value="d"> Reduced exhaust temperature</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Coolant passages in the cylinder head are important to:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Provide mounting for accessories only</label>
+        <label><input type="radio" name="q23" value="b"> Carry heat away from combustion areas and valve bridges</label>
+        <label><input type="radio" name="q23" value="c"> Store extra oil</label>
+        <label><input type="radio" name="q23" value="d"> Control ignition timing</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In diesel engines, some cylinder heads incorporate pre-combustion chambers or swirl chambers to:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Store coolant</label>
+        <label><input type="radio" name="q24" value="b"> Improve mixture formation and combustion at lower injection pressures</label>
+        <label><input type="radio" name="q24" value="c"> Hold spark plugs</label>
+        <label><input type="radio" name="q24" value="d"> Support exhaust manifolds</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Head bolt tightening patterns are specified so that:</strong></p>
+        <label><input type="radio" name="q25" value="a"> Warping of the head and uneven gasket loading is minimized</label>
+        <label><input type="radio" name="q25" value="b"> The paint cures evenly</label>
+        <label><input type="radio" name="q25" value="c"> Coolant flows more quickly</label>
+        <label><input type="radio" name="q25" value="d"> Valve timing is automatically set</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM notes that resurfacing a cylinder head affects:</strong></p>
+        <label><input type="radio" name="q26" value="a"> Only the appearance</label>
+        <label><input type="radio" name="q26" value="b"> Combustion chamber volume, compression ratio and cam timing (on some OHC engines)</label>
+        <label><input type="radio" name="q26" value="c"> Only exhaust noise</label>
+        <label><input type="radio" name="q26" value="d"> Only fuel tank capacity</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Intake and exhaust manifolds attach to the head to:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Support the crankshaft</label>
+        <label><input type="radio" name="q27" value="b"> Distribute intake charge to cylinders and carry exhaust gases away</label>
+        <label><input type="radio" name="q27" value="c"> Pump coolant</label>
+        <label><input type="radio" name="q27" value="d"> Control oil level</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When ordering a replacement cylinder head, parts technicians must confirm:</strong></p>
+        <label><input type="radio" name="q28" value="a"> Only the colour of the valve cover</label>
+        <label><input type="radio" name="q28" value="b"> Engine family/code, casting number, number of valves, port layout and emissions equipment provisions</label>
+        <label><input type="radio" name="q28" value="c"> Only tire size</label>
+        <label><input type="radio" name="q28" value="d"> Only transmission type</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM explains that some engines use separate cam carrier assemblies which:</strong></p>
+        <label><input type="radio" name="q29" value="a"> Hold crankshaft bearings</label>
+        <label><input type="radio" name="q29" value="b"> Bolt to the head and contain the camshaft journals and caps</label>
+        <label><input type="radio" name="q29" value="c"> Replace pistons</label>
+        <label><input type="radio" name="q29" value="d"> Support the flywheel</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Valve seat angle and width are important because they:</strong></p>
+        <label><input type="radio" name="q30" value="a"> Determine coolant flow only</label>
+        <label><input type="radio" name="q30" value="b"> Affect sealing, heat transfer and valve life</label>
+        <label><input type="radio" name="q30" value="c"> Determine oil viscosity</label>
+        <label><input type="radio" name="q30" value="d"> Set spark plug gap</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive oil consumption that is not from rings may be caused by:</strong></p>
+        <label><input type="radio" name="q31" value="a"> Dry air filters</label>
+        <label><input type="radio" name="q31" value="b"> Worn valve guides or defective stem seals</label>
+        <label><input type="radio" name="q31" value="c"> Correct valve lash</label>
+        <label><input type="radio" name="q31" value="d"> High-quality fuel</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pressure testing a cylinder head is used to:</strong></p>
+        <label><input type="radio" name="q32" value="a"> Measure compression ratio</label>
+        <label><input type="radio" name="q32" value="b"> Check for internal cracks or porosity that allow coolant leakage</label>
+        <label><input type="radio" name="q32" value="c"> Adjust valve timing</label>
+        <label><input type="radio" name="q32" value="d"> Determine oil capacity</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Double overhead cam multi-valve heads may require parts technicians to supply:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Only one rocker arm</label>
+        <label><input type="radio" name="q33" value="b"> Multiple camshafts, unique followers, different intake/exhaust valves and complex gasket sets</label>
+        <label><input type="radio" name="q33" value="c"> Only spark plug wires</label>
+        <label><input type="radio" name="q33" value="d"> Only crankshafts</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM stresses that mixing head bolts of different lengths or types:</strong></p>
+        <label><input type="radio" name="q34" value="a"> Is acceptable if torque is correct</label>
+        <label><input type="radio" name="q34" value="b"> Can lead to uneven clamping and gasket failure</label>
+        <label><input type="radio" name="q34" value="c"> Improves gasket sealing</label>
+        <label><input type="radio" name="q34" value="d"> Has no effect on service life</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
 
   <script>
     window.ANSWERS = {
-  "1": "B",
-  "2": "B",
-  "3": "B",
-  "4": "B",
-  "5": "B",
-  "6": "B",
-  "7": "B",
-  "8": "B",
-  "9": "B",
-  "10": "B",
-  "11": "B",
-  "12": "B",
-  "13": "B",
-  "14": "B",
-  "15": "B",
-  "16": "B",
-  "17": "B",
-  "18": "B",
-  "19": "B",
-  "20": "B",
-  "21": "B",
-  "22": "B",
-  "23": "B",
-  "24": "B",
-  "25": "B",
-  "26": "B",
-  "27": "B",
-  "28": "B",
-  "29": "B",
-  "30": "B",
-  "31": "B",
-  "32": "B",
-  "33": "B",
-  "34": "B",
-  "35": "B",
-  "36": "B"
-};
+      "q1": "b",
+      "q2": "b",
+      "q3": "b",
+      "q4": "b",
+      "q5": "b",
+      "q6": "b",
+      "q7": "b",
+      "q8": "b",
+      "q9": "b",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "b",
+      "q20": "b",
+      "q21": "b",
+      "q22": "b",
+      "q23": "b",
+      "q24": "b",
+      "q25": "b",
+      "q26": "b",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "b",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b",
+      "q34": "b"
+    };
   </script>
+  <script src="../script.js"></script>
 </body>
 </html>
