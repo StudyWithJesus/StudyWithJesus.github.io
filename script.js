@@ -894,7 +894,7 @@ function initExamIndexScores() {
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     
-    // Jesus meme images
+    // Jesus meme images - using external URLs with fallback handling
     const jesusMemes = [
       'https://i.imgflip.com/1jenson.jpg', // Buddy Christ
       'https://i.imgflip.com/1h7in3.jpg', // Jesus Facepalm
@@ -908,8 +908,14 @@ function initExamIndexScores() {
     
     const memesContainer = overlay.querySelector('.jesus-memes-container');
     let memeInterval;
+    let activeMemeCount = 0;
+    const maxConcurrentMemes = 20;
     
     function createFlyingMeme() {
+      // Limit concurrent memes to prevent performance issues
+      if (activeMemeCount >= maxConcurrentMemes) return;
+      
+      activeMemeCount++;
       const meme = document.createElement('div');
       meme.className = 'jesus-meme';
       
@@ -919,6 +925,11 @@ function initExamIndexScores() {
       img.alt = 'Jesus Meme';
       img.style.width = size + 'px';
       img.style.height = 'auto';
+      // Handle failed image loads gracefully
+      img.onerror = function() {
+        meme.remove();
+        activeMemeCount--;
+      };
       meme.appendChild(img);
       
       // Random starting position (from edges)
@@ -969,18 +980,19 @@ function initExamIndexScores() {
       
       memesContainer.appendChild(meme);
       
-      // Remove meme after animation
+      // Remove meme after animation and decrement counter
       setTimeout(() => {
         meme.remove();
+        activeMemeCount--;
       }, duration * 1000);
     }
     
     // Spawn initial burst of memes
-    for (let i = 0; i < 15; i++) {
-      setTimeout(() => createFlyingMeme(), i * 100);
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => createFlyingMeme(), i * 150);
     }
-    // Continue spawning memes
-    memeInterval = setInterval(createFlyingMeme, 150);
+    // Continue spawning memes at a reasonable interval
+    memeInterval = setInterval(createFlyingMeme, 350);
     
     // Close on button click
     overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);
