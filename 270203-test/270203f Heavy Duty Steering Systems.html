@@ -1,359 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>270203f Heavy Duty Steering Systems Practice Exam</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="exam-common.js"></script>
+  <meta charset="UTF-8">
+  <title>270203f - Heavy Duty Steering Systems Practice Exam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div id="banner">
-    <h1>NAIT Parts Technician - 270203f Heavy Duty Steering Systems</h1>
-    <p>270203f Heavy Duty Steering Systems</p>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
   </div>
 
-  <div id="top-controls">
-    <button id="btnStart">Start Exam</button>
-    <button id="btnReset">Reset</button>
-  </div>
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>Heavy Duty Steering Systems</h1>
+      <p>Heavy Duty Steering Systems</p>
+    </div>
+  </header>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-    <span id="progress-text">0 / 40</span>
-  </div>
-
-  <div id="question-container">
-    <div class="question" data-question="1">
-      <p>1. The primary function of a heavy duty truck steering system is to:</p>
-      <label><input type="radio" name="q1" value="A"> A. Control suspension height</label>
-      <label><input type="radio" name="q1" value="B"> B. Provide controlled directional change of the vehicle with acceptable effort and feedback</label>
-      <label><input type="radio" name="q1" value="C"> C. Apply service brakes</label>
-      <label><input type="radio" name="q1" value="D"> D. Increase engine power</label>
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
     </div>
-    <div class="question" data-question="2">
-      <p>2. Most heavy trucks use which type of steering gear?</p>
-      <label><input type="radio" name="q2" value="A"> A. Rack and pinion</label>
-      <label><input type="radio" name="q2" value="B"> B. Recirculating ball worm-and-sector or integral power steering gear</label>
-      <label><input type="radio" name="q2" value="C"> C. Cable-operated steering</label>
-      <label><input type="radio" name="q2" value="D"> D. Chain drive steering</label>
-    </div>
-    <div class="question" data-question="3">
-      <p>3. The steering knuckle is the component that:</p>
-      <label><input type="radio" name="q3" value="A"> A. Connects the steering wheel to the column</label>
-      <label><input type="radio" name="q3" value="B"> B. Supports the wheel ends and pivots on kingpins or knuckle pins for steering</label>
-      <label><input type="radio" name="q3" value="C"> C. Controls brake timing</label>
-      <label><input type="radio" name="q3" value="D"> D. Supports the transmission</label>
-    </div>
-    <div class="question" data-question="4">
-      <p>4. Kingpins in heavy duty steering axles:</p>
-      <label><input type="radio" name="q4" value="A"> A. Support the frame</label>
-      <label><input type="radio" name="q4" value="B"> B. Serve as pivot pins between the axle beam and steering knuckles</label>
-      <label><input type="radio" name="q4" value="C"> C. Control engine timing</label>
-      <label><input type="radio" name="q4" value="D"> D. Adjust brake stroke</label>
-    </div>
-    <div class="question" data-question="5">
-      <p>5. The drag link connects:</p>
-      <label><input type="radio" name="q5" value="A"> A. Steering wheel to seat</label>
-      <label><input type="radio" name="q5" value="B"> B. Pitman arm to steering arm on the knuckle</label>
-      <label><input type="radio" name="q5" value="C"> C. Axle to frame</label>
-      <label><input type="radio" name="q5" value="D"> D. Brake chamber to slack adjuster</label>
-    </div>
-    <div class="question" data-question="6">
-      <p>6. The tie rod connects:</p>
-      <label><input type="radio" name="q6" value="A"> A. Steering gear to steering column</label>
-      <label><input type="radio" name="q6" value="B"> B. Left and right steering arms to keep wheels toed correctly</label>
-      <label><input type="radio" name="q6" value="C"> C. Front axle to frame</label>
-      <label><input type="radio" name="q6" value="D"> D. Brake pedal to master cylinder</label>
-    </div>
-    <div class="question" data-question="7">
-      <p>7. Toe setting on a steering axle refers to:</p>
-      <label><input type="radio" name="q7" value="A"> A. Camber angle of the wheels</label>
-      <label><input type="radio" name="q7" value="B"> B. Inward or outward angle of the wheels when viewed from above</label>
-      <label><input type="radio" name="q7" value="C"> C. Caster angle of the kingpin</label>
-      <label><input type="radio" name="q7" value="D"> D. Steering wheel diameter</label>
-    </div>
-    <div class="question" data-question="8">
-      <p>8. Power steering pumps on heavy trucks are typically driven by:</p>
-      <label><input type="radio" name="q8" value="A"> A. Electric motors only</label>
-      <label><input type="radio" name="q8" value="B"> B. Engine belt or gear drive supplying flow to the steering gear</label>
-      <label><input type="radio" name="q8" value="C"> C. The transmission output shaft directly</label>
-      <label><input type="radio" name="q8" value="D"> D. Hand pumps</label>
-    </div>
-    <div class="question" data-question="9">
-      <p>9. Integral power steering gears combine:</p>
-      <label><input type="radio" name="q9" value="A"> A. Only manual gear components</label>
-      <label><input type="radio" name="q9" value="B"> B. Mechanical steering gear and hydraulic power assist in one unit</label>
-      <label><input type="radio" name="q9" value="C"> C. Brake valves and steering valves</label>
-      <label><input type="radio" name="q9" value="D"> D. Engine and transmission controls</label>
-    </div>
-    <div class="question" data-question="10">
-      <p>10. Steering gear lash (free play) that is excessive can cause:</p>
-      <label><input type="radio" name="q10" value="A"> A. Improved steering response</label>
-      <label><input type="radio" name="q10" value="B"> B. Loose steering feel and poor vehicle control</label>
-      <label><input type="radio" name="q10" value="C"> C. Reduced tire wear</label>
-      <label><input type="radio" name="q10" value="D"> D. Better directional stability</label>
-    </div>
-    <div class="question" data-question="11">
-      <p>11. Caster angle in steering geometry affects:</p>
-      <label><input type="radio" name="q11" value="A"> A. Vertical load on the axle only</label>
-      <label><input type="radio" name="q11" value="B"> B. Self-centering tendency and straight-line stability</label>
-      <label><input type="radio" name="q11" value="C"> C. Engine timing</label>
-      <label><input type="radio" name="q11" value="D"> D. Brake fade</label>
-    </div>
-    <div class="question" data-question="12">
-      <p>12. Camber angle is defined as:</p>
-      <label><input type="radio" name="q12" value="A"> A. Tilt of the steering wheel</label>
-      <label><input type="radio" name="q12" value="B"> B. Tilt of the wheel from vertical when viewed from the front</label>
-      <label><input type="radio" name="q12" value="C"> C. Toe measurement</label>
-      <label><input type="radio" name="q12" value="D"> D. Distance between axles</label>
-    </div>
-    <div class="question" data-question="13">
-      <p>13. Power steering fluid leaks are often found at:</p>
-      <label><input type="radio" name="q13" value="A"> A. Tire beads only</label>
-      <label><input type="radio" name="q13" value="B"> B. Hoses, fittings, pump shaft seals and steering gear input/output seals</label>
-      <label><input type="radio" name="q13" value="C"> C. Brake shoes</label>
-      <label><input type="radio" name="q13" value="D"> D. Frame rails</label>
-    </div>
-    <div class="question" data-question="14">
-      <p>14. Steering stops on heavy trucks are used to:</p>
-      <label><input type="radio" name="q14" value="A"> A. Limit maximum steering angle to prevent tire and component interference</label>
-      <label><input type="radio" name="q14" value="B"> B. Increase turning radius</label>
-      <label><input type="radio" name="q14" value="C"> C. Adjust ride height</label>
-      <label><input type="radio" name="q14" value="D"> D. Control brake balance</label>
-    </div>
-    <div class="question" data-question="15">
-      <p>15. Power steering return lines should be routed:</p>
-      <label><input type="radio" name="q15" value="A"> A. To the suction side of the pump without filtration</label>
-      <label><input type="radio" name="q15" value="B"> B. To the reservoir through appropriate filtration and cooling if equipped</label>
-      <label><input type="radio" name="q15" value="C"> C. Directly onto the ground</label>
-      <label><input type="radio" name="q15" value="D"> D. To the engine crankcase</label>
-    </div>
-    <div class="question" data-question="16">
-      <p>16. A 'steering axle' on a heavy truck is usually:</p>
-      <label><input type="radio" name="q16" value="A"> A. A driven axle</label>
-      <label><input type="radio" name="q16" value="B"> B. A non-driven front axle designed for steering and load support</label>
-      <label><input type="radio" name="q16" value="C"> C. A tag axle behind the drive axles</label>
-      <label><input type="radio" name="q16" value="D"> D. A trailer axle</label>
-    </div>
-    <div class="question" data-question="17">
-      <p>17. Wheel alignment settings that are incorrect can cause:</p>
-      <label><input type="radio" name="q17" value="A"> A. Uniform tire wear and stable handling</label>
-      <label><input type="radio" name="q17" value="B"> B. Irregular tire wear, pulling and poor handling</label>
-      <label><input type="radio" name="q17" value="C"> C. Improved fuel economy</label>
-      <label><input type="radio" name="q17" value="D"> D. Elimination of steering wander</label>
-    </div>
-    <div class="question" data-question="18">
-      <p>18. The steering column assembly includes:</p>
-      <label><input type="radio" name="q18" value="A"> A. Only the steering gear</label>
-      <label><input type="radio" name="q18" value="B"> B. Steering shaft(s), column housing, bearings and sometimes tilt/telescoping mechanisms</label>
-      <label><input type="radio" name="q18" value="C"> C. Axle beam</label>
-      <label><input type="radio" name="q18" value="D"> D. Brake drums</label>
-    </div>
-    <div class="question" data-question="19">
-      <p>19. The ILM Heavy Duty Steering Systems module expects parts technicians to:</p>
-      <label><input type="radio" name="q19" value="A"> A. Set up wheel alignments</label>
-      <label><input type="radio" name="q19" value="B"> B. Recognize components such as steering gears, pumps, knuckles, kingpins, drag links and tie rods for parts supply</label>
-      <label><input type="radio" name="q19" value="C"> C. Adjust steering stops directly</label>
-      <label><input type="radio" name="q19" value="D"> D. Design new axle beams</label>
-    </div>
-    <div class="question" data-question="20">
-      <p>20. Power steering reservoirs normally include:</p>
-      <label><input type="radio" name="q20" value="A"> A. Only air</label>
-      <label><input type="radio" name="q20" value="B"> B. Fluid level marks, return and suction ports, and often a filter or screen</label>
-      <label><input type="radio" name="q20" value="C"> C. Exhaust valves</label>
-      <label><input type="radio" name="q20" value="D"> D. Brake components</label>
-    </div>
-    <div class="question" data-question="21">
-      <p>21. A truck that pulls to one side could have:</p>
-      <label><input type="radio" name="q21" value="A"> A. Perfect steering alignment</label>
-      <label><input type="radio" name="q21" value="B"> B. Unequal tire pressure, brake drag, misalignment or steering gear issues</label>
-      <label><input type="radio" name="q21" value="C"> C. Only engine problems</label>
-      <label><input type="radio" name="q21" value="D"> D. Correct camber on both sides</label>
-    </div>
-    <div class="question" data-question="22">
-      <p>22. Returnability (self-return to centre) of the steering wheel after a turn is influenced mainly by:</p>
-      <label><input type="radio" name="q22" value="A"> A. Toe only</label>
-      <label><input type="radio" name="q22" value="B"> B. Caster angle and steering geometry</label>
-      <label><input type="radio" name="q22" value="C"> C. Cab height</label>
-      <label><input type="radio" name="q22" value="D"> D. Differential ratio</label>
-    </div>
-    <div class="question" data-question="23">
-      <p>23. Power steering pump flow and pressure specifications are important so that:</p>
-      <label><input type="radio" name="q23" value="A"> A. Correct radiator size is chosen</label>
-      <label><input type="radio" name="q23" value="B"> B. Steering assist matches gear requirements without overloading components</label>
-      <label><input type="radio" name="q23" value="C"> C. Fuel consumption is maximized</label>
-      <label><input type="radio" name="q23" value="D"> D. Brake systems can be pressurized</label>
-    </div>
-    <div class="question" data-question="24">
-      <p>24. Steering linkage joints such as tie rod ends typically use:</p>
-      <label><input type="radio" name="q24" value="A"> A. Solid welded joints</label>
-      <label><input type="radio" name="q24" value="B"> B. Ball and socket designs with tapered studs</label>
-      <label><input type="radio" name="q24" value="C"> C. Only straight pins</label>
-      <label><input type="radio" name="q24" value="D"> D. Rubber hoses</label>
-    </div>
-    <div class="question" data-question="25">
-      <p>25. If a steering gear is replaced, the parts technician must supply a unit with:</p>
-      <label><input type="radio" name="q25" value="A"> A. Any number of turns lock-to-lock</label>
-      <label><input type="radio" name="q25" value="B"> B. Correct mounting pattern, input/output shaft configuration, ratio, rotation and port locations as specified</label>
-      <label><input type="radio" name="q25" value="C"> C. Only approximate similarity</label>
-      <label><input type="radio" name="q25" value="D"> D. Any available unit that fits the frame</label>
-    </div>
-    <div class="question" data-question="26">
-      <p>26. Steering dampers (stabilizers) are sometimes used to:</p>
-      <label><input type="radio" name="q26" value="A"> A. Increase steering effort</label>
-      <label><input type="radio" name="q26" value="B"> B. Reduce shimmy and sudden steering shocks</label>
-      <label><input type="radio" name="q26" value="C"> C. Increase turning radius</label>
-      <label><input type="radio" name="q26" value="D"> D. Eliminate need for alignment</label>
-    </div>
-    <div class="question" data-question="27">
-      <p>27. Excessive free play at the steering wheel may be caused by:</p>
-      <label><input type="radio" name="q27" value="A"> A. New steering components</label>
-      <label><input type="radio" name="q27" value="B"> B. Worn steering gear, loose linkages, worn kingpins or wheel bearings</label>
-      <label><input type="radio" name="q27" value="C"> C. Correct alignment</label>
-      <label><input type="radio" name="q27" value="D"> D. Properly adjusted gear</label>
-    </div>
-    <div class="question" data-question="28">
-      <p>28. Hydraulic power steering systems generally include:</p>
-      <label><input type="radio" name="q28" value="A"> A. Pump, reservoir, steering gear, hoses and sometimes an oil cooler</label>
-      <label><input type="radio" name="q28" value="B"> B. Only an electric motor</label>
-      <label><input type="radio" name="q28" value="C"> C. Only mechanical linkages</label>
-      <label><input type="radio" name="q28" value="D"> D. Air compressor and air tanks</label>
-    </div>
-    <div class="question" data-question="29">
-      <p>29. On some vehicles, auxiliary hydraulic steering cylinders are used to:</p>
-      <label><input type="radio" name="q29" value="A"> A. Operate brakes</label>
-      <label><input type="radio" name="q29" value="B"> B. Assist in turning multiple axles or very heavy steering axles</label>
-      <label><input type="radio" name="q29" value="C"> C. Support cab suspension</label>
-      <label><input type="radio" name="q29" value="D"> D. Control exhaust brakes</label>
-    </div>
-    <div class="question" data-question="30">
-      <p>30. When ordering steering knuckle or kingpin kits, necessary information includes:</p>
-      <label><input type="radio" name="q30" value="A"> A. Only wheel size</label>
-      <label><input type="radio" name="q30" value="B"> B. Axle manufacturer, model, axle capacity and vehicle application</label>
-      <label><input type="radio" name="q30" value="C"> C. Cab colour</label>
-      <label><input type="radio" name="q30" value="D"> D. Seat fabric type</label>
-    </div>
-    <div class="question" data-question="31">
-      <p>31. Steering stop adjustment is important to:</p>
-      <label><input type="radio" name="q31" value="A"> A. Prevent tire-to-frame or suspension interference at full lock</label>
-      <label><input type="radio" name="q31" value="B"> B. Increase turning circle unnecessarily</label>
-      <label><input type="radio" name="q31" value="C"> C. Control brake application</label>
-      <label><input type="radio" name="q31" value="D"> D. Change ride height</label>
-    </div>
-    <div class="question" data-question="32">
-      <p>32. Steering gear mounting bolts and frame brackets must:</p>
-      <label><input type="radio" name="q32" value="A"> A. Be of any grade available</label>
-      <label><input type="radio" name="q32" value="B"> B. Be correct grade and torque to prevent movement and cracking</label>
-      <label><input type="radio" name="q32" value="C"> C. Be only hand tight</label>
-      <label><input type="radio" name="q32" value="D"> D. Be replaced with smaller bolts to allow flex</label>
-    </div>
-    <div class="question" data-question="33">
-      <p>33. Power steering fluid type is important because:</p>
-      <label><input type="radio" name="q33" value="A"> A. Any oil can be used</label>
-      <label><input type="radio" name="q33" value="B"> B. The manufacturer specifies compatible fluids to protect seals, pumps and gears</label>
-      <label><input type="radio" name="q33" value="C"> C. Gear oil is always acceptable</label>
-      <label><input type="radio" name="q33" value="D"> D. Water can be substituted in an emergency</label>
-    </div>
-    <div class="question" data-question="34">
-      <p>34. The steering wheel position relative to wheel angle is maintained by:</p>
-      <label><input type="radio" name="q34" value="A"> A. Proper installation of steering shaft splines and centering of steering gear</label>
-      <label><input type="radio" name="q34" value="B"> B. Brake adjustment</label>
-      <label><input type="radio" name="q34" value="C"> C. Shock absorber selection</label>
-      <label><input type="radio" name="q34" value="D"> D. Spring arch</label>
-    </div>
-    <div class="question" data-question="35">
-      <p>35. In the ILM Heavy Duty Steering Systems module, exploded views help parts technicians to:</p>
-      <label><input type="radio" name="q35" value="A"> A. Calculate wheel alignment</label>
-      <label><input type="radio" name="q35" value="B"> B. Visualize component relationships and identify individual service parts</label>
-      <label><input type="radio" name="q35" value="C"> C. Set steering wheel height</label>
-      <label><input type="radio" name="q35" value="D"> D. Select cab colours</label>
-    </div>
-    <div class="question" data-question="36">
-      <p>36. Steering boxes often have a 'high point' or centre position which:</p>
-      <label><input type="radio" name="q36" value="A"> A. Is the loosest point</label>
-      <label><input type="radio" name="q36" value="B"> B. Is designed to have minimum lash and must align with straight-ahead vehicle position</label>
-      <label><input type="radio" name="q36" value="C"> C. Is only used in reverse</label>
-      <label><input type="radio" name="q36" value="D"> D. Has maximum free play</label>
-    </div>
-    <div class="question" data-question="37">
-      <p>37. If power steering assist is lost but manual steering remains, likely causes include:</p>
-      <label><input type="radio" name="q37" value="A"> A. Broken axle beam</label>
-      <label><input type="radio" name="q37" value="B"> B. Pump failure, loss of fluid or drive belt failure</label>
-      <label><input type="radio" name="q37" value="C"> C. Steering gear mechanical failure only</label>
-      <label><input type="radio" name="q37" value="D"> D. Flat tires on drive axles</label>
-    </div>
-    <div class="question" data-question="38">
-      <p>38. Road feel in a steering system refers to:</p>
-      <label><input type="radio" name="q38" value="A"> A. Engine vibration</label>
-      <label><input type="radio" name="q38" value="B"> B. Feedback through the steering wheel that helps the driver sense surface conditions and vehicle response</label>
-      <label><input type="radio" name="q38" value="C"> C. Noise from the exhaust</label>
-      <label><input type="radio" name="q38" value="D"> D. Operation of the HVAC system</label>
-    </div>
-    <div class="question" data-question="39">
-      <p>39. Auxiliary steering pumps on some vehicles are provided to:</p>
-      <label><input type="radio" name="q39" value="A"> A. Increase brake pressure</label>
-      <label><input type="radio" name="q39" value="B"> B. Maintain steering assist if the main pump or engine drive fails</label>
-      <label><input type="radio" name="q39" value="C"> C. Operate suspension air bags</label>
-      <label><input type="radio" name="q39" value="D"> D. Power windshield wipers</label>
-    </div>
-    <div class="question" data-question="40">
-      <p>40. When selecting replacement power steering hoses, parts technicians must consider:</p>
-      <label><input type="radio" name="q40" value="A"> A. Only length</label>
-      <label><input type="radio" name="q40" value="B"> B. Pressure rating, temperature rating, hose size, end fittings, and routing requirements</label>
-      <label><input type="radio" name="q40" value="C"> C. Only colour</label>
-      <label><input type="radio" name="q40" value="D"> D. Approximate appearance</label>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
     </div>
   </div>
 
-  <div id="bottom-controls">
-    <button id="btnPrev">Previous</button>
-    <button id="btnNext">Next</button>
-    <button id="btnSubmit">Submit</button>
-  </div>
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270203 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270203f &mdash; Heavy Duty Steering Systems</h2>
+      <p>
+        Practice questions for Heavy Duty Steering Systems.
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form">
+
+      <div class="question">
+        <p><strong>The primary function of a heavy duty truck steering system is to:</strong></p>
+        <label><input type="radio" name="q1" value="a"> Control suspension height</label>
+        <label><input type="radio" name="q1" value="b"> Provide controlled directional change of the vehicle with acceptable effort and feedback</label>
+        <label><input type="radio" name="q1" value="c"> Apply service brakes</label>
+        <label><input type="radio" name="q1" value="d"> Increase engine power</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Most heavy trucks use which type of steering gear?</strong></p>
+        <label><input type="radio" name="q2" value="a"> Rack and pinion</label>
+        <label><input type="radio" name="q2" value="b"> Recirculating ball worm-and-sector or integral power steering gear</label>
+        <label><input type="radio" name="q2" value="c"> Cable-operated steering</label>
+        <label><input type="radio" name="q2" value="d"> Chain drive steering</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The steering knuckle is the component that:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Connects the steering wheel to the column</label>
+        <label><input type="radio" name="q3" value="b"> Supports the wheel ends and pivots on kingpins or knuckle pins for steering</label>
+        <label><input type="radio" name="q3" value="c"> Controls brake timing</label>
+        <label><input type="radio" name="q3" value="d"> Supports the transmission</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Kingpins in heavy duty steering axles:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Support the frame</label>
+        <label><input type="radio" name="q4" value="b"> Serve as pivot pins between the axle beam and steering knuckles</label>
+        <label><input type="radio" name="q4" value="c"> Control engine timing</label>
+        <label><input type="radio" name="q4" value="d"> Adjust brake stroke</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The drag link connects:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Steering wheel to seat</label>
+        <label><input type="radio" name="q5" value="b"> Pitman arm to steering arm on the knuckle</label>
+        <label><input type="radio" name="q5" value="c"> Axle to frame</label>
+        <label><input type="radio" name="q5" value="d"> Brake chamber to slack adjuster</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The tie rod connects:</strong></p>
+        <label><input type="radio" name="q6" value="a"> Steering gear to steering column</label>
+        <label><input type="radio" name="q6" value="b"> Left and right steering arms to keep wheels toed correctly</label>
+        <label><input type="radio" name="q6" value="c"> Front axle to frame</label>
+        <label><input type="radio" name="q6" value="d"> Brake pedal to master cylinder</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Toe setting on a steering axle refers to:</strong></p>
+        <label><input type="radio" name="q7" value="a"> Camber angle of the wheels</label>
+        <label><input type="radio" name="q7" value="b"> Inward or outward angle of the wheels when viewed from above</label>
+        <label><input type="radio" name="q7" value="c"> Caster angle of the kingpin</label>
+        <label><input type="radio" name="q7" value="d"> Steering wheel diameter</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Power steering pumps on heavy trucks are typically driven by:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Electric motors only</label>
+        <label><input type="radio" name="q8" value="b"> Engine belt or gear drive supplying flow to the steering gear</label>
+        <label><input type="radio" name="q8" value="c"> The transmission output shaft directly</label>
+        <label><input type="radio" name="q8" value="d"> Hand pumps</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Integral power steering gears combine:</strong></p>
+        <label><input type="radio" name="q9" value="a"> Only manual gear components</label>
+        <label><input type="radio" name="q9" value="b"> Mechanical steering gear and hydraulic power assist in one unit</label>
+        <label><input type="radio" name="q9" value="c"> Brake valves and steering valves</label>
+        <label><input type="radio" name="q9" value="d"> Engine and transmission controls</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Steering gear lash (free play) that is excessive can cause:</strong></p>
+        <label><input type="radio" name="q10" value="a"> Improved steering response</label>
+        <label><input type="radio" name="q10" value="b"> Loose steering feel and poor vehicle control</label>
+        <label><input type="radio" name="q10" value="c"> Reduced tire wear</label>
+        <label><input type="radio" name="q10" value="d"> Better directional stability</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Caster angle in steering geometry affects:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Vertical load on the axle only</label>
+        <label><input type="radio" name="q11" value="b"> Self-centering tendency and straight-line stability</label>
+        <label><input type="radio" name="q11" value="c"> Engine timing</label>
+        <label><input type="radio" name="q11" value="d"> Brake fade</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Camber angle is defined as:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Tilt of the steering wheel</label>
+        <label><input type="radio" name="q12" value="b"> Tilt of the wheel from vertical when viewed from the front</label>
+        <label><input type="radio" name="q12" value="c"> Toe measurement</label>
+        <label><input type="radio" name="q12" value="d"> Distance between axles</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Power steering fluid leaks are often found at:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Tire beads only</label>
+        <label><input type="radio" name="q13" value="b"> Hoses, fittings, pump shaft seals and steering gear input/output seals</label>
+        <label><input type="radio" name="q13" value="c"> Brake shoes</label>
+        <label><input type="radio" name="q13" value="d"> Frame rails</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Steering stops on heavy trucks are used to:</strong></p>
+        <label><input type="radio" name="q14" value="a"> Limit maximum steering angle to prevent tire and component interference</label>
+        <label><input type="radio" name="q14" value="b"> Increase turning radius</label>
+        <label><input type="radio" name="q14" value="c"> Adjust ride height</label>
+        <label><input type="radio" name="q14" value="d"> Control brake balance</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Power steering return lines should be routed:</strong></p>
+        <label><input type="radio" name="q15" value="a"> To the suction side of the pump without filtration</label>
+        <label><input type="radio" name="q15" value="b"> To the reservoir through appropriate filtration and cooling if equipped</label>
+        <label><input type="radio" name="q15" value="c"> Directly onto the ground</label>
+        <label><input type="radio" name="q15" value="d"> To the engine crankcase</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A 'steering axle' on a heavy truck is usually:</strong></p>
+        <label><input type="radio" name="q16" value="a"> A driven axle</label>
+        <label><input type="radio" name="q16" value="b"> A non-driven front axle designed for steering and load support</label>
+        <label><input type="radio" name="q16" value="c"> A tag axle behind the drive axles</label>
+        <label><input type="radio" name="q16" value="d"> A trailer axle</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Wheel alignment settings that are incorrect can cause:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Uniform tire wear and stable handling</label>
+        <label><input type="radio" name="q17" value="b"> Irregular tire wear, pulling and poor handling</label>
+        <label><input type="radio" name="q17" value="c"> Improved fuel economy</label>
+        <label><input type="radio" name="q17" value="d"> Elimination of steering wander</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The steering column assembly includes:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Only the steering gear</label>
+        <label><input type="radio" name="q18" value="b"> Steering shaft(s), column housing, bearings and sometimes tilt/telescoping mechanisms</label>
+        <label><input type="radio" name="q18" value="c"> Axle beam</label>
+        <label><input type="radio" name="q18" value="d"> Brake drums</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM Heavy Duty Steering Systems module expects parts technicians to:</strong></p>
+        <label><input type="radio" name="q19" value="a"> Set up wheel alignments</label>
+        <label><input type="radio" name="q19" value="b"> Recognize components such as steering gears, pumps, knuckles, kingpins, drag links and tie rods for parts supply</label>
+        <label><input type="radio" name="q19" value="c"> Adjust steering stops directly</label>
+        <label><input type="radio" name="q19" value="d"> Design new axle beams</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Power steering reservoirs normally include:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Only air</label>
+        <label><input type="radio" name="q20" value="b"> Fluid level marks, return and suction ports, and often a filter or screen</label>
+        <label><input type="radio" name="q20" value="c"> Exhaust valves</label>
+        <label><input type="radio" name="q20" value="d"> Brake components</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A truck that pulls to one side could have:</strong></p>
+        <label><input type="radio" name="q21" value="a"> Perfect steering alignment</label>
+        <label><input type="radio" name="q21" value="b"> Unequal tire pressure, brake drag, misalignment or steering gear issues</label>
+        <label><input type="radio" name="q21" value="c"> Only engine problems</label>
+        <label><input type="radio" name="q21" value="d"> Correct camber on both sides</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Returnability (self-return to centre) of the steering wheel after a turn is influenced mainly by:</strong></p>
+        <label><input type="radio" name="q22" value="a"> Toe only</label>
+        <label><input type="radio" name="q22" value="b"> Caster angle and steering geometry</label>
+        <label><input type="radio" name="q22" value="c"> Cab height</label>
+        <label><input type="radio" name="q22" value="d"> Differential ratio</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Power steering pump flow and pressure specifications are important so that:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Correct radiator size is chosen</label>
+        <label><input type="radio" name="q23" value="b"> Steering assist matches gear requirements without overloading components</label>
+        <label><input type="radio" name="q23" value="c"> Fuel consumption is maximized</label>
+        <label><input type="radio" name="q23" value="d"> Brake systems can be pressurized</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Steering linkage joints such as tie rod ends typically use:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Solid welded joints</label>
+        <label><input type="radio" name="q24" value="b"> Ball and socket designs with tapered studs</label>
+        <label><input type="radio" name="q24" value="c"> Only straight pins</label>
+        <label><input type="radio" name="q24" value="d"> Rubber hoses</label>
+      </div>
+
+      <div class="question">
+        <p><strong>If a steering gear is replaced, the parts technician must supply a unit with:</strong></p>
+        <label><input type="radio" name="q25" value="a"> Any number of turns lock-to-lock</label>
+        <label><input type="radio" name="q25" value="b"> Correct mounting pattern, input/output shaft configuration, ratio, rotation and port locations as specified</label>
+        <label><input type="radio" name="q25" value="c"> Only approximate similarity</label>
+        <label><input type="radio" name="q25" value="d"> Any available unit that fits the frame</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Steering dampers (stabilizers) are sometimes used to:</strong></p>
+        <label><input type="radio" name="q26" value="a"> Increase steering effort</label>
+        <label><input type="radio" name="q26" value="b"> Reduce shimmy and sudden steering shocks</label>
+        <label><input type="radio" name="q26" value="c"> Increase turning radius</label>
+        <label><input type="radio" name="q26" value="d"> Eliminate need for alignment</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive free play at the steering wheel may be caused by:</strong></p>
+        <label><input type="radio" name="q27" value="a"> New steering components</label>
+        <label><input type="radio" name="q27" value="b"> Worn steering gear, loose linkages, worn kingpins or wheel bearings</label>
+        <label><input type="radio" name="q27" value="c"> Correct alignment</label>
+        <label><input type="radio" name="q27" value="d"> Properly adjusted gear</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Hydraulic power steering systems generally include:</strong></p>
+        <label><input type="radio" name="q28" value="a"> Pump, reservoir, steering gear, hoses and sometimes an oil cooler</label>
+        <label><input type="radio" name="q28" value="b"> Only an electric motor</label>
+        <label><input type="radio" name="q28" value="c"> Only mechanical linkages</label>
+        <label><input type="radio" name="q28" value="d"> Air compressor and air tanks</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On some vehicles, auxiliary hydraulic steering cylinders are used to:</strong></p>
+        <label><input type="radio" name="q29" value="a"> Operate brakes</label>
+        <label><input type="radio" name="q29" value="b"> Assist in turning multiple axles or very heavy steering axles</label>
+        <label><input type="radio" name="q29" value="c"> Support cab suspension</label>
+        <label><input type="radio" name="q29" value="d"> Control exhaust brakes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When ordering steering knuckle or kingpin kits, necessary information includes:</strong></p>
+        <label><input type="radio" name="q30" value="a"> Only wheel size</label>
+        <label><input type="radio" name="q30" value="b"> Axle manufacturer, model, axle capacity and vehicle application</label>
+        <label><input type="radio" name="q30" value="c"> Cab colour</label>
+        <label><input type="radio" name="q30" value="d"> Seat fabric type</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Steering stop adjustment is important to:</strong></p>
+        <label><input type="radio" name="q31" value="a"> Prevent tire-to-frame or suspension interference at full lock</label>
+        <label><input type="radio" name="q31" value="b"> Increase turning circle unnecessarily</label>
+        <label><input type="radio" name="q31" value="c"> Control brake application</label>
+        <label><input type="radio" name="q31" value="d"> Change ride height</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Steering gear mounting bolts and frame brackets must:</strong></p>
+        <label><input type="radio" name="q32" value="a"> Be of any grade available</label>
+        <label><input type="radio" name="q32" value="b"> Be correct grade and torque to prevent movement and cracking</label>
+        <label><input type="radio" name="q32" value="c"> Be only hand tight</label>
+        <label><input type="radio" name="q32" value="d"> Be replaced with smaller bolts to allow flex</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Power steering fluid type is important because:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Any oil can be used</label>
+        <label><input type="radio" name="q33" value="b"> The manufacturer specifies compatible fluids to protect seals, pumps and gears</label>
+        <label><input type="radio" name="q33" value="c"> Gear oil is always acceptable</label>
+        <label><input type="radio" name="q33" value="d"> Water can be substituted in an emergency</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The steering wheel position relative to wheel angle is maintained by:</strong></p>
+        <label><input type="radio" name="q34" value="a"> Proper installation of steering shaft splines and centering of steering gear</label>
+        <label><input type="radio" name="q34" value="b"> Brake adjustment</label>
+        <label><input type="radio" name="q34" value="c"> Shock absorber selection</label>
+        <label><input type="radio" name="q34" value="d"> Spring arch</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In the ILM Heavy Duty Steering Systems module, exploded views help parts technicians to:</strong></p>
+        <label><input type="radio" name="q35" value="a"> Calculate wheel alignment</label>
+        <label><input type="radio" name="q35" value="b"> Visualize component relationships and identify individual service parts</label>
+        <label><input type="radio" name="q35" value="c"> Set steering wheel height</label>
+        <label><input type="radio" name="q35" value="d"> Select cab colours</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Steering boxes often have a 'high point' or centre position which:</strong></p>
+        <label><input type="radio" name="q36" value="a"> Is the loosest point</label>
+        <label><input type="radio" name="q36" value="b"> Is designed to have minimum lash and must align with straight-ahead vehicle position</label>
+        <label><input type="radio" name="q36" value="c"> Is only used in reverse</label>
+        <label><input type="radio" name="q36" value="d"> Has maximum free play</label>
+      </div>
+
+      <div class="question">
+        <p><strong>If power steering assist is lost but manual steering remains, likely causes include:</strong></p>
+        <label><input type="radio" name="q37" value="a"> Broken axle beam</label>
+        <label><input type="radio" name="q37" value="b"> Pump failure, loss of fluid or drive belt failure</label>
+        <label><input type="radio" name="q37" value="c"> Steering gear mechanical failure only</label>
+        <label><input type="radio" name="q37" value="d"> Flat tires on drive axles</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Road feel in a steering system refers to:</strong></p>
+        <label><input type="radio" name="q38" value="a"> Engine vibration</label>
+        <label><input type="radio" name="q38" value="b"> Feedback through the steering wheel that helps the driver sense surface conditions and vehicle response</label>
+        <label><input type="radio" name="q38" value="c"> Noise from the exhaust</label>
+        <label><input type="radio" name="q38" value="d"> Operation of the HVAC system</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
 
   <script>
     window.ANSWERS = {
-  "1": "B",
-  "2": "B",
-  "3": "B",
-  "4": "B",
-  "5": "B",
-  "6": "B",
-  "7": "B",
-  "8": "B",
-  "9": "B",
-  "10": "B",
-  "11": "B",
-  "12": "B",
-  "13": "B",
-  "14": "B",
-  "15": "B",
-  "16": "B",
-  "17": "B",
-  "18": "B",
-  "19": "B",
-  "20": "B",
-  "21": "B",
-  "22": "B",
-  "23": "B",
-  "24": "B",
-  "25": "B",
-  "26": "B",
-  "27": "B",
-  "28": "B",
-  "29": "B",
-  "30": "B",
-  "31": "B",
-  "32": "B",
-  "33": "B",
-  "34": "B",
-  "35": "B",
-  "36": "B",
-  "37": "B",
-  "38": "B",
-  "39": "B",
-  "40": "B"
-};
+      "q1": "b",
+      "q2": "b",
+      "q3": "b",
+      "q4": "b",
+      "q5": "b",
+      "q6": "b",
+      "q7": "b",
+      "q8": "b",
+      "q9": "b",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "b",
+      "q20": "b",
+      "q21": "b",
+      "q22": "b",
+      "q23": "b",
+      "q24": "b",
+      "q25": "b",
+      "q26": "b",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "b",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b",
+      "q34": "b",
+      "q35": "b",
+      "q36": "b",
+      "q37": "b",
+      "q38": "b"
+    };
   </script>
+  <script src="../script.js"></script>
 </body>
 </html>

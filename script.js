@@ -644,3 +644,767 @@ function initExamIndexScores() {
     span.textContent = (score != null && !Number.isNaN(score)) ? `${score}%` : "No attempts yet";
   }
 }
+
+// ----------------------
+// Konami Code Easter Egg
+// Desktop: ↑ ↑ ↓ ↓ ← → ← → B A (keyboard)
+// Mobile: Swipe up up down down left right left right, then tap tap
+// ----------------------
+;(function initKonamiCode() {
+  const konamiSequence = [
+    'ArrowUp', 'ArrowUp',
+    'ArrowDown', 'ArrowDown',
+    'ArrowLeft', 'ArrowRight',
+    'ArrowLeft', 'ArrowRight',
+    'KeyB', 'KeyA'
+  ];
+  
+  let konamiIndex = 0;
+  let mobilePattern = [];
+  // Mobile: swipe directions + tap tap at the end (instead of B A)
+  const mobileSequence = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'tap', 'tap'];
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let lastGestureTime = 0;
+  let patternTimeout = null;
+  
+  // Desktop keyboard listener
+  document.addEventListener('keydown', function(e) {
+    const key = e.code;
+    
+    if (key === konamiSequence[konamiIndex]) {
+      konamiIndex++;
+      if (konamiIndex === konamiSequence.length) {
+        konamiIndex = 0;
+        triggerEasterEgg();
+      }
+    } else {
+      konamiIndex = 0;
+      // Check if the pressed key matches the start of the sequence
+      if (key === konamiSequence[0]) {
+        konamiIndex = 1;
+      }
+    }
+  });
+  
+  // Mobile touch listeners for swipe detection
+  document.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+  
+  document.addEventListener('touchend', function(e) {
+    if (e.changedTouches.length !== 1) return;
+    
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+    const minSwipeDistance = 50;
+    
+    let gesture = null;
+    
+    // Determine if it's a swipe or tap
+    if (Math.abs(deltaX) < 25 && Math.abs(deltaY) < 25) {
+      // It's a tap
+      gesture = 'tap';
+    } else if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Horizontal swipe
+      gesture = deltaX > minSwipeDistance ? 'right' : (deltaX < -minSwipeDistance ? 'left' : null);
+    } else {
+      // Vertical swipe
+      gesture = deltaY > minSwipeDistance ? 'down' : (deltaY < -minSwipeDistance ? 'up' : null);
+    }
+    
+    if (gesture) {
+      lastGestureTime = Date.now();
+      
+      // Clear previous timeout and set new one
+      if (patternTimeout) clearTimeout(patternTimeout);
+      patternTimeout = setTimeout(function() {
+        mobilePattern = [];
+      }, 4000); // Reset after 4 seconds of inactivity
+      
+      if (gesture === mobileSequence[mobilePattern.length]) {
+        mobilePattern.push(gesture);
+        if (mobilePattern.length === mobileSequence.length) {
+          mobilePattern = [];
+          if (patternTimeout) clearTimeout(patternTimeout);
+          triggerEasterEgg();
+        }
+      } else {
+        mobilePattern = [];
+        // Check if this gesture starts the sequence
+        if (gesture === mobileSequence[0]) {
+          mobilePattern.push(gesture);
+        }
+      }
+    }
+  }, { passive: true });
+  
+  function triggerEasterEgg() {
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'konami-overlay';
+    overlay.innerHTML = `
+      <div class="konami-content">
+        <div class="konami-flame-border">
+          <div class="flame-gif flame-top"></div>
+          <div class="flame-gif flame-bottom"></div>
+          <div class="flame-gif flame-left"></div>
+          <div class="flame-gif flame-right"></div>
+          <div class="flame-gif flame-corner-tl"></div>
+          <div class="flame-gif flame-corner-tr"></div>
+          <div class="flame-gif flame-corner-bl"></div>
+          <div class="flame-gif flame-corner-br"></div>
+          <div class="konami-flame-glow"></div>
+          <img src="${getBasePath()}bftb.png" alt="Easter Egg" class="konami-image">
+        </div>
+        <button class="konami-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="flying-cats-container"></div>
+    `;
+    
+    // Add styles
+    const style = document.createElement('style');
+    style.id = 'konami-styles';
+    style.textContent = `
+      #konami-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.92);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        animation: konamiFadeIn 0.5s ease-out;
+      }
+      
+      @keyframes konamiFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      .konami-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .konami-flame-border {
+        position: relative;
+        padding: 25px;
+        border-radius: 12px;
+        background: #0a0500;
+        z-index: 1;
+        box-shadow: 
+          0 0 30px rgba(255, 100, 0, 0.5),
+          0 0 60px rgba(255, 50, 0, 0.3),
+          inset 0 0 20px rgba(255, 100, 0, 0.2);
+      }
+      
+      /* Real flame GIFs */
+      .flame-gif {
+        position: absolute;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        background-size: cover;
+        background-position: center;
+        z-index: 0;
+        pointer-events: none;
+      }
+      
+      /* Top flames */
+      .flame-top {
+        top: -60px;
+        left: 10%;
+        right: 10%;
+        height: 80px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(180deg);
+        mask-image: linear-gradient(to top, transparent 0%, black 40%);
+        -webkit-mask-image: linear-gradient(to top, transparent 0%, black 40%);
+      }
+      
+      /* Bottom flames */
+      .flame-bottom {
+        bottom: -60px;
+        left: 10%;
+        right: 10%;
+        height: 80px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+      }
+      
+      /* Left flames */
+      .flame-left {
+        left: -60px;
+        top: 10%;
+        bottom: 10%;
+        width: 80px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(90deg);
+        mask-image: linear-gradient(to left, transparent 0%, black 40%);
+        -webkit-mask-image: linear-gradient(to left, transparent 0%, black 40%);
+      }
+      
+      /* Right flames */
+      .flame-right {
+        right: -60px;
+        top: 10%;
+        bottom: 10%;
+        width: 80px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(-90deg);
+        mask-image: linear-gradient(to right, transparent 0%, black 40%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%);
+      }
+      
+      /* Corner flames */
+      .flame-corner-tl {
+        top: -50px;
+        left: -50px;
+        width: 100px;
+        height: 100px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(225deg);
+        border-radius: 50%;
+      }
+      
+      .flame-corner-tr {
+        top: -50px;
+        right: -50px;
+        width: 100px;
+        height: 100px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(-225deg);
+        border-radius: 50%;
+      }
+      
+      .flame-corner-bl {
+        bottom: -50px;
+        left: -50px;
+        width: 100px;
+        height: 100px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(135deg);
+        border-radius: 50%;
+      }
+      
+      .flame-corner-br {
+        bottom: -50px;
+        right: -50px;
+        width: 100px;
+        height: 100px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(-135deg);
+        border-radius: 50%;
+      }
+      
+      /* Main fire glow container */
+      .konami-flame-border::before {
+        content: '';
+        position: absolute;
+        top: -25px;
+        left: -25px;
+        right: -25px;
+        bottom: -25px;
+        border-radius: 20px;
+        background: 
+          radial-gradient(ellipse 80% 50% at 50% 100%, rgba(255, 60, 0, 0.9) 0%, transparent 50%),
+          radial-gradient(ellipse 60% 40% at 50% 100%, rgba(255, 150, 0, 0.8) 0%, transparent 40%),
+          radial-gradient(ellipse 100% 60% at 50% 100%, rgba(255, 200, 50, 0.5) 0%, transparent 50%);
+        z-index: -2;
+        animation: fireBase 0.15s ease-in-out infinite alternate;
+        filter: blur(15px);
+      }
+      
+      /* Secondary fire layer - more erratic */
+      .konami-flame-border::after {
+        content: '';
+        position: absolute;
+        top: -35px;
+        left: -35px;
+        right: -35px;
+        bottom: -35px;
+        border-radius: 25px;
+        background: 
+          radial-gradient(ellipse 70% 45% at 30% 100%, rgba(255, 80, 0, 0.7) 0%, transparent 45%),
+          radial-gradient(ellipse 70% 45% at 70% 100%, rgba(255, 120, 0, 0.6) 0%, transparent 45%),
+          radial-gradient(ellipse 50% 35% at 50% 100%, rgba(255, 180, 0, 0.8) 0%, transparent 35%);
+        z-index: -3;
+        animation: fireFlicker 0.1s ease-in-out infinite;
+        filter: blur(20px);
+      }
+      
+      /* Flame particles container */
+      .flame-particles {
+        position: absolute;
+        top: -40px;
+        left: -40px;
+        right: -40px;
+        bottom: -40px;
+        pointer-events: none;
+        z-index: -1;
+        overflow: visible;
+      }
+      
+      .flame-particle {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 200, 50, 1) 0%, rgba(255, 100, 0, 0.8) 50%, transparent 70%);
+        filter: blur(2px);
+        animation: particleRise linear infinite;
+      }
+      
+      /* Individual flame tongues */
+      .flame-tongue {
+        position: absolute;
+        bottom: -10px;
+        width: 30px;
+        height: 60px;
+        background: linear-gradient(to top, 
+          rgba(255, 60, 0, 0.9) 0%,
+          rgba(255, 120, 0, 0.7) 30%,
+          rgba(255, 180, 50, 0.5) 60%,
+          transparent 100%);
+        border-radius: 50% 50% 20% 20%;
+        filter: blur(3px);
+        transform-origin: bottom center;
+        z-index: -1;
+      }
+      
+      .flame-tongue:nth-child(1) { left: 10%; animation: flameDance1 0.3s ease-in-out infinite; }
+      .flame-tongue:nth-child(2) { left: 25%; animation: flameDance2 0.25s ease-in-out infinite; height: 70px; }
+      .flame-tongue:nth-child(3) { left: 40%; animation: flameDance3 0.35s ease-in-out infinite; height: 55px; }
+      .flame-tongue:nth-child(4) { left: 55%; animation: flameDance1 0.28s ease-in-out infinite; height: 65px; }
+      .flame-tongue:nth-child(5) { left: 70%; animation: flameDance2 0.32s ease-in-out infinite; }
+      .flame-tongue:nth-child(6) { left: 85%; animation: flameDance3 0.27s ease-in-out infinite; height: 50px; }
+      
+      /* Side flames */
+      .flame-tongue:nth-child(7) { left: -15px; bottom: 20%; width: 50px; height: 25px; transform: rotate(90deg); animation: flameDance1 0.3s ease-in-out infinite; }
+      .flame-tongue:nth-child(8) { left: -15px; bottom: 50%; width: 45px; height: 22px; transform: rotate(90deg); animation: flameDance2 0.28s ease-in-out infinite; }
+      .flame-tongue:nth-child(9) { left: -15px; bottom: 80%; width: 40px; height: 20px; transform: rotate(90deg); animation: flameDance3 0.25s ease-in-out infinite; }
+      .flame-tongue:nth-child(10) { right: -15px; left: auto; bottom: 20%; width: 50px; height: 25px; transform: rotate(-90deg); animation: flameDance2 0.32s ease-in-out infinite; }
+      .flame-tongue:nth-child(11) { right: -15px; left: auto; bottom: 50%; width: 45px; height: 22px; transform: rotate(-90deg); animation: flameDance1 0.29s ease-in-out infinite; }
+      .flame-tongue:nth-child(12) { right: -15px; left: auto; bottom: 80%; width: 40px; height: 20px; transform: rotate(-90deg); animation: flameDance3 0.26s ease-in-out infinite; }
+      
+      /* Top flames */
+      .flame-tongue:nth-child(13) { top: -15px; bottom: auto; left: 15%; width: 25px; height: 40px; transform: rotate(180deg); animation: flameDance1 0.31s ease-in-out infinite; }
+      .flame-tongue:nth-child(14) { top: -15px; bottom: auto; left: 40%; width: 30px; height: 45px; transform: rotate(180deg); animation: flameDance2 0.27s ease-in-out infinite; }
+      .flame-tongue:nth-child(15) { top: -15px; bottom: auto; left: 65%; width: 25px; height: 40px; transform: rotate(180deg); animation: flameDance3 0.33s ease-in-out infinite; }
+      
+      @keyframes fireBase {
+        0% { 
+          opacity: 0.8;
+          transform: scale(1) translateY(0);
+        }
+        100% { 
+          opacity: 1;
+          transform: scale(1.05) translateY(-3px);
+        }
+      }
+      
+      @keyframes fireFlicker {
+        0%, 100% { 
+          opacity: 0.6;
+          transform: scale(1) skewX(0deg);
+        }
+        25% { 
+          opacity: 0.8;
+          transform: scale(1.02) skewX(2deg);
+        }
+        50% { 
+          opacity: 0.7;
+          transform: scale(0.98) skewX(-1deg);
+        }
+        75% { 
+          opacity: 0.9;
+          transform: scale(1.03) skewX(1deg);
+        }
+      }
+      
+      @keyframes flameDance1 {
+        0%, 100% { 
+          transform: scaleY(1) scaleX(1) translateX(0) rotate(0deg);
+          opacity: 0.8;
+        }
+        25% { 
+          transform: scaleY(1.2) scaleX(0.9) translateX(3px) rotate(3deg);
+          opacity: 1;
+        }
+        50% { 
+          transform: scaleY(0.9) scaleX(1.1) translateX(-2px) rotate(-2deg);
+          opacity: 0.7;
+        }
+        75% { 
+          transform: scaleY(1.15) scaleX(0.95) translateX(2px) rotate(2deg);
+          opacity: 0.9;
+        }
+      }
+      
+      @keyframes flameDance2 {
+        0%, 100% { 
+          transform: scaleY(1) scaleX(1) translateX(0) rotate(0deg);
+          opacity: 0.7;
+        }
+        33% { 
+          transform: scaleY(1.25) scaleX(0.85) translateX(-4px) rotate(-4deg);
+          opacity: 1;
+        }
+        66% { 
+          transform: scaleY(0.85) scaleX(1.15) translateX(3px) rotate(3deg);
+          opacity: 0.8;
+        }
+      }
+      
+      @keyframes flameDance3 {
+        0%, 100% { 
+          transform: scaleY(1) scaleX(1) translateX(0) rotate(0deg);
+          opacity: 0.9;
+        }
+        20% { 
+          transform: scaleY(1.1) scaleX(0.95) translateX(2px) rotate(2deg);
+          opacity: 0.7;
+        }
+        40% { 
+          transform: scaleY(1.3) scaleX(0.8) translateX(-3px) rotate(-3deg);
+          opacity: 1;
+        }
+        60% { 
+          transform: scaleY(0.95) scaleX(1.05) translateX(1px) rotate(1deg);
+          opacity: 0.8;
+        }
+        80% { 
+          transform: scaleY(1.15) scaleX(0.9) translateX(-2px) rotate(-2deg);
+          opacity: 0.9;
+        }
+      }
+      
+      @keyframes particleRise {
+        0% {
+          transform: translateY(0) translateX(0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-80px) translateX(var(--drift, 10px)) scale(0);
+          opacity: 0;
+        }
+      }
+      
+      /* Inner glow on the border */
+      .konami-flame-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 12px;
+        box-shadow: 
+          inset 0 0 30px rgba(255, 100, 0, 0.5),
+          inset 0 0 60px rgba(255, 50, 0, 0.3),
+          0 0 10px rgba(255, 150, 50, 0.8),
+          0 0 20px rgba(255, 100, 0, 0.6),
+          0 0 40px rgba(255, 60, 0, 0.4);
+        animation: innerGlow 0.2s ease-in-out infinite alternate;
+        pointer-events: none;
+      }
+      
+      @keyframes innerGlow {
+        0% {
+          box-shadow: 
+            inset 0 0 30px rgba(255, 100, 0, 0.5),
+            inset 0 0 60px rgba(255, 50, 0, 0.3),
+            0 0 10px rgba(255, 150, 50, 0.8),
+            0 0 20px rgba(255, 100, 0, 0.6),
+            0 0 40px rgba(255, 60, 0, 0.4);
+        }
+        100% {
+          box-shadow: 
+            inset 0 0 35px rgba(255, 120, 0, 0.6),
+            inset 0 0 70px rgba(255, 60, 0, 0.4),
+            0 0 15px rgba(255, 180, 50, 0.9),
+            0 0 30px rgba(255, 120, 0, 0.7),
+            0 0 50px rgba(255, 80, 0, 0.5);
+        }
+      }
+      
+      .konami-image {
+        display: block;
+        max-width: 80vw;
+        max-height: 70vh;
+        border-radius: 8px;
+        animation: konamiImagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        z-index: 2;
+      }
+      
+      @keyframes konamiImagePop {
+        from { transform: scale(0.5); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+      
+      .konami-close {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff6b35, #ff4500, #cc0000);
+        color: white;
+        font-size: 26px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 
+          0 0 10px rgba(255, 69, 0, 0.8),
+          0 0 20px rgba(255, 100, 0, 0.5),
+          0 4px 15px rgba(0, 0, 0, 0.4);
+        transition: transform 0.2s, box-shadow 0.2s;
+        z-index: 10001;
+        animation: closeButtonPulse 1s ease-in-out infinite alternate;
+      }
+      
+      @keyframes closeButtonPulse {
+        from {
+          box-shadow: 
+            0 0 10px rgba(255, 69, 0, 0.8),
+            0 0 20px rgba(255, 100, 0, 0.5),
+            0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        to {
+          box-shadow: 
+            0 0 15px rgba(255, 69, 0, 1),
+            0 0 30px rgba(255, 100, 0, 0.7),
+            0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+      }
+      
+      .konami-close:hover {
+        transform: scale(1.15) rotate(90deg);
+        box-shadow: 
+          0 0 20px rgba(255, 69, 0, 1),
+          0 0 40px rgba(255, 100, 0, 0.8),
+          0 6px 25px rgba(0, 0, 0, 0.5);
+      }
+      
+      @media (max-width: 768px) {
+        .konami-flame-border {
+          padding: 10px;
+        }
+        
+        .konami-flame-border::before {
+          top: -20px;
+          left: -20px;
+          right: -20px;
+          bottom: -20px;
+        }
+        
+        .konami-flame-border::after {
+          top: -25px;
+          left: -25px;
+          right: -25px;
+          bottom: -25px;
+        }
+        
+        .flame-tongue {
+          width: 20px;
+          height: 40px;
+        }
+        
+        .konami-image {
+          max-width: 90vw;
+          max-height: 60vh;
+        }
+        
+        .konami-close {
+          width: 38px;
+          height: 38px;
+          font-size: 22px;
+          top: -15px;
+          right: -15px;
+        }
+      }
+      
+      /* Flying cats */
+      .flying-cats-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        overflow: hidden;
+      }
+      
+      .flying-cat {
+        position: absolute;
+        font-size: 40px;
+        animation: flyCat linear infinite;
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        z-index: 9999;
+      }
+      
+      @keyframes flyCat {
+        0% {
+          transform: translate(var(--startX), var(--startY)) rotate(var(--rotation)) scale(var(--scale));
+        }
+        100% {
+          transform: translate(var(--endX), var(--endY)) rotate(calc(var(--rotation) + 720deg)) scale(var(--scale));
+        }
+      }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(overlay);
+    
+    // Create flying cats using cute cat PNG images with transparent backgrounds
+    const catsContainer = overlay.querySelector('.flying-cats-container');
+    let catInterval;
+    let catIdCounter = 0;
+    
+    // Cute cat PNG images with transparent backgrounds
+    const catImages = [
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-Free-Download.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-Image.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-Picture.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-Clipart.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-Transparent.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-HD.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-Photo.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG.png',
+      'https://www.pngall.com/wp-content/uploads/14/Kitten-PNG-Image-HD.png',
+      'https://www.pngall.com/wp-content/uploads/14/Kitten-Transparent.png',
+      'https://www.pngall.com/wp-content/uploads/14/Kitten-PNG-Clipart.png',
+      'https://www.pngall.com/wp-content/uploads/14/Kitten-PNG-Photos.png'
+    ];
+    
+    function createFlyingCat() {
+      const cat = document.createElement('div');
+      cat.className = 'flying-cat';
+      
+      // Create an img element with a random cute cat PNG
+      const img = document.createElement('img');
+      const size = 60 + Math.floor(Math.random() * 80); // 60-140px
+      img.src = catImages[Math.floor(Math.random() * catImages.length)];
+      img.alt = 'Flying cat';
+      img.style.width = size + 'px';
+      img.style.height = 'auto';
+      img.style.maxHeight = size + 'px';
+      img.style.objectFit = 'contain';
+      img.style.filter = 'drop-shadow(0 0 8px rgba(255, 200, 100, 0.7)) drop-shadow(0 0 15px rgba(255, 100, 0, 0.4))';
+      cat.appendChild(img);
+      
+      // Random starting position (from edges)
+      const edge = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
+      let startX, startY, endX, endY;
+      
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      
+      switch(edge) {
+        case 0: // top
+          startX = Math.random() * vw;
+          startY = -50;
+          endX = Math.random() * vw;
+          endY = vh + 50;
+          break;
+        case 1: // right
+          startX = vw + 50;
+          startY = Math.random() * vh;
+          endX = -50;
+          endY = Math.random() * vh;
+          break;
+        case 2: // bottom
+          startX = Math.random() * vw;
+          startY = vh + 50;
+          endX = Math.random() * vw;
+          endY = -50;
+          break;
+        case 3: // left
+          startX = -50;
+          startY = Math.random() * vh;
+          endX = vw + 50;
+          endY = Math.random() * vh;
+          break;
+      }
+      
+      const duration = 2 + Math.random() * 3; // 2-5 seconds
+      const scale = 0.5 + Math.random() * 1.5; // 0.5-2x size
+      const rotation = Math.random() * 360;
+      
+      cat.style.setProperty('--startX', startX + 'px');
+      cat.style.setProperty('--startY', startY + 'px');
+      cat.style.setProperty('--endX', endX + 'px');
+      cat.style.setProperty('--endY', endY + 'px');
+      cat.style.setProperty('--scale', scale);
+      cat.style.setProperty('--rotation', rotation + 'deg');
+      cat.style.animationDuration = duration + 's';
+      cat.style.fontSize = (30 + Math.random() * 30) + 'px';
+      
+      catsContainer.appendChild(cat);
+      
+      // Remove cat after animation
+      setTimeout(() => {
+        cat.remove();
+      }, duration * 1000);
+    }
+    
+    // Spawn cats continuously
+    for (let i = 0; i < 8; i++) {
+      setTimeout(() => createFlyingCat(), i * 200);
+    }
+    catInterval = setInterval(createFlyingCat, 300);
+    
+    // Close on button click
+    overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);
+    
+    // Close on overlay click (outside image)
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        closeEasterEgg();
+      }
+    });
+    
+    // Close on Escape key
+    document.addEventListener('keydown', function escHandler(e) {
+      if (e.key === 'Escape') {
+        closeEasterEgg();
+        document.removeEventListener('keydown', escHandler);
+      }
+    });
+    
+    function closeEasterEgg() {
+      // Stop spawning cats
+      if (catInterval) {
+        clearInterval(catInterval);
+        catInterval = null;
+      }
+      overlay.style.animation = 'konamiFadeIn 0.3s ease-out reverse';
+      setTimeout(function() {
+        overlay.remove();
+        style.remove();
+      }, 280);
+    }
+  }
+  
+  // Get base path for image (handles subdirectories)
+  function getBasePath() {
+    const path = window.location.pathname;
+    // Count directory depth
+    const parts = path.split('/').filter(p => p && !p.includes('.html'));
+    if (parts.length === 0) return '';
+    return '../'.repeat(parts.length);
+  }
+})();

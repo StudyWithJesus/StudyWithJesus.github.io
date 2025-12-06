@@ -1,359 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>270201c Pistons, Piston Rings and Connecting Rods Practice Exam</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="exam-common.js"></script>
+  <meta charset="UTF-8">
+  <title>270201c - Pistons, Piston Rings and Connecting Rods Practice Exam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div id="banner">
-    <h1>NAIT Parts Technician - 270201c Pistons, Piston Rings and Connecting Rods</h1>
-    <p>270201c Pistons, Piston Rings and Connecting Rods</p>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
   </div>
 
-  <div id="top-controls">
-    <button id="btnStart">Start Exam</button>
-    <button id="btnReset">Reset</button>
-  </div>
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>Pistons, Piston Rings and Connecting Rods</h1>
+      <p>Pistons, Piston Rings and Connecting Rods</p>
+    </div>
+  </header>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-    <span id="progress-text">0 / 40</span>
-  </div>
-
-  <div id="question-container">
-    <div class="question" data-question="1">
-      <p>1. The primary function of the piston in an internal combustion engine is to:</p>
-      <label><input type="radio" name="q1" value="A"> A. Support the crankshaft</label>
-      <label><input type="radio" name="q1" value="B"> B. Transmit the force of combustion to the connecting rod and crankshaft</label>
-      <label><input type="radio" name="q1" value="C"> C. Control coolant flow</label>
-      <label><input type="radio" name="q1" value="D"> D. Lubricate the cylinder walls only</label>
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
     </div>
-    <div class="question" data-question="2">
-      <p>2. According to the ILM, pistons must withstand:</p>
-      <label><input type="radio" name="q2" value="A"> A. Only low temperatures and light loads</label>
-      <label><input type="radio" name="q2" value="B"> B. High temperatures, high combustion pressures and rapid direction changes</label>
-      <label><input type="radio" name="q2" value="C"> C. No mechanical stress</label>
-      <label><input type="radio" name="q2" value="D"> D. Only electrical loads</label>
-    </div>
-    <div class="question" data-question="3">
-      <p>3. Most automotive pistons are made from:</p>
-      <label><input type="radio" name="q3" value="A"> A. Aluminum alloys for light weight and good heat conductivity</label>
-      <label><input type="radio" name="q3" value="B"> B. Cast iron only</label>
-      <label><input type="radio" name="q3" value="C"> C. Plastic composites</label>
-      <label><input type="radio" name="q3" value="D"> D. Glass-filled nylon</label>
-    </div>
-    <div class="question" data-question="4">
-      <p>4. The crown of the piston is the:</p>
-      <label><input type="radio" name="q4" value="A"> A. Lower edge of the skirt</label>
-      <label><input type="radio" name="q4" value="B"> B. Top surface exposed to combustion gases</label>
-      <label><input type="radio" name="q4" value="C"> C. Area where the wrist pin is located</label>
-      <label><input type="radio" name="q4" value="D"> D. Channel for oil control</label>
-    </div>
-    <div class="question" data-question="5">
-      <p>5. Piston skirts are designed to:</p>
-      <label><input type="radio" name="q5" value="A"> A. Support the piston in the bore and control side thrust</label>
-      <label><input type="radio" name="q5" value="B"> B. Hold piston rings in place</label>
-      <label><input type="radio" name="q5" value="C"> C. Seal combustion gases</label>
-      <label><input type="radio" name="q5" value="D"> D. Direct oil to the bearings</label>
-    </div>
-    <div class="question" data-question="6">
-      <p>6. The ring lands on a piston are:</p>
-      <label><input type="radio" name="q6" value="A"> A. Areas that contact the cylinder head</label>
-      <label><input type="radio" name="q6" value="B"> B. Areas between the ring grooves that support the rings</label>
-      <label><input type="radio" name="q6" value="C"> C. Areas that connect to the connecting rod</label>
-      <label><input type="radio" name="q6" value="D"> D. Areas that hold the wrist pin clips</label>
-    </div>
-    <div class="question" data-question="7">
-      <p>7. Piston pin bores are located:</p>
-      <label><input type="radio" name="q7" value="A"> A. In the crankshaft</label>
-      <label><input type="radio" name="q7" value="B"> B. Through the piston boss areas where the wrist pin passes through</label>
-      <label><input type="radio" name="q7" value="C"> C. In the cylinder head</label>
-      <label><input type="radio" name="q7" value="D"> D. In the main bearing caps</label>
-    </div>
-    <div class="question" data-question="8">
-      <p>8. The function of compression rings is to:</p>
-      <label><input type="radio" name="q8" value="A"> A. Control oil on the cylinder walls only</label>
-      <label><input type="radio" name="q8" value="B"> B. Seal combustion gases above the piston and transfer heat to the cylinder walls</label>
-      <label><input type="radio" name="q8" value="C"> C. Support the connecting rod</label>
-      <label><input type="radio" name="q8" value="D"> D. Direct fuel into the combustion chamber</label>
-    </div>
-    <div class="question" data-question="9">
-      <p>9. Oil control rings are designed to:</p>
-      <label><input type="radio" name="q9" value="A"> A. Seal combustion pressure completely</label>
-      <label><input type="radio" name="q9" value="B"> B. Scrape excess oil from the cylinder wall and return it through drain holes</label>
-      <label><input type="radio" name="q9" value="C"> C. Support the piston pin</label>
-      <label><input type="radio" name="q9" value="D"> D. Increase compression ratio</label>
-    </div>
-    <div class="question" data-question="10">
-      <p>10. Piston ring end gap must be set correctly so that:</p>
-      <label><input type="radio" name="q10" value="A"> A. The rings butt tightly when cold</label>
-      <label><input type="radio" name="q10" value="B"> B. Rings have clearance to expand with heat without butting and causing cylinder damage</label>
-      <label><input type="radio" name="q10" value="C"> C. Rings can spin freely out of the groove</label>
-      <label><input type="radio" name="q10" value="D"> D. Oil cannot reach the rings</label>
-    </div>
-    <div class="question" data-question="11">
-      <p>11. Common piston ring materials include:</p>
-      <label><input type="radio" name="q11" value="A"> A. Soft plastic</label>
-      <label><input type="radio" name="q11" value="B"> B. Cast iron or steel with surface treatments such as chrome or moly coatings</label>
-      <label><input type="radio" name="q11" value="C"> C. Glass</label>
-      <label><input type="radio" name="q11" value="D"> D. Lead</label>
-    </div>
-    <div class="question" data-question="12">
-      <p>12. The ILM points out that connecting rods:</p>
-      <label><input type="radio" name="q12" value="A"> A. Connect crankshaft to flywheel only</label>
-      <label><input type="radio" name="q12" value="B"> B. Connect piston to crankshaft and transmit reciprocating motion into rotation</label>
-      <label><input type="radio" name="q12" value="C"> C. Support the cylinder head</label>
-      <label><input type="radio" name="q12" value="D"> D. Carry coolant through the engine</label>
-    </div>
-    <div class="question" data-question="13">
-      <p>13. An I-beam connecting rod design is used because it:</p>
-      <label><input type="radio" name="q13" value="A"> A. Reduces strength</label>
-      <label><input type="radio" name="q13" value="B"> B. Provides a good balance of strength and weight</label>
-      <label><input type="radio" name="q13" value="C"> C. Is easiest to cast</label>
-      <label><input type="radio" name="q13" value="D"> D. Prevents oil flow to the bearings</label>
-    </div>
-    <div class="question" data-question="14">
-      <p>14. Connecting rod big-end bearings are typically:</p>
-      <label><input type="radio" name="q14" value="A"> A. Roller bearings only</label>
-      <label><input type="radio" name="q14" value="B"> B. Replaceable insert bearings fitted between rod and crankshaft journal</label>
-      <label><input type="radio" name="q14" value="C"> C. Solid without any bearing material</label>
-      <label><input type="radio" name="q14" value="D"> D. Located at the small end only</label>
-    </div>
-    <div class="question" data-question="15">
-      <p>15. Small-end (wrist pin) connections may use:</p>
-      <label><input type="radio" name="q15" value="A"> A. Press-fit pins or full-floating pins retained by clips or locks</label>
-      <label><input type="radio" name="q15" value="B"> B. Threaded bolts</label>
-      <label><input type="radio" name="q15" value="C"> C. Glue only</label>
-      <label><input type="radio" name="q15" value="D"> D. Roller chains</label>
-    </div>
-    <div class="question" data-question="16">
-      <p>16. A 'full-floating' piston pin is one that:</p>
-      <label><input type="radio" name="q16" value="A"> A. Is welded to the rod</label>
-      <label><input type="radio" name="q16" value="B"> B. Is free to rotate in both piston and connecting rod bushings</label>
-      <label><input type="radio" name="q16" value="C"> C. Is rigidly fixed to the piston</label>
-      <label><input type="radio" name="q16" value="D"> D. Is only used in diesel engines</label>
-    </div>
-    <div class="question" data-question="17">
-      <p>17. Excessive carbon build-up in ring grooves can:</p>
-      <label><input type="radio" name="q17" value="A"> A. Improve ring sealing</label>
-      <label><input type="radio" name="q17" value="B"> B. Cause rings to stick, leading to poor sealing and oil consumption</label>
-      <label><input type="radio" name="q17" value="C"> C. Reduce engine temperature</label>
-      <label><input type="radio" name="q17" value="D"> D. Increase fuel economy</label>
-    </div>
-    <div class="question" data-question="18">
-      <p>18. Piston damage from detonation may appear as:</p>
-      <label><input type="radio" name="q18" value="A"> A. Clean, sharp edges</label>
-      <label><input type="radio" name="q18" value="B"> B. Pounded ring lands, broken ring grooves or melted areas on the crown</label>
-      <label><input type="radio" name="q18" value="C"> C. Improved ring seating</label>
-      <label><input type="radio" name="q18" value="D"> D. Uniform smooth wear</label>
-    </div>
-    <div class="question" data-question="19">
-      <p>19. Scuffing or seizure marks on piston skirts usually indicate:</p>
-      <label><input type="radio" name="q19" value="A"> A. Excessive clearance and cool operation</label>
-      <label><input type="radio" name="q19" value="B"> B. Insufficient lubrication, overheating or poor clearance</label>
-      <label><input type="radio" name="q19" value="C"> C. Correct operating conditions</label>
-      <label><input type="radio" name="q19" value="D"> D. Normal break-in wear</label>
-    </div>
-    <div class="question" data-question="20">
-      <p>20. When installing pistons, the ILM notes that orientation marks such as arrows or 'FRONT' stamps are used to:</p>
-      <label><input type="radio" name="q20" value="A"> A. Choose paint colour</label>
-      <label><input type="radio" name="q20" value="B"> B. Ensure pistons are installed in the correct direction relative to thrust and valve reliefs</label>
-      <label><input type="radio" name="q20" value="C"> C. Adjust ring end gap</label>
-      <label><input type="radio" name="q20" value="D"> D. Identify cylinder numbers only</label>
-    </div>
-    <div class="question" data-question="21">
-      <p>21. Ring side clearance in the groove must be checked because:</p>
-      <label><input type="radio" name="q21" value="A"> A. Too much clearance improves sealing</label>
-      <label><input type="radio" name="q21" value="B"> B. Too little or too much clearance can lead to ring sticking or pumping of oil and gases</label>
-      <label><input type="radio" name="q21" value="C"> C. It only affects compression on diesel engines</label>
-      <label><input type="radio" name="q21" value="D"> D. It determines coolant level</label>
-    </div>
-    <div class="question" data-question="22">
-      <p>22. Tapered and barrel-faced rings are designs intended to:</p>
-      <label><input type="radio" name="q22" value="A"> A. Reduce contact with the cylinder walls completely</label>
-      <label><input type="radio" name="q22" value="B"> B. Optimize contact pattern and oil control while minimizing friction</label>
-      <label><input type="radio" name="q22" value="C"> C. Prevent any rotation of the ring</label>
-      <label><input type="radio" name="q22" value="D"> D. Eliminate the need for honing</label>
-    </div>
-    <div class="question" data-question="23">
-      <p>23. Oil ring expanders in multi-piece oil control rings are used to:</p>
-      <label><input type="radio" name="q23" value="A"> A. Prevent the ring from contacting the bore</label>
-      <label><input type="radio" name="q23" value="B"> B. Maintain outward pressure of the scraper rails against the cylinder wall</label>
-      <label><input type="radio" name="q23" value="C"> C. Hold the piston in the bore</label>
-      <label><input type="radio" name="q23" value="D"> D. Control combustion pressure</label>
-    </div>
-    <div class="question" data-question="24">
-      <p>24. Connecting rod caps must be kept with their original rods because:</p>
-      <label><input type="radio" name="q24" value="A"> A. They are all identical from the factory</label>
-      <label><input type="radio" name="q24" value="B"> B. They are machined as matched sets and mixing can cause bearing misalignment</label>
-      <label><input type="radio" name="q24" value="C"> C. They differ only in colour</label>
-      <label><input type="radio" name="q24" value="D"> D. They change compression ratio</label>
-    </div>
-    <div class="question" data-question="25">
-      <p>25. Rod bolts are often torque-to-yield fasteners, meaning they:</p>
-      <label><input type="radio" name="q25" value="A"> A. Can be reused indefinitely</label>
-      <label><input type="radio" name="q25" value="B"> B. Are stretched to a precise amount and are often recommended to be replaced rather than reused</label>
-      <label><input type="radio" name="q25" value="C"> C. Are made of plastic</label>
-      <label><input type="radio" name="q25" value="D"> D. Do not clamp the joint</label>
-    </div>
-    <div class="question" data-question="26">
-      <p>26. From a parts perspective, piston-related sales opportunities include:</p>
-      <label><input type="radio" name="q26" value="A"> A. Only cylinder heads</label>
-      <label><input type="radio" name="q26" value="B"> B. Pistons, ring sets, wrist pins, pin bushings, clips and connecting rod bearings</label>
-      <label><input type="radio" name="q26" value="C"> C. Only air filters</label>
-      <label><input type="radio" name="q26" value="D"> D. Only exhaust gaskets</label>
-    </div>
-    <div class="question" data-question="27">
-      <p>27. The ILM stresses that ring sets must match:</p>
-      <label><input type="radio" name="q27" value="A"> A. Vehicle colour</label>
-      <label><input type="radio" name="q27" value="B"> B. Piston groove design, cylinder bore size and intended application (gasoline/diesel)</label>
-      <label><input type="radio" name="q27" value="C"> C. Only the number of cylinders</label>
-      <label><input type="radio" name="q27" value="D"> D. Only engine oil viscosity</label>
-    </div>
-    <div class="question" data-question="28">
-      <p>28. Piston ring groove wear can be checked using:</p>
-      <label><input type="radio" name="q28" value="A"> A. A tire pressure gauge</label>
-      <label><input type="radio" name="q28" value="B"> B. Feeler gauges and the specified side clearance values</label>
-      <label><input type="radio" name="q28" value="C"> C. A voltmeter</label>
-      <label><input type="radio" name="q28" value="D"> D. An air blow gun</label>
-    </div>
-    <div class="question" data-question="29">
-      <p>29. Cracked or bent connecting rods can result from:</p>
-      <label><input type="radio" name="q29" value="A"> A. Normal light-duty operation</label>
-      <label><input type="radio" name="q29" value="B"> B. Hydraulic lock, severe detonation or over-speeding</label>
-      <label><input type="radio" name="q29" value="C"> C. Correct torque procedures</label>
-      <label><input type="radio" name="q29" value="D"> D. Regular oil changes</label>
-    </div>
-    <div class="question" data-question="30">
-      <p>30. When fitting new pistons and rings, the ILM indicates that cylinders should be:</p>
-      <label><input type="radio" name="q30" value="A"> A. Left with a smooth, mirror-like glaze</label>
-      <label><input type="radio" name="q30" value="B"> B. Honed to produce the correct crosshatch pattern for ring seating and oil control</label>
-      <label><input type="radio" name="q30" value="C"> C. Filled with grease</label>
-      <label><input type="radio" name="q30" value="D"> D. Scratched deeply with a file</label>
-    </div>
-    <div class="question" data-question="31">
-      <p>31. Connecting rod bearing clearance that is too tight can:</p>
-      <label><input type="radio" name="q31" value="A"> A. Improve lubrication</label>
-      <label><input type="radio" name="q31" value="B"> B. Lead to overheating, bearing failure and possible seizure</label>
-      <label><input type="radio" name="q31" value="C"> C. Have no effect on operation</label>
-      <label><input type="radio" name="q31" value="D"> D. Increase fuel economy</label>
-    </div>
-    <div class="question" data-question="32">
-      <p>32. Excessive connecting rod bearing clearance can cause:</p>
-      <label><input type="radio" name="q32" value="A"> A. High oil pressure and quiet operation</label>
-      <label><input type="radio" name="q32" value="B"> B. Low oil pressure, knocking noises and reduced bearing life</label>
-      <label><input type="radio" name="q32" value="C"> C. Improved emissions</label>
-      <label><input type="radio" name="q32" value="D"> D. Better starting performance</label>
-    </div>
-    <div class="question" data-question="33">
-      <p>33. Piston cooling oil jets (if equipped) are used to:</p>
-      <label><input type="radio" name="q33" value="A"> A. Spray coolant into the radiator</label>
-      <label><input type="radio" name="q33" value="B"> B. Spray oil at the underside of the piston to remove heat and lubricate</label>
-      <label><input type="radio" name="q33" value="C"> C. Clean the combustion chamber</label>
-      <label><input type="radio" name="q33" value="D"> D. Lubricate the timing belt</label>
-    </div>
-    <div class="question" data-question="34">
-      <p>34. The ILM highlights that some diesel pistons use composite designs where:</p>
-      <label><input type="radio" name="q34" value="A"> A. Crown and skirt are separate pieces joined together to handle high loads and temperatures</label>
-      <label><input type="radio" name="q34" value="B"> B. No rings are needed</label>
-      <label><input type="radio" name="q34" value="C"> C. Only plastic crowns are used</label>
-      <label><input type="radio" name="q34" value="D"> D. Skirts are eliminated</label>
-    </div>
-    <div class="question" data-question="35">
-      <p>35. Piston slap noise is most often caused by:</p>
-      <label><input type="radio" name="q35" value="A"> A. Tight piston-to-wall clearance</label>
-      <label><input type="radio" name="q35" value="B"> B. Excessive clearance between piston skirt and cylinder wall</label>
-      <label><input type="radio" name="q35" value="C"> C. Correct operating temperature</label>
-      <label><input type="radio" name="q35" value="D"> D. Normal valve action</label>
-    </div>
-    <div class="question" data-question="36">
-      <p>36. Ring breakage during installation can often be prevented by:</p>
-      <label><input type="radio" name="q36" value="A"> A. Stretching rings as wide as possible by hand</label>
-      <label><input type="radio" name="q36" value="B"> B. Using proper ring expanders and following correct procedures</label>
-      <label><input type="radio" name="q36" value="C"> C. Hammering rings into place</label>
-      <label><input type="radio" name="q36" value="D"> D. Installing rings upside down intentionally</label>
-    </div>
-    <div class="question" data-question="37">
-      <p>37. When ordering piston and ring kits, parts technicians typically need:</p>
-      <label><input type="radio" name="q37" value="A"> A. Only vehicle paint code</label>
-      <label><input type="radio" name="q37" value="B"> B. Engine family, bore size/oversize, piston design code and fuel type</label>
-      <label><input type="radio" name="q37" value="C"> C. Only odometer reading</label>
-      <label><input type="radio" name="q37" value="D"> D. Only transmission type</label>
-    </div>
-    <div class="question" data-question="38">
-      <p>38. The ILM explains that connecting rod length affects:</p>
-      <label><input type="radio" name="q38" value="A"> A. Only oil capacity</label>
-      <label><input type="radio" name="q38" value="B"> B. Rod angle, piston side thrust and engine characteristics</label>
-      <label><input type="radio" name="q38" value="C"> C. Only tire size</label>
-      <label><input type="radio" name="q38" value="D"> D. Fuel tank capacity</label>
-    </div>
-    <div class="question" data-question="39">
-      <p>39. Wrist pin retention using circlips or snap rings requires that:</p>
-      <label><input type="radio" name="q39" value="A"> A. Clips be omitted for easier assembly</label>
-      <label><input type="radio" name="q39" value="B"> B. Correct type and installation are used to prevent pin from contacting cylinder wall</label>
-      <label><input type="radio" name="q39" value="C"> C. Any random clip is acceptable</label>
-      <label><input type="radio" name="q39" value="D"> D. Clips are installed loosely</label>
-    </div>
-    <div class="question" data-question="40">
-      <p>40. From a parts technician’s viewpoint, understanding piston, ring and rod design helps to:</p>
-      <label><input type="radio" name="q40" value="A"> A. Perform complete machining operations</label>
-      <label><input type="radio" name="q40" value="B"> B. Select correct replacement components, explain options and avoid mismatched parts</label>
-      <label><input type="radio" name="q40" value="C"> C. Determine vehicle paint thickness</label>
-      <label><input type="radio" name="q40" value="D"> D. Replace body panels</label>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
     </div>
   </div>
 
-  <div id="bottom-controls">
-    <button id="btnPrev">Previous</button>
-    <button id="btnNext">Next</button>
-    <button id="btnSubmit">Submit</button>
-  </div>
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270201 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270201c &mdash; Pistons, Piston Rings and Connecting Rods</h2>
+      <p>
+        Practice questions for Pistons, Piston Rings and Connecting Rods.
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form">
+
+      <div class="question">
+        <p><strong>The primary function of the piston in an internal combustion engine is to:</strong></p>
+        <label><input type="radio" name="q1" value="a"> Support the crankshaft</label>
+        <label><input type="radio" name="q1" value="b"> Transmit the force of combustion to the connecting rod and crankshaft</label>
+        <label><input type="radio" name="q1" value="c"> Control coolant flow</label>
+        <label><input type="radio" name="q1" value="d"> Lubricate the cylinder walls only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>According to the ILM, pistons must withstand:</strong></p>
+        <label><input type="radio" name="q2" value="a"> Only low temperatures and light loads</label>
+        <label><input type="radio" name="q2" value="b"> High temperatures, high combustion pressures and rapid direction changes</label>
+        <label><input type="radio" name="q2" value="c"> No mechanical stress</label>
+        <label><input type="radio" name="q2" value="d"> Only electrical loads</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Most automotive pistons are made from:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Aluminum alloys for light weight and good heat conductivity</label>
+        <label><input type="radio" name="q3" value="b"> Cast iron only</label>
+        <label><input type="radio" name="q3" value="c"> Plastic composites</label>
+        <label><input type="radio" name="q3" value="d"> Glass-filled nylon</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The crown of the piston is the:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Lower edge of the skirt</label>
+        <label><input type="radio" name="q4" value="b"> Top surface exposed to combustion gases</label>
+        <label><input type="radio" name="q4" value="c"> Area where the wrist pin is located</label>
+        <label><input type="radio" name="q4" value="d"> Channel for oil control</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Piston skirts are designed to:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Support the piston in the bore and control side thrust</label>
+        <label><input type="radio" name="q5" value="b"> Hold piston rings in place</label>
+        <label><input type="radio" name="q5" value="c"> Seal combustion gases</label>
+        <label><input type="radio" name="q5" value="d"> Direct oil to the bearings</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ring lands on a piston are:</strong></p>
+        <label><input type="radio" name="q6" value="a"> Areas that contact the cylinder head</label>
+        <label><input type="radio" name="q6" value="b"> Areas between the ring grooves that support the rings</label>
+        <label><input type="radio" name="q6" value="c"> Areas that connect to the connecting rod</label>
+        <label><input type="radio" name="q6" value="d"> Areas that hold the wrist pin clips</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Piston pin bores are located:</strong></p>
+        <label><input type="radio" name="q7" value="a"> In the crankshaft</label>
+        <label><input type="radio" name="q7" value="b"> Through the piston boss areas where the wrist pin passes through</label>
+        <label><input type="radio" name="q7" value="c"> In the cylinder head</label>
+        <label><input type="radio" name="q7" value="d"> In the main bearing caps</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The function of compression rings is to:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Control oil on the cylinder walls only</label>
+        <label><input type="radio" name="q8" value="b"> Seal combustion gases above the piston and transfer heat to the cylinder walls</label>
+        <label><input type="radio" name="q8" value="c"> Support the connecting rod</label>
+        <label><input type="radio" name="q8" value="d"> Direct fuel into the combustion chamber</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Oil control rings are designed to:</strong></p>
+        <label><input type="radio" name="q9" value="a"> Seal combustion pressure completely</label>
+        <label><input type="radio" name="q9" value="b"> Scrape excess oil from the cylinder wall and return it through drain holes</label>
+        <label><input type="radio" name="q9" value="c"> Support the piston pin</label>
+        <label><input type="radio" name="q9" value="d"> Increase compression ratio</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Piston ring end gap must be set correctly so that:</strong></p>
+        <label><input type="radio" name="q10" value="a"> The rings butt tightly when cold</label>
+        <label><input type="radio" name="q10" value="b"> Rings have clearance to expand with heat without butting and causing cylinder damage</label>
+        <label><input type="radio" name="q10" value="c"> Rings can spin freely out of the groove</label>
+        <label><input type="radio" name="q10" value="d"> Oil cannot reach the rings</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Common piston ring materials include:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Soft plastic</label>
+        <label><input type="radio" name="q11" value="b"> Cast iron or steel with surface treatments such as chrome or moly coatings</label>
+        <label><input type="radio" name="q11" value="c"> Glass</label>
+        <label><input type="radio" name="q11" value="d"> Lead</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM points out that connecting rods:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Connect crankshaft to flywheel only</label>
+        <label><input type="radio" name="q12" value="b"> Connect piston to crankshaft and transmit reciprocating motion into rotation</label>
+        <label><input type="radio" name="q12" value="c"> Support the cylinder head</label>
+        <label><input type="radio" name="q12" value="d"> Carry coolant through the engine</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An I-beam connecting rod design is used because it:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Reduces strength</label>
+        <label><input type="radio" name="q13" value="b"> Provides a good balance of strength and weight</label>
+        <label><input type="radio" name="q13" value="c"> Is easiest to cast</label>
+        <label><input type="radio" name="q13" value="d"> Prevents oil flow to the bearings</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Connecting rod big-end bearings are typically:</strong></p>
+        <label><input type="radio" name="q14" value="a"> Roller bearings only</label>
+        <label><input type="radio" name="q14" value="b"> Replaceable insert bearings fitted between rod and crankshaft journal</label>
+        <label><input type="radio" name="q14" value="c"> Solid without any bearing material</label>
+        <label><input type="radio" name="q14" value="d"> Located at the small end only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Small-end (wrist pin) connections may use:</strong></p>
+        <label><input type="radio" name="q15" value="a"> Press-fit pins or full-floating pins retained by clips or locks</label>
+        <label><input type="radio" name="q15" value="b"> Threaded bolts</label>
+        <label><input type="radio" name="q15" value="c"> Glue only</label>
+        <label><input type="radio" name="q15" value="d"> Roller chains</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A 'full-floating' piston pin is one that:</strong></p>
+        <label><input type="radio" name="q16" value="a"> Is welded to the rod</label>
+        <label><input type="radio" name="q16" value="b"> Is free to rotate in both piston and connecting rod bushings</label>
+        <label><input type="radio" name="q16" value="c"> Is rigidly fixed to the piston</label>
+        <label><input type="radio" name="q16" value="d"> Is only used in diesel engines</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive carbon build-up in ring grooves can:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Improve ring sealing</label>
+        <label><input type="radio" name="q17" value="b"> Cause rings to stick, leading to poor sealing and oil consumption</label>
+        <label><input type="radio" name="q17" value="c"> Reduce engine temperature</label>
+        <label><input type="radio" name="q17" value="d"> Increase fuel economy</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Piston damage from detonation may appear as:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Clean, sharp edges</label>
+        <label><input type="radio" name="q18" value="b"> Pounded ring lands, broken ring grooves or melted areas on the crown</label>
+        <label><input type="radio" name="q18" value="c"> Improved ring seating</label>
+        <label><input type="radio" name="q18" value="d"> Uniform smooth wear</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Scuffing or seizure marks on piston skirts usually indicate:</strong></p>
+        <label><input type="radio" name="q19" value="a"> Excessive clearance and cool operation</label>
+        <label><input type="radio" name="q19" value="b"> Insufficient lubrication, overheating or poor clearance</label>
+        <label><input type="radio" name="q19" value="c"> Correct operating conditions</label>
+        <label><input type="radio" name="q19" value="d"> Normal break-in wear</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When installing pistons, the ILM notes that orientation marks such as arrows or 'FRONT' stamps are used to:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Choose paint colour</label>
+        <label><input type="radio" name="q20" value="b"> Ensure pistons are installed in the correct direction relative to thrust and valve reliefs</label>
+        <label><input type="radio" name="q20" value="c"> Adjust ring end gap</label>
+        <label><input type="radio" name="q20" value="d"> Identify cylinder numbers only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Ring side clearance in the groove must be checked because:</strong></p>
+        <label><input type="radio" name="q21" value="a"> Too much clearance improves sealing</label>
+        <label><input type="radio" name="q21" value="b"> Too little or too much clearance can lead to ring sticking or pumping of oil and gases</label>
+        <label><input type="radio" name="q21" value="c"> It only affects compression on diesel engines</label>
+        <label><input type="radio" name="q21" value="d"> It determines coolant level</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Tapered and barrel-faced rings are designs intended to:</strong></p>
+        <label><input type="radio" name="q22" value="a"> Reduce contact with the cylinder walls completely</label>
+        <label><input type="radio" name="q22" value="b"> Optimize contact pattern and oil control while minimizing friction</label>
+        <label><input type="radio" name="q22" value="c"> Prevent any rotation of the ring</label>
+        <label><input type="radio" name="q22" value="d"> Eliminate the need for honing</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Oil ring expanders in multi-piece oil control rings are used to:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Prevent the ring from contacting the bore</label>
+        <label><input type="radio" name="q23" value="b"> Maintain outward pressure of the scraper rails against the cylinder wall</label>
+        <label><input type="radio" name="q23" value="c"> Hold the piston in the bore</label>
+        <label><input type="radio" name="q23" value="d"> Control combustion pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Connecting rod caps must be kept with their original rods because:</strong></p>
+        <label><input type="radio" name="q24" value="a"> They are all identical from the factory</label>
+        <label><input type="radio" name="q24" value="b"> They are machined as matched sets and mixing can cause bearing misalignment</label>
+        <label><input type="radio" name="q24" value="c"> They differ only in colour</label>
+        <label><input type="radio" name="q24" value="d"> They change compression ratio</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Rod bolts are often torque-to-yield fasteners, meaning they:</strong></p>
+        <label><input type="radio" name="q25" value="a"> Can be reused indefinitely</label>
+        <label><input type="radio" name="q25" value="b"> Are stretched to a precise amount and are often recommended to be replaced rather than reused</label>
+        <label><input type="radio" name="q25" value="c"> Are made of plastic</label>
+        <label><input type="radio" name="q25" value="d"> Do not clamp the joint</label>
+      </div>
+
+      <div class="question">
+        <p><strong>From a parts perspective, piston-related sales opportunities include:</strong></p>
+        <label><input type="radio" name="q26" value="a"> Only cylinder heads</label>
+        <label><input type="radio" name="q26" value="b"> Pistons, ring sets, wrist pins, pin bushings, clips and connecting rod bearings</label>
+        <label><input type="radio" name="q26" value="c"> Only air filters</label>
+        <label><input type="radio" name="q26" value="d"> Only exhaust gaskets</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM stresses that ring sets must match:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Vehicle colour</label>
+        <label><input type="radio" name="q27" value="b"> Piston groove design, cylinder bore size and intended application (gasoline/diesel)</label>
+        <label><input type="radio" name="q27" value="c"> Only the number of cylinders</label>
+        <label><input type="radio" name="q27" value="d"> Only engine oil viscosity</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Piston ring groove wear can be checked using:</strong></p>
+        <label><input type="radio" name="q28" value="a"> A tire pressure gauge</label>
+        <label><input type="radio" name="q28" value="b"> Feeler gauges and the specified side clearance values</label>
+        <label><input type="radio" name="q28" value="c"> A voltmeter</label>
+        <label><input type="radio" name="q28" value="d"> An air blow gun</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Cracked or bent connecting rods can result from:</strong></p>
+        <label><input type="radio" name="q29" value="a"> Normal light-duty operation</label>
+        <label><input type="radio" name="q29" value="b"> Hydraulic lock, severe detonation or over-speeding</label>
+        <label><input type="radio" name="q29" value="c"> Correct torque procedures</label>
+        <label><input type="radio" name="q29" value="d"> Regular oil changes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When fitting new pistons and rings, the ILM indicates that cylinders should be:</strong></p>
+        <label><input type="radio" name="q30" value="a"> Left with a smooth, mirror-like glaze</label>
+        <label><input type="radio" name="q30" value="b"> Honed to produce the correct crosshatch pattern for ring seating and oil control</label>
+        <label><input type="radio" name="q30" value="c"> Filled with grease</label>
+        <label><input type="radio" name="q30" value="d"> Scratched deeply with a file</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Connecting rod bearing clearance that is too tight can:</strong></p>
+        <label><input type="radio" name="q31" value="a"> Improve lubrication</label>
+        <label><input type="radio" name="q31" value="b"> Lead to overheating, bearing failure and possible seizure</label>
+        <label><input type="radio" name="q31" value="c"> Have no effect on operation</label>
+        <label><input type="radio" name="q31" value="d"> Increase fuel economy</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive connecting rod bearing clearance can cause:</strong></p>
+        <label><input type="radio" name="q32" value="a"> High oil pressure and quiet operation</label>
+        <label><input type="radio" name="q32" value="b"> Low oil pressure, knocking noises and reduced bearing life</label>
+        <label><input type="radio" name="q32" value="c"> Improved emissions</label>
+        <label><input type="radio" name="q32" value="d"> Better starting performance</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Piston cooling oil jets (if equipped) are used to:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Spray coolant into the radiator</label>
+        <label><input type="radio" name="q33" value="b"> Spray oil at the underside of the piston to remove heat and lubricate</label>
+        <label><input type="radio" name="q33" value="c"> Clean the combustion chamber</label>
+        <label><input type="radio" name="q33" value="d"> Lubricate the timing belt</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM highlights that some diesel pistons use composite designs where:</strong></p>
+        <label><input type="radio" name="q34" value="a"> Crown and skirt are separate pieces joined together to handle high loads and temperatures</label>
+        <label><input type="radio" name="q34" value="b"> No rings are needed</label>
+        <label><input type="radio" name="q34" value="c"> Only plastic crowns are used</label>
+        <label><input type="radio" name="q34" value="d"> Skirts are eliminated</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Piston slap noise is most often caused by:</strong></p>
+        <label><input type="radio" name="q35" value="a"> Tight piston-to-wall clearance</label>
+        <label><input type="radio" name="q35" value="b"> Excessive clearance between piston skirt and cylinder wall</label>
+        <label><input type="radio" name="q35" value="c"> Correct operating temperature</label>
+        <label><input type="radio" name="q35" value="d"> Normal valve action</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Ring breakage during installation can often be prevented by:</strong></p>
+        <label><input type="radio" name="q36" value="a"> Stretching rings as wide as possible by hand</label>
+        <label><input type="radio" name="q36" value="b"> Using proper ring expanders and following correct procedures</label>
+        <label><input type="radio" name="q36" value="c"> Hammering rings into place</label>
+        <label><input type="radio" name="q36" value="d"> Installing rings upside down intentionally</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When ordering piston and ring kits, parts technicians typically need:</strong></p>
+        <label><input type="radio" name="q37" value="a"> Only vehicle paint code</label>
+        <label><input type="radio" name="q37" value="b"> Engine family, bore size/oversize, piston design code and fuel type</label>
+        <label><input type="radio" name="q37" value="c"> Only odometer reading</label>
+        <label><input type="radio" name="q37" value="d"> Only transmission type</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM explains that connecting rod length affects:</strong></p>
+        <label><input type="radio" name="q38" value="a"> Only oil capacity</label>
+        <label><input type="radio" name="q38" value="b"> Rod angle, piston side thrust and engine characteristics</label>
+        <label><input type="radio" name="q38" value="c"> Only tire size</label>
+        <label><input type="radio" name="q38" value="d"> Fuel tank capacity</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
 
   <script>
     window.ANSWERS = {
-  "1": "B",
-  "2": "B",
-  "3": "B",
-  "4": "B",
-  "5": "B",
-  "6": "B",
-  "7": "B",
-  "8": "B",
-  "9": "B",
-  "10": "B",
-  "11": "B",
-  "12": "B",
-  "13": "B",
-  "14": "B",
-  "15": "B",
-  "16": "B",
-  "17": "B",
-  "18": "B",
-  "19": "B",
-  "20": "B",
-  "21": "B",
-  "22": "B",
-  "23": "B",
-  "24": "B",
-  "25": "B",
-  "26": "B",
-  "27": "B",
-  "28": "B",
-  "29": "B",
-  "30": "B",
-  "31": "B",
-  "32": "B",
-  "33": "B",
-  "34": "B",
-  "35": "B",
-  "36": "B",
-  "37": "B",
-  "38": "B",
-  "39": "B",
-  "40": "B"
-};
+      "q1": "b",
+      "q2": "b",
+      "q3": "b",
+      "q4": "b",
+      "q5": "b",
+      "q6": "b",
+      "q7": "b",
+      "q8": "b",
+      "q9": "b",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "b",
+      "q20": "b",
+      "q21": "b",
+      "q22": "b",
+      "q23": "b",
+      "q24": "b",
+      "q25": "b",
+      "q26": "b",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "b",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b",
+      "q34": "b",
+      "q35": "b",
+      "q36": "b",
+      "q37": "b",
+      "q38": "b"
+    };
   </script>
+  <script src="../script.js"></script>
 </body>
 </html>

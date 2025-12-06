@@ -1,359 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>270203c Pumps and Valves Practice Exam</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="exam-common.js"></script>
+  <meta charset="UTF-8">
+  <title>270203c - Pumps and Valves Practice Exam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div id="banner">
-    <h1>NAIT Parts Technician - 270203c Pumps and Valves</h1>
-    <p>270203c Pumps and Valves</p>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
   </div>
 
-  <div id="top-controls">
-    <button id="btnStart">Start Exam</button>
-    <button id="btnReset">Reset</button>
-  </div>
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>Pumps and Valves</h1>
+      <p>Pumps and Valves</p>
+    </div>
+  </header>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-    <span id="progress-text">0 / 40</span>
-  </div>
-
-  <div id="question-container">
-    <div class="question" data-question="1">
-      <p>1. The primary function of a hydraulic pump is to:</p>
-      <label><input type="radio" name="q1" value="A"> A. Create pressure directly</label>
-      <label><input type="radio" name="q1" value="B"> B. Convert mechanical energy into hydraulic energy by producing flow</label>
-      <label><input type="radio" name="q1" value="C"> C. Store hydraulic fluid</label>
-      <label><input type="radio" name="q1" value="D"> D. Convert hydraulic energy into mechanical rotation</label>
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
     </div>
-    <div class="question" data-question="2">
-      <p>2. System pressure in a hydraulic circuit is actually developed by:</p>
-      <label><input type="radio" name="q2" value="A"> A. The pump alone at all times</label>
-      <label><input type="radio" name="q2" value="B"> B. Resistance to flow at actuators and valves</label>
-      <label><input type="radio" name="q2" value="C"> C. The reservoir size</label>
-      <label><input type="radio" name="q2" value="D"> D. The colour of the hoses</label>
-    </div>
-    <div class="question" data-question="3">
-      <p>3. A fixed-displacement gear pump:</p>
-      <label><input type="radio" name="q3" value="A"> A. Varies displacement automatically with load</label>
-      <label><input type="radio" name="q3" value="B"> B. Delivers a constant volume per revolution regardless of pressure (within its rating)</label>
-      <label><input type="radio" name="q3" value="C"> C. Provides flow only at zero pressure</label>
-      <label><input type="radio" name="q3" value="D"> D. Is not used on mobile equipment</label>
-    </div>
-    <div class="question" data-question="4">
-      <p>4. External gear pumps consist of:</p>
-      <label><input type="radio" name="q4" value="A"> A. Pistons and swash plate</label>
-      <label><input type="radio" name="q4" value="B"> B. Two meshing gears rotating inside a closely fitted housing</label>
-      <label><input type="radio" name="q4" value="C"> C. Vanes sliding in a rotor</label>
-      <label><input type="radio" name="q4" value="D"> D. Radial pistons in a cam ring</label>
-    </div>
-    <div class="question" data-question="5">
-      <p>5. Vane pumps use:</p>
-      <label><input type="radio" name="q5" value="A"> A. Intermeshing gears only</label>
-      <label><input type="radio" name="q5" value="B"> B. A rotor with sliding vanes running in an eccentric cam ring</label>
-      <label><input type="radio" name="q5" value="C"> C. Helical screws</label>
-      <label><input type="radio" name="q5" value="D"> D. Centrifugal impellers</label>
-    </div>
-    <div class="question" data-question="6">
-      <p>6. Axial piston pumps commonly control displacement by:</p>
-      <label><input type="radio" name="q6" value="A"> A. Changing gear size</label>
-      <label><input type="radio" name="q6" value="B"> B. Varying the angle of a swash plate that pistons ride against</label>
-      <label><input type="radio" name="q6" value="C"> C. Changing hose diameter</label>
-      <label><input type="radio" name="q6" value="D"> D. Heating the fluid</label>
-    </div>
-    <div class="question" data-question="7">
-      <p>7. Pump volumetric efficiency is reduced by:</p>
-      <label><input type="radio" name="q7" value="A"> A. Tight clearances and clean fluid</label>
-      <label><input type="radio" name="q7" value="B"> B. Internal leakage due to wear or high clearances</label>
-      <label><input type="radio" name="q7" value="C"> C. Operating within rated pressure</label>
-      <label><input type="radio" name="q7" value="D"> D. Cool fluid temperatures</label>
-    </div>
-    <div class="question" data-question="8">
-      <p>8. The main function of a pressure relief valve is to:</p>
-      <label><input type="radio" name="q8" value="A"> A. Increase flow to actuators</label>
-      <label><input type="radio" name="q8" value="B"> B. Limit maximum system pressure by diverting excess flow to tank</label>
-      <label><input type="radio" name="q8" value="C"> C. Directly operate cylinders</label>
-      <label><input type="radio" name="q8" value="D"> D. Measure flow rate</label>
-    </div>
-    <div class="question" data-question="9">
-      <p>9. A direct-acting relief valve opens:</p>
-      <label><input type="radio" name="q9" value="A"> A. Using pilot pressure and remote control only</label>
-      <label><input type="radio" name="q9" value="B"> B. When spring force is overcome by system pressure on the poppet or spool</label>
-      <label><input type="radio" name="q9" value="C"> C. Only when manually lifted</label>
-      <label><input type="radio" name="q9" value="D"> D. Only at zero flow</label>
-    </div>
-    <div class="question" data-question="10">
-      <p>10. Pilot-operated relief valves are often used because they:</p>
-      <label><input type="radio" name="q10" value="A"> A. Are simpler than direct-acting valves</label>
-      <label><input type="radio" name="q10" value="B"> B. Provide more stable pressure control at higher flows</label>
-      <label><input type="radio" name="q10" value="C"> C. Cannot be adjusted</label>
-      <label><input type="radio" name="q10" value="D"> D. Operate only at very low pressures</label>
-    </div>
-    <div class="question" data-question="11">
-      <p>11. Directional control valves (DCVs) are used to:</p>
-      <label><input type="radio" name="q11" value="A"> A. Change fluid viscosity</label>
-      <label><input type="radio" name="q11" value="B"> B. Control the path of flow to actuators, determining direction of motion</label>
-      <label><input type="radio" name="q11" value="C"> C. Filter contaminated oil</label>
-      <label><input type="radio" name="q11" value="D"> D. Cool the fluid</label>
-    </div>
-    <div class="question" data-question="12">
-      <p>12. A 4/3 directional control valve has:</p>
-      <label><input type="radio" name="q12" value="A"> A. Four positions and three ports</label>
-      <label><input type="radio" name="q12" value="B"> B. Four ports and three positions</label>
-      <label><input type="radio" name="q12" value="C"> C. Four ports and four positions</label>
-      <label><input type="radio" name="q12" value="D"> D. Three ports and four positions</label>
-    </div>
-    <div class="question" data-question="13">
-      <p>13. In an open-centre hydraulic system, the centre condition of the main directional valve:</p>
-      <label><input type="radio" name="q13" value="A"> A. Blocks all flow with pump deadheaded</label>
-      <label><input type="radio" name="q13" value="B"> B. Allows pump flow to return to tank with minimal restriction when actuators are not being operated</label>
-      <label><input type="radio" name="q13" value="C"> C. Always directs flow to one actuator</label>
-      <label><input type="radio" name="q13" value="D"> D. Sends flow to the cooler only</label>
-    </div>
-    <div class="question" data-question="14">
-      <p>14. In a closed-centre system, the pump is usually:</p>
-      <label><input type="radio" name="q14" value="A"> A. A fixed-displacement gear pump with constant flow</label>
-      <label><input type="radio" name="q14" value="B"> B. A variable-displacement pump that destrokes to maintain system pressure</label>
-      <label><input type="radio" name="q14" value="C"> C. Off whenever valves are centred</label>
-      <label><input type="radio" name="q14" value="D"> D. Mounted in the reservoir</label>
-    </div>
-    <div class="question" data-question="15">
-      <p>15. Flow control valves are used primarily to:</p>
-      <label><input type="radio" name="q15" value="A"> A. Limit maximum pressure</label>
-      <label><input type="radio" name="q15" value="B"> B. Control actuator speed by regulating flow rate</label>
-      <label><input type="radio" name="q15" value="C"> C. Direct flow to tank under all conditions</label>
-      <label><input type="radio" name="q15" value="D"> D. Change oil temperature</label>
-    </div>
-    <div class="question" data-question="16">
-      <p>16. Pressure-compensated flow control valves:</p>
-      <label><input type="radio" name="q16" value="A"> A. Provide a nearly constant flow over a range of pressure drops</label>
-      <label><input type="radio" name="q16" value="B"> B. Change flow rate only with temperature</label>
-      <label><input type="radio" name="q16" value="C"> C. Cannot be used in mobile equipment</label>
-      <label><input type="radio" name="q16" value="D"> D. Always bleed flow to tank</label>
-    </div>
-    <div class="question" data-question="17">
-      <p>17. Check valves in hydraulic circuits:</p>
-      <label><input type="radio" name="q17" value="A"> A. Allow flow in both directions</label>
-      <label><input type="radio" name="q17" value="B"> B. Allow flow in one direction and block it in the opposite direction</label>
-      <label><input type="radio" name="q17" value="C"> C. Act as relief valves</label>
-      <label><input type="radio" name="q17" value="D"> D. Control flow regardless of direction</label>
-    </div>
-    <div class="question" data-question="18">
-      <p>18. Counterbalance (holding) valves are used to:</p>
-      <label><input type="radio" name="q18" value="A"> A. Bleed air from the system</label>
-      <label><input type="radio" name="q18" value="B"> B. Prevent a load from falling in case of hose failure and control overrunning loads</label>
-      <label><input type="radio" name="q18" value="C"> C. Increase pump displacement</label>
-      <label><input type="radio" name="q18" value="D"> D. Cool the oil</label>
-    </div>
-    <div class="question" data-question="19">
-      <p>19. Sequence valves are used where:</p>
-      <label><input type="radio" name="q19" value="A"> A. Flow must be directed to all actuators simultaneously</label>
-      <label><input type="radio" name="q19" value="B"> B. One actuator must complete its movement and reach a set pressure before another circuit operates</label>
-      <label><input type="radio" name="q19" value="C"> C. Filters must be changed</label>
-      <label><input type="radio" name="q19" value="D"> D. Coolers are installed</label>
-    </div>
-    <div class="question" data-question="20">
-      <p>20. Load-sensing hydraulic systems:</p>
-      <label><input type="radio" name="q20" value="A"> A. Operate pump at full flow and pressure at all times</label>
-      <label><input type="radio" name="q20" value="B"> B. Adjust pump output to match flow and pressure requirements of the load</label>
-      <label><input type="radio" name="q20" value="C"> C. Do not use relief valves</label>
-      <label><input type="radio" name="q20" value="D"> D. Require only gear pumps</label>
-    </div>
-    <div class="question" data-question="21">
-      <p>21. A typical symbol for a pressure relief valve includes:</p>
-      <label><input type="radio" name="q21" value="A"> A. A square with a directional arrow</label>
-      <label><input type="radio" name="q21" value="B"> B. A spring-loaded poppet symbol connecting pressure line to tank when setpoint is reached</label>
-      <label><input type="radio" name="q21" value="C"> C. A circle with two arrows</label>
-      <label><input type="radio" name="q21" value="D"> D. A triangle pointing into a reservoir</label>
-    </div>
-    <div class="question" data-question="22">
-      <p>22. Spool-type directional valves may be actuated by:</p>
-      <label><input type="radio" name="q22" value="A"> A. Only manual levers</label>
-      <label><input type="radio" name="q22" value="B"> B. Manual, mechanical, hydraulic, pneumatic or solenoid operators</label>
-      <label><input type="radio" name="q22" value="C"> C. Electrical relays only</label>
-      <label><input type="radio" name="q22" value="D"> D. Fluid contamination</label>
-    </div>
-    <div class="question" data-question="23">
-      <p>23. Centre conditions of directional valves (such as open centre, closed centre, tandem centre) determine:</p>
-      <label><input type="radio" name="q23" value="A"> A. Filter size</label>
-      <label><input type="radio" name="q23" value="B"> B. How pump flow and actuator ports are connected when the valve is in neutral</label>
-      <label><input type="radio" name="q23" value="C"> C. Cylinder bore size</label>
-      <label><input type="radio" name="q23" value="D"> D. Reservoir capacity</label>
-    </div>
-    <div class="question" data-question="24">
-      <p>24. Cushion valves in cylinders are used to:</p>
-      <label><input type="radio" name="q24" value="A"> A. Increase cylinder speed at end of stroke</label>
-      <label><input type="radio" name="q24" value="B"> B. Slow and dampen piston movement near the end of stroke to reduce impact</label>
-      <label><input type="radio" name="q24" value="C"> C. Increase system pressure rating</label>
-      <label><input type="radio" name="q24" value="D"> D. Vent air into the cylinder</label>
-    </div>
-    <div class="question" data-question="25">
-      <p>25. Pump case drain lines are used to:</p>
-      <label><input type="radio" name="q25" value="A"> A. Feed fluid from reservoir to pump inlet</label>
-      <label><input type="radio" name="q25" value="B"> B. Return leakage oil from pump housing to reservoir at low back pressure</label>
-      <label><input type="radio" name="q25" value="C"> C. Direct high-pressure flow to actuators</label>
-      <label><input type="radio" name="q25" value="D"> D. Vent air from reservoir</label>
-    </div>
-    <div class="question" data-question="26">
-      <p>26. Direction of rotation of a hydraulic pump must:</p>
-      <label><input type="radio" name="q26" value="A"> A. Be ignored, as pumps are all bidirectional</label>
-      <label><input type="radio" name="q26" value="B"> B. Match the engine or drive direction specified on the pump to ensure correct inlet and outlet</label>
-      <label><input type="radio" name="q26" value="C"> C. Be reversed periodically</label>
-      <label><input type="radio" name="q26" value="D"> D. Always be counterclockwise</label>
-    </div>
-    <div class="question" data-question="27">
-      <p>27. When replacing a pump, the parts technician must match:</p>
-      <label><input type="radio" name="q27" value="A"> A. Paint colour and approximate size only</label>
-      <label><input type="radio" name="q27" value="B"> B. Displacement, speed rating, rotation, mounting, shaft type and port locations</label>
-      <label><input type="radio" name="q27" value="C"> C. Only shaft diameter</label>
-      <label><input type="radio" name="q27" value="D"> D. Only manufacturer name</label>
-    </div>
-    <div class="question" data-question="28">
-      <p>28. A tandem centre directional valve centre condition:</p>
-      <label><input type="radio" name="q28" value="A"> A. Blocks all ports</label>
-      <label><input type="radio" name="q28" value="B"> B. Connects pump to tank while blocking actuator ports</label>
-      <label><input type="radio" name="q28" value="C"> C. Connects pump to actuator ports</label>
-      <label><input type="radio" name="q28" value="D"> D. Connects both actuator ports to tank while blocking pump</label>
-    </div>
-    <div class="question" data-question="29">
-      <p>29. Pressure-reducing valves are used where:</p>
-      <label><input type="radio" name="q29" value="A"> A. Higher pressure is required in a branch circuit</label>
-      <label><input type="radio" name="q29" value="B"> B. A lower controlled pressure is needed downstream for a specific function</label>
-      <label><input type="radio" name="q29" value="C"> C. No pressure control is required</label>
-      <label><input type="radio" name="q29" value="D"> D. Filters are located</label>
-    </div>
-    <div class="question" data-question="30">
-      <p>30. Unloading valves allow the pump to:</p>
-      <label><input type="radio" name="q30" value="A"> A. Pump at maximum pressure constantly</label>
-      <label><input type="radio" name="q30" value="B"> B. Deliver flow at low pressure to tank when high pressure is not required</label>
-      <label><input type="radio" name="q30" value="C"> C. Stop turning when pressure drops</label>
-      <label><input type="radio" name="q30" value="D"> D. Reverse rotation automatically</label>
-    </div>
-    <div class="question" data-question="31">
-      <p>31. A closed-centre directional valve used with a fixed-displacement pump will:</p>
-      <label><input type="radio" name="q31" value="A"> A. Allow free flow to tank</label>
-      <label><input type="radio" name="q31" value="B"> B. Deadhead the pump and rapidly build pressure against the relief valve</label>
-      <label><input type="radio" name="q31" value="C"> C. Reduce system pressure</label>
-      <label><input type="radio" name="q31" value="D"> D. Increase reservoir capacity</label>
-    </div>
-    <div class="question" data-question="32">
-      <p>32. Pilot lines in valve circuits are used to:</p>
-      <label><input type="radio" name="q32" value="A"> A. Cool the fluid</label>
-      <label><input type="radio" name="q32" value="B"> B. Transmit control pressure to operate other valves or pump controls</label>
-      <label><input type="radio" name="q32" value="C"> C. Measure oil level</label>
-      <label><input type="radio" name="q32" value="D"> D. Support machine structure</label>
-    </div>
-    <div class="question" data-question="33">
-      <p>33. The ILM Pumps and Valves module expects parts technicians to:</p>
-      <label><input type="radio" name="q33" value="A"> A. Design new pump types</label>
-      <label><input type="radio" name="q33" value="B"> B. Recognize common pump and valve types, functions and catalogue details for replacement</label>
-      <label><input type="radio" name="q33" value="C"> C. Repair pumps internally</label>
-      <label><input type="radio" name="q33" value="D"> D. Ignore schematic symbols</label>
-    </div>
-    <div class="question" data-question="34">
-      <p>34. A proportional valve differs from a simple on/off solenoid valve because it:</p>
-      <label><input type="radio" name="q34" value="A"> A. Is only manual</label>
-      <label><input type="radio" name="q34" value="B"> B. Can vary flow or pressure in proportion to an electrical control signal</label>
-      <label><input type="radio" name="q34" value="C"> C. Cannot be used with electronics</label>
-      <label><input type="radio" name="q34" value="D"> D. Is always fully open or closed</label>
-    </div>
-    <div class="question" data-question="35">
-      <p>35. When troubleshooting low system pressure, a common first check is:</p>
-      <label><input type="radio" name="q35" value="A"> A. Replace all hoses</label>
-      <label><input type="radio" name="q35" value="B"> B. Verify relief valve setting and operation with a pressure gauge</label>
-      <label><input type="radio" name="q35" value="C"> C. Change reservoir size</label>
-      <label><input type="radio" name="q35" value="D"> D. Increase engine idle speed only</label>
-    </div>
-    <div class="question" data-question="36">
-      <p>36. Load checks or anti-cavitation checks on directional valves help to:</p>
-      <label><input type="radio" name="q36" value="A"> A. Increase temperature</label>
-      <label><input type="radio" name="q36" value="B"> B. Prevent cavitation by allowing oil into a cylinder port when external forces retract the rod</label>
-      <label><input type="radio" name="q36" value="C"> C. Reduce flow to tank</label>
-      <label><input type="radio" name="q36" value="D"> D. Bypass filters</label>
-    </div>
-    <div class="question" data-question="37">
-      <p>37. In a closed-centre load-sensing system, the load-sense line:</p>
-      <label><input type="radio" name="q37" value="A"> A. Drains directly to tank</label>
-      <label><input type="radio" name="q37" value="B"> B. Feeds pressure information from the highest load to the pump control</label>
-      <label><input type="radio" name="q37" value="C"> C. Supplies oil to the reservoir</label>
-      <label><input type="radio" name="q37" value="D"> D. Operates the steering only</label>
-    </div>
-    <div class="question" data-question="38">
-      <p>38. Creeping movement of a cylinder at neutral may indicate:</p>
-      <label><input type="radio" name="q38" value="A"> A. Perfect valve sealing</label>
-      <label><input type="radio" name="q38" value="B"> B. Internal leakage past valve spools or cylinder seals</label>
-      <label><input type="radio" name="q38" value="C"> C. Correct relief setting</label>
-      <label><input type="radio" name="q38" value="D"> D. Low oil temperature</label>
-    </div>
-    <div class="question" data-question="39">
-      <p>39. Pump case drain flow that is higher than normal can indicate:</p>
-      <label><input type="radio" name="q39" value="A"> A. New pump in good condition</label>
-      <label><input type="radio" name="q39" value="B"> B. Internal wear and increased leakage in the pump</label>
-      <label><input type="radio" name="q39" value="C"> C. Low reservoir level</label>
-      <label><input type="radio" name="q39" value="D"> D. Cool oil temperature</label>
-    </div>
-    <div class="question" data-question="40">
-      <p>40. When ordering replacement valves from a catalogue, important information includes:</p>
-      <label><input type="radio" name="q40" value="A"> A. Only the port sizes</label>
-      <label><input type="radio" name="q40" value="B"> B. Valve type, flow rating, pressure rating, spool type, actuation method and mounting style</label>
-      <label><input type="radio" name="q40" value="C"> C. Paint colour and brand</label>
-      <label><input type="radio" name="q40" value="D"> D. Approximate weight of the valve</label>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
     </div>
   </div>
 
-  <div id="bottom-controls">
-    <button id="btnPrev">Previous</button>
-    <button id="btnNext">Next</button>
-    <button id="btnSubmit">Submit</button>
-  </div>
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">&larr; Back to module 270203 test selection</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270203c &mdash; Pumps and Valves</h2>
+      <p>
+        Practice questions for Pumps and Valves.
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form">
+
+      <div class="question">
+        <p><strong>The primary function of a hydraulic pump is to:</strong></p>
+        <label><input type="radio" name="q1" value="a"> Create pressure directly</label>
+        <label><input type="radio" name="q1" value="b"> Convert mechanical energy into hydraulic energy by producing flow</label>
+        <label><input type="radio" name="q1" value="c"> Store hydraulic fluid</label>
+        <label><input type="radio" name="q1" value="d"> Convert hydraulic energy into mechanical rotation</label>
+      </div>
+
+      <div class="question">
+        <p><strong>System pressure in a hydraulic circuit is actually developed by:</strong></p>
+        <label><input type="radio" name="q2" value="a"> The pump alone at all times</label>
+        <label><input type="radio" name="q2" value="b"> Resistance to flow at actuators and valves</label>
+        <label><input type="radio" name="q2" value="c"> The reservoir size</label>
+        <label><input type="radio" name="q2" value="d"> The colour of the hoses</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A fixed-displacement gear pump:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Varies displacement automatically with load</label>
+        <label><input type="radio" name="q3" value="b"> Delivers a constant volume per revolution regardless of pressure (within its rating)</label>
+        <label><input type="radio" name="q3" value="c"> Provides flow only at zero pressure</label>
+        <label><input type="radio" name="q3" value="d"> Is not used on mobile equipment</label>
+      </div>
+
+      <div class="question">
+        <p><strong>External gear pumps consist of:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Pistons and swash plate</label>
+        <label><input type="radio" name="q4" value="b"> Two meshing gears rotating inside a closely fitted housing</label>
+        <label><input type="radio" name="q4" value="c"> Vanes sliding in a rotor</label>
+        <label><input type="radio" name="q4" value="d"> Radial pistons in a cam ring</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Vane pumps use:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Intermeshing gears only</label>
+        <label><input type="radio" name="q5" value="b"> A rotor with sliding vanes running in an eccentric cam ring</label>
+        <label><input type="radio" name="q5" value="c"> Helical screws</label>
+        <label><input type="radio" name="q5" value="d"> Centrifugal impellers</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Axial piston pumps commonly control displacement by:</strong></p>
+        <label><input type="radio" name="q6" value="a"> Changing gear size</label>
+        <label><input type="radio" name="q6" value="b"> Varying the angle of a swash plate that pistons ride against</label>
+        <label><input type="radio" name="q6" value="c"> Changing hose diameter</label>
+        <label><input type="radio" name="q6" value="d"> Heating the fluid</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pump volumetric efficiency is reduced by:</strong></p>
+        <label><input type="radio" name="q7" value="a"> Tight clearances and clean fluid</label>
+        <label><input type="radio" name="q7" value="b"> Internal leakage due to wear or high clearances</label>
+        <label><input type="radio" name="q7" value="c"> Operating within rated pressure</label>
+        <label><input type="radio" name="q7" value="d"> Cool fluid temperatures</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The main function of a pressure relief valve is to:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Increase flow to actuators</label>
+        <label><input type="radio" name="q8" value="b"> Limit maximum system pressure by diverting excess flow to tank</label>
+        <label><input type="radio" name="q8" value="c"> Directly operate cylinders</label>
+        <label><input type="radio" name="q8" value="d"> Measure flow rate</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A direct-acting relief valve opens:</strong></p>
+        <label><input type="radio" name="q9" value="a"> Using pilot pressure and remote control only</label>
+        <label><input type="radio" name="q9" value="b"> When spring force is overcome by system pressure on the poppet or spool</label>
+        <label><input type="radio" name="q9" value="c"> Only when manually lifted</label>
+        <label><input type="radio" name="q9" value="d"> Only at zero flow</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pilot-operated relief valves are often used because they:</strong></p>
+        <label><input type="radio" name="q10" value="a"> Are simpler than direct-acting valves</label>
+        <label><input type="radio" name="q10" value="b"> Provide more stable pressure control at higher flows</label>
+        <label><input type="radio" name="q10" value="c"> Cannot be adjusted</label>
+        <label><input type="radio" name="q10" value="d"> Operate only at very low pressures</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Directional control valves (DCVs) are used to:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Change fluid viscosity</label>
+        <label><input type="radio" name="q11" value="b"> Control the path of flow to actuators, determining direction of motion</label>
+        <label><input type="radio" name="q11" value="c"> Filter contaminated oil</label>
+        <label><input type="radio" name="q11" value="d"> Cool the fluid</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A 4/3 directional control valve has:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Four positions and three ports</label>
+        <label><input type="radio" name="q12" value="b"> Four ports and three positions</label>
+        <label><input type="radio" name="q12" value="c"> Four ports and four positions</label>
+        <label><input type="radio" name="q12" value="d"> Three ports and four positions</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In an open-centre hydraulic system, the centre condition of the main directional valve:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Blocks all flow with pump deadheaded</label>
+        <label><input type="radio" name="q13" value="b"> Allows pump flow to return to tank with minimal restriction when actuators are not being operated</label>
+        <label><input type="radio" name="q13" value="c"> Always directs flow to one actuator</label>
+        <label><input type="radio" name="q13" value="d"> Sends flow to the cooler only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a closed-centre system, the pump is usually:</strong></p>
+        <label><input type="radio" name="q14" value="a"> A fixed-displacement gear pump with constant flow</label>
+        <label><input type="radio" name="q14" value="b"> A variable-displacement pump that destrokes to maintain system pressure</label>
+        <label><input type="radio" name="q14" value="c"> Off whenever valves are centred</label>
+        <label><input type="radio" name="q14" value="d"> Mounted in the reservoir</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Flow control valves are used primarily to:</strong></p>
+        <label><input type="radio" name="q15" value="a"> Limit maximum pressure</label>
+        <label><input type="radio" name="q15" value="b"> Control actuator speed by regulating flow rate</label>
+        <label><input type="radio" name="q15" value="c"> Direct flow to tank under all conditions</label>
+        <label><input type="radio" name="q15" value="d"> Change oil temperature</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pressure-compensated flow control valves:</strong></p>
+        <label><input type="radio" name="q16" value="a"> Provide a nearly constant flow over a range of pressure drops</label>
+        <label><input type="radio" name="q16" value="b"> Change flow rate only with temperature</label>
+        <label><input type="radio" name="q16" value="c"> Cannot be used in mobile equipment</label>
+        <label><input type="radio" name="q16" value="d"> Always bleed flow to tank</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Check valves in hydraulic circuits:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Allow flow in both directions</label>
+        <label><input type="radio" name="q17" value="b"> Allow flow in one direction and block it in the opposite direction</label>
+        <label><input type="radio" name="q17" value="c"> Act as relief valves</label>
+        <label><input type="radio" name="q17" value="d"> Control flow regardless of direction</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Counterbalance (holding) valves are used to:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Bleed air from the system</label>
+        <label><input type="radio" name="q18" value="b"> Prevent a load from falling in case of hose failure and control overrunning loads</label>
+        <label><input type="radio" name="q18" value="c"> Increase pump displacement</label>
+        <label><input type="radio" name="q18" value="d"> Cool the oil</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Sequence valves are used where:</strong></p>
+        <label><input type="radio" name="q19" value="a"> Flow must be directed to all actuators simultaneously</label>
+        <label><input type="radio" name="q19" value="b"> One actuator must complete its movement and reach a set pressure before another circuit operates</label>
+        <label><input type="radio" name="q19" value="c"> Filters must be changed</label>
+        <label><input type="radio" name="q19" value="d"> Coolers are installed</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Load-sensing hydraulic systems:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Operate pump at full flow and pressure at all times</label>
+        <label><input type="radio" name="q20" value="b"> Adjust pump output to match flow and pressure requirements of the load</label>
+        <label><input type="radio" name="q20" value="c"> Do not use relief valves</label>
+        <label><input type="radio" name="q20" value="d"> Require only gear pumps</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A typical symbol for a pressure relief valve includes:</strong></p>
+        <label><input type="radio" name="q21" value="a"> A square with a directional arrow</label>
+        <label><input type="radio" name="q21" value="b"> A spring-loaded poppet symbol connecting pressure line to tank when setpoint is reached</label>
+        <label><input type="radio" name="q21" value="c"> A circle with two arrows</label>
+        <label><input type="radio" name="q21" value="d"> A triangle pointing into a reservoir</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Spool-type directional valves may be actuated by:</strong></p>
+        <label><input type="radio" name="q22" value="a"> Only manual levers</label>
+        <label><input type="radio" name="q22" value="b"> Manual, mechanical, hydraulic, pneumatic or solenoid operators</label>
+        <label><input type="radio" name="q22" value="c"> Electrical relays only</label>
+        <label><input type="radio" name="q22" value="d"> Fluid contamination</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Centre conditions of directional valves (such as open centre, closed centre, tandem centre) determine:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Filter size</label>
+        <label><input type="radio" name="q23" value="b"> How pump flow and actuator ports are connected when the valve is in neutral</label>
+        <label><input type="radio" name="q23" value="c"> Cylinder bore size</label>
+        <label><input type="radio" name="q23" value="d"> Reservoir capacity</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Cushion valves in cylinders are used to:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Increase cylinder speed at end of stroke</label>
+        <label><input type="radio" name="q24" value="b"> Slow and dampen piston movement near the end of stroke to reduce impact</label>
+        <label><input type="radio" name="q24" value="c"> Increase system pressure rating</label>
+        <label><input type="radio" name="q24" value="d"> Vent air into the cylinder</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pump case drain lines are used to:</strong></p>
+        <label><input type="radio" name="q25" value="a"> Feed fluid from reservoir to pump inlet</label>
+        <label><input type="radio" name="q25" value="b"> Return leakage oil from pump housing to reservoir at low back pressure</label>
+        <label><input type="radio" name="q25" value="c"> Direct high-pressure flow to actuators</label>
+        <label><input type="radio" name="q25" value="d"> Vent air from reservoir</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Direction of rotation of a hydraulic pump must:</strong></p>
+        <label><input type="radio" name="q26" value="a"> Be ignored, as pumps are all bidirectional</label>
+        <label><input type="radio" name="q26" value="b"> Match the engine or drive direction specified on the pump to ensure correct inlet and outlet</label>
+        <label><input type="radio" name="q26" value="c"> Be reversed periodically</label>
+        <label><input type="radio" name="q26" value="d"> Always be counterclockwise</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When replacing a pump, the parts technician must match:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Paint colour and approximate size only</label>
+        <label><input type="radio" name="q27" value="b"> Displacement, speed rating, rotation, mounting, shaft type and port locations</label>
+        <label><input type="radio" name="q27" value="c"> Only shaft diameter</label>
+        <label><input type="radio" name="q27" value="d"> Only manufacturer name</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A tandem centre directional valve centre condition:</strong></p>
+        <label><input type="radio" name="q28" value="a"> Blocks all ports</label>
+        <label><input type="radio" name="q28" value="b"> Connects pump to tank while blocking actuator ports</label>
+        <label><input type="radio" name="q28" value="c"> Connects pump to actuator ports</label>
+        <label><input type="radio" name="q28" value="d"> Connects both actuator ports to tank while blocking pump</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pressure-reducing valves are used where:</strong></p>
+        <label><input type="radio" name="q29" value="a"> Higher pressure is required in a branch circuit</label>
+        <label><input type="radio" name="q29" value="b"> A lower controlled pressure is needed downstream for a specific function</label>
+        <label><input type="radio" name="q29" value="c"> No pressure control is required</label>
+        <label><input type="radio" name="q29" value="d"> Filters are located</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Unloading valves allow the pump to:</strong></p>
+        <label><input type="radio" name="q30" value="a"> Pump at maximum pressure constantly</label>
+        <label><input type="radio" name="q30" value="b"> Deliver flow at low pressure to tank when high pressure is not required</label>
+        <label><input type="radio" name="q30" value="c"> Stop turning when pressure drops</label>
+        <label><input type="radio" name="q30" value="d"> Reverse rotation automatically</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A closed-centre directional valve used with a fixed-displacement pump will:</strong></p>
+        <label><input type="radio" name="q31" value="a"> Allow free flow to tank</label>
+        <label><input type="radio" name="q31" value="b"> Deadhead the pump and rapidly build pressure against the relief valve</label>
+        <label><input type="radio" name="q31" value="c"> Reduce system pressure</label>
+        <label><input type="radio" name="q31" value="d"> Increase reservoir capacity</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pilot lines in valve circuits are used to:</strong></p>
+        <label><input type="radio" name="q32" value="a"> Cool the fluid</label>
+        <label><input type="radio" name="q32" value="b"> Transmit control pressure to operate other valves or pump controls</label>
+        <label><input type="radio" name="q32" value="c"> Measure oil level</label>
+        <label><input type="radio" name="q32" value="d"> Support machine structure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The ILM Pumps and Valves module expects parts technicians to:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Design new pump types</label>
+        <label><input type="radio" name="q33" value="b"> Recognize common pump and valve types, functions and catalogue details for replacement</label>
+        <label><input type="radio" name="q33" value="c"> Repair pumps internally</label>
+        <label><input type="radio" name="q33" value="d"> Ignore schematic symbols</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A proportional valve differs from a simple on/off solenoid valve because it:</strong></p>
+        <label><input type="radio" name="q34" value="a"> Is only manual</label>
+        <label><input type="radio" name="q34" value="b"> Can vary flow or pressure in proportion to an electrical control signal</label>
+        <label><input type="radio" name="q34" value="c"> Cannot be used with electronics</label>
+        <label><input type="radio" name="q34" value="d"> Is always fully open or closed</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When troubleshooting low system pressure, a common first check is:</strong></p>
+        <label><input type="radio" name="q35" value="a"> Replace all hoses</label>
+        <label><input type="radio" name="q35" value="b"> Verify relief valve setting and operation with a pressure gauge</label>
+        <label><input type="radio" name="q35" value="c"> Change reservoir size</label>
+        <label><input type="radio" name="q35" value="d"> Increase engine idle speed only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Load checks or anti-cavitation checks on directional valves help to:</strong></p>
+        <label><input type="radio" name="q36" value="a"> Increase temperature</label>
+        <label><input type="radio" name="q36" value="b"> Prevent cavitation by allowing oil into a cylinder port when external forces retract the rod</label>
+        <label><input type="radio" name="q36" value="c"> Reduce flow to tank</label>
+        <label><input type="radio" name="q36" value="d"> Bypass filters</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a closed-centre load-sensing system, the load-sense line:</strong></p>
+        <label><input type="radio" name="q37" value="a"> Drains directly to tank</label>
+        <label><input type="radio" name="q37" value="b"> Feeds pressure information from the highest load to the pump control</label>
+        <label><input type="radio" name="q37" value="c"> Supplies oil to the reservoir</label>
+        <label><input type="radio" name="q37" value="d"> Operates the steering only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Creeping movement of a cylinder at neutral may indicate:</strong></p>
+        <label><input type="radio" name="q38" value="a"> Perfect valve sealing</label>
+        <label><input type="radio" name="q38" value="b"> Internal leakage past valve spools or cylinder seals</label>
+        <label><input type="radio" name="q38" value="c"> Correct relief setting</label>
+        <label><input type="radio" name="q38" value="d"> Low oil temperature</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
 
   <script>
     window.ANSWERS = {
-  "1": "B",
-  "2": "B",
-  "3": "B",
-  "4": "B",
-  "5": "B",
-  "6": "B",
-  "7": "B",
-  "8": "B",
-  "9": "B",
-  "10": "B",
-  "11": "B",
-  "12": "B",
-  "13": "B",
-  "14": "B",
-  "15": "B",
-  "16": "B",
-  "17": "B",
-  "18": "B",
-  "19": "B",
-  "20": "B",
-  "21": "B",
-  "22": "B",
-  "23": "B",
-  "24": "B",
-  "25": "B",
-  "26": "B",
-  "27": "B",
-  "28": "B",
-  "29": "B",
-  "30": "B",
-  "31": "B",
-  "32": "B",
-  "33": "B",
-  "34": "B",
-  "35": "B",
-  "36": "B",
-  "37": "B",
-  "38": "B",
-  "39": "B",
-  "40": "B"
-};
+      "q1": "b",
+      "q2": "b",
+      "q3": "b",
+      "q4": "b",
+      "q5": "b",
+      "q6": "b",
+      "q7": "b",
+      "q8": "b",
+      "q9": "b",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "b",
+      "q20": "b",
+      "q21": "b",
+      "q22": "b",
+      "q23": "b",
+      "q24": "b",
+      "q25": "b",
+      "q26": "b",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "b",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b",
+      "q34": "b",
+      "q35": "b",
+      "q36": "b",
+      "q37": "b",
+      "q38": "b"
+    };
   </script>
+  <script src="../script.js"></script>
 </body>
 </html>
