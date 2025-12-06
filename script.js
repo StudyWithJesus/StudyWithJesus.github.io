@@ -554,18 +554,30 @@ function restoreOrder(container, questions, orderKey) {
   }
   
   // Append any questions not in the saved order (shouldn't happen, but just in case)
+  if (questionsByName.size > 0) {
+    console.warn('restoreOrder: Some questions were not in saved order, appending at end');
+  }
   questionsByName.forEach(q => fragment.appendChild(q));
   
   container.appendChild(fragment);
   
-  // Restore option order within each question
+  // Build a map from question name to question element for option restoration
+  const questionsMap = new Map();
+  for (let i = 0; i < questions.length; i++) {
+    const q = questions[i];
+    const firstRadio = q.querySelector('input[type="radio"]');
+    if (firstRadio) {
+      questionsMap.set(firstRadio.name, q);
+    }
+  }
+  
+  // Restore option order within each question (iterate through saved order for consistency)
   if (savedOrder.options) {
-    for (let i = 0; i < questions.length; i++) {
-      const q = questions[i];
-      const firstRadio = q.querySelector('input[type="radio"]');
-      if (!firstRadio) continue;
+    for (let i = 0; i < savedOrder.questions.length; i++) {
+      const qName = savedOrder.questions[i];
+      const q = questionsMap.get(qName);
+      if (!q) continue;
       
-      const qName = firstRadio.name;
       const optionOrder = savedOrder.options[qName];
       if (!optionOrder || !Array.isArray(optionOrder)) continue;
       
