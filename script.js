@@ -647,8 +647,8 @@ function initExamIndexScores() {
 
 // ----------------------
 // Konami Code Easter Egg
-// ↑ ↑ ↓ ↓ ← → ← → B A
-// Works on both desktop (keyboard) and mobile (swipe/tap pattern)
+// Desktop: ↑ ↑ ↓ ↓ ← → ← → B A (keyboard)
+// Mobile: Swipe up up down down left right left right, then tap tap
 // ----------------------
 ;(function initKonamiCode() {
   const konamiSequence = [
@@ -661,10 +661,12 @@ function initExamIndexScores() {
   
   let konamiIndex = 0;
   let mobilePattern = [];
+  // Mobile: swipe directions + tap tap at the end (instead of B A)
   const mobileSequence = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'tap', 'tap'];
   let touchStartX = 0;
   let touchStartY = 0;
-  let lastTapTime = 0;
+  let lastGestureTime = 0;
+  let patternTimeout = null;
   
   // Desktop keyboard listener
   document.addEventListener('keydown', function(e) {
@@ -705,15 +707,9 @@ function initExamIndexScores() {
     let gesture = null;
     
     // Determine if it's a swipe or tap
-    if (Math.abs(deltaX) < 20 && Math.abs(deltaY) < 20) {
+    if (Math.abs(deltaX) < 25 && Math.abs(deltaY) < 25) {
       // It's a tap
-      const now = Date.now();
-      if (now - lastTapTime < 500) {
-        gesture = 'tap';
-      } else {
-        gesture = 'tap';
-      }
-      lastTapTime = now;
+      gesture = 'tap';
     } else if (Math.abs(deltaX) > Math.abs(deltaY)) {
       // Horizontal swipe
       gesture = deltaX > minSwipeDistance ? 'right' : (deltaX < -minSwipeDistance ? 'left' : null);
@@ -723,10 +719,19 @@ function initExamIndexScores() {
     }
     
     if (gesture) {
+      lastGestureTime = Date.now();
+      
+      // Clear previous timeout and set new one
+      if (patternTimeout) clearTimeout(patternTimeout);
+      patternTimeout = setTimeout(function() {
+        mobilePattern = [];
+      }, 4000); // Reset after 4 seconds of inactivity
+      
       if (gesture === mobileSequence[mobilePattern.length]) {
         mobilePattern.push(gesture);
         if (mobilePattern.length === mobileSequence.length) {
           mobilePattern = [];
+          if (patternTimeout) clearTimeout(patternTimeout);
           triggerEasterEgg();
         }
       } else {
@@ -737,13 +742,6 @@ function initExamIndexScores() {
         }
       }
     }
-    
-    // Reset pattern after 3 seconds of inactivity
-    setTimeout(function() {
-      if (mobilePattern.length > 0 && Date.now() - lastTapTime > 3000) {
-        mobilePattern = [];
-      }
-    }, 3500);
   }, { passive: true });
   
   function triggerEasterEgg() {
@@ -753,10 +751,12 @@ function initExamIndexScores() {
     overlay.innerHTML = `
       <div class="konami-content">
         <div class="konami-flame-border">
+          <div class="konami-flame-glow"></div>
           <img src="${getBasePath()}bftb.png" alt="Easter Egg" class="konami-image">
         </div>
         <button class="konami-close" aria-label="Close">&times;</button>
       </div>
+      <div class="flying-cats-container"></div>
     `;
     
     // Add styles
@@ -769,7 +769,7 @@ function initExamIndexScores() {
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.9);
+        background: rgba(0, 0, 0, 0.92);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -791,88 +791,238 @@ function initExamIndexScores() {
       
       .konami-flame-border {
         position: relative;
-        padding: 20px;
-        border-radius: 16px;
-        background: linear-gradient(45deg, #ff6b35, #f7c800, #ff6b35, #ff4500, #f7c800);
-        background-size: 400% 400%;
-        animation: flameGradient 1s ease infinite, flamePulse 0.5s ease-in-out infinite alternate;
-        box-shadow: 
-          0 0 20px rgba(255, 107, 53, 0.8),
-          0 0 40px rgba(247, 200, 0, 0.6),
-          0 0 60px rgba(255, 69, 0, 0.4),
-          0 0 80px rgba(255, 107, 53, 0.3),
-          inset 0 0 20px rgba(255, 200, 0, 0.2);
+        padding: 15px;
+        border-radius: 12px;
+        background: #1a0a00;
+        z-index: 1;
       }
       
+      /* Main fire glow container */
       .konami-flame-border::before {
         content: '';
         position: absolute;
-        top: -3px;
-        left: -3px;
-        right: -3px;
-        bottom: -3px;
-        border-radius: 18px;
-        background: linear-gradient(45deg, 
-          transparent, 
-          rgba(255, 200, 0, 0.5), 
-          transparent, 
-          rgba(255, 69, 0, 0.5), 
-          transparent);
-        background-size: 400% 400%;
-        animation: flameOuter 1.5s ease infinite;
-        z-index: -1;
-        filter: blur(8px);
+        top: -25px;
+        left: -25px;
+        right: -25px;
+        bottom: -25px;
+        border-radius: 20px;
+        background: 
+          radial-gradient(ellipse 80% 50% at 50% 100%, rgba(255, 60, 0, 0.9) 0%, transparent 50%),
+          radial-gradient(ellipse 60% 40% at 50% 100%, rgba(255, 150, 0, 0.8) 0%, transparent 40%),
+          radial-gradient(ellipse 100% 60% at 50% 100%, rgba(255, 200, 50, 0.5) 0%, transparent 50%);
+        z-index: -2;
+        animation: fireBase 0.15s ease-in-out infinite alternate;
+        filter: blur(15px);
       }
       
+      /* Secondary fire layer - more erratic */
       .konami-flame-border::after {
         content: '';
         position: absolute;
-        top: -8px;
-        left: -8px;
-        right: -8px;
-        bottom: -8px;
-        border-radius: 22px;
-        background: radial-gradient(ellipse at center, 
-          rgba(255, 107, 53, 0.4) 0%, 
-          rgba(247, 200, 0, 0.2) 30%, 
-          transparent 70%);
-        animation: flameGlow 0.8s ease-in-out infinite alternate;
-        z-index: -2;
-        filter: blur(12px);
+        top: -35px;
+        left: -35px;
+        right: -35px;
+        bottom: -35px;
+        border-radius: 25px;
+        background: 
+          radial-gradient(ellipse 70% 45% at 30% 100%, rgba(255, 80, 0, 0.7) 0%, transparent 45%),
+          radial-gradient(ellipse 70% 45% at 70% 100%, rgba(255, 120, 0, 0.6) 0%, transparent 45%),
+          radial-gradient(ellipse 50% 35% at 50% 100%, rgba(255, 180, 0, 0.8) 0%, transparent 35%);
+        z-index: -3;
+        animation: fireFlicker 0.1s ease-in-out infinite;
+        filter: blur(20px);
       }
       
-      @keyframes flameGradient {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
+      /* Flame particles container */
+      .flame-particles {
+        position: absolute;
+        top: -40px;
+        left: -40px;
+        right: -40px;
+        bottom: -40px;
+        pointer-events: none;
+        z-index: -1;
+        overflow: visible;
       }
       
-      @keyframes flamePulse {
-        from { 
-          box-shadow: 
-            0 0 20px rgba(255, 107, 53, 0.8),
-            0 0 40px rgba(247, 200, 0, 0.6),
-            0 0 60px rgba(255, 69, 0, 0.4),
-            0 0 80px rgba(255, 107, 53, 0.3),
-            inset 0 0 20px rgba(255, 200, 0, 0.2);
+      .flame-particle {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 200, 50, 1) 0%, rgba(255, 100, 0, 0.8) 50%, transparent 70%);
+        filter: blur(2px);
+        animation: particleRise linear infinite;
+      }
+      
+      /* Individual flame tongues */
+      .flame-tongue {
+        position: absolute;
+        bottom: -10px;
+        width: 30px;
+        height: 60px;
+        background: linear-gradient(to top, 
+          rgba(255, 60, 0, 0.9) 0%,
+          rgba(255, 120, 0, 0.7) 30%,
+          rgba(255, 180, 50, 0.5) 60%,
+          transparent 100%);
+        border-radius: 50% 50% 20% 20%;
+        filter: blur(3px);
+        transform-origin: bottom center;
+        z-index: -1;
+      }
+      
+      .flame-tongue:nth-child(1) { left: 10%; animation: flameDance1 0.3s ease-in-out infinite; }
+      .flame-tongue:nth-child(2) { left: 25%; animation: flameDance2 0.25s ease-in-out infinite; height: 70px; }
+      .flame-tongue:nth-child(3) { left: 40%; animation: flameDance3 0.35s ease-in-out infinite; height: 55px; }
+      .flame-tongue:nth-child(4) { left: 55%; animation: flameDance1 0.28s ease-in-out infinite; height: 65px; }
+      .flame-tongue:nth-child(5) { left: 70%; animation: flameDance2 0.32s ease-in-out infinite; }
+      .flame-tongue:nth-child(6) { left: 85%; animation: flameDance3 0.27s ease-in-out infinite; height: 50px; }
+      
+      /* Side flames */
+      .flame-tongue:nth-child(7) { left: -15px; bottom: 20%; width: 50px; height: 25px; transform: rotate(90deg); animation: flameDance1 0.3s ease-in-out infinite; }
+      .flame-tongue:nth-child(8) { left: -15px; bottom: 50%; width: 45px; height: 22px; transform: rotate(90deg); animation: flameDance2 0.28s ease-in-out infinite; }
+      .flame-tongue:nth-child(9) { left: -15px; bottom: 80%; width: 40px; height: 20px; transform: rotate(90deg); animation: flameDance3 0.25s ease-in-out infinite; }
+      .flame-tongue:nth-child(10) { right: -15px; left: auto; bottom: 20%; width: 50px; height: 25px; transform: rotate(-90deg); animation: flameDance2 0.32s ease-in-out infinite; }
+      .flame-tongue:nth-child(11) { right: -15px; left: auto; bottom: 50%; width: 45px; height: 22px; transform: rotate(-90deg); animation: flameDance1 0.29s ease-in-out infinite; }
+      .flame-tongue:nth-child(12) { right: -15px; left: auto; bottom: 80%; width: 40px; height: 20px; transform: rotate(-90deg); animation: flameDance3 0.26s ease-in-out infinite; }
+      
+      /* Top flames */
+      .flame-tongue:nth-child(13) { top: -15px; bottom: auto; left: 15%; width: 25px; height: 40px; transform: rotate(180deg); animation: flameDance1 0.31s ease-in-out infinite; }
+      .flame-tongue:nth-child(14) { top: -15px; bottom: auto; left: 40%; width: 30px; height: 45px; transform: rotate(180deg); animation: flameDance2 0.27s ease-in-out infinite; }
+      .flame-tongue:nth-child(15) { top: -15px; bottom: auto; left: 65%; width: 25px; height: 40px; transform: rotate(180deg); animation: flameDance3 0.33s ease-in-out infinite; }
+      
+      @keyframes fireBase {
+        0% { 
+          opacity: 0.8;
+          transform: scale(1) translateY(0);
         }
-        to { 
-          box-shadow: 
-            0 0 30px rgba(255, 107, 53, 1),
-            0 0 50px rgba(247, 200, 0, 0.8),
-            0 0 70px rgba(255, 69, 0, 0.6),
-            0 0 100px rgba(255, 107, 53, 0.5),
-            inset 0 0 30px rgba(255, 200, 0, 0.3);
+        100% { 
+          opacity: 1;
+          transform: scale(1.05) translateY(-3px);
         }
       }
       
-      @keyframes flameOuter {
-        0%, 100% { background-position: 0% 50%; opacity: 0.7; }
-        50% { background-position: 100% 50%; opacity: 1; }
+      @keyframes fireFlicker {
+        0%, 100% { 
+          opacity: 0.6;
+          transform: scale(1) skewX(0deg);
+        }
+        25% { 
+          opacity: 0.8;
+          transform: scale(1.02) skewX(2deg);
+        }
+        50% { 
+          opacity: 0.7;
+          transform: scale(0.98) skewX(-1deg);
+        }
+        75% { 
+          opacity: 0.9;
+          transform: scale(1.03) skewX(1deg);
+        }
       }
       
-      @keyframes flameGlow {
-        from { opacity: 0.5; transform: scale(1); }
-        to { opacity: 1; transform: scale(1.1); }
+      @keyframes flameDance1 {
+        0%, 100% { 
+          transform: scaleY(1) scaleX(1) translateX(0) rotate(0deg);
+          opacity: 0.8;
+        }
+        25% { 
+          transform: scaleY(1.2) scaleX(0.9) translateX(3px) rotate(3deg);
+          opacity: 1;
+        }
+        50% { 
+          transform: scaleY(0.9) scaleX(1.1) translateX(-2px) rotate(-2deg);
+          opacity: 0.7;
+        }
+        75% { 
+          transform: scaleY(1.15) scaleX(0.95) translateX(2px) rotate(2deg);
+          opacity: 0.9;
+        }
+      }
+      
+      @keyframes flameDance2 {
+        0%, 100% { 
+          transform: scaleY(1) scaleX(1) translateX(0) rotate(0deg);
+          opacity: 0.7;
+        }
+        33% { 
+          transform: scaleY(1.25) scaleX(0.85) translateX(-4px) rotate(-4deg);
+          opacity: 1;
+        }
+        66% { 
+          transform: scaleY(0.85) scaleX(1.15) translateX(3px) rotate(3deg);
+          opacity: 0.8;
+        }
+      }
+      
+      @keyframes flameDance3 {
+        0%, 100% { 
+          transform: scaleY(1) scaleX(1) translateX(0) rotate(0deg);
+          opacity: 0.9;
+        }
+        20% { 
+          transform: scaleY(1.1) scaleX(0.95) translateX(2px) rotate(2deg);
+          opacity: 0.7;
+        }
+        40% { 
+          transform: scaleY(1.3) scaleX(0.8) translateX(-3px) rotate(-3deg);
+          opacity: 1;
+        }
+        60% { 
+          transform: scaleY(0.95) scaleX(1.05) translateX(1px) rotate(1deg);
+          opacity: 0.8;
+        }
+        80% { 
+          transform: scaleY(1.15) scaleX(0.9) translateX(-2px) rotate(-2deg);
+          opacity: 0.9;
+        }
+      }
+      
+      @keyframes particleRise {
+        0% {
+          transform: translateY(0) translateX(0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-80px) translateX(var(--drift, 10px)) scale(0);
+          opacity: 0;
+        }
+      }
+      
+      /* Inner glow on the border */
+      .konami-flame-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 12px;
+        box-shadow: 
+          inset 0 0 30px rgba(255, 100, 0, 0.5),
+          inset 0 0 60px rgba(255, 50, 0, 0.3),
+          0 0 10px rgba(255, 150, 50, 0.8),
+          0 0 20px rgba(255, 100, 0, 0.6),
+          0 0 40px rgba(255, 60, 0, 0.4);
+        animation: innerGlow 0.2s ease-in-out infinite alternate;
+        pointer-events: none;
+      }
+      
+      @keyframes innerGlow {
+        0% {
+          box-shadow: 
+            inset 0 0 30px rgba(255, 100, 0, 0.5),
+            inset 0 0 60px rgba(255, 50, 0, 0.3),
+            0 0 10px rgba(255, 150, 50, 0.8),
+            0 0 20px rgba(255, 100, 0, 0.6),
+            0 0 40px rgba(255, 60, 0, 0.4);
+        }
+        100% {
+          box-shadow: 
+            inset 0 0 35px rgba(255, 120, 0, 0.6),
+            inset 0 0 70px rgba(255, 60, 0, 0.4),
+            0 0 15px rgba(255, 180, 50, 0.9),
+            0 0 30px rgba(255, 120, 0, 0.7),
+            0 0 50px rgba(255, 80, 0, 0.5);
+        }
       }
       
       .konami-image {
@@ -881,6 +1031,8 @@ function initExamIndexScores() {
         max-height: 70vh;
         border-radius: 8px;
         animation: konamiImagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        z-index: 2;
       }
       
       @keyframes konamiImagePop {
@@ -890,33 +1042,74 @@ function initExamIndexScores() {
       
       .konami-close {
         position: absolute;
-        top: -15px;
-        right: -15px;
-        width: 40px;
-        height: 40px;
+        top: -20px;
+        right: -20px;
+        width: 44px;
+        height: 44px;
         border: none;
         border-radius: 50%;
-        background: linear-gradient(135deg, #ff6b35, #ff4500);
+        background: linear-gradient(135deg, #ff6b35, #ff4500, #cc0000);
         color: white;
-        font-size: 24px;
+        font-size: 26px;
         font-weight: bold;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 15px rgba(255, 69, 0, 0.5);
+        box-shadow: 
+          0 0 10px rgba(255, 69, 0, 0.8),
+          0 0 20px rgba(255, 100, 0, 0.5),
+          0 4px 15px rgba(0, 0, 0, 0.4);
         transition: transform 0.2s, box-shadow 0.2s;
         z-index: 10001;
+        animation: closeButtonPulse 1s ease-in-out infinite alternate;
+      }
+      
+      @keyframes closeButtonPulse {
+        from {
+          box-shadow: 
+            0 0 10px rgba(255, 69, 0, 0.8),
+            0 0 20px rgba(255, 100, 0, 0.5),
+            0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        to {
+          box-shadow: 
+            0 0 15px rgba(255, 69, 0, 1),
+            0 0 30px rgba(255, 100, 0, 0.7),
+            0 4px 20px rgba(0, 0, 0, 0.5);
+        }
       }
       
       .konami-close:hover {
-        transform: scale(1.1) rotate(90deg);
-        box-shadow: 0 6px 20px rgba(255, 69, 0, 0.7);
+        transform: scale(1.15) rotate(90deg);
+        box-shadow: 
+          0 0 20px rgba(255, 69, 0, 1),
+          0 0 40px rgba(255, 100, 0, 0.8),
+          0 6px 25px rgba(0, 0, 0, 0.5);
       }
       
       @media (max-width: 768px) {
         .konami-flame-border {
-          padding: 12px;
+          padding: 10px;
+        }
+        
+        .konami-flame-border::before {
+          top: -20px;
+          left: -20px;
+          right: -20px;
+          bottom: -20px;
+        }
+        
+        .konami-flame-border::after {
+          top: -25px;
+          left: -25px;
+          right: -25px;
+          bottom: -25px;
+        }
+        
+        .flame-tongue {
+          width: 20px;
+          height: 40px;
         }
         
         .konami-image {
@@ -925,17 +1118,117 @@ function initExamIndexScores() {
         }
         
         .konami-close {
-          width: 36px;
-          height: 36px;
-          font-size: 20px;
-          top: -10px;
-          right: -10px;
+          width: 38px;
+          height: 38px;
+          font-size: 22px;
+          top: -15px;
+          right: -15px;
+        }
+      }
+      
+      /* Flying cats */
+      .flying-cats-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        overflow: hidden;
+      }
+      
+      .flying-cat {
+        position: absolute;
+        font-size: 40px;
+        animation: flyCat linear infinite;
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        z-index: 9999;
+      }
+      
+      @keyframes flyCat {
+        0% {
+          transform: translate(var(--startX), var(--startY)) rotate(var(--rotation)) scale(var(--scale));
+        }
+        100% {
+          transform: translate(var(--endX), var(--endY)) rotate(calc(var(--rotation) + 720deg)) scale(var(--scale));
         }
       }
     `;
     
     document.head.appendChild(style);
     document.body.appendChild(overlay);
+    
+    // Create flying cats
+    const catEmojis = ['🐱', '😺', '😸', '😻', '🙀', '😹', '😼', '🐈', '🐈‍⬛'];
+    const catsContainer = overlay.querySelector('.flying-cats-container');
+    let catInterval;
+    
+    function createFlyingCat() {
+      const cat = document.createElement('div');
+      cat.className = 'flying-cat';
+      cat.textContent = catEmojis[Math.floor(Math.random() * catEmojis.length)];
+      
+      // Random starting position (from edges)
+      const edge = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
+      let startX, startY, endX, endY;
+      
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      
+      switch(edge) {
+        case 0: // top
+          startX = Math.random() * vw;
+          startY = -50;
+          endX = Math.random() * vw;
+          endY = vh + 50;
+          break;
+        case 1: // right
+          startX = vw + 50;
+          startY = Math.random() * vh;
+          endX = -50;
+          endY = Math.random() * vh;
+          break;
+        case 2: // bottom
+          startX = Math.random() * vw;
+          startY = vh + 50;
+          endX = Math.random() * vw;
+          endY = -50;
+          break;
+        case 3: // left
+          startX = -50;
+          startY = Math.random() * vh;
+          endX = vw + 50;
+          endY = Math.random() * vh;
+          break;
+      }
+      
+      const duration = 2 + Math.random() * 3; // 2-5 seconds
+      const scale = 0.5 + Math.random() * 1.5; // 0.5-2x size
+      const rotation = Math.random() * 360;
+      
+      cat.style.setProperty('--startX', startX + 'px');
+      cat.style.setProperty('--startY', startY + 'px');
+      cat.style.setProperty('--endX', endX + 'px');
+      cat.style.setProperty('--endY', endY + 'px');
+      cat.style.setProperty('--scale', scale);
+      cat.style.setProperty('--rotation', rotation + 'deg');
+      cat.style.animationDuration = duration + 's';
+      cat.style.fontSize = (30 + Math.random() * 30) + 'px';
+      
+      catsContainer.appendChild(cat);
+      
+      // Remove cat after animation
+      setTimeout(() => {
+        cat.remove();
+      }, duration * 1000);
+    }
+    
+    // Spawn cats continuously
+    for (let i = 0; i < 8; i++) {
+      setTimeout(() => createFlyingCat(), i * 200);
+    }
+    catInterval = setInterval(createFlyingCat, 300);
     
     // Close on button click
     overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);
@@ -956,6 +1249,11 @@ function initExamIndexScores() {
     });
     
     function closeEasterEgg() {
+      // Stop spawning cats
+      if (catInterval) {
+        clearInterval(catInterval);
+        catInterval = null;
+      }
       overlay.style.animation = 'konamiFadeIn 0.3s ease-out reverse';
       setTimeout(function() {
         overlay.remove();
