@@ -32,6 +32,13 @@ function initExamPage() {
   const form = document.querySelector(".exam-form, #quiz-form");
   if (!form) return; // not on an exam page
 
+  // Check if username is set before allowing the exam
+  const username = getStoredUsername();
+  if (!username) {
+    showUsernameRequiredOverlay(form);
+    return; // Don't initialize exam until username is set
+  }
+
   // Collect all question blocks
   const questionNodes = Array.from(form.querySelectorAll(".question"));
   if (!questionNodes.length) return;
@@ -792,15 +799,6 @@ function initUsernameSetup() {
   // Only run on pages with the username setup section
   if (!setupSection || !setupForm) return;
   
-  // Get current username from localStorage (using the same key as leaderboard.js)
-  function getUsername() {
-    try {
-      return localStorage.getItem('leaderboard_username') || null;
-    } catch {
-      return null;
-    }
-  }
-  
   // Set username in localStorage
   function setUsername(name) {
     try {
@@ -815,7 +813,7 @@ function initUsernameSetup() {
   
   // Update the display of the current username
   function updateDisplay() {
-    const current = getUsername();
+    const current = getStoredUsername();
     if (current) {
       currentDisplay.innerHTML = 'Your name: <strong class="username-highlight">' + escapeHtml(current) + '</strong> <button type="button" id="change-name-btn" class="change-name-link">(change)</button>';
       usernameInput.placeholder = 'Change your display name';
@@ -869,6 +867,125 @@ function initUsernameSetup() {
   
   // Initialize display
   updateDisplay();
+}
+
+// ----------------------
+// Username check helper functions for exam pages
+// ----------------------
+
+// Get stored username from localStorage
+function getStoredUsername() {
+  try {
+    return localStorage.getItem('leaderboard_username') || null;
+  } catch {
+    return null;
+  }
+}
+
+// Get base path for navigation (handles subdirectories)
+function getBasePathForNav() {
+  const path = window.location.pathname;
+  const parts = path.split('/').filter(p => p && !p.includes('.html'));
+  if (parts.length === 0) return '';
+  return '../'.repeat(parts.length);
+}
+
+// Show overlay requiring username to be set
+function showUsernameRequiredOverlay(form) {
+  // Hide the form content
+  form.style.display = 'none';
+  
+  // Hide the progress bar
+  const progressBar = document.querySelector('.exam-progress');
+  if (progressBar) {
+    progressBar.style.display = 'none';
+  }
+  
+  // Create the username required message
+  const overlay = document.createElement('div');
+  overlay.id = 'username-required-overlay';
+  overlay.className = 'username-required-overlay';
+  
+  const basePath = getBasePathForNav();
+  
+  overlay.innerHTML = `
+    <div class="username-required-card">
+      <div class="username-required-icon">👋</div>
+      <h2>Set Your Display Name First</h2>
+      <p>Please set a display name before taking the test. Your name will be used to track your scores on the leaderboard.</p>
+      <a href="${basePath}index.html#username-setup-section" class="username-required-btn">
+        Go to Set Display Name
+      </a>
+    </div>
+  `;
+  
+  // Add styles for the overlay
+  const style = document.createElement('style');
+  style.id = 'username-required-styles';
+  style.textContent = `
+    .username-required-overlay {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: var(--space-8) var(--space-4);
+      min-height: 50vh;
+    }
+    
+    .username-required-card {
+      background: var(--color-surface-card, rgba(17, 24, 39, 0.95));
+      border: 1px solid var(--color-gray-700, #334155);
+      border-radius: var(--radius-xl, 1rem);
+      padding: var(--space-8, 2rem);
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    }
+    
+    .username-required-icon {
+      font-size: 3rem;
+      margin-bottom: var(--space-4, 1rem);
+    }
+    
+    .username-required-card h2 {
+      color: var(--color-text-primary, #f1f5f9);
+      font-size: var(--font-size-2xl, 1.5rem);
+      font-weight: var(--font-weight-semibold, 600);
+      margin-bottom: var(--space-4, 1rem);
+    }
+    
+    .username-required-card p {
+      color: var(--color-text-secondary, #cbd5e1);
+      font-size: var(--font-size-base, 1rem);
+      line-height: var(--line-height-relaxed, 1.625);
+      margin-bottom: var(--space-6, 1.5rem);
+    }
+    
+    .username-required-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--color-primary, #3b9ece), var(--color-primary-dark, #2a7da8));
+      color: white;
+      font-weight: var(--font-weight-semibold, 600);
+      padding: var(--space-3, 0.75rem) var(--space-6, 1.5rem);
+      border-radius: var(--radius-lg, 0.75rem);
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .username-required-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(59, 158, 206, 0.4);
+    }
+    
+    .username-required-btn:active {
+      transform: translateY(0);
+    }
+  `;
+  
+  document.head.appendChild(style);
+  
+  // Insert the overlay after the form (in the page content area)
+  const pageContent = document.querySelector('.page-content') || form.parentElement;
+  pageContent.insertBefore(overlay, form);
 }
 
 // ----------------------
