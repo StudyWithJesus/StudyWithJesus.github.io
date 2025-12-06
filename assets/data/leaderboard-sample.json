@@ -1,0 +1,210 @@
+{
+  "leaderboard": {
+    "270201": [
+      {
+        "username": "EngineExpert",
+        "bestScore": 98,
+        "attemptsCount": 5,
+        "lastAttempt": "2024-12-01T14:30:00Z"
+      },
+      {
+        "username": "PartsWizard",
+        "bestScore": 95,
+        "attemptsCount": 3,
+        "lastAttempt": "2024-11-28T10:15:00Z"
+      },
+      {
+        "username": "MechanicJoe",
+        "bestScore": 92,
+        "attemptsCount": 8,
+        "lastAttempt": "2024-12-02T16:45:00Z"
+      },
+      {
+        "username": "WolfPackStudent",
+        "bestScore": 88,
+        "attemptsCount": 2,
+        "lastAttempt": "2024-11-25T09:00:00Z"
+      },
+      {
+        "username": "TechTrainee",
+        "bestScore": 85,
+        "attemptsCount": 4,
+        "lastAttempt": "2024-11-30T11:20:00Z"
+      }
+    ],
+    "270202": [
+      {
+        "username": "DrivelinePro",
+        "bestScore": 100,
+        "attemptsCount": 2,
+        "lastAttempt": "2024-12-03T08:00:00Z"
+      },
+      {
+        "username": "EngineExpert",
+        "bestScore": 94,
+        "attemptsCount": 4,
+        "lastAttempt": "2024-12-01T15:00:00Z"
+      },
+      {
+        "username": "PartsWizard",
+        "bestScore": 90,
+        "attemptsCount": 6,
+        "lastAttempt": "2024-11-29T13:30:00Z"
+      },
+      {
+        "username": "GearHead",
+        "bestScore": 87,
+        "attemptsCount": 3,
+        "lastAttempt": "2024-11-27T14:00:00Z"
+      },
+      {
+        "username": "WolfPackStudent",
+        "bestScore": 82,
+        "attemptsCount": 5,
+        "lastAttempt": "2024-11-26T10:45:00Z"
+      }
+    ],
+    "270203": [
+      {
+        "username": "HydraulicsMaster",
+        "bestScore": 97,
+        "attemptsCount": 3,
+        "lastAttempt": "2024-12-02T09:15:00Z"
+      },
+      {
+        "username": "BrakeTech",
+        "bestScore": 93,
+        "attemptsCount": 7,
+        "lastAttempt": "2024-12-01T11:30:00Z"
+      },
+      {
+        "username": "EngineExpert",
+        "bestScore": 91,
+        "attemptsCount": 2,
+        "lastAttempt": "2024-11-30T14:45:00Z"
+      },
+      {
+        "username": "PartsWizard",
+        "bestScore": 86,
+        "attemptsCount": 4,
+        "lastAttempt": "2024-11-28T16:00:00Z"
+      },
+      {
+        "username": "MechanicJoe",
+        "bestScore": 80,
+        "attemptsCount": 6,
+        "lastAttempt": "2024-11-25T12:30:00Z"
+      }
+    ],
+    "270204": [
+      {
+        "username": "ElectricalAce",
+        "bestScore": 99,
+        "attemptsCount": 4,
+        "lastAttempt": "2024-12-03T10:00:00Z"
+      },
+      {
+        "username": "EngineExpert",
+        "bestScore": 96,
+        "attemptsCount": 3,
+        "lastAttempt": "2024-12-02T14:00:00Z"
+      },
+      {
+        "username": "AutoBodyPro",
+        "bestScore": 92,
+        "attemptsCount": 5,
+        "lastAttempt": "2024-12-01T09:30:00Z"
+      },
+      {
+        "username": "PartsWizard",
+        "bestScore": 89,
+        "attemptsCount": 2,
+        "lastAttempt": "2024-11-29T15:15:00Z"
+      },
+      {
+        "username": "WolfPackStudent",
+        "bestScore": 84,
+        "attemptsCount": 3,
+        "lastAttempt": "2024-11-27T11:00:00Z"
+      }
+    ]
+  },
+  "adminData": {
+    "userStats": [
+      {
+        "username": "EngineExpert",
+        "totalExams": 14,
+        "moduleBreakdown": {
+          "270201": { "attempts": 5, "bestScore": 98, "averageScore": 89 },
+          "270202": { "attempts": 4, "bestScore": 94, "averageScore": 85 },
+          "270203": { "attempts": 2, "bestScore": 91, "averageScore": 88 },
+          "270204": { "attempts": 3, "bestScore": 96, "averageScore": 92 }
+        }
+      },
+      {
+        "username": "PartsWizard",
+        "totalExams": 15,
+        "moduleBreakdown": {
+          "270201": { "attempts": 3, "bestScore": 95, "averageScore": 88 },
+          "270202": { "attempts": 6, "bestScore": 90, "averageScore": 82 },
+          "270203": { "attempts": 4, "bestScore": 86, "averageScore": 79 },
+          "270204": { "attempts": 2, "bestScore": 89, "averageScore": 85 }
+        }
+      },
+      {
+        "username": "MechanicJoe",
+        "totalExams": 14,
+        "moduleBreakdown": {
+          "270201": { "attempts": 8, "bestScore": 92, "averageScore": 78 },
+          "270203": { "attempts": 6, "bestScore": 80, "averageScore": 72 }
+        }
+      },
+      {
+        "username": "WolfPackStudent",
+        "totalExams": 10,
+        "moduleBreakdown": {
+          "270201": { "attempts": 2, "bestScore": 88, "averageScore": 85 },
+          "270202": { "attempts": 5, "bestScore": 82, "averageScore": 75 },
+          "270204": { "attempts": 3, "bestScore": 84, "averageScore": 80 }
+        }
+      }
+    ],
+    "attemptHistory": [
+      {
+        "username": "EngineExpert",
+        "moduleId": "270201",
+        "examId": "270201a",
+        "score": 98,
+        "timestamp": "2024-12-01T14:30:00Z"
+      },
+      {
+        "username": "EngineExpert",
+        "moduleId": "270201",
+        "examId": "270201b",
+        "score": 92,
+        "timestamp": "2024-11-30T10:00:00Z"
+      },
+      {
+        "username": "PartsWizard",
+        "moduleId": "270202",
+        "examId": "270202a",
+        "score": 90,
+        "timestamp": "2024-11-29T13:30:00Z"
+      },
+      {
+        "username": "DrivelinePro",
+        "moduleId": "270202",
+        "examId": "270202c",
+        "score": 100,
+        "timestamp": "2024-12-03T08:00:00Z"
+      },
+      {
+        "username": "HydraulicsMaster",
+        "moduleId": "270203",
+        "examId": "270203a",
+        "score": 97,
+        "timestamp": "2024-12-02T09:15:00Z"
+      }
+    ]
+  }
+}
