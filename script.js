@@ -751,6 +751,14 @@ function initExamIndexScores() {
     overlay.innerHTML = `
       <div class="konami-content">
         <div class="konami-flame-border">
+          <div class="flame-gif flame-top"></div>
+          <div class="flame-gif flame-bottom"></div>
+          <div class="flame-gif flame-left"></div>
+          <div class="flame-gif flame-right"></div>
+          <div class="flame-gif flame-corner-tl"></div>
+          <div class="flame-gif flame-corner-tr"></div>
+          <div class="flame-gif flame-corner-bl"></div>
+          <div class="flame-gif flame-corner-br"></div>
           <div class="konami-flame-glow"></div>
           <img src="${getBasePath()}bftb.png" alt="Easter Egg" class="konami-image">
         </div>
@@ -791,10 +799,112 @@ function initExamIndexScores() {
       
       .konami-flame-border {
         position: relative;
-        padding: 15px;
+        padding: 25px;
         border-radius: 12px;
-        background: #1a0a00;
+        background: #0a0500;
         z-index: 1;
+        box-shadow: 
+          0 0 30px rgba(255, 100, 0, 0.5),
+          0 0 60px rgba(255, 50, 0, 0.3),
+          inset 0 0 20px rgba(255, 100, 0, 0.2);
+      }
+      
+      /* Real flame GIFs */
+      .flame-gif {
+        position: absolute;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        background-size: cover;
+        background-position: center;
+        z-index: 0;
+        pointer-events: none;
+      }
+      
+      /* Top flames */
+      .flame-top {
+        top: -60px;
+        left: 10%;
+        right: 10%;
+        height: 80px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(180deg);
+        mask-image: linear-gradient(to top, transparent 0%, black 40%);
+        -webkit-mask-image: linear-gradient(to top, transparent 0%, black 40%);
+      }
+      
+      /* Bottom flames */
+      .flame-bottom {
+        bottom: -60px;
+        left: 10%;
+        right: 10%;
+        height: 80px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+      }
+      
+      /* Left flames */
+      .flame-left {
+        left: -60px;
+        top: 10%;
+        bottom: 10%;
+        width: 80px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(90deg);
+        mask-image: linear-gradient(to left, transparent 0%, black 40%);
+        -webkit-mask-image: linear-gradient(to left, transparent 0%, black 40%);
+      }
+      
+      /* Right flames */
+      .flame-right {
+        right: -60px;
+        top: 10%;
+        bottom: 10%;
+        width: 80px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(-90deg);
+        mask-image: linear-gradient(to right, transparent 0%, black 40%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%);
+      }
+      
+      /* Corner flames */
+      .flame-corner-tl {
+        top: -50px;
+        left: -50px;
+        width: 100px;
+        height: 100px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(225deg);
+        border-radius: 50%;
+      }
+      
+      .flame-corner-tr {
+        top: -50px;
+        right: -50px;
+        width: 100px;
+        height: 100px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(-225deg);
+        border-radius: 50%;
+      }
+      
+      .flame-corner-bl {
+        bottom: -50px;
+        left: -50px;
+        width: 100px;
+        height: 100px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(135deg);
+        border-radius: 50%;
+      }
+      
+      .flame-corner-br {
+        bottom: -50px;
+        right: -50px;
+        width: 100px;
+        height: 100px;
+        background-image: url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif');
+        transform: rotate(-135deg);
+        border-radius: 50%;
       }
       
       /* Main fire glow container */
@@ -1159,15 +1269,42 @@ function initExamIndexScores() {
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     
-    // Create flying cats
-    const catEmojis = ['🐱', '😺', '😸', '😻', '🙀', '😹', '😼', '🐈', '🐈‍⬛'];
+    // Create flying cats using cute cat PNG images with transparent backgrounds
     const catsContainer = overlay.querySelector('.flying-cats-container');
     let catInterval;
+    let catIdCounter = 0;
+    
+    // Cute cat PNG images with transparent backgrounds
+    const catImages = [
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-Free-Download.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-Image.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-Picture.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-Clipart.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-Transparent.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-HD.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG-Photo.png',
+      'https://www.pngall.com/wp-content/uploads/5/Cute-Cat-PNG.png',
+      'https://www.pngall.com/wp-content/uploads/14/Kitten-PNG-Image-HD.png',
+      'https://www.pngall.com/wp-content/uploads/14/Kitten-Transparent.png',
+      'https://www.pngall.com/wp-content/uploads/14/Kitten-PNG-Clipart.png',
+      'https://www.pngall.com/wp-content/uploads/14/Kitten-PNG-Photos.png'
+    ];
     
     function createFlyingCat() {
       const cat = document.createElement('div');
       cat.className = 'flying-cat';
-      cat.textContent = catEmojis[Math.floor(Math.random() * catEmojis.length)];
+      
+      // Create an img element with a random cute cat PNG
+      const img = document.createElement('img');
+      const size = 60 + Math.floor(Math.random() * 80); // 60-140px
+      img.src = catImages[Math.floor(Math.random() * catImages.length)];
+      img.alt = 'Flying cat';
+      img.style.width = size + 'px';
+      img.style.height = 'auto';
+      img.style.maxHeight = size + 'px';
+      img.style.objectFit = 'contain';
+      img.style.filter = 'drop-shadow(0 0 8px rgba(255, 200, 100, 0.7)) drop-shadow(0 0 15px rgba(255, 100, 0, 0.4))';
+      cat.appendChild(img);
       
       // Random starting position (from edges)
       const edge = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
