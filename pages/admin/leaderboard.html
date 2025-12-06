@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Admin Leaderboard - View detailed user statistics and exam attempts.">
+  <title>Admin – Leaderboard Statistics</title>
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../assets/css/leaderboard.css">
+  
+  <!-- 
+    Firebase Integration (Required for full admin functionality)
+    Uncomment the following lines and add your firebase.config.js to enable admin features.
+    See config/firebase.config.js.example for configuration instructions.
+  -->
+  <!--
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="../../config/firebase.config.js"></script>
+  <script src="../../assets/js/leaderboard-firebase.js"></script>
+  -->
+  
+  <script src="../../assets/js/leaderboard.js"></script>
+</head>
+<body>
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="header-fog" aria-hidden="true"></div>
+    <div class="header-particles" aria-hidden="true"></div>
+    <div class="header-content">
+      <p class="header-subtitle">Admin Panel</p>
+      <h1>Leaderboard Administration</h1>
+      <p>View user statistics, exam counts, and detailed attempt history.</p>
+    </div>
+  </header>
+
+  <main id="main-content" class="admin-wrapper">
+    <!-- Back link -->
+    <div class="back-link">
+      <a href="../../index.html">← Back to main site</a>
+    </div>
+
+    <!-- Admin header -->
+    <header class="admin-header">
+      <h2>User Statistics Dashboard</h2>
+      <p>Review per-user exam counts, module performance, and detailed attempt logs.</p>
+    </header>
+
+    <!-- Access control section -->
+    <section id="access-section" aria-labelledby="access-heading">
+      
+      <!-- Access denied message (shown when no valid access) -->
+      <div class="admin-access-denied" id="access-denied">
+        <h3 id="access-heading">Admin Access Required</h3>
+        <p>
+          This page requires admin authentication. Please sign in with your admin account
+          or provide the correct access key via URL fragment.
+        </p>
+        <p style="margin-top: var(--space-3);">
+          <strong>Access methods:</strong>
+        </p>
+        <ul style="text-align: left; margin-top: var(--space-2); color: var(--color-text-muted);">
+          <li>URL fragment: <code>/admin/leaderboard.html#YOUR_ADMIN_KEY</code></li>
+          <li>Firebase Auth: Sign in below with admin credentials</li>
+        </ul>
+      </div>
+
+      <!-- Authentication form (for Firebase Auth mode) -->
+      <div class="admin-auth" id="auth-section" style="display: none;">
+        <h3>Admin Sign In</h3>
+        <form class="admin-auth-form" id="auth-form">
+          <input type="email" id="auth-email" placeholder="Admin email" autocomplete="email">
+          <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password">
+          <button type="submit">Sign In</button>
+        </form>
+        <div class="admin-auth-status" id="auth-status" style="display: none;"></div>
+      </div>
+
+    </section>
+
+    <!-- Admin content (hidden until authenticated) -->
+    <div id="admin-content" style="display: none;">
+      
+      <!-- Summary stats -->
+      <section class="admin-section" aria-labelledby="stats-heading">
+        <h3 id="stats-heading">Overview Statistics</h3>
+        <div class="admin-stats-grid" id="stats-grid">
+          <div class="admin-stat-card">
+            <h4>Total Users</h4>
+            <div class="admin-stat-value" id="stat-users">-</div>
+          </div>
+          <div class="admin-stat-card">
+            <h4>Total Exams Taken</h4>
+            <div class="admin-stat-value" id="stat-exams">-</div>
+          </div>
+          <div class="admin-stat-card">
+            <h4>Average Score</h4>
+            <div class="admin-stat-value" id="stat-avg-score">-</div>
+          </div>
+          <div class="admin-stat-card">
+            <h4>Data Source</h4>
+            <div class="admin-stat-value" id="stat-source" style="font-size: var(--font-size-base);">Sample</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Per-user stats table -->
+      <section class="admin-section" aria-labelledby="users-heading">
+        <h3 id="users-heading">Per-User Statistics</h3>
+        <div id="users-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Total Exams</th>
+                <th>Modules Attempted</th>
+                <th>Best Score</th>
+                <th>Avg Score</th>
+              </tr>
+            </thead>
+            <tbody id="users-table-body">
+              <tr>
+                <td colspan="5" style="text-align: center; padding: var(--space-6);">
+                  Loading user data...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Attempt history -->
+      <section class="admin-section" aria-labelledby="history-heading">
+        <h3 id="history-heading">Recent Attempt History</h3>
+        <div id="history-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Module</th>
+                <th>Exam</th>
+                <th>Score</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody id="history-table-body">
+              <tr>
+                <td colspan="5" style="text-align: center; padding: var(--space-6);">
+                  Loading attempt history...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="admin-pagination" id="history-pagination">
+          <button id="prev-page" disabled>← Previous</button>
+          <button id="next-page" disabled>Next →</button>
+        </div>
+      </section>
+
+      <!-- Security notice -->
+      <aside class="security-notice">
+        <h4>🔒 Security Guidance</h4>
+        <p>
+          <strong>Audit Logging:</strong> To enable server-side audit logs for admin access,
+          configure Cloud Functions to log all reads from admin endpoints. See 
+          <code>docs/leaderboard-design.md</code> for implementation details.
+        </p>
+        <p style="margin-top: var(--space-2);">
+          <strong>This Page:</strong> Admin access is logged locally in the browser console.
+          For production, implement server-side logging via Cloud Functions or your backend.
+        </p>
+      </aside>
+    </div>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <span>Admin Panel • Leaderboard Statistics</span>
+    <span>Access restricted to authorized administrators</span>
+  </footer>
+
+  <script>
+    // Admin page initialization
+    ;(function() {
+      'use strict';
+
+      // Configuration
+      // ⚠️ SECURITY WARNING: Replace this demo key before production deployment!
+      // The fragment key method is for demo/development only and is NOT secure.
+      // For production, either:
+      // 1. Generate a unique random key (e.g., crypto.randomUUID())
+      // 2. Use Firebase Auth with admin custom claims (recommended)
+      // 3. Remove this fallback entirely and require Firebase Auth
+      var DEMO_ADMIN_KEY = 'BentleyTesla'; // ⚠️ CHANGE THIS!
+
+      var isAuthenticated = false;
+      var adminData = null;
+
+      // DOM elements
+      var accessDeniedEl = document.getElementById('access-denied');
+      var authSectionEl = document.getElementById('auth-section');
+      var authFormEl = document.getElementById('auth-form');
+      var authStatusEl = document.getElementById('auth-status');
+      var adminContentEl = document.getElementById('admin-content');
+      var usersTableBody = document.getElementById('users-table-body');
+      var historyTableBody = document.getElementById('history-table-body');
+
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', init);
+
+      function init() {
+        // Log access attempt (for local auditing)
+        logAdminAccess('Page loaded');
+
+        // Check access methods
+        checkAccess();
+        
+        // Set up event listeners
+        setupEventListeners();
+      }
+
+      function setupEventListeners() {
+        // Auth form (for Firebase Auth)
+        authFormEl.addEventListener('submit', handleAuthSubmit);
+
+        // Pagination
+        document.getElementById('prev-page').addEventListener('click', function() {
+          // Pagination would be implemented with actual backend
+          console.log('Previous page');
+        });
+        document.getElementById('next-page').addEventListener('click', function() {
+          console.log('Next page');
+        });
+      }
+
+      function checkAccess() {
+        // Method 1: Check URL fragment for demo key
+        var fragment = window.location.hash.substring(1);
+        if (fragment && fragment === DEMO_ADMIN_KEY) {
+          logAdminAccess('Authenticated via URL fragment');
+          grantAccess();
+          return;
+        }
+
+        // Method 2: Check for Firebase Auth (if available)
+        if (window.LeaderboardFirebase) {
+          // Show auth form
+          authSectionEl.style.display = 'block';
+          
+          // Check existing auth state
+          window.LeaderboardFirebase.onAuthStateChanged(function(user) {
+            if (user) {
+              checkFirebaseAdmin();
+            }
+          });
+        } else {
+          // No Firebase - show instructions for fragment auth
+          accessDeniedEl.style.display = 'block';
+        }
+      }
+
+      async function checkFirebaseAdmin() {
+        try {
+          var isAdmin = await window.LeaderboardFirebase.isAdmin();
+          if (isAdmin) {
+            logAdminAccess('Authenticated via Firebase Auth');
+            grantAccess();
+          } else {
+            showAuthError('Your account does not have admin privileges.');
+          }
+        } catch (error) {
+          showAuthError('Failed to verify admin status.');
+        }
+      }
+
+      async function handleAuthSubmit(e) {
+        e.preventDefault();
+        
+        var email = document.getElementById('auth-email').value;
+        var password = document.getElementById('auth-password').value;
+
+        if (!email || !password) {
+          showAuthError('Please enter both email and password.');
+          return;
+        }
+
+        if (!window.LeaderboardFirebase) {
+          showAuthError('Firebase is not configured. Use URL fragment authentication instead.');
+          return;
+        }
+
+        try {
+          await window.LeaderboardFirebase.signIn(email, password);
+          await checkFirebaseAdmin();
+        } catch (error) {
+          showAuthError('Sign in failed: ' + error.message);
+        }
+      }
+
+      function showAuthError(message) {
+        authStatusEl.textContent = message;
+        authStatusEl.className = 'admin-auth-status error';
+        authStatusEl.style.display = 'block';
+      }
+
+      function showAuthSuccess(message) {
+        authStatusEl.textContent = message;
+        authStatusEl.className = 'admin-auth-status success';
+        authStatusEl.style.display = 'block';
+      }
+
+      function grantAccess() {
+        isAuthenticated = true;
+        accessDeniedEl.style.display = 'none';
+        authSectionEl.style.display = 'none';
+        adminContentEl.style.display = 'block';
+        
+        // Load admin data
+        loadAdminData();
+      }
+
+      async function loadAdminData() {
+        // Check if Firebase admin functions are available
+        if (window.LeaderboardFirebase && await window.LeaderboardFirebase.isAdmin()) {
+          // Load from Firebase
+          loadFirebaseAdminData();
+        } else {
+          // Load sample data for demo
+          loadSampleAdminData();
+        }
+      }
+
+      async function loadFirebaseAdminData() {
+        try {
+          var userStats = await window.LeaderboardFirebase.getAdminUserStats();
+          var historyResult = await window.LeaderboardFirebase.getAdminAttemptHistory({ limit: 20 });
+          
+          document.getElementById('stat-source').textContent = 'Live';
+          renderAdminData(userStats, historyResult.attempts);
+        } catch (error) {
+          console.error('Failed to load admin data:', error);
+          loadSampleAdminData();
+        }
+      }
+
+      async function loadSampleAdminData() {
+        // Load sample data for demo/preview
+        var basePath = getBasePath();
+        
+        try {
+          var response = await fetch(basePath + 'assets/data/leaderboard-sample.json');
+          var data = await response.json();
+          
+          document.getElementById('stat-source').textContent = 'Sample';
+          renderAdminData(data.adminData.userStats, data.adminData.attemptHistory);
+        } catch (error) {
+          console.error('Failed to load sample data:', error);
+          usersTableBody.innerHTML = '<tr><td colspan="5">Failed to load data</td></tr>';
+          historyTableBody.innerHTML = '<tr><td colspan="5">Failed to load data</td></tr>';
+        }
+      }
+
+      function renderAdminData(userStats, attemptHistory) {
+        // Calculate summary stats
+        var totalUsers = userStats.length;
+        var totalExams = 0;
+        var totalScore = 0;
+        var scoreCount = 0;
+
+        for (var i = 0; i < userStats.length; i++) {
+          totalExams += userStats[i].totalExams;
+          var breakdown = userStats[i].moduleBreakdown;
+          for (var moduleId in breakdown) {
+            if (breakdown.hasOwnProperty(moduleId)) {
+              totalScore += breakdown[moduleId].averageScore * breakdown[moduleId].attempts;
+              scoreCount += breakdown[moduleId].attempts;
+            }
+          }
+        }
+
+        document.getElementById('stat-users').textContent = totalUsers;
+        document.getElementById('stat-exams').textContent = totalExams;
+        document.getElementById('stat-avg-score').textContent = scoreCount > 0 
+          ? Math.round(totalScore / scoreCount) + '%' 
+          : '-';
+
+        // Render users table
+        renderUsersTable(userStats);
+
+        // Render attempt history
+        renderHistoryTable(attemptHistory);
+      }
+
+      function renderUsersTable(userStats) {
+        if (!userStats || userStats.length === 0) {
+          usersTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No user data available</td></tr>';
+          return;
+        }
+
+        var html = '';
+        for (var i = 0; i < userStats.length; i++) {
+          var user = userStats[i];
+          var breakdown = user.moduleBreakdown;
+          var moduleCount = Object.keys(breakdown).length;
+          
+          var bestScore = 0;
+          var totalScore = 0;
+          var attemptCount = 0;
+          
+          for (var moduleId in breakdown) {
+            if (breakdown.hasOwnProperty(moduleId)) {
+              if (breakdown[moduleId].bestScore > bestScore) {
+                bestScore = breakdown[moduleId].bestScore;
+              }
+              totalScore += breakdown[moduleId].averageScore;
+              attemptCount++;
+            }
+          }
+          
+          var avgScore = attemptCount > 0 ? Math.round(totalScore / attemptCount) : 0;
+          
+          html += '<tr>';
+          html += '<td>' + escapeHtml(user.username) + '</td>';
+          html += '<td>' + user.totalExams + '</td>';
+          html += '<td>' + moduleCount + '</td>';
+          html += '<td>' + bestScore + '%</td>';
+          html += '<td>' + avgScore + '%</td>';
+          html += '</tr>';
+        }
+        
+        usersTableBody.innerHTML = html;
+      }
+
+      function renderHistoryTable(attemptHistory) {
+        if (!attemptHistory || attemptHistory.length === 0) {
+          historyTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No attempt history available</td></tr>';
+          return;
+        }
+
+        var html = '';
+        for (var i = 0; i < attemptHistory.length; i++) {
+          var attempt = attemptHistory[i];
+          html += '<tr>';
+          html += '<td>' + escapeHtml(attempt.username) + '</td>';
+          html += '<td>' + escapeHtml(attempt.moduleId) + '</td>';
+          html += '<td>' + escapeHtml(attempt.examId) + '</td>';
+          html += '<td>' + attempt.score + '%</td>';
+          html += '<td>' + formatTimestamp(attempt.timestamp) + '</td>';
+          html += '</tr>';
+        }
+        
+        historyTableBody.innerHTML = html;
+      }
+
+      function logAdminAccess(action) {
+        var logEntry = {
+          timestamp: new Date().toISOString(),
+          action: action,
+          userAgent: navigator.userAgent,
+          url: window.location.href
+        };
+        
+        console.log('[ADMIN ACCESS LOG]', logEntry);
+        
+        // In production, this should be sent to a server-side logging service
+        // For now, we just log to console and could optionally store locally
+        try {
+          var logs = JSON.parse(localStorage.getItem('admin_access_log') || '[]');
+          logs.push(logEntry);
+          // Keep only last 100 entries
+          if (logs.length > 100) {
+            logs = logs.slice(-100);
+          }
+          localStorage.setItem('admin_access_log', JSON.stringify(logs));
+        } catch (e) {
+          // localStorage may be unavailable
+        }
+      }
+
+      function getBasePath() {
+        var path = window.location.pathname;
+        var parts = path.split('/').filter(function(p) { return p && !p.includes('.html'); });
+        if (parts.length === 0) return '';
+        return '../'.repeat(parts.length);
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function formatTimestamp(isoString) {
+        try {
+          var date = new Date(isoString);
+          return date.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+        } catch (e) {
+          return 'Unknown';
+        }
+      }
+
+    })();
+  </script>
+</body>
+</html>
