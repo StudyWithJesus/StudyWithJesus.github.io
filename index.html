@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Practice exams for Parts Technician Second Period - Modules 270201, 270202, 270203, 270204. Exam-style practice built from the ILMs.">
   <title>Second Period Practice Tests</title>
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
 </head>
 <body>
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
   <!-- Hero header -->
-  <header class="site-header site-header--hero">
-    <div class="header-fog"></div>
-    <div class="header-particles"></div>
+  <header class="site-header site-header--hero" role="banner">
+    <div class="header-fog" aria-hidden="true"></div>
+    <div class="header-particles" aria-hidden="true"></div>
     <div class="header-content">
-      <p style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.18em; opacity:0.85; margin-bottom:0.25rem;">
-        Parts Technician • Second Period
-      </p>
+      <p class="header-subtitle">Parts Technician • Second Period</p>
       <h1>Second Period Practice Tests</h1>
       <p>
         Modules 270201 • 270202 • 270203 • 270204 &nbsp;–&nbsp; Exam‑style practice built from the ILMs.
@@ -23,67 +25,70 @@
     </div>
   </header>
 
-  <main class="module-index-wrapper">
+  <main id="main-content" class="module-index-wrapper">
     <!-- Quick study overview -->
-    <section class="module-index-header">
-      <h2>Select a Module</h2>
+    <section class="module-index-header" aria-labelledby="module-select-heading">
+      <h2 id="module-select-heading">Select a Module</h2>
       <p>
         Tap a card below to open the practice tests for that module. Each exam is designed to feel like a real
         NAIT‑level test: no cartoons, no fluff.
       </p>
     </section>
 
-    <!-- Optional tips row -->
-    <section style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.4fr);gap:1rem;margin-bottom:1.5rem;align-items:start;">
-      <div style="font-size:0.9rem;color:#c3c7de;">
-        <strong>How to use these practice exams</strong>
-        <ul style="margin-top:0.4rem; padding-left:1.1rem; line-height:1.6;">
+    <!-- Tips section -->
+    <section class="tips-section" aria-labelledby="tips-heading">
+      <div class="tips-card">
+        <h3 id="tips-heading">How to use these practice exams</h3>
+        <ul>
           <li>Work one ILM at a time until you can consistently score above 80%.</li>
           <li>Review your answers after submitting to target weak spots—review mode activates automatically.</li>
           <li>Retake the same test until your first try score is exam‑ready.</li>
         </ul>
       </div>
-      <div style="font-size:0.86rem;color:#9ea3c8;border-radius:14px;padding:0.7rem 0.9rem;background:radial-gradient(circle at top,rgba(111,141,255,0.22),rgba(8,9,18,0.96));border:1px solid rgba(129,147,211,0.5);">
-        <strong>Tip:</strong> Your answers save automatically on each exam. You can leave a page and come back later
-        without losing your place.
-      </div>
     </section>
 
     <!-- Module cards -->
-    <section class="module-grid">
+    <section class="module-grid" aria-label="Available modules">
       <!-- 270201 -->
-      <a class="module-card" href="270201-test/index.html" data-module-id="270201">
+      <a class="module-card" href="270201-test/index.html" data-module-id="270201" aria-describedby="score-270201">
         <h3>270201 – Engine Systems</h3>
         <p>Practice questions for module 270201 (engine systems).</p>
-        <p class="module-last-score">Last score: <span data-module-score="270201">No attempts yet</span></p>
+        <p class="module-last-score" id="score-270201">Last score: <span data-module-score="270201">No attempts yet</span></p>
       </a>
 
       <!-- 270202 -->
-      <a class="module-card" href="270202-test/index.html" data-module-id="270202">
+      <a class="module-card" href="270202-test/index.html" data-module-id="270202" aria-describedby="score-270202">
         <h3>270202 – Driveline &amp; Drivetrain</h3>
         <p>Full practice exam set for all 270202 ILMs.</p>
-        <p class="module-last-score">Last score: <span data-module-score="270202">No attempts yet</span></p>
+        <p class="module-last-score" id="score-270202">Last score: <span data-module-score="270202">No attempts yet</span></p>
       </a>
 
       <!-- 270203 -->
-      <a class="module-card" href="270203-test/index.html" data-module-id="270203">
+      <a class="module-card" href="270203-test/index.html" data-module-id="270203" aria-describedby="score-270203">
         <h3>270203 – Hydraulics &amp; Air Brakes</h3>
         <p>Practice questions for module 270203.</p>
-        <p class="module-last-score">Last score: <span data-module-score="270203">No attempts yet</span></p>
+        <p class="module-last-score" id="score-270203">Last score: <span data-module-score="270203">No attempts yet</span></p>
       </a>
 
       <!-- 270204 -->
-      <a class="module-card" href="270204-test/index.html" data-module-id="270204">
+      <a class="module-card" href="270204-test/index.html" data-module-id="270204" aria-describedby="score-270204">
         <h3>270204 – Electrical, Auto Body &amp; Mobile Equipment</h3>
         <p>Practice questions for module 270204.</p>
-        <p class="module-last-score">Last score: <span data-module-score="270204">No attempts yet</span></p>
+        <p class="module-last-score" id="score-270204">Last score: <span data-module-score="270204">No attempts yet</span></p>
       </a>
     </section>
+
+    <!-- Tip callout -->
+    <aside class="tip-callout">
+      <p>
+        <strong>💡 Tip:</strong> Your answers save automatically on each exam. You can leave a page and come back later without losing your place.
+      </p>
+    </aside>
   </main>
 
-  <footer style="max-width:960px;margin:0 auto 1.5rem;padding:0 1.6rem;font-size:0.78rem;color:#7b82aa;display:flex;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;">
+  <footer class="site-footer" role="contentinfo">
     <span>Built for Parts Technician • Wolf Pack Training</span>
-    <span>Visual theme v2 – autosave, review mode &amp; floating progress bar enabled.</span>
+    <span>Visual theme v3 – autosave, review mode &amp; floating progress bar enabled.</span>
   </footer>
 </body>
 </html>

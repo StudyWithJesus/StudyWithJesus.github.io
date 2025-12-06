@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Practice exams for Module 270204 - Electrical, Auto Body & Mobile Equipment. Select an ILM to start practicing.">
   <title>270204 – Electrical, Auto Body &amp; Mobile Equipment Exams</title>
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js" defer></script>
 </head>
 <body>
-  <header class="site-header site-header--hero">
-    <div class="header-fog"></div>
-    <div class="header-particles"></div>
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+  <header class="site-header site-header--hero" role="banner">
+    <div class="header-fog" aria-hidden="true"></div>
+    <div class="header-particles" aria-hidden="true"></div>
     <div class="header-content">
-      <p style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.18em; opacity:0.85; margin-bottom:0.25rem;">
-        Parts Technician • Second Period
-      </p>
+      <p class="header-subtitle">Parts Technician • Second Period</p>
       <h1>270204 – Electrical, Auto Body &amp; Mobile Equipment</h1>
       <p>Select an ILM exam below. Each test is built from the official 270204 ILMs.</p>
     </div>
   </header>
 
-  <div class="back-link" style="margin-top: 1rem;">
-    <a href="../index.html">← Back to main module selection</a>
-  </div>
+  <main id="main-content" class="exam-index-wrapper">
+    <div class="back-link">
+      <a href="../index.html">← Back to main module selection</a>
+    </div>
 
-  <main class="exam-index-wrapper">
-    <section class="exam-index-header">
-      <h2>Select a 270204 Exam</h2>
-      <p style="font-size:0.86rem;color:#e5ebff;margin-top:0.15rem;">
-        Question sets follow the NAIT ILMs with exam-style difficulty and answer tracking.
-      </p>
-    </section>
+    <header class="exam-index-header" aria-labelledby="exam-select-heading">
+      <h2 id="exam-select-heading">Select a 270204 Exam</h2>
+      <p>Question sets follow the NAIT ILMs with exam-style difficulty and answer tracking.</p>
+    </header>
 
-    <section class="exam-grid">
+    <section class="exam-grid" aria-label="Available exams">
       <a class="exam-card" href="270204a - Charging Systems.html" data-exam-id="270204a">
         <h3>270204a - Charging Systems</h3>
         <p>Charging Systems</p>
@@ -94,5 +95,9 @@
       </a>
     </section>
   </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <span>Built for Parts Technician • Wolf Pack Training</span>
+  </footer>
 </body>
 </html>
