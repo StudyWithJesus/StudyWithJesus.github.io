@@ -644,3 +644,332 @@ function initExamIndexScores() {
     span.textContent = (score != null && !Number.isNaN(score)) ? `${score}%` : "No attempts yet";
   }
 }
+
+// ----------------------
+// Konami Code Easter Egg
+// ↑ ↑ ↓ ↓ ← → ← → B A
+// Works on both desktop (keyboard) and mobile (swipe/tap pattern)
+// ----------------------
+;(function initKonamiCode() {
+  const konamiSequence = [
+    'ArrowUp', 'ArrowUp',
+    'ArrowDown', 'ArrowDown',
+    'ArrowLeft', 'ArrowRight',
+    'ArrowLeft', 'ArrowRight',
+    'KeyB', 'KeyA'
+  ];
+  
+  let konamiIndex = 0;
+  let mobilePattern = [];
+  const mobileSequence = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'tap', 'tap'];
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let lastTapTime = 0;
+  
+  // Desktop keyboard listener
+  document.addEventListener('keydown', function(e) {
+    const key = e.code;
+    
+    if (key === konamiSequence[konamiIndex]) {
+      konamiIndex++;
+      if (konamiIndex === konamiSequence.length) {
+        konamiIndex = 0;
+        triggerEasterEgg();
+      }
+    } else {
+      konamiIndex = 0;
+      // Check if the pressed key matches the start of the sequence
+      if (key === konamiSequence[0]) {
+        konamiIndex = 1;
+      }
+    }
+  });
+  
+  // Mobile touch listeners for swipe detection
+  document.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+  
+  document.addEventListener('touchend', function(e) {
+    if (e.changedTouches.length !== 1) return;
+    
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+    const minSwipeDistance = 50;
+    
+    let gesture = null;
+    
+    // Determine if it's a swipe or tap
+    if (Math.abs(deltaX) < 20 && Math.abs(deltaY) < 20) {
+      // It's a tap
+      const now = Date.now();
+      if (now - lastTapTime < 500) {
+        gesture = 'tap';
+      } else {
+        gesture = 'tap';
+      }
+      lastTapTime = now;
+    } else if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Horizontal swipe
+      gesture = deltaX > minSwipeDistance ? 'right' : (deltaX < -minSwipeDistance ? 'left' : null);
+    } else {
+      // Vertical swipe
+      gesture = deltaY > minSwipeDistance ? 'down' : (deltaY < -minSwipeDistance ? 'up' : null);
+    }
+    
+    if (gesture) {
+      if (gesture === mobileSequence[mobilePattern.length]) {
+        mobilePattern.push(gesture);
+        if (mobilePattern.length === mobileSequence.length) {
+          mobilePattern = [];
+          triggerEasterEgg();
+        }
+      } else {
+        mobilePattern = [];
+        // Check if this gesture starts the sequence
+        if (gesture === mobileSequence[0]) {
+          mobilePattern.push(gesture);
+        }
+      }
+    }
+    
+    // Reset pattern after 3 seconds of inactivity
+    setTimeout(function() {
+      if (mobilePattern.length > 0 && Date.now() - lastTapTime > 3000) {
+        mobilePattern = [];
+      }
+    }, 3500);
+  }, { passive: true });
+  
+  function triggerEasterEgg() {
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'konami-overlay';
+    overlay.innerHTML = `
+      <div class="konami-content">
+        <div class="konami-flame-border">
+          <img src="${getBasePath()}bftb.png" alt="Easter Egg" class="konami-image">
+        </div>
+        <button class="konami-close" aria-label="Close">&times;</button>
+      </div>
+    `;
+    
+    // Add styles
+    const style = document.createElement('style');
+    style.id = 'konami-styles';
+    style.textContent = `
+      #konami-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        animation: konamiFadeIn 0.5s ease-out;
+      }
+      
+      @keyframes konamiFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      .konami-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .konami-flame-border {
+        position: relative;
+        padding: 20px;
+        border-radius: 16px;
+        background: linear-gradient(45deg, #ff6b35, #f7c800, #ff6b35, #ff4500, #f7c800);
+        background-size: 400% 400%;
+        animation: flameGradient 1s ease infinite, flamePulse 0.5s ease-in-out infinite alternate;
+        box-shadow: 
+          0 0 20px rgba(255, 107, 53, 0.8),
+          0 0 40px rgba(247, 200, 0, 0.6),
+          0 0 60px rgba(255, 69, 0, 0.4),
+          0 0 80px rgba(255, 107, 53, 0.3),
+          inset 0 0 20px rgba(255, 200, 0, 0.2);
+      }
+      
+      .konami-flame-border::before {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border-radius: 18px;
+        background: linear-gradient(45deg, 
+          transparent, 
+          rgba(255, 200, 0, 0.5), 
+          transparent, 
+          rgba(255, 69, 0, 0.5), 
+          transparent);
+        background-size: 400% 400%;
+        animation: flameOuter 1.5s ease infinite;
+        z-index: -1;
+        filter: blur(8px);
+      }
+      
+      .konami-flame-border::after {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        border-radius: 22px;
+        background: radial-gradient(ellipse at center, 
+          rgba(255, 107, 53, 0.4) 0%, 
+          rgba(247, 200, 0, 0.2) 30%, 
+          transparent 70%);
+        animation: flameGlow 0.8s ease-in-out infinite alternate;
+        z-index: -2;
+        filter: blur(12px);
+      }
+      
+      @keyframes flameGradient {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+      
+      @keyframes flamePulse {
+        from { 
+          box-shadow: 
+            0 0 20px rgba(255, 107, 53, 0.8),
+            0 0 40px rgba(247, 200, 0, 0.6),
+            0 0 60px rgba(255, 69, 0, 0.4),
+            0 0 80px rgba(255, 107, 53, 0.3),
+            inset 0 0 20px rgba(255, 200, 0, 0.2);
+        }
+        to { 
+          box-shadow: 
+            0 0 30px rgba(255, 107, 53, 1),
+            0 0 50px rgba(247, 200, 0, 0.8),
+            0 0 70px rgba(255, 69, 0, 0.6),
+            0 0 100px rgba(255, 107, 53, 0.5),
+            inset 0 0 30px rgba(255, 200, 0, 0.3);
+        }
+      }
+      
+      @keyframes flameOuter {
+        0%, 100% { background-position: 0% 50%; opacity: 0.7; }
+        50% { background-position: 100% 50%; opacity: 1; }
+      }
+      
+      @keyframes flameGlow {
+        from { opacity: 0.5; transform: scale(1); }
+        to { opacity: 1; transform: scale(1.1); }
+      }
+      
+      .konami-image {
+        display: block;
+        max-width: 80vw;
+        max-height: 70vh;
+        border-radius: 8px;
+        animation: konamiImagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      @keyframes konamiImagePop {
+        from { transform: scale(0.5); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+      
+      .konami-close {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff6b35, #ff4500);
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(255, 69, 0, 0.5);
+        transition: transform 0.2s, box-shadow 0.2s;
+        z-index: 10001;
+      }
+      
+      .konami-close:hover {
+        transform: scale(1.1) rotate(90deg);
+        box-shadow: 0 6px 20px rgba(255, 69, 0, 0.7);
+      }
+      
+      @media (max-width: 768px) {
+        .konami-flame-border {
+          padding: 12px;
+        }
+        
+        .konami-image {
+          max-width: 90vw;
+          max-height: 60vh;
+        }
+        
+        .konami-close {
+          width: 36px;
+          height: 36px;
+          font-size: 20px;
+          top: -10px;
+          right: -10px;
+        }
+      }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(overlay);
+    
+    // Close on button click
+    overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);
+    
+    // Close on overlay click (outside image)
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        closeEasterEgg();
+      }
+    });
+    
+    // Close on Escape key
+    document.addEventListener('keydown', function escHandler(e) {
+      if (e.key === 'Escape') {
+        closeEasterEgg();
+        document.removeEventListener('keydown', escHandler);
+      }
+    });
+    
+    function closeEasterEgg() {
+      overlay.style.animation = 'konamiFadeIn 0.3s ease-out reverse';
+      setTimeout(function() {
+        overlay.remove();
+        style.remove();
+      }, 280);
+    }
+  }
+  
+  // Get base path for image (handles subdirectories)
+  function getBasePath() {
+    const path = window.location.pathname;
+    // Count directory depth
+    const parts = path.split('/').filter(p => p && !p.includes('.html'));
+    if (parts.length === 0) return '';
+    return '../'.repeat(parts.length);
+  }
+})();
