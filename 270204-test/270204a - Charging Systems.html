@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>270204a Practice Exam – Charging Systems</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <!-- Loading overlay -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Banner / header -->
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <p style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.18em; opacity:0.85; margin-bottom:0.25rem;">
+        Parts Technician • Second Period
+      </p>
+      <h1>270204a – Charging Systems</h1>
+      <p>
+        Practice questions based on the 270204a ILM: generators, alternators, components,
+        regulation and diagnostics.
+      </p>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div class="exam-progress-fill" id="exam-progress-fill"></div>
+    </div>
+    <div class="exam-progress-text" id="exam-progress-text">
+      0 / 40 answered
+    </div>
+  </div>
+
+  <main class="page-content">
+    <div class="back-link">
+      <a href="index.html">← Back to 270204 exam index</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Charging Systems – Practice Exam</h2>
+      <p>
+        40 questions covering charging system principles, alternator construction,
+        voltage regulation and troubleshooting. Treat it like a closed-book exam.
+      </p>
+    </section>
+
+    <!-- ========= EXAM FORM ========= -->
+    <form id="quiz-form" class="exam-form">
+
+      <!-- Q1 -->
+      <div class="question">
+        <p>The primary purpose of the vehicle charging system is to:</p>
+        <label><input type="radio" name="q1" value="a" /> Provide high voltage to the ignition system during cranking only</label>
+        <label><input type="radio" name="q1" value="b" /> Maintain battery state of charge and supply electrical loads while the engine is running</label>
+        <label><input type="radio" name="q1" value="c" /> Store electrical energy for later use in the battery</label>
+        <label><input type="radio" name="q1" value="d" /> Control starter motor cranking speed</label>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question">
+        <p>On most modern highway trucks, charging system energy is produced mainly by a:</p>
+        <label><input type="radio" name="q2" value="a" /> DC generator driven by the camshaft</label>
+        <label><input type="radio" name="q2" value="b" /> Three-phase alternator driven by the engine</label>
+        <label><input type="radio" name="q2" value="c" /> Permanent-magnet starter motor</label>
+        <label><input type="radio" name="q2" value="d" /> Flywheel-mounted commutator</label>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question">
+        <p>Compared to DC generators, alternators are preferred in modern charging systems mainly because they:</p>
+        <label><input type="radio" name="q3" value="a" /> Require no voltage regulation</label>
+        <label><input type="radio" name="q3" value="b" /> Produce higher output at lower shaft speeds and are more durable</label>
+        <label><input type="radio" name="q3" value="c" /> Do not require a battery connection to operate</label>
+        <label><input type="radio" name="q3" value="d" /> Eliminate the need for rectifier diodes</label>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question">
+        <p>In a typical 12 V charging system, the regulated charging voltage is normally set to approximately:</p>
+        <label><input type="radio" name="q4" value="a" /> 10.5–11.0 V</label>
+        <label><input type="radio" name="q4" value="b" /> 11.5–12.2 V</label>
+        <label><input type="radio" name="q4" value="c" /> 13.5–14.8 V</label>
+        <label><input type="radio" name="q4" value="d" /> 16.0–18.0 V</label>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question">
+        <p>The stationary winding assembly in an alternator is called the:</p>
+        <label><input type="radio" name="q5" value="a" /> Rotor</label>
+        <label><input type="radio" name="q5" value="b" /> Commutator</label>
+        <label><input type="radio" name="q5" value="c" /> Stator</label>
+        <label><input type="radio" name="q5" value="d" /> Brush holder</label>
+      </div>
+
+      <!-- Q6 -->
+      <div class="question">
+        <p>The rotating magnetic field in an alternator is produced by the:</p>
+        <label><input type="radio" name="q6" value="a" /> Stator windings</label>
+        <label><input type="radio" name="q6" value="b" /> Rotor field windings</label>
+        <label><input type="radio" name="q6" value="c" /> Rectifier bridge</label>
+        <label><input type="radio" name="q6" value="d" /> Voltage regulator</label>
+      </div>
+
+      <!-- Q7 -->
+      <div class="question">
+        <p>The component that converts alternator AC output into DC for the battery and electrical system is the:</p>
+        <label><input type="radio" name="q7" value="a" /> Capacitor</label>
+        <label><input type="radio" name="q7" value="b" /> Brush set</label>
+        <label><input type="radio" name="q7" value="c" /> Rectifier diode assembly</label>
+        <label><input type="radio" name="q7" value="d" /> Slip ring set</label>
+      </div>
+
+      <!-- Q8 -->
+      <div class="question">
+        <p>In a typical three-phase alternator, the stator windings are connected in:</p>
+        <label><input type="radio" name="q8" value="a" /> Series-parallel configuration</label>
+        <label><input type="radio" name="q8" value="b" /> Lap winding only</label>
+        <label><input type="radio" name="q8" value="c" /> Delta or wye configuration</label>
+        <label><input type="radio" name="q8" value="d" /> Commutator ring configuration</label>
+      </div>
+
+      <!-- Q9 -->
+      <div class="question">
+        <p>Field current is supplied to the rotor of a conventional alternator through:</p>
+        <label><input type="radio" name="q9" value="a" /> A commutator and brushes</label>
+        <label><input type="radio" name="q9" value="b" /> Slip rings and brushes</label>
+        <label><input type="radio" name="q9" value="c" /> Stator windings only</label>
+        <label><input type="radio" name="q9" value="d" /> A diode trio on the output terminal</label>
+      </div>
+
+      <!-- Q10 -->
+      <div class="question">
+        <p>If the voltage regulator fails in a way that allows maximum field current at all times, the most likely result is:</p>
+        <label><input type="radio" name="q10" value="a" /> Undercharging and dim lights</label>
+        <label><input type="radio" name="q10" value="b" /> Overcharging, battery gassing and possible component damage</label>
+        <label><input type="radio" name="q10" value="c" /> No alternator output at idle but normal at high rpm</label>
+        <label><input type="radio" name="q10" value="d" /> Normal charging system operation</label>
+      </div>
+
+      <!-- Q11 -->
+      <div class="question">
+        <p>The voltage regulator maintains system voltage mainly by controlling:</p>
+        <label><input type="radio" name="q11" value="a" /> Battery internal resistance</label>
+        <label><input type="radio" name="q11" value="b" /> Alternator shaft speed</label>
+        <label><input type="radio" name="q11" value="c" /> Rotor field current</label>
+        <label><input type="radio" name="q11" value="d" /> Stator winding resistance</label>
+      </div>
+
+      <!-- Q12 -->
+      <div class="question">
+        <p>Which of the following symptoms is most associated with a slipping alternator drive belt?</p>
+        <label><input type="radio" name="q12" value="a" /> Consistently high charging voltage at all speeds</label>
+        <label><input type="radio" name="q12" value="b" /> Belt squeal, low system voltage under load and poor battery state of charge</label>
+        <label><input type="radio" name="q12" value="c" /> Starter motor free-spinning with no engine cranking</label>
+        <label><input type="radio" name="q12" value="d" /> Constant illumination of the ABS warning lamp only</label>
+      </div>
+
+      <!-- Q13 -->
+      <div class="question">
+        <p>An alternator’s output current rating is specified:</p>
+        <label><input type="radio" name="q13" value="a" /> At idle speed only</label>
+        <label><input type="radio" name="q13" value="b" /> At maximum engine speed only</label>
+        <label><input type="radio" name="q13" value="c" /> At a specified alternator shaft speed and temperature</label>
+        <label><input type="radio" name="q13" value="d" /> At whatever speed the technician chooses during testing</label>
+      </div>
+
+      <!-- Q14 -->
+      <div class="question">
+        <p>On a 12 V system, a fully charged lead-acid battery at rest typically measures about:</p>
+        <label><input type="radio" name="q14" value="a" /> 10.2 V</label>
+        <label><input type="radio" name="q14" value="b" /> 11.4 V</label>
+        <label><input type="radio" name="q14" value="c" /> 12.6 V</label>
+        <label><input type="radio" name="q14" value="d" /> 14.8 V</label>
+      </div>
+
+      <!-- Q15 -->
+      <div class="question">
+        <p>During a charging system voltage test at fast idle with moderate electrical load, a normal regulated voltage will be:</p>
+        <label><input type="radio" name="q15" value="a" /> Slightly below battery open-circuit voltage</label>
+        <label><input type="radio" name="q15" value="b" /> Equal to battery open-circuit voltage</label>
+        <label><input type="radio" name="q15" value="c" /> Slightly above battery open-circuit voltage</label>
+        <label><input type="radio" name="q15" value="d" /> Approximately double battery open-circuit voltage</label>
+      </div>
+
+      <!-- Q16 -->
+      <div class="question">
+        <p>A loose or corroded battery ground connection can cause:</p>
+        <label><input type="radio" name="q16" value="a" /> High charging voltage and bright lights at all times</label>
+        <label><input type="radio" name="q16" value="b" /> Intermittent charging, dim lights and erratic gauge operation</label>
+        <label><input type="radio" name="q16" value="c" /> Alternator over-speed at idle</label>
+        <label><input type="radio" name="q16" value="d" /> Immediate failure of the starter pinion</label>
+      </div>
+
+      <!-- Q17 -->
+      <div class="question">
+        <p>An open rectifier diode in a three-phase alternator will usually result in:</p>
+        <label><input type="radio" name="q17" value="a" /> Excessive charging voltage and boiled batteries</label>
+        <label><input type="radio" name="q17" value="b" /> Low output, increased AC ripple and possible light flicker</label>
+        <label><input type="radio" name="q17" value="c" /> No output at all speeds</label>
+        <label><input type="radio" name="q17" value="d" /> Overheating of the starter motor</label>
+      </div>
+
+      <!-- Q18 -->
+      <div class="question">
+        <p>A shorted rectifier diode is most likely to cause:</p>
+        <label><input type="radio" name="q18" value="a" /> High resistance in the field circuit only</label>
+        <label><input type="radio" name="q18" value="b" /> Parasitic battery drain and alternator overheating</label>
+        <label><input type="radio" name="q18" value="c" /> Loss of belt tension</label>
+        <label><input type="radio" name="q18" value="d" /> Open-circuit at the battery terminals</label>
+      </div>
+
+      <!-- Q19 -->
+      <div class="question">
+        <p>Excessive AC ripple in the charging system can be checked using:</p>
+        <label><input type="radio" name="q19" value="a" /> A vacuum gauge connected to the intake manifold</label>
+        <label><input type="radio" name="q19" value="b" /> A voltmeter set to the AC scale across the battery</label>
+        <label><input type="radio" name="q19" value="c" /> A timing light on the crankshaft pulley</label>
+        <label><input type="radio" name="q19" value="d" /> A fuel pressure gauge on the rail</label>
+      </div>
+
+      <!-- Q20 -->
+      <div class="question">
+        <p>The main purpose of a charging system load test is to:</p>
+        <label><input type="radio" name="q20" value="a" /> Measure battery specific gravity</label>
+        <label><input type="radio" name="q20" value="b" /> Confirm alternator output capability under specified electrical load</label>
+        <label><input type="radio" name="q20" value="c" /> Adjust voltage regulator set-point</label>
+        <label><input type="radio" name="q20" value="d" /> Verify starter current draw</label>
+      </div>
+
+      <!-- Q21 -->
+      <div class="question">
+        <p>The “sense” wire on many externally mounted regulators is used to:</p>
+        <label><input type="radio" name="q21" value="a" /> Supply power to the starter solenoid</label>
+        <label><input type="radio" name="q21" value="b" /> Provide a voltage sample from the system for accurate regulation</label>
+        <label><input type="radio" name="q21" value="c" /> Ground the alternator case to the frame</label>
+        <label><input type="radio" name="q21" value="d" /> Drive the engine oil pressure gauge</label>
+      </div>
+
+      <!-- Q22 -->
+      <div class="question">
+        <p>When electrical demand is high at low engine speed, the charging system may:</p>
+        <label><input type="radio" name="q22" value="a" /> Maintain full alternator output with no effect on battery state</label>
+        <label><input type="radio" name="q22" value="b" /> Draw additional power from the battery to support the load</label>
+        <label><input type="radio" name="q22" value="c" /> Automatically reduce lighting output to zero</label>
+        <label><input type="radio" name="q22" value="d" /> Increase alternator shaft speed regardless of engine speed</label>
+      </div>
+
+      <!-- Q23 -->
+      <div class="question">
+        <p>Temperature-compensated regulators adjust charging voltage so that at low battery temperatures the voltage is:</p>
+        <label><input type="radio" name="q23" value="a" /> Lower to prevent gassing</label>
+        <label><input type="radio" name="q23" value="b" /> Higher to improve charging</label>
+        <label><input type="radio" name="q23" value="c" /> Unchanged at all temperatures</label>
+        <label><input type="radio" name="q23" value="d" /> Switched off until the battery warms</label>
+      </div>
+
+      <!-- Q24 -->
+      <div class="question">
+        <p>An internally regulated alternator differs from an externally regulated unit because the regulator is:</p>
+        <label><input type="radio" name="q24" value="a" /> Mounted in a separate housing on the firewall</label>
+        <label><input type="radio" name="q24" value="b" /> Built into the alternator assembly</label>
+        <label><input type="radio" name="q24" value="c" /> Replaced by a commutator</label>
+        <label><input type="radio" name="q24" value="d" /> Eliminated in favour of a fixed-output design</label>
+      </div>
+
+      <!-- Q25 -->
+      <div class="question">
+        <p>A “one-wire” alternator typically begins charging when:</p>
+        <label><input type="radio" name="q25" value="a" /> Battery voltage falls below 10 V</label>
+        <label><input type="radio" name="q25" value="b" /> A minimum alternator shaft speed is reached</label>
+        <label><input type="radio" name="q25" value="c" /> The ignition switch is turned to ACC</label>
+        <label><input type="radio" name="q25" value="d" /> The brake pedal is depressed</label>
+      </div>
+
+      <!-- Q26 -->
+      <div class="question">
+        <p>Excessive parasitic draw with the ignition off will most likely cause:</p>
+        <label><input type="radio" name="q26" value="a" /> Overcharged battery and high system voltage</label>
+        <label><input type="radio" name="q26" value="b" /> Battery discharged after sitting, even though the alternator tests good</label>
+        <label><input type="radio" name="q26" value="c" /> Alternator output that is too low at cruise speed</label>
+        <label><input type="radio" name="q26" value="d" /> Permanent magnetization of the rotor</label>
+      </div>
+
+      <!-- Q27 -->
+      <div class="question">
+        <p>Which of the following is considered safe practice when working around charging systems?</p>
+        <label><input type="radio" name="q27" value="a" /> Removing the battery cables with the engine running to “test” the alternator</label>
+        <label><input type="radio" name="q27" value="b" /> Wearing eye protection and avoiding shorting tools between terminals</label>
+        <label><input type="radio" name="q27" value="c" /> Bypassing blown fuses with a jumper wire</label>
+        <label><input type="radio" name="q27" value="d" /> Holding the alternator fan while the engine is cranking</label>
+      </div>
+
+      <!-- Q28 -->
+      <div class="question">
+        <p>Disconnecting the battery while the engine is running can:</p>
+        <label><input type="radio" name="q28" value="a" /> Improve the accuracy of the voltage regulator</label>
+        <label><input type="radio" name="q28" value="b" /> Damage the regulator and electronic components due to voltage spikes</label>
+        <label><input type="radio" name="q28" value="c" /> Automatically reset the charging system to factory settings</label>
+        <label><input type="radio" name="q28" value="d" /> Have no effect on modern systems</label>
+      </div>
+
+      <!-- Q29 -->
+      <div class="question">
+        <p>To check for excessive voltage drop between the alternator output terminal and the battery positive post, you would:</p>
+        <label><input type="radio" name="q29" value="a" /> Measure resistance of the cable with the key off</label>
+        <label><input type="radio" name="q29" value="b" /> Measure DC voltage between alternator B+ and battery + with the system under load</label>
+        <label><input type="radio" name="q29" value="c" /> Connect a test light between B+ and ground</label>
+        <label><input type="radio" name="q29" value="d" /> Measure AC voltage at the battery with the engine off</label>
+      </div>
+
+      <!-- Q30 -->
+      <div class="question">
+        <p>The charging system warning lamp in the instrument cluster is usually connected:</p>
+        <label><input type="radio" name="q30" value="a" /> Between battery positive and ground at all times</label>
+        <label><input type="radio" name="q30" value="b" /> Between ignition-switched power and a regulator or alternator terminal</label>
+        <label><input type="radio" name="q30" value="c" /> Between the starter solenoid and the fuel pump relay</label>
+        <label><input type="radio" name="q30" value="d" /> Directly in series with the alternator output cable</label>
+      </div>
+
+      <!-- Q31 -->
+      <div class="question">
+        <p>If the charging system warning lamp remains on with the engine running, it usually indicates:</p>
+        <label><input type="radio" name="q31" value="a" /> Normal charging system operation</label>
+        <label><input type="radio" name="q31" value="b" /> A discharged battery that needs replacement only</label>
+        <label><input type="radio" name="q31" value="c" /> A charging system fault that requires diagnosis</label>
+        <label><input type="radio" name="q31" value="d" /> A burned-out headlamp</label>
+      </div>
+
+      <!-- Q32 -->
+      <div class="question">
+        <p>Reversing battery polarity on a running vehicle may:</p>
+        <label><input type="radio" name="q32" value="a" /> Restore a weak alternator</label>
+        <label><input type="radio" name="q32" value="b" /> Quickly discharge the battery without damage</label>
+        <label><input type="radio" name="q32" value="c" /> Damage diodes, the regulator and electronic modules</label>
+        <label><input type="radio" name="q32" value="d" /> Have no effect if the cables are clean</label>
+      </div>
+
+      <!-- Q33 -->
+      <div class="question">
+        <p>If an alternator is driven in the reverse direction from its design, the most likely result is:</p>
+        <label><input type="radio" name="q33" value="a" /> Higher than normal output and improved cooling</label>
+        <label><input type="radio" name="q33" value="b" /> No charging system warning lamp operation</label>
+        <label><input type="radio" name="q33" value="c" /> Reduced output and possible noise due to fan design</label>
+        <label><input type="radio" name="q33" value="d" /> Immediate failure of the starter solenoid</label>
+      </div>
+
+      <!-- Q34 -->
+      <div class="question">
+        <p>Adding high-demand electrical accessories without upgrading the alternator capacity may result in:</p>
+        <label><input type="radio" name="q34" value="a" /> Higher regulated voltage at all speeds</label>
+        <label><input type="radio" name="q34" value="b" /> Alternator overheating and chronic battery undercharge</label>
+        <label><input type="radio" name="q34" value="c" /> Reduced belt tension automatically</label>
+        <label><input type="radio" name="q34" value="d" /> No noticeable change in system performance</label>
+      </div>
+
+      <!-- Q35 -->
+      <div class="question">
+        <p>A quick visual charging system inspection should always include:</p>
+        <label><input type="radio" name="q35" value="a" /> Checking coolant level only</label>
+        <label><input type="radio" name="q35" value="b" /> Inspecting belt condition and tension, wiring, and connections</label>
+        <label><input type="radio" name="q35" value="c" /> Removing the alternator for bench testing first</label>
+        <label><input type="radio" name="q35" value="d" /> Disconnecting the battery to “reset” the system</label>
+      </div>
+
+      <!-- Q36 -->
+      <div class="question">
+        <p>A customer complaint of “battery goes dead overnight” but normal alternator output during testing suggests:</p>
+        <label><input type="radio" name="q36" value="a" /> Parasitic draw with the ignition off</label>
+        <label><input type="radio" name="q36" value="b" /> Overcharging at highway speed</label>
+        <label><input type="radio" name="q36" value="c" /> Excessive alternator belt tension</label>
+        <label><input type="radio" name="q36" value="d" /> Incorrect spark plug heat range</label>
+      </div>
+
+      <!-- Q37 -->
+      <div class="question">
+        <p>Parasitic draw testing is most commonly performed using:</p>
+        <label><input type="radio" name="q37" value="a" /> A vacuum gauge connected to the intake manifold</label>
+        <label><input type="radio" name="q37" value="b" /> An ammeter connected in series with the battery cable</label>
+        <label><input type="radio" name="q37" value="c" /> A fuel pressure gauge on the rail</label>
+        <label><input type="radio" name="q37" value="d" /> A dwell meter across the battery</label>
+      </div>
+
+      <!-- Q38 -->
+      <div class="question">
+        <p>High system voltage at all engine speeds with no obvious wiring faults most likely indicates:</p>
+        <label><input type="radio" name="q38" value="a" /> A slipping alternator belt</label>
+        <label><input type="radio" name="q38" value="b" /> Low battery electrolyte level only</label>
+        <label><input type="radio" name="q38" value="c" /> A faulty voltage regulator</label>
+        <label><input type="radio" name="q38" value="d" /> Excessive alternator cooling</label>
+      </div>
+
+      <!-- Q39 -->
+      <div class="question">
+        <p>Low charging voltage with a good battery and correct belt tension most likely points to:</p>
+        <label><input type="radio" name="q39" value="a" /> Alternator or rectifier fault</label>
+        <label><input type="radio" name="q39" value="b" /> Overfilled battery electrolyte</label>
+        <label><input type="radio" name="q39" value="c" /> Incorrect engine coolant mixture</label>
+        <label><input type="radio" name="q39" value="d" /> Worn steering linkage components</label>
+      </div>
+
+      <!-- Q40 -->
+      <div class="question">
+        <p>The best first step when diagnosing a charging system complaint is to:</p>
+        <label><input type="radio" name="q40" value="a" /> Replace the alternator</label>
+        <label><input type="radio" name="q40" value="b" /> Perform a quick visual inspection of belts, wiring and connections</label>
+        <label><input type="radio" name="q40" value="c" /> Disconnect the battery and road test the vehicle</label>
+        <label><input type="radio" name="q40" value="d" /> Adjust the voltage regulator by trial and error</label>
+      </div>
+
+      <!-- Buttons + result banner -->
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span class="label">Submit Answers</span>
+        </button>
+        <button type="button" id="retake-btn" class="exam-button secondary">
+          <span class="dot"></span>
+          <span class="label">Retake &amp; Scramble</span>
+        </button>
+        <button type="button" id="review-btn" class="exam-button ghost">
+          Review wrong answers
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
+
+  <!-- Answer key for script.js -->
+  <script>
+    window.ANSWERS = {
+      q1: "b",
+      q2: "b",
+      q3: "b",
+      q4: "c",
+      q5: "c",
+      q6: "b",
+      q7: "c",
+      q8: "c",
+      q9: "a",
+      q10: "b",
+      q11: "c",
+      q12: "b",
+      q13: "c",
+      q14: "c",
+      q15: "c",
+      q16: "b",
+      q17: "b",
+      q18: "b",
+      q19: "b",
+      q20: "b",
+      q21: "b",
+      q22: "b",
+      q23: "b",
+      q24: "b",
+      q25: "b",
+      q26: "b",
+      q27: "b",
+      q28: "b",
+      q29: "b",
+      q30: "b",
+      q31: "c",
+      q32: "c",
+      q33: "c",
+      q34: "b",
+      q35: "b",
+      q36: "a",
+      q37: "b",
+      q38: "c",
+      q39: "a",
+      q40: "b"
+    };
+  </script>
+  <script src="../script.js"></script>
+</body>
+</html>
