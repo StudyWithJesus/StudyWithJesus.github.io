@@ -1,4 +1,8 @@
 /* ===== Base reset ===== */
+:root {
+  --touch-target-min-height: 44px;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -762,7 +766,7 @@ body::after {
 
   /* Hide complex animations on mobile for performance */
   .header-particles::after {
-    display: none;
+    content: none;
   }
 
   /* Watermark adjustment for mobile */
@@ -799,7 +803,7 @@ body::after {
 @media (hover: none) and (pointer: coarse) {
   .question label {
     padding: 0.5rem 0.6rem;
-    min-height: 44px;
+    min-height: var(--touch-target-min-height);
     display: flex;
     align-items: center;
   }

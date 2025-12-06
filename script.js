@@ -130,7 +130,10 @@ function initExamPage() {
     if (savedState && Array.isArray(savedState)) {
       hasSavedAnswers = savedState.some(entry => entry && entry.value != null);
     }
-  } catch {}
+  } catch {
+    // localStorage may be unavailable (private browsing, quota exceeded, etc.)
+    // Proceed with shuffling as if no saved answers exist
+  }
 
   // Only shuffle if no answers have been saved (fresh start)
   if (!hasSavedAnswers) {
