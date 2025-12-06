@@ -121,24 +121,33 @@ function initExamPage() {
   }
 
   const examKey = "examState:" + window.location.pathname;
+  const orderKey = "examOrder:" + window.location.pathname;
 
   // Check if there are any saved answers before shuffling
   // Only shuffle on initial load if NO answers have been saved
   let hasSavedAnswers = false;
+  let hasSavedOrder = false;
   try {
     const savedState = JSON.parse(localStorage.getItem(examKey) || "null");
     if (savedState && Array.isArray(savedState)) {
       hasSavedAnswers = savedState.some(entry => entry && entry.value != null);
     }
+    const savedOrder = JSON.parse(localStorage.getItem(orderKey) || "null");
+    hasSavedOrder = savedOrder && savedOrder.questions && Array.isArray(savedOrder.questions);
   } catch {
     // localStorage may be unavailable (private browsing, quota exceeded, etc.)
     // Proceed with shuffling as if no saved answers exist
   }
 
   // Only shuffle if no answers have been saved (fresh start)
+  // If there are saved answers AND a saved order, restore the saved order
   if (!hasSavedAnswers) {
-    shuffleQuestions(questionContainer, questions);
+    shuffleQuestions(questionContainer, questions, orderKey);
+  } else if (hasSavedOrder) {
+    // Restore the saved question and option order
+    restoreOrder(questionContainer, questions, orderKey);
   }
+  // If hasSavedAnswers but no saved order, questions stay in HTML order (fallback)
 
   // Restore saved answers
   restoreState(questions, examKey);
@@ -273,7 +282,7 @@ function initExamPage() {
     setInputsLocked(false);
 
     // Shuffle on retake (user explicitly requested scramble)
-    shuffleQuestions(questionContainer, questions);
+    shuffleQuestions(questionContainer, questions, orderKey);
 
     updateProgress(questions, progressFill, progressText);
     
@@ -283,6 +292,7 @@ function initExamPage() {
     try {
       localStorage.removeItem(examKey);
       localStorage.removeItem(examKey + ":lastScore");
+      localStorage.removeItem(orderKey);
     } catch {}
     
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -442,7 +452,8 @@ function restoreState(questions, key) {
 }
 
 // Fisher–Yates shuffle for questions + labels
-function shuffleQuestions(container, questions) {
+// Also saves the order to localStorage if orderKey is provided
+function shuffleQuestions(container, questions, orderKey) {
   // Shuffle question blocks using Fisher-Yates algorithm
   const shuffled = [...questions];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -457,9 +468,19 @@ function shuffleQuestions(container, questions) {
   }
   container.appendChild(fragment);
 
+  // Track the order for saving
+  const orderData = { questions: [], options: {} };
+
   // Shuffle options within each question
   for (let i = 0; i < shuffled.length; i++) {
     const q = shuffled[i];
+    const firstRadio = q.querySelector('input[type="radio"]');
+    const qName = firstRadio ? firstRadio.name : null;
+    
+    if (qName) {
+      orderData.questions.push(qName);
+    }
+    
     const labels = q.querySelectorAll("label");
     if (!labels.length) continue;
     
@@ -472,12 +493,125 @@ function shuffleQuestions(container, questions) {
       [shuffledLabels[j], shuffledLabels[k]] = [shuffledLabels[k], shuffledLabels[j]];
     }
     
+    // Track option order
+    if (qName) {
+      orderData.options[qName] = shuffledLabels.map(label => {
+        const radio = label.querySelector('input[type="radio"]');
+        return radio ? radio.value : null;
+      }).filter(v => v != null);
+    }
+    
     // Use DocumentFragment for batch label updates
     const labelFragment = document.createDocumentFragment();
     for (let j = 0; j < shuffledLabels.length; j++) {
       labelFragment.appendChild(shuffledLabels[j]);
     }
     parent.appendChild(labelFragment);
+  }
+  
+  // Save the order to localStorage
+  if (orderKey) {
+    try {
+      localStorage.setItem(orderKey, JSON.stringify(orderData));
+    } catch {
+      // localStorage may be unavailable
+    }
+  }
+}
+
+// Restore question and option order from localStorage
+function restoreOrder(container, questions, orderKey) {
+  let savedOrder;
+  try {
+    savedOrder = JSON.parse(localStorage.getItem(orderKey) || "null");
+  } catch {
+    return; // Can't restore if localStorage is unavailable
+  }
+  
+  if (!savedOrder || !savedOrder.questions || !Array.isArray(savedOrder.questions)) {
+    return;
+  }
+  
+  // Build a map from question name to question element
+  const questionsByName = new Map();
+  for (let i = 0; i < questions.length; i++) {
+    const q = questions[i];
+    const firstRadio = q.querySelector('input[type="radio"]');
+    if (firstRadio) {
+      questionsByName.set(firstRadio.name, q);
+    }
+  }
+  
+  // Reorder questions according to saved order
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < savedOrder.questions.length; i++) {
+    const qName = savedOrder.questions[i];
+    const q = questionsByName.get(qName);
+    if (q) {
+      fragment.appendChild(q);
+      questionsByName.delete(qName); // Mark as used
+    }
+  }
+  
+  // Append any questions not in the saved order (shouldn't happen, but just in case)
+  if (questionsByName.size > 0) {
+    console.warn('restoreOrder: Some questions were not in saved order, appending at end');
+  }
+  questionsByName.forEach(q => fragment.appendChild(q));
+  
+  container.appendChild(fragment);
+  
+  // Build a map from question name to question element for option restoration
+  const questionsMap = new Map();
+  for (let i = 0; i < questions.length; i++) {
+    const q = questions[i];
+    const firstRadio = q.querySelector('input[type="radio"]');
+    if (firstRadio) {
+      questionsMap.set(firstRadio.name, q);
+    }
+  }
+  
+  // Restore option order within each question (iterate through saved order for consistency)
+  if (savedOrder.options) {
+    for (let i = 0; i < savedOrder.questions.length; i++) {
+      const qName = savedOrder.questions[i];
+      const q = questionsMap.get(qName);
+      if (!q) continue;
+      
+      const optionOrder = savedOrder.options[qName];
+      if (!optionOrder || !Array.isArray(optionOrder)) continue;
+      
+      const labels = q.querySelectorAll("label");
+      if (!labels.length) continue;
+      
+      const parent = labels[0].parentElement;
+      
+      // Build a map from option value to label
+      const labelsByValue = new Map();
+      for (let j = 0; j < labels.length; j++) {
+        const label = labels[j];
+        const radio = label.querySelector('input[type="radio"]');
+        if (radio) {
+          labelsByValue.set(radio.value, label);
+        }
+      }
+      
+      // Reorder labels according to saved order
+      const labelFragment = document.createDocumentFragment();
+      for (let j = 0; j < optionOrder.length; j++) {
+        const value = optionOrder[j];
+        const label = labelsByValue.get(value);
+        if (label) {
+          labelFragment.appendChild(label);
+          labelsByValue.delete(value);
+        }
+      }
+      
+      // Append any labels not in the saved order
+      labelsByValue.forEach(label => labelFragment.appendChild(label));
+      
+      parent.appendChild(labelFragment);
+    }
   }
 }
 
