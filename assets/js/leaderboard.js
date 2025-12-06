@@ -98,14 +98,22 @@
     const config = getConfig();
     const results = {};
     
-    for (var i = 0; i < config.modules.length; i++) {
-      var moduleId = config.modules[i];
-      try {
-        results[moduleId] = await fetchLeaderboard(moduleId);
-      } catch (error) {
-        console.warn('Failed to fetch leaderboard for ' + moduleId + ':', error);
-        results[moduleId] = [];
-      }
+    // Fetch all modules concurrently for better performance
+    const promises = config.modules.map(function(moduleId) {
+      return fetchLeaderboard(moduleId)
+        .then(function(data) {
+          return { moduleId: moduleId, data: data };
+        })
+        .catch(function(error) {
+          console.warn('Failed to fetch leaderboard for ' + moduleId + ':', error);
+          return { moduleId: moduleId, data: [] };
+        });
+    });
+    
+    const responses = await Promise.all(promises);
+    
+    for (var i = 0; i < responses.length; i++) {
+      results[responses[i].moduleId] = responses[i].data;
     }
     
     return results;

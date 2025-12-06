@@ -94,18 +94,21 @@
 
   /**
    * Aggregate leaderboard from attempts collection
-   * This is a fallback when materialized view is not available
+   * This is a fallback when materialized view is not available.
+   * NOTE: For production, implement server-side aggregation via Cloud Functions
+   * to avoid high document read costs and improve performance.
    * @param {string} moduleId - Module ID
    * @param {number} limit - Maximum entries
    * @returns {Promise<Array>} - Aggregated leaderboard
    */
   async function aggregateLeaderboard(moduleId, limit) {
     try {
-      // Get all attempts for this module, ordered by score
+      // Get recent attempts for this module, ordered by score
+      // Limited to 100 to reduce Firestore costs; use Cloud Functions for full aggregation
       var attemptsQuery = await db.collection('attempts')
         .where('moduleId', '==', moduleId)
         .orderBy('score', 'desc')
-        .limit(500) // Reasonable limit for client-side aggregation
+        .limit(100)
         .get();
 
       // Aggregate by user
@@ -315,10 +318,12 @@
     }
 
     try {
-      // Aggregate user stats from attempts
+      // Aggregate user stats from recent attempts
+      // NOTE: For production with many users, implement pagination or
+      // server-side aggregation via Cloud Functions to reduce costs
       var attemptsQuery = await db.collection('attempts')
         .orderBy('timestamp', 'desc')
-        .limit(1000)
+        .limit(200)
         .get();
 
       var userStats = {};

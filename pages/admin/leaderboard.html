@@ -191,9 +191,13 @@
       'use strict';
 
       // Configuration
-      // IMPORTANT: In production, use Firebase Auth instead of a URL fragment key
-      // The fragment key is a simple demo method; it's logged but not truly secure
-      var DEMO_ADMIN_KEY = 'ADMIN_SECRET_KEY'; // Change this or use Firebase Auth
+      // ⚠️ SECURITY WARNING: Replace this demo key before production deployment!
+      // The fragment key method is for demo/development only and is NOT secure.
+      // For production, either:
+      // 1. Generate a unique random key (e.g., crypto.randomUUID())
+      // 2. Use Firebase Auth with admin custom claims (recommended)
+      // 3. Remove this fallback entirely and require Firebase Auth
+      var DEMO_ADMIN_KEY = 'BentleyTesla'; // ⚠️ CHANGE THIS!
 
       var isAuthenticated = false;
       var adminData = null;
