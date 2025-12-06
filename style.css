@@ -1,4 +1,8 @@
 /* ===== Base reset ===== */
+:root {
+  --touch-target-min-height: 44px;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -54,7 +58,9 @@ a:hover {
 }
 
 .header-fog,
-.header-particles {
+.header-particles,
+.header-stars,
+.header-rays {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -67,6 +73,13 @@ a:hover {
     radial-gradient(circle at 0 0, rgba(255,255,255,0.15), transparent 55%),
     radial-gradient(circle at 100% 0, rgba(127,212,255,0.25), transparent 60%),
     radial-gradient(circle at 50% 100%, rgba(70,255,178,0.12), transparent 50%);
+  animation: fogDrift 20s ease-in-out infinite alternate;
+}
+
+@keyframes fogDrift {
+  0% { opacity: 0.35; transform: scale(1) translateX(0); }
+  50% { opacity: 0.55; transform: scale(1.05) translateX(2%); }
+  100% { opacity: 0.4; transform: scale(1) translateX(-2%); }
 }
 
 .header-particles {
@@ -75,6 +88,68 @@ a:hover {
     radial-gradient(circle, rgba(127,212,255,0.5) 0, transparent 55%);
   background-size: 260% 260%;
   animation: headerGlow 14s ease-in-out infinite alternate;
+}
+
+/* Floating light orbs effect */
+.header-particles::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(3px 3px at 80% 20%, rgba(127,212,255,0.9), transparent),
+    radial-gradient(2px 2px at 40% 70%, rgba(70,255,178,0.8), transparent),
+    radial-gradient(3px 3px at 90% 60%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(2px 2px at 10% 80%, rgba(127,212,255,0.8), transparent),
+    radial-gradient(3px 3px at 60% 40%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 30% 50%, rgba(70,255,178,0.7), transparent),
+    radial-gradient(2px 2px at 70% 85%, rgba(127,212,255,0.8), transparent);
+  animation: floatingStars 8s ease-in-out infinite;
+}
+
+@keyframes floatingStars {
+  0%, 100% { opacity: 0.6; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-5px); }
+}
+
+/* Light rays emanating from center */
+.header-particles::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(127,212,255,0.08) 15deg,
+    transparent 30deg,
+    transparent 90deg,
+    rgba(70,255,178,0.06) 105deg,
+    transparent 120deg,
+    transparent 180deg,
+    rgba(255,255,255,0.05) 195deg,
+    transparent 210deg,
+    transparent 270deg,
+    rgba(127,212,255,0.08) 285deg,
+    transparent 300deg,
+    transparent 360deg
+  );
+  opacity: 0;
+  animation: raysRotate 30s linear infinite, raysPulse 4s ease-in-out infinite;
+}
+
+@keyframes raysRotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes raysPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
 }
 
 @keyframes headerGlow {
@@ -97,10 +172,17 @@ a:hover {
   font-weight: 700;
   text-transform: uppercase;
   background: linear-gradient(135deg, #ffffff 0%, #b8e6ff 50%, #ffffff 100%);
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   filter: drop-shadow(0 0 12px rgba(127,212,255,0.5));
+  animation: titleGradient 8s ease-in-out infinite;
+}
+
+@keyframes titleGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .header-content p {
@@ -115,17 +197,17 @@ a:hover {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.2) 40%, transparent 80%);
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.3) 40%, transparent 80%);
   transform: translateX(-120%);
   opacity: 0;
   pointer-events: none;
-  animation: titleSweep 22s ease-in-out infinite;
+  animation: titleSweep 18s ease-in-out infinite;
 }
 
 @keyframes titleSweep {
   0% { transform: translateX(-120%); opacity: 0; }
   5% { opacity: 1; }
-  12% { transform: translateX(120%); opacity: 0; }
+  15% { transform: translateX(120%); opacity: 0; }
   100% { transform: translateX(120%); opacity: 0; }
 }
 
@@ -441,11 +523,33 @@ body.review-mode .question.correct {
   font-size: 1rem;
   display: none;
   box-shadow: 0 0 20px rgba(127,212,255,0.3), 0 4px 12px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.result-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%);
+  animation: resultShimmer 2s ease-in-out infinite;
+}
+
+@keyframes resultShimmer {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
 }
 
 .result-banner.visible {
   display: block;
-  animation: bannerSlideIn 0.3s ease-out;
+  animation: bannerSlideIn 0.3s ease-out, bannerPulse 2s ease-in-out 0.3s infinite;
+}
+
+/* Top result banner specific styles */
+.result-banner-top {
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 @keyframes bannerSlideIn {
@@ -457,6 +561,11 @@ body.review-mode .question.correct {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes bannerPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(127,212,255,0.3), 0 4px 12px rgba(0,0,0,0.3); }
+  50% { box-shadow: 0 0 30px rgba(127,212,255,0.5), 0 4px 16px rgba(0,0,0,0.4); }
 }
 
 .result-banner strong {
@@ -552,15 +661,159 @@ body::after {
 @media (max-width: 640px) {
   .site-header {
     padding-inline: 1.1rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .site-header--hero {
+    min-height: 200px;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .header-content h1 {
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+  }
+
+  .header-content p {
+    font-size: 0.85rem;
   }
 
   .module-index-wrapper,
   .exam-index-wrapper,
   .page-content {
-    padding-inline: 1.1rem;
+    padding-inline: 1rem;
+    padding-top: 2.5rem;
   }
 
   .exam-progress {
-    padding-inline: 1.1rem;
+    padding-inline: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .exam-progress-text {
+    font-size: 0.7rem;
+  }
+
+  .exam-progress-bar {
+    height: 6px;
+  }
+
+  /* Question cards mobile optimization */
+  .question {
+    padding: 0.85rem 0.9rem;
+    border-radius: 14px;
+  }
+
+  .question p {
+    font-size: 0.88rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .question label {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: 10px;
+  }
+
+  /* Buttons mobile optimization */
+  .exam-actions {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .exam-button {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1.2rem;
+    font-size: 0.85rem;
+  }
+
+  /* Result banner mobile optimization */
+  .result-banner {
+    padding: 0.85rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .result-banner strong {
+    font-size: 1.1rem;
+  }
+
+  /* Module/exam cards mobile optimization */
+  .module-grid,
+  .exam-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .module-card,
+  .exam-card {
+    padding: 0.85rem 0.95rem;
+  }
+
+  .module-card h3,
+  .exam-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .module-card p,
+  .exam-card p {
+    font-size: 0.82rem;
+  }
+
+  /* Hide complex animations on mobile for performance */
+  .header-particles::after {
+    content: none;
+  }
+
+  /* Watermark adjustment for mobile */
+  body::after {
+    font-size: 1.4rem;
+    bottom: 3%;
+    right: -12%;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 380px) {
+  .site-header {
+    padding-inline: 0.9rem;
+  }
+
+  .header-content h1 {
+    font-size: 1rem;
+  }
+
+  .module-index-wrapper,
+  .exam-index-wrapper,
+  .page-content {
+    padding-inline: 0.85rem;
+  }
+
+  .exam-button {
+    padding: 0.7rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .question label {
+    padding: 0.5rem 0.6rem;
+    min-height: var(--touch-target-min-height);
+    display: flex;
+    align-items: center;
+  }
+
+  .module-card:hover,
+  .exam-card:hover {
+    transform: none;
+  }
+
+  .exam-button:hover {
+    transform: none;
   }
 }
