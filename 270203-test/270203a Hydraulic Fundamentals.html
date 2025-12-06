@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>270203a Hydraulic Fundamentals Practice Exam</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="exam-common.js"></script>
+</head>
+<body>
+  <div id="banner">
+    <h1>NAIT Parts Technician - 270203a Hydraulic Fundamentals</h1>
+    <p>270203a Hydraulic Fundamentals</p>
+  </div>
+
+  <div id="top-controls">
+    <button id="btnStart">Start Exam</button>
+    <button id="btnReset">Reset</button>
+  </div>
+
+  <div id="progress-container">
+    <div id="progress-bar"></div>
+    <span id="progress-text">0 / 40</span>
+  </div>
+
+  <div id="question-container">
+    <div class="question" data-question="1">
+      <p>1. Hydraulics is the transmission of power using:</p>
+      <label><input type="radio" name="q1" value="A"> A. Compressed air</label>
+      <label><input type="radio" name="q1" value="B"> B. Pressurized liquids, typically oil</label>
+      <label><input type="radio" name="q1" value="C"> C. Electric current</label>
+      <label><input type="radio" name="q1" value="D"> D. Solid linkages only</label>
+    </div>
+    <div class="question" data-question="2">
+      <p>2. Pascal’s law states that pressure applied to a confined fluid:</p>
+      <label><input type="radio" name="q2" value="A"> A. Is reduced at each bend in the piping</label>
+      <label><input type="radio" name="q2" value="B"> B. Acts equally in all directions and at right angles to the containing surfaces</label>
+      <label><input type="radio" name="q2" value="C"> C. Acts only in the direction of pump rotation</label>
+      <label><input type="radio" name="q2" value="D"> D. Cannot be transmitted through hoses</label>
+    </div>
+    <div class="question" data-question="3">
+      <p>3. Pressure in a hydraulic system is defined as:</p>
+      <label><input type="radio" name="q3" value="A"> A. Force multiplied by area</label>
+      <label><input type="radio" name="q3" value="B"> B. Force divided by area</label>
+      <label><input type="radio" name="q3" value="C"> C. Flow multiplied by speed</label>
+      <label><input type="radio" name="q3" value="D"> D. Area divided by flow</label>
+    </div>
+    <div class="question" data-question="4">
+      <p>4. The SI unit commonly used for hydraulic pressure is:</p>
+      <label><input type="radio" name="q4" value="A"> A. Kilowatt (kW)</label>
+      <label><input type="radio" name="q4" value="B"> B. Litre (L)</label>
+      <label><input type="radio" name="q4" value="C"> C. Kilopascal (kPa) or megapascals (MPa)</label>
+      <label><input type="radio" name="q4" value="D"> D. Volt (V)</label>
+    </div>
+    <div class="question" data-question="5">
+      <p>5. One bar of pressure is approximately equal to:</p>
+      <label><input type="radio" name="q5" value="A"> A. 10 kPa</label>
+      <label><input type="radio" name="q5" value="B"> B. 100 kPa</label>
+      <label><input type="radio" name="q5" value="C"> C. 1000 kPa</label>
+      <label><input type="radio" name="q5" value="D"> D. 1 MPa</label>
+    </div>
+    <div class="question" data-question="6">
+      <p>6. Flow rate in hydraulics is typically measured in:</p>
+      <label><input type="radio" name="q6" value="A"> A. Kilowatts</label>
+      <label><input type="radio" name="q6" value="B"> B. Litres per minute (L/min)</label>
+      <label><input type="radio" name="q6" value="C"> C. Newtons</label>
+      <label><input type="radio" name="q6" value="D"> D. Joules per second</label>
+    </div>
+    <div class="question" data-question="7">
+      <p>7. In a hydraulic cylinder, increasing the piston area while keeping pressure constant will:</p>
+      <label><input type="radio" name="q7" value="A"> A. Decrease output force</label>
+      <label><input type="radio" name="q7" value="B"> B. Increase output force</label>
+      <label><input type="radio" name="q7" value="C"> C. Have no effect on force</label>
+      <label><input type="radio" name="q7" value="D"> D. Stop cylinder movement</label>
+    </div>
+    <div class="question" data-question="8">
+      <p>8. Hydraulic power can be approximated by the formula:</p>
+      <label><input type="radio" name="q8" value="A"> A. Power = pressure × flow</label>
+      <label><input type="radio" name="q8" value="B"> B. Power = area × distance</label>
+      <label><input type="radio" name="q8" value="C"> C. Power = voltage × resistance</label>
+      <label><input type="radio" name="q8" value="D"> D. Power = flow ÷ pressure</label>
+    </div>
+    <div class="question" data-question="9">
+      <p>9. Compared to pneumatics, hydraulics generally:</p>
+      <label><input type="radio" name="q9" value="A"> A. Operate at lower pressures and lower forces</label>
+      <label><input type="radio" name="q9" value="B"> B. Operate at higher pressures and can produce higher forces</label>
+      <label><input type="radio" name="q9" value="C"> C. Cannot hold loads stationary</label>
+      <label><input type="radio" name="q9" value="D"> D. Use only water as a fluid</label>
+    </div>
+    <div class="question" data-question="10">
+      <p>10. A major advantage of hydraulic systems on mobile equipment is:</p>
+      <label><input type="radio" name="q10" value="A"> A. Inability to overload components</label>
+      <label><input type="radio" name="q10" value="B"> B. High power-to-weight ratio and flexible routing to remote actuators</label>
+      <label><input type="radio" name="q10" value="C"> C. No heat generation</label>
+      <label><input type="radio" name="q10" value="D"> D. No need for maintenance</label>
+    </div>
+    <div class="question" data-question="11">
+      <p>11. The primary function of hydraulic fluid is to:</p>
+      <label><input type="radio" name="q11" value="A"> A. Cool the engine only</label>
+      <label><input type="radio" name="q11" value="B"> B. Transmit power, lubricate components, seal clearances and carry away heat and contaminants</label>
+      <label><input type="radio" name="q11" value="C"> C. Provide electrical insulation</label>
+      <label><input type="radio" name="q11" value="D"> D. Increase exhaust back pressure</label>
+    </div>
+    <div class="question" data-question="12">
+      <p>12. Viscosity of a hydraulic fluid is a measure of its:</p>
+      <label><input type="radio" name="q12" value="A"> A. Colour</label>
+      <label><input type="radio" name="q12" value="B"> B. Resistance to flow (thickness)</label>
+      <label><input type="radio" name="q12" value="C"> C. Electrical conductivity</label>
+      <label><input type="radio" name="q12" value="D"> D. Acidity</label>
+    </div>
+    <div class="question" data-question="13">
+      <p>13. If hydraulic oil is too viscous (too thick) at operating temperature, the system will likely:</p>
+      <label><input type="radio" name="q13" value="A"> A. Leak excessively through clearances</label>
+      <label><input type="radio" name="q13" value="B"> B. Experience high resistance to flow, poor cold start performance and energy loss</label>
+      <label><input type="radio" name="q13" value="C"> C. Operate more efficiently</label>
+      <label><input type="radio" name="q13" value="D"> D. Stop generating heat</label>
+    </div>
+    <div class="question" data-question="14">
+      <p>14. Hydraulic oil that is too thin (low viscosity) can:</p>
+      <label><input type="radio" name="q14" value="A"> A. Improve sealing and lubrication</label>
+      <label><input type="radio" name="q14" value="B"> B. Increase leakage and reduce lubrication film strength</label>
+      <label><input type="radio" name="q14" value="C"> C. Eliminate heat generation</label>
+      <label><input type="radio" name="q14" value="D"> D. Prevent cavitation</label>
+    </div>
+    <div class="question" data-question="15">
+      <p>15. Cavitation in a hydraulic pump is best described as:</p>
+      <label><input type="radio" name="q15" value="A"> A. External leakage from fittings</label>
+      <label><input type="radio" name="q15" value="B"> B. Formation and collapse of vapour bubbles due to low inlet pressure</label>
+      <label><input type="radio" name="q15" value="C"> C. Normal pressure ripple in hoses</label>
+      <label><input type="radio" name="q15" value="D"> D. Filter bypassing due to blockage</label>
+    </div>
+    <div class="question" data-question="16">
+      <p>16. A common cause of cavitation at the pump inlet is:</p>
+      <label><input type="radio" name="q16" value="A"> A. Oversized suction lines</label>
+      <label><input type="radio" name="q16" value="B"> B. Restricted suction line, clogged inlet strainer or low reservoir level</label>
+      <label><input type="radio" name="q16" value="C"> C. Low system pressure at the actuators</label>
+      <label><input type="radio" name="q16" value="D"> D. High ambient temperature only</label>
+    </div>
+    <div class="question" data-question="17">
+      <p>17. Hydraulic system contamination can be in the form of:</p>
+      <label><input type="radio" name="q17" value="A"> A. Only water</label>
+      <label><input type="radio" name="q17" value="B"> B. Solid particles, water, air and chemical degradation products</label>
+      <label><input type="radio" name="q17" value="C"> C. Electrical noise only</label>
+      <label><input type="radio" name="q17" value="D"> D. Fuel vapours only</label>
+    </div>
+    <div class="question" data-question="18">
+      <p>18. The most damaging type of contamination for close-tolerance hydraulic components is:</p>
+      <label><input type="radio" name="q18" value="A"> A. Large visible particles only</label>
+      <label><input type="radio" name="q18" value="B"> B. Small hard particles similar in size to internal clearances</label>
+      <label><input type="radio" name="q18" value="C"> C. Air bubbles</label>
+      <label><input type="radio" name="q18" value="D"> D. Water in large droplets</label>
+    </div>
+    <div class="question" data-question="19">
+      <p>19. To reduce contamination, hydraulic system design typically includes:</p>
+      <label><input type="radio" name="q19" value="A"> A. No filtration to reduce pressure drop</label>
+      <label><input type="radio" name="q19" value="B"> B. Properly sized filters, breathers and clean filling practices</label>
+      <label><input type="radio" name="q19" value="C"> C. Oversized return lines only</label>
+      <label><input type="radio" name="q19" value="D"> D. High engine idle speed</label>
+    </div>
+    <div class="question" data-question="20">
+      <p>20. Hydraulic schematic symbols are standardized so that:</p>
+      <label><input type="radio" name="q20" value="A"> A. Manufacturers can conceal system design</label>
+      <label><input type="radio" name="q20" value="B"> B. Technicians can read and understand system operation regardless of brand</label>
+      <label><input type="radio" name="q20" value="C"> C. Only one manufacturer can service the system</label>
+      <label><input type="radio" name="q20" value="D"> D. Colours are not required</label>
+    </div>
+    <div class="question" data-question="21">
+      <p>21. In a simple hydraulic system, the component that converts mechanical energy into hydraulic energy is the:</p>
+      <label><input type="radio" name="q21" value="A"> A. Hydraulic cylinder</label>
+      <label><input type="radio" name="q21" value="B"> B. Pump</label>
+      <label><input type="radio" name="q21" value="C"> C. Reservoir</label>
+      <label><input type="radio" name="q21" value="D"> D. Relief valve</label>
+    </div>
+    <div class="question" data-question="22">
+      <p>22. The component that converts hydraulic energy back into mechanical linear motion is the:</p>
+      <label><input type="radio" name="q22" value="A"> A. Motor</label>
+      <label><input type="radio" name="q22" value="B"> B. Cylinder</label>
+      <label><input type="radio" name="q22" value="C"> C. Reservoir</label>
+      <label><input type="radio" name="q22" value="D"> D. Filter</label>
+    </div>
+    <div class="question" data-question="23">
+      <p>23. Pressure is created in a hydraulic system when:</p>
+      <label><input type="radio" name="q23" value="A"> A. The pump turns with all valves open to tank</label>
+      <label><input type="radio" name="q23" value="B"> B. Flow from the pump meets resistance to flow at an actuator or restriction</label>
+      <label><input type="radio" name="q23" value="C"> C. Oil returns freely to the reservoir</label>
+      <label><input type="radio" name="q23" value="D"> D. The engine is shut off</label>
+    </div>
+    <div class="question" data-question="24">
+      <p>24. The gauge port in a hydraulic system is used to:</p>
+      <label><input type="radio" name="q24" value="A"> A. Add mechanical leverage</label>
+      <label><input type="radio" name="q24" value="B"> B. Measure pressure at specific locations</label>
+      <label><input type="radio" name="q24" value="C"> C. Lubricate bearings directly</label>
+      <label><input type="radio" name="q24" value="D"> D. Vent exhaust gases</label>
+    </div>
+    <div class="question" data-question="25">
+      <p>25. A typical symbol for a fixed-displacement pump includes:</p>
+      <label><input type="radio" name="q25" value="A"> A. A circle with an arrow through it indicating direction of flow</label>
+      <label><input type="radio" name="q25" value="B"> B. A triangle pointing into a reservoir</label>
+      <label><input type="radio" name="q25" value="C"> C. A square with four ports</label>
+      <label><input type="radio" name="q25" value="D"> D. A zig-zag resistor symbol</label>
+    </div>
+    <div class="question" data-question="26">
+      <p>26. Hydraulic system operating temperature that is too high will:</p>
+      <label><input type="radio" name="q26" value="A"> A. Always improve efficiency</label>
+      <label><input type="radio" name="q26" value="B"> B. Accelerate fluid oxidation, reduce viscosity and shorten component life</label>
+      <label><input type="radio" name="q26" value="C"> C. Eliminate contamination</label>
+      <label><input type="radio" name="q26" value="D"> D. Prevent cavitation</label>
+    </div>
+    <div class="question" data-question="27">
+      <p>27. Hydraulic system operating temperature that is too low can:</p>
+      <label><input type="radio" name="q27" value="A"> A. Reduce viscosity to ideal levels instantly</label>
+      <label><input type="radio" name="q27" value="B"> B. Cause sluggish operation and high pressure drop due to thick oil</label>
+      <label><input type="radio" name="q27" value="C"> C. Eliminate the need for warm-up</label>
+      <label><input type="radio" name="q27" value="D"> D. Improve filtration efficiency only</label>
+    </div>
+    <div class="question" data-question="28">
+      <p>28. In the ILM Hydraulic Fundamentals module, parts technicians are expected to:</p>
+      <label><input type="radio" name="q28" value="A"> A. Design complete hydraulic systems from first principles</label>
+      <label><input type="radio" name="q28" value="B"> B. Understand basic terms, units, laws and relationships used in hydraulic components</label>
+      <label><input type="radio" name="q28" value="C"> C. Perform welding repairs on pressure vessels</label>
+      <label><input type="radio" name="q28" value="D"> D. Adjust engine ECU programming</label>
+    </div>
+    <div class="question" data-question="29">
+      <p>29. A double-acting cylinder:</p>
+      <label><input type="radio" name="q29" value="A"> A. Produces force in one direction only</label>
+      <label><input type="radio" name="q29" value="B"> B. Can produce force in both extension and retraction strokes using pressure on both sides of the piston</label>
+      <label><input type="radio" name="q29" value="C"> C. Has no piston rod</label>
+      <label><input type="radio" name="q29" value="D"> D. Cannot hold a load</label>
+    </div>
+    <div class="question" data-question="30">
+      <p>30. If a cylinder with a 50 mm diameter piston is supplied with 10 MPa of pressure, the theoretical extension force (ignoring losses) will:</p>
+      <label><input type="radio" name="q30" value="A"> A. Increase if piston area increases</label>
+      <label><input type="radio" name="q30" value="B"> B. Decrease if piston area increases</label>
+      <label><input type="radio" name="q30" value="C"> C. Remain unchanged with changes in area</label>
+      <label><input type="radio" name="q30" value="D"> D. Be independent of area</label>
+    </div>
+    <div class="question" data-question="31">
+      <p>31. The main difference between laminar and turbulent flow in a hydraulic line is:</p>
+      <label><input type="radio" name="q31" value="A"> A. Laminar flow is smooth and orderly; turbulent flow is chaotic with energy losses</label>
+      <label><input type="radio" name="q31" value="B"> B. Laminar flow causes more pressure drop</label>
+      <label><input type="radio" name="q31" value="C"> C. Turbulent flow never occurs in hydraulics</label>
+      <label><input type="radio" name="q31" value="D"> D. Laminar flow occurs only in return lines</label>
+    </div>
+    <div class="question" data-question="32">
+      <p>32. Flexible hydraulic hoses are used instead of rigid tubing when:</p>
+      <label><input type="radio" name="q32" value="A"> A. No movement or vibration is present</label>
+      <label><input type="radio" name="q32" value="B"> B. Components move relative to each other or experience vibration</label>
+      <label><input type="radio" name="q32" value="C"> C. Static installations exist only</label>
+      <label><input type="radio" name="q32" value="D"> D. Pressures are extremely low</label>
+    </div>
+    <div class="question" data-question="33">
+      <p>33. When air is trapped in a hydraulic system, operation may be:</p>
+      <label><input type="radio" name="q33" value="A"> A. Smooth and quiet</label>
+      <label><input type="radio" name="q33" value="B"> B. Spongy, erratic and noisy</label>
+      <label><input type="radio" name="q33" value="C"> C. Unaffected</label>
+      <label><input type="radio" name="q33" value="D"> D. Improved due to compressibility</label>
+    </div>
+    <div class="question" data-question="34">
+      <p>34. System pressure is normally limited by:</p>
+      <label><input type="radio" name="q34" value="A"> A. The reservoir size</label>
+      <label><input type="radio" name="q34" value="B"> B. A pressure relief valve or pressure control device</label>
+      <label><input type="radio" name="q34" value="C"> C. Hose length</label>
+      <label><input type="radio" name="q34" value="D"> D. Pump displacement</label>
+    </div>
+    <div class="question" data-question="35">
+      <p>35. Hydraulic horsepower can be increased by:</p>
+      <label><input type="radio" name="q35" value="A"> A. Reducing both pressure and flow</label>
+      <label><input type="radio" name="q35" value="B"> B. Increasing either pressure, flow, or both within component ratings</label>
+      <label><input type="radio" name="q35" value="C"> C. Increasing reservoir size only</label>
+      <label><input type="radio" name="q35" value="D"> D. Changing fluid colour</label>
+    </div>
+    <div class="question" data-question="36">
+      <p>36. The primary safety concern when working around pressurized hydraulics is:</p>
+      <label><input type="radio" name="q36" value="A"> A. Low sound levels</label>
+      <label><input type="radio" name="q36" value="B"> B. Risk of injection injuries, component failure and high-force movement</label>
+      <label><input type="radio" name="q36" value="C"> C. Mild temperatures</label>
+      <label><input type="radio" name="q36" value="D"> D. Exhaust fumes only</label>
+    </div>
+    <div class="question" data-question="37">
+      <p>37. Hydraulic system schematics in the ILM help parts technicians to:</p>
+      <label><input type="radio" name="q37" value="A"> A. Estimate building dimensions</label>
+      <label><input type="radio" name="q37" value="B"> B. Identify components, understand flow paths and locate likely wear items</label>
+      <label><input type="radio" name="q37" value="C"> C. Adjust axle alignment</label>
+      <label><input type="radio" name="q37" value="D"> D. Program onboard computers</label>
+    </div>
+    <div class="question" data-question="38">
+      <p>38. Hydraulic fluid cleanliness is often specified using:</p>
+      <label><input type="radio" name="q38" value="A"> A. Only fluid colour charts</label>
+      <label><input type="radio" name="q38" value="B"> B. International cleanliness codes that define particle counts at various sizes</label>
+      <label><input type="radio" name="q38" value="C"> C. Engine oil viscosity grades only</label>
+      <label><input type="radio" name="q38" value="D"> D. Coolant test strips</label>
+    </div>
+    <div class="question" data-question="39">
+      <p>39. Energy losses in hydraulic systems are mainly due to:</p>
+      <label><input type="radio" name="q39" value="A"> A. Friction and turbulence in components and lines</label>
+      <label><input type="radio" name="q39" value="B"> B. Perfectly smooth laminar flow</label>
+      <label><input type="radio" name="q39" value="C"> C. Zero leakage clearances</label>
+      <label><input type="radio" name="q39" value="D"> D. Use of proper hose size</label>
+    </div>
+    <div class="question" data-question="40">
+      <p>40. To safely release stored hydraulic energy before servicing, technicians should:</p>
+      <label><input type="radio" name="q40" value="A"> A. Shut off the engine and assume all pressure is gone</label>
+      <label><input type="radio" name="q40" value="B"> B. Follow lockout procedures and move controls to relieve pressure at actuators and lines</label>
+      <label><input type="radio" name="q40" value="C"> C. Loosen fittings under pressure to bleed oil slowly</label>
+      <label><input type="radio" name="q40" value="D"> D. Rely on the operator to hold the controls</label>
+    </div>
+  </div>
+
+  <div id="bottom-controls">
+    <button id="btnPrev">Previous</button>
+    <button id="btnNext">Next</button>
+    <button id="btnSubmit">Submit</button>
+  </div>
+
+  <script>
+    window.ANSWERS = {
+  "1": "B",
+  "2": "B",
+  "3": "B",
+  "4": "C",
+  "5": "B",
+  "6": "B",
+  "7": "B",
+  "8": "A",
+  "9": "B",
+  "10": "B",
+  "11": "B",
+  "12": "B",
+  "13": "B",
+  "14": "B",
+  "15": "B",
+  "16": "B",
+  "17": "B",
+  "18": "B",
+  "19": "B",
+  "20": "B",
+  "21": "B",
+  "22": "B",
+  "23": "B",
+  "24": "B",
+  "25": "A",
+  "26": "B",
+  "27": "B",
+  "28": "B",
+  "29": "B",
+  "30": "A",
+  "31": "A",
+  "32": "B",
+  "33": "B",
+  "34": "B",
+  "35": "B",
+  "36": "B",
+  "37": "B",
+  "38": "B",
+  "39": "A",
+  "40": "B"
+};
+  </script>
+</body>
+</html>
