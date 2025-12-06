@@ -102,7 +102,7 @@ function initExamPage() {
   // Insert top actions before the question container
   questionContainer.parentElement.insertBefore(topActions, questionContainer);
 
-  // Ensure result banner exists
+  // Ensure result banner exists at the bottom
   let resultBanner = document.getElementById("result-banner");
   if (!resultBanner) {
     resultBanner = document.createElement("div");
@@ -111,11 +111,29 @@ function initExamPage() {
     form.appendChild(resultBanner);
   }
 
-  const examKey = "examState:" + window.location.pathname;
-  const shuffleEnabled = true;
+  // Create a top result banner (above the first question)
+  let topResultBanner = document.getElementById("result-banner-top");
+  if (!topResultBanner) {
+    topResultBanner = document.createElement("div");
+    topResultBanner.id = "result-banner-top";
+    topResultBanner.className = "result-banner result-banner-top";
+    topActions.parentElement.insertBefore(topResultBanner, topActions);
+  }
 
-  // Shuffle questions & choices on first load if enabled
-  if (shuffleEnabled) {
+  const examKey = "examState:" + window.location.pathname;
+
+  // Check if there are any saved answers before shuffling
+  // Only shuffle on initial load if NO answers have been saved
+  let hasSavedAnswers = false;
+  try {
+    const savedState = JSON.parse(localStorage.getItem(examKey) || "null");
+    if (savedState && Array.isArray(savedState)) {
+      hasSavedAnswers = savedState.some(entry => entry && entry.value != null);
+    }
+  } catch {}
+
+  // Only shuffle if no answers have been saved (fresh start)
+  if (!hasSavedAnswers) {
     shuffleQuestions(questionContainer, questions);
   }
 
@@ -183,9 +201,14 @@ function initExamPage() {
     const total = questions.length;
     const score = Math.round((result.correct / total) * 100);
 
-    resultBanner.innerHTML =
-      `<strong>${score}%</strong> — ${result.correct} correct, ${result.incorrect} incorrect, ${result.unanswered} unanswered.`;
+    const scoreHtml = `<strong>${score}%</strong> — ${result.correct} correct, ${result.incorrect} incorrect, ${result.unanswered} unanswered.`;
+    
+    // Show result in both banners (top and bottom)
+    resultBanner.innerHTML = scoreHtml;
     resultBanner.classList.add("visible");
+    
+    topResultBanner.innerHTML = scoreHtml;
+    topResultBanner.classList.add("visible");
 
     // Enter submitted mode (locks answers, disables submit)
     document.body.classList.add("submitted-mode");
@@ -234,8 +257,11 @@ function initExamPage() {
       }
     }
 
+    // Clear both result banners
     resultBanner.classList.remove("visible");
     resultBanner.textContent = "";
+    topResultBanner.classList.remove("visible");
+    topResultBanner.textContent = "";
 
     document.body.classList.remove("review-mode");
     document.body.classList.remove("submitted-mode");
@@ -243,10 +269,8 @@ function initExamPage() {
     // Unlock all radio inputs
     setInputsLocked(false);
 
-    // Re-shuffle on every retake
-    if (shuffleEnabled) {
-      shuffleQuestions(questionContainer, questions);
-    }
+    // Shuffle on retake (user explicitly requested scramble)
+    shuffleQuestions(questionContainer, questions);
 
     updateProgress(questions, progressFill, progressText);
     
