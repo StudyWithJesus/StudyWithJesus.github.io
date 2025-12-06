@@ -85,6 +85,7 @@
   --space-4: 1rem;      /* 16px */
   --space-5: 1.25rem;   /* 20px */
   --space-6: 1.5rem;    /* 24px */
+  --space-7: 1.75rem;   /* 28px */
   --space-8: 2rem;      /* 32px */
   --space-10: 2.5rem;   /* 40px */
   --space-12: 3rem;     /* 48px */
@@ -357,6 +358,78 @@ a:hover {
   color: var(--color-text-secondary);
   text-shadow: 0 1px 8px rgba(0,0,0,0.8);
   line-height: var(--line-height-relaxed);
+}
+
+/* Header subtitle - used for section labels above main title */
+.header-subtitle {
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  opacity: 0.9;
+  margin-bottom: var(--space-2);
+}
+
+/* Tips section styling */
+.tips-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  align-items: start;
+}
+
+.tips-card {
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-gray-700);
+}
+
+.tips-card h3 {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.tips-card ul {
+  margin: 0;
+  padding-left: var(--space-5);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+/* Tip callout banner */
+.tip-callout {
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  background: rgba(var(--color-primary-rgb), 0.1);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.3);
+}
+
+.tip-callout p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.tip-callout strong {
+  color: var(--color-primary-light);
+}
+
+/* Site footer */
+.site-footer {
+  max-width: var(--max-width-content);
+  margin: 0 auto var(--space-6);
+  padding: 0 var(--space-6);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
 }
 
 /* glossy sweep across title */
