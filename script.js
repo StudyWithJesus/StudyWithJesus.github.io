@@ -22,6 +22,7 @@ const EXAM_TIMER_DURATION = 20 * 60;
 function initAll() {
   initExamPage();
   initExamIndexScores();
+  initUsernameSetup();
 }
 
 // ----------------------
@@ -777,6 +778,97 @@ function initExamIndexScores() {
     
     span.textContent = (score != null && !Number.isNaN(score)) ? `${score}%` : "No attempts yet";
   }
+}
+
+// ----------------------
+// Username Setup for Leaderboard (index page)
+// ----------------------
+function initUsernameSetup() {
+  const setupSection = document.getElementById('username-setup-section');
+  const setupForm = document.getElementById('username-setup-form');
+  const usernameInput = document.getElementById('setup-username-input');
+  const currentDisplay = document.getElementById('username-current-display');
+  
+  // Only run on pages with the username setup section
+  if (!setupSection || !setupForm) return;
+  
+  // Get current username from localStorage (using the same key as leaderboard.js)
+  function getUsername() {
+    try {
+      return localStorage.getItem('leaderboard_username') || null;
+    } catch {
+      return null;
+    }
+  }
+  
+  // Set username in localStorage
+  function setUsername(name) {
+    try {
+      const sanitized = name.trim().substring(0, 30).replace(/[<>'"&]/g, '');
+      if (sanitized) {
+        localStorage.setItem('leaderboard_username', sanitized);
+        return sanitized;
+      }
+    } catch {}
+    return null;
+  }
+  
+  // Update the display of the current username
+  function updateDisplay() {
+    const current = getUsername();
+    if (current) {
+      currentDisplay.innerHTML = 'Your name: <strong class="username-highlight">' + escapeHtml(current) + '</strong> <button type="button" id="change-name-btn" class="change-name-link">(change)</button>';
+      usernameInput.placeholder = 'Change your display name';
+      setupSection.classList.add('has-username');
+      
+      // Add event listener for change button
+      const changeBtn = document.getElementById('change-name-btn');
+      if (changeBtn) {
+        changeBtn.addEventListener('click', function() {
+          usernameInput.focus();
+        });
+      }
+    } else {
+      currentDisplay.innerHTML = '<span class="username-warning">⚠️ Please set your display name to track your scores!</span>';
+      setupSection.classList.remove('has-username');
+    }
+  }
+  
+  // Simple HTML escape
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+  
+  // Handle form submission
+  setupForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const newName = usernameInput.value.trim();
+    if (newName) {
+      const saved = setUsername(newName);
+      if (saved) {
+        usernameInput.value = '';
+        updateDisplay();
+        
+        // Show a brief success message
+        const originalPlaceholder = usernameInput.placeholder;
+        usernameInput.placeholder = '✓ Name saved!';
+        usernameInput.classList.add('input-success');
+        setTimeout(function() {
+          usernameInput.placeholder = originalPlaceholder;
+          usernameInput.classList.remove('input-success');
+        }, 2000);
+      }
+    }
+  });
+  
+  // Initialize display
+  updateDisplay();
 }
 
 // ----------------------
