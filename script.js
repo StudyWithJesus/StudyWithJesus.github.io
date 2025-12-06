@@ -1,10 +1,14 @@
 // =====================================================
 // Global script for exam pages + index pages
 // - Floating progress bar
+// - 20-minute exam timer
 // - Autosave answers
 // - Submit / Retake buttons (review mode auto-activates on submit)
 // - Last score per exam (ILM) for index pages
 // =====================================================
+
+// Timer duration in seconds (20 minutes)
+const EXAM_TIMER_DURATION = 20 * 60;
 
 // Run immediately on load (handles scripts at bottom of body)
 ;(function() {
@@ -102,6 +106,125 @@ function initExamPage() {
   // Insert top actions before the question container
   questionContainer.parentElement.insertBefore(topActions, questionContainer);
 
+  // ----------------------
+  // 20-minute Timer Setup
+  // ----------------------
+  const timerKey = "examTimer:" + window.location.pathname;
+  let timerInterval = null;
+  let remainingSeconds = EXAM_TIMER_DURATION;
+  let timerStarted = false;
+
+  // Create timer display element in the progress bar area
+  const progressBar = document.querySelector(".exam-progress");
+  let timerDisplay = document.getElementById("exam-timer");
+  if (!timerDisplay && progressBar) {
+    timerDisplay = document.createElement("div");
+    timerDisplay.id = "exam-timer";
+    timerDisplay.className = "exam-timer";
+    timerDisplay.innerHTML = '<span class="timer-icon">⏱</span><span class="timer-text">20:00</span>';
+    progressBar.appendChild(timerDisplay);
+  }
+
+  // Format seconds as MM:SS
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+  }
+
+  // Update timer display
+  function updateTimerDisplay() {
+    if (timerDisplay) {
+      const timerText = timerDisplay.querySelector('.timer-text');
+      if (timerText) {
+        timerText.textContent = formatTime(remainingSeconds);
+      }
+      // Add warning class when less than 2 minutes remain
+      if (remainingSeconds <= 120) {
+        timerDisplay.classList.add('timer-warning');
+      }
+      // Add critical class when less than 30 seconds remain
+      if (remainingSeconds <= 30) {
+        timerDisplay.classList.add('timer-critical');
+      }
+    }
+  }
+
+  // Save timer state to localStorage
+  function saveTimerState() {
+    try {
+      localStorage.setItem(timerKey, JSON.stringify({
+        remaining: remainingSeconds,
+        timestamp: Date.now(),
+        started: timerStarted
+      }));
+    } catch {}
+  }
+
+  // Load timer state from localStorage
+  function loadTimerState() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(timerKey) || "null");
+      if (saved && saved.started) {
+        // Calculate elapsed time since last save
+        const elapsed = Math.floor((Date.now() - saved.timestamp) / 1000);
+        remainingSeconds = Math.max(0, saved.remaining - elapsed);
+        timerStarted = true;
+        return true;
+      }
+    } catch {}
+    return false;
+  }
+
+  // Start the timer
+  function startTimer() {
+    if (timerInterval) return; // Already running
+    timerStarted = true;
+    timerInterval = setInterval(function() {
+      remainingSeconds--;
+      updateTimerDisplay();
+      saveTimerState();
+      
+      if (remainingSeconds <= 0) {
+        stopTimer();
+        // Auto-submit when time runs out
+        if (!document.body.classList.contains("submitted-mode")) {
+          handleSubmit();
+        }
+      }
+    }, 1000);
+  }
+
+  // Stop the timer
+  function stopTimer() {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+  }
+
+  // Reset the timer
+  function resetTimer() {
+    stopTimer();
+    remainingSeconds = EXAM_TIMER_DURATION;
+    timerStarted = false;
+    if (timerDisplay) {
+      timerDisplay.classList.remove('timer-warning', 'timer-critical');
+    }
+    updateTimerDisplay();
+    try {
+      localStorage.removeItem(timerKey);
+    } catch {}
+  }
+
+  // Load any saved timer state
+  if (loadTimerState()) {
+    updateTimerDisplay();
+    if (remainingSeconds > 0 && !document.body.classList.contains("submitted-mode")) {
+      startTimer();
+    }
+  }
+
   // Ensure result banner exists at the bottom
   let resultBanner = document.getElementById("result-banner");
   if (!resultBanner) {
@@ -164,6 +287,11 @@ function initExamPage() {
     updateProgress(questions, progressFill, progressText);
     updateSubmitButtonState();
     saveState(questions, examKey);
+    
+    // Start timer on first answer
+    if (!timerStarted && !document.body.classList.contains("submitted-mode")) {
+      startTimer();
+    }
   });
 
   // Function to update submit button state based on answered questions
@@ -208,6 +336,9 @@ function initExamPage() {
     if (document.body.classList.contains("submitted-mode")) {
       return;
     }
+    
+    // Stop the timer when submitting
+    stopTimer();
     
     const result = gradeExam(questions, false); // false = don't show correct answers
     const total = questions.length;
@@ -255,6 +386,9 @@ function initExamPage() {
 
   // Retake logic (clear + reshuffle)
   function handleRetake() {
+    // Reset the timer on retake
+    resetTimer();
+    
     // Clear all question states
     for (let i = 0; i < questions.length; i++) {
       const q = questions[i];
