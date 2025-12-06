@@ -1,0 +1,18 @@
+module.exports = {
+  root: true,
+  env: {
+    es6: true,
+    node: true,
+  },
+  parserOptions: {
+    ecmaVersion: 2018,
+  },
+  extends: [
+    'eslint:recommended',
+  ],
+  rules: {
+    'no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }],
+    'quotes': ['warn', 'single'],
+    'semi': ['warn', 'always'],
+  },
+};
