@@ -389,7 +389,85 @@ function initExamPage() {
       try {
         localStorage.setItem("examScore:" + examId, String(score));
       } catch {}
+      
+      // Submit to leaderboard if available
+      submitToLeaderboard(examId, score);
     }
+  }
+
+  // Submit score to leaderboard
+  function submitToLeaderboard(examId, score) {
+    // Check if Leaderboard module is available
+    if (typeof window.Leaderboard === 'undefined' || !window.Leaderboard.submitAttempt) {
+      console.info('Leaderboard module not loaded. Score saved locally only.');
+      return;
+    }
+
+    // Get username
+    const username = localStorage.getItem('leaderboard_username');
+    if (!username || username.trim() === '') {
+      console.info('No username set. Score saved locally but not submitted to leaderboard.');
+      return;
+    }
+
+    // Determine moduleId from examId (e.g., "270201b" -> "270201")
+    const moduleId = examId.match(/^(\d+)/)?.[1];
+    if (!moduleId) {
+      console.warn('Could not determine module ID from exam ID:', examId);
+      return;
+    }
+
+    // Prepare attempt data
+    const attempt = {
+      username: username,
+      moduleId: moduleId,
+      examId: examId,
+      score: score,
+      timestamp: new Date().toISOString()
+    };
+
+    // Submit to leaderboard
+    window.Leaderboard.submitAttempt(attempt)
+      .then(function(success) {
+        if (success) {
+          console.info('Score submitted to leaderboard successfully!');
+          // Show subtle success indicator
+          showLeaderboardSubmissionFeedback(true);
+        } else {
+          console.warn('Failed to submit score to leaderboard.');
+          showLeaderboardSubmissionFeedback(false);
+        }
+      })
+      .catch(function(error) {
+        console.error('Error submitting to leaderboard:', error);
+        showLeaderboardSubmissionFeedback(false);
+      });
+  }
+
+  // Show feedback after leaderboard submission
+  function showLeaderboardSubmissionFeedback(success) {
+    const banner = resultBanner;
+    if (!banner) return;
+
+    const feedbackEl = document.createElement('div');
+    feedbackEl.style.cssText = 'margin-top: 10px; font-size: 0.9rem; opacity: 0.8;';
+    
+    if (success) {
+      feedbackEl.innerHTML = '✅ Score submitted to leaderboard!';
+      feedbackEl.style.color = '#28a745';
+    } else {
+      feedbackEl.innerHTML = 'ℹ️ Score saved locally. Check leaderboard configuration.';
+      feedbackEl.style.color = '#6c757d';
+    }
+
+    banner.appendChild(feedbackEl);
+
+    // Remove after 5 seconds
+    setTimeout(function() {
+      if (feedbackEl && feedbackEl.parentNode) {
+        feedbackEl.parentNode.removeChild(feedbackEl);
+      }
+    }, 5000);
   }
 
   // Retake logic (clear + reshuffle)
