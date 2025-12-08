@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OAuth Diagnostic - StudyWithJesus Admin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px 40px;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .status-box {
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      border-left: 4px solid;
+    }
+
+    .status-box.success {
+      background: #e8f5e9;
+      border-color: #4caf50;
+    }
+
+    .status-box.error {
+      background: #ffebee;
+      border-color: #f44336;
+    }
+
+    .status-box.warning {
+      background: #fff3e0;
+      border-color: #ff9800;
+    }
+
+    .status-box.info {
+      background: #e3f2fd;
+      border-color: #2196F3;
+    }
+
+    .status-icon {
+      font-size: 2rem;
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .check-item {
+      padding: 15px;
+      margin: 10px 0;
+      background: #f5f5f5;
+      border-radius: 6px;
+    }
+
+    .check-item h3 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .check-result {
+      font-weight: 500;
+      margin-top: 10px;
+    }
+
+    code {
+      background: #e0e0e0;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 10px 10px 10px 0;
+    }
+
+    button:hover {
+      background: #5568d3;
+    }
+
+    button.secondary {
+      background: #6c757d;
+    }
+
+    button.secondary:hover {
+      background: #5a6268;
+    }
+
+    .section {
+      margin: 30px 0;
+    }
+
+    .section h2 {
+      color: #667eea;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      margin: 10px 0;
+      padding-left: 25px;
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .copy-btn {
+      background: #4caf50;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      margin-left: 10px;
+    }
+
+    .copy-btn:hover {
+      background: #45a049;
+    }
+
+    pre {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔍 OAuth Diagnostic Tool</h1>
+      <p>Diagnose GitHub OAuth authentication issues</p>
+    </div>
+
+    <div class="content">
+      <div class="section">
+        <h2>Current Status</h2>
+        <div id="overall-status" class="status-box info">
+          <span class="status-icon">⏳</span>
+          <strong>Checking configuration...</strong>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Configuration Checks</h2>
+        
+        <div class="check-item" id="check-client-id">
+          <h3>1. Client ID Configuration</h3>
+          <p>Checking if GITHUB_CLIENT_ID is set...</p>
+          <div class="check-result"></div>
+        </div>
+
+        <div class="check-item" id="check-callback-url">
+          <h3>2. Callback URL Detection</h3>
+          <p>The OAuth callback URL should be...</p>
+          <div class="check-result"></div>
+        </div>
+
+        <div class="check-item" id="check-function">
+          <h3>3. Netlify Function Availability</h3>
+          <p>Checking if github-oauth function exists...</p>
+          <div class="check-result"></div>
+        </div>
+
+        <div class="check-item" id="check-oauth-app">
+          <h3>4. GitHub OAuth App Configuration</h3>
+          <p>Verify your OAuth App settings match...</p>
+          <div class="check-result"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Actions</h2>
+        <button onclick="testOAuthFlow()">Test OAuth Flow</button>
+        <button onclick="checkFunctionLive()" class="secondary">Test Function</button>
+        <button onclick="location.reload()" class="secondary">Recheck</button>
+        <button onclick="window.location.href='/pages/admin/index.html'" class="secondary">Go to Admin</button>
+      </div>
+
+      <div class="section">
+        <h2>Next Steps</h2>
+        <div id="next-steps"></div>
+      </div>
+
+      <div class="section">
+        <h2>Debug Information</h2>
+        <pre id="debug-info"></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load OAuth config -->
+  <script src="/config/github-oauth.config.js"></script>
+  <script src="/assets/js/github-auth.js"></script>
+
+  <script>
+    const checks = {
+      clientId: false,
+      callbackUrl: false,
+      function: false,
+      oauthApp: false
+    };
+
+    function updateOverallStatus() {
+      const allPassed = Object.values(checks).every(v => v);
+      const statusBox = document.getElementById('overall-status');
+      
+      if (allPassed) {
+        statusBox.className = 'status-box success';
+        statusBox.innerHTML = `
+          <span class="status-icon">✅</span>
+          <strong>All checks passed!</strong> Your OAuth configuration appears to be correct.
+        `;
+      } else {
+        const passed = Object.values(checks).filter(v => v).length;
+        const total = Object.values(checks).length;
+        statusBox.className = 'status-box warning';
+        statusBox.innerHTML = `
+          <span class="status-icon">⚠️</span>
+          <strong>Configuration Issues Detected</strong><br>
+          ${passed} of ${total} checks passed. See details below.
+        `;
+      }
+    }
+
+    function check1_ClientID() {
+      const elem = document.getElementById('check-client-id');
+      const result = elem.querySelector('.check-result');
+      const clientId = window.GITHUB_CLIENT_ID || window.GITHUB_OAUTH_CONFIG?.clientId;
+      
+      if (clientId && clientId !== 'YOUR_GITHUB_CLIENT_ID_HERE' && clientId !== '') {
+        checks.clientId = true;
+        result.innerHTML = `
+          ✅ <strong>PASS:</strong> Client ID is configured<br>
+          <code>${clientId}</code>
+        `;
+        elem.style.borderLeft = '4px solid #4caf50';
+      } else {
+        checks.clientId = false;
+        result.innerHTML = `
+          ❌ <strong>FAIL:</strong> Client ID is not configured<br>
+          <strong>Fix:</strong> Edit <code>config/github-oauth.config.js</code> and set your GitHub OAuth App Client ID.
+        `;
+        elem.style.borderLeft = '4px solid #f44336';
+      }
+    }
+
+    function check2_CallbackURL() {
+      const elem = document.getElementById('check-callback-url');
+      const result = elem.querySelector('.check-result');
+      const callbackUrl = `${window.location.origin}/.netlify/functions/github-oauth`;
+      
+      checks.callbackUrl = true;
+      result.innerHTML = `
+        ✅ <strong>Detected callback URL:</strong><br>
+        <code>${callbackUrl}</code>
+        <button class="copy-btn" onclick="copyToClipboard('${callbackUrl}')">Copy</button><br>
+        <br>
+        <strong>Important:</strong> This URL must match EXACTLY in your GitHub OAuth App settings.<br>
+        <a href="https://github.com/settings/developers" target="_blank">→ Check your OAuth App settings</a>
+      `;
+      elem.style.borderLeft = '4px solid #2196F3';
+    }
+
+    function checkOAuthAppConfig() {
+      const elem = document.getElementById('check-oauth-app');
+      const result = elem.querySelector('.check-result');
+      const clientId = window.GITHUB_CLIENT_ID || window.GITHUB_OAUTH_CONFIG?.clientId;
+      const homepageUrl = window.location.origin;
+      const callbackUrl = `${window.location.origin}/.netlify/functions/github-oauth`;
+      
+      result.innerHTML = `
+        ℹ️ <strong>Expected OAuth App Configuration:</strong><br>
+        <br>
+        <strong>Application name:</strong> StudyWithJesus Admin (or any name)<br>
+        <strong>Homepage URL:</strong> <code>${homepageUrl}</code>
+        <button class="copy-btn" onclick="copyToClipboard('${homepageUrl}')">Copy</button><br>
+        <strong>Authorization callback URL:</strong> <code>${callbackUrl}</code>
+        <button class="copy-btn" onclick="copyToClipboard('${callbackUrl}')">Copy</button><br>
+        <strong>Client ID (from OAuth App):</strong> <code>${clientId || 'NOT SET'}</code><br>
+        <br>
+        <a href="https://github.com/settings/developers" target="_blank">
+          <button>→ Verify/Create OAuth App</button>
+        </a>
+      `;
+      elem.style.borderLeft = '4px solid #2196F3';
+    }
+
+    async function checkFunctionLive() {
+      const elem = document.getElementById('check-function');
+      const result = elem.querySelector('.check-result');
+      
+      result.innerHTML = '⏳ Testing function...';
+      
+      try {
+        const response = await fetch('/.netlify/functions/github-oauth');
+        
+        if (response.ok || response.status === 400 || response.status === 500) {
+          checks.function = true;
+          result.innerHTML = `
+            ✅ <strong>PASS:</strong> Function is accessible (Status: ${response.status})<br>
+            ${response.status === 400 ? 'Expected 400 - function is working but needs OAuth code' : ''}
+            ${response.status === 500 ? '<strong>⚠️ Function returned 500 - likely environment variables not set</strong>' : ''}
+          `;
+          elem.style.borderLeft = '4px solid #4caf50';
+        } else {
+          checks.function = false;
+          result.innerHTML = `
+            ❌ <strong>FAIL:</strong> Unexpected status ${response.status}<br>
+            The function may not be deployed correctly.
+          `;
+          elem.style.borderLeft = '4px solid #f44336';
+        }
+      } catch (err) {
+        checks.function = false;
+        result.innerHTML = `
+          ❌ <strong>FAIL:</strong> Cannot reach function<br>
+          Error: ${err.message}<br>
+          <strong>Fix:</strong> Ensure site is deployed to Netlify with functions enabled.
+        `;
+        elem.style.borderLeft = '4px solid #f44336';
+      }
+      
+      updateOverallStatus();
+      updateNextSteps();
+    }
+
+    function testOAuthFlow() {
+      if (typeof GitHubAuth !== 'undefined') {
+        console.log('Starting OAuth test flow...');
+        GitHubAuth.login();
+      } else {
+        alert('GitHubAuth module not loaded. Please check browser console for errors.');
+      }
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copied to clipboard!');
+      }).catch(err => {
+        prompt('Copy this URL:', text);
+      });
+    }
+
+    function updateNextSteps() {
+      const nextSteps = document.getElementById('next-steps');
+      const issues = [];
+      
+      if (!checks.clientId) {
+        issues.push(`
+          <li><strong>Configure Client ID:</strong> Edit <code>config/github-oauth.config.js</code> and add your GitHub OAuth App Client ID.</li>
+        `);
+      }
+      
+      if (!checks.function) {
+        issues.push(`
+          <li><strong>Deploy to Netlify:</strong> Ensure the site is deployed to Netlify with functions enabled.</li>
+        `);
+      }
+      
+      if (issues.length === 0) {
+        nextSteps.innerHTML = `
+          <div class="status-box success">
+            <span class="status-icon">🎉</span>
+            <strong>Configuration looks good!</strong><br>
+            <br>
+            Next steps:
+            <ol>
+              <li>Ensure environment variables are set in Netlify:
+                <ul>
+                  <li><code>GITHUB_CLIENT_SECRET</code> (from your OAuth App)</li>
+                  <li><code>ADMIN_GITHUB_USERNAME</code> (your GitHub username)</li>
+                </ul>
+              </li>
+              <li><a href="https://app.netlify.com/sites/silly-speculoos-4afae0/configuration/env" target="_blank">Set environment variables in Netlify →</a></li>
+              <li>Redeploy your site if you just added the variables</li>
+              <li><button onclick="testOAuthFlow()">Test sign in now →</button></li>
+            </ol>
+          </div>
+        `;
+      } else {
+        nextSteps.innerHTML = `
+          <div class="status-box error">
+            <span class="status-icon">❌</span>
+            <strong>Action Required:</strong>
+            <ul>${issues.join('')}</ul>
+          </div>
+        `;
+      }
+    }
+
+    function updateDebugInfo() {
+      const debugInfo = {
+        timestamp: new Date().toISOString(),
+        location: {
+          origin: window.location.origin,
+          pathname: window.location.pathname,
+          href: window.location.href
+        },
+        oauth: {
+          clientId: window.GITHUB_CLIENT_ID || window.GITHUB_OAUTH_CONFIG?.clientId || 'NOT SET',
+          callbackUrl: `${window.location.origin}/.netlify/functions/github-oauth`,
+          homepageUrl: window.location.origin
+        },
+        checks: checks,
+        userAgent: navigator.userAgent
+      };
+      
+      document.getElementById('debug-info').textContent = JSON.stringify(debugInfo, null, 2);
+    }
+
+    // Run checks on load
+    window.addEventListener('DOMContentLoaded', async () => {
+      check1_ClientID();
+      check2_CallbackURL();
+      checkOAuthAppConfig();
+      await checkFunctionLive();
+      updateOverallStatus();
+      updateNextSteps();
+      updateDebugInfo();
+    });
+  </script>
+</body>
+</html>
