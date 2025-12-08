@@ -245,22 +245,23 @@
 
   <script>
     // Initialize authentication
-    function init() {
+    async function init() {
       // Check if GitHub Auth is available
       if (!window.GitHubAuth) {
         console.error('GitHub Auth module not loaded');
         document.getElementById('auth-section').innerHTML = `
           <div style="padding: 40px; text-align: center;">
             <h2>Configuration Error</h2>
-            <p style="color: #666; margin: 20px 0;">GitHub OAuth is not properly configured.</p>
-            <p style="color: #666;">Please deploy to Netlify with environment variables set.</p>
+            <p style="color: #666; margin: 20px 0;">Authentication module is not loaded.</p>
+            <p style="color: #666;">Please check your configuration.</p>
           </div>
         `;
         return;
       }
       
       // Check if authenticated
-      GitHubAuth.requireAuth().then(user => {
+      try {
+        const user = await GitHubAuth.requireAuth();
         // User is authenticated - show main content
         document.getElementById('auth-section').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
@@ -273,19 +274,23 @@
         document.getElementById('hub-url').textContent = window.location.href;
         document.getElementById('fingerprint-url').textContent = baseUrl + 'fingerprint-admin.html';
         document.getElementById('leaderboard-url').textContent = baseUrl + 'leaderboard.html';
-      }).catch(err => {
+      } catch (err) {
         // Not authenticated - show login UI
         document.getElementById('main-content').style.display = 'none';
-        GitHubAuth.showAuthUI('auth-section');
-      });
+        await GitHubAuth.showAuthUI('auth-section');
+      }
     }
     
     function showUserInfo(user) {
       const header = document.querySelector('.header');
       const userInfo = document.createElement('div');
       userInfo.style.cssText = 'position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px;';
+      
+      // Safely handle avatar URL
+      const avatarUrl = user.avatar || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22><circle cx=%2216%22 cy=%2216%22 r=%2216%22 fill=%22%23ccc%22/></svg>';
+      
       userInfo.innerHTML = `
-        <img src="${user.avatar}" alt="${user.username}" style="width: 32px; height: 32px; border-radius: 50%;">
+        <img src="${avatarUrl}" alt="${user.username}" style="width: 32px; height: 32px; border-radius: 50%;">
         <span style="color: white; font-weight: 500;">${user.username}</span>
         <button onclick="GitHubAuth.logout()" style="background: rgba(255,255,255,0.3); color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; margin-left: 8px;">Logout</button>
       `;

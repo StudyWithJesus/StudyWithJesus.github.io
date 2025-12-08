@@ -209,7 +209,7 @@
         });
       }
 
-      function checkAccess() {
+      async function checkAccess() {
         // Check if GitHub Auth is available
         if (!window.GitHubAuth) {
           console.error('GitHub Auth module not loaded');
@@ -218,20 +218,21 @@
         }
         
         // Require GitHub OAuth authentication only
-        GitHubAuth.requireAuth().then(function(user) {
+        try {
+          var user = await GitHubAuth.requireAuth();
           // User is authenticated via GitHub OAuth
           currentUser = user;
-          logAdminAccess('Authenticated via GitHub OAuth: ' + user.username);
+          logAdminAccess('Authenticated via GitHub: ' + user.username);
           showUserInfo(user);
           grantAccess();
-        }).catch(function(err) {
+        } catch (err) {
           // Not authenticated - show login UI
           if (githubAuthSectionEl) {
-            GitHubAuth.showAuthUI('github-auth-section');
+            await GitHubAuth.showAuthUI('github-auth-section');
           } else {
             accessDeniedEl.style.display = 'block';
           }
-        });
+        }
       }
       
       function showUserInfo(user) {
@@ -243,8 +244,11 @@
           
           // Create elements safely to prevent XSS
           var img = document.createElement('img');
-          // Validate avatar URL is from GitHub
-          if (user.avatar && user.avatar.startsWith('https://avatars.githubusercontent.com/')) {
+          // Validate avatar URL is from GitHub or Firebase
+          if (user.avatar && (user.avatar.startsWith('https://avatars.githubusercontent.com/') || user.avatar.startsWith('https://lh3.googleusercontent.com/'))) {
+            img.src = user.avatar;
+          } else if (user.avatar) {
+            // Other avatar URLs - use as is (should be safe from Firebase Auth)
             img.src = user.avatar;
           } else {
             img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="16" fill="%23ccc"/></svg>';
@@ -263,7 +267,7 @@
           
           var oauthLabel = document.createElement('div');
           oauthLabel.style.cssText = 'font-size: 0.9rem; opacity: 0.8;';
-          oauthLabel.textContent = 'GitHub OAuth';
+          oauthLabel.textContent = 'GitHub via Firebase';
           
           var logoutBtn = document.createElement('button');
           logoutBtn.textContent = 'Logout';

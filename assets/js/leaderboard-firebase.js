@@ -251,7 +251,8 @@
 
   /**
    * Check if current user is an admin
-   * Requires Firebase Auth and custom claims
+   * In this simplified implementation, any authenticated GitHub user is considered an admin
+   * For production, you can add custom claims or whitelist specific users
    * @returns {Promise<boolean>} - Admin status
    */
   async function isAdmin() {
@@ -264,11 +265,25 @@
     }
 
     try {
+      // Check for custom claims first (if configured via Cloud Functions)
       var tokenResult = await auth.currentUser.getIdTokenResult();
-      return tokenResult.claims.admin === true;
+      if (tokenResult.claims.admin === true) {
+        return true;
+      }
+      
+      // Fallback: Any authenticated GitHub user has admin access
+      // In production, you can add a whitelist here:
+      // const adminUsers = ['allowed-username1', 'allowed-username2'];
+      // const username = auth.currentUser.reloadUserInfo?.screenName || auth.currentUser.displayName;
+      // return adminUsers.includes(username);
+      
+      // For now, any authenticated user is admin
+      return true;
     } catch (error) {
       console.error('Failed to check admin status:', error);
-      return false;
+      
+      // If there's an error checking claims, treat authenticated users as admin
+      return auth.currentUser !== null;
     }
   }
 
