@@ -41,6 +41,49 @@
   }
 
   /**
+   * Store fingerprint log locally for admin dashboard
+   * @param {string} fp - Fingerprint hash
+   * @param {string} name - Display name
+   */
+  function storeFingerprintLog(fp, name) {
+    try {
+      const storageKey = 'fingerprint_logs';
+      const logs = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      
+      // Check if fingerprint already exists
+      const existingIndex = logs.findIndex(log => log.fingerprint === fp);
+      
+      if (existingIndex !== -1) {
+        // Update existing entry
+        logs[existingIndex].lastSeen = new Date().toISOString();
+        if (name && !logs[existingIndex].name) {
+          logs[existingIndex].name = name;
+        }
+      } else {
+        // Add new entry
+        logs.push({
+          id: Date.now(),
+          name: name || 'Guest',
+          fingerprint: fp,
+          timestamp: new Date().toISOString(),
+          userAgent: navigator.userAgent || '',
+          lastSeen: new Date().toISOString()
+        });
+      }
+      
+      // Keep only last 100 entries
+      if (logs.length > 100) {
+        logs.splice(0, logs.length - 100);
+      }
+      
+      localStorage.setItem(storageKey, JSON.stringify(logs));
+    } catch (err) {
+      // Silent failure - don't disrupt user experience
+      console.debug('Failed to store fingerprint log:', err.message);
+    }
+  }
+
+  /**
    * Generate and log fingerprint
    */
   async function logFingerprint() {
@@ -49,6 +92,9 @@
       const fingerprintData = collectFingerprintData();
       const fp = await sha256(fingerprintData);
 
+      // Get display name from localStorage if available
+      const displayName = localStorage.getItem('leaderboard_username') || '';
+
       // Prepare payload
       const payload = {
         fp: fp,
@@ -56,8 +102,12 @@
         lang: navigator.language || '',
         tz: new Date().getTimezoneOffset(),
         ts: new Date().toISOString(),
-        url: window.location.href
+        url: window.location.href,
+        name: displayName
       };
+
+      // Store fingerprint log locally for admin dashboard
+      storeFingerprintLog(fp, displayName);
 
       // Send to serverless endpoint
       const endpoint = '/.netlify/functions/log-fingerprint';

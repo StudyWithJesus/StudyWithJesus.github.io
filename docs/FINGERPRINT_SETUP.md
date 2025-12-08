@@ -4,7 +4,18 @@ This guide explains how to set up and use the fingerprint logging and whitelist 
 
 ## Overview
 
-The fingerprint logger captures unique device fingerprints from visitors and logs them to GitHub issues. The optional whitelist blocker can restrict access to only approved fingerprints.
+The fingerprint logger captures unique device fingerprints from visitors and logs them to GitHub issues. The optional whitelist blocker can restrict access to only approved fingerprints. An admin dashboard allows you to manage blocked fingerprints with toggle switches.
+
+## Admin Dashboard
+
+**🔐 Admin Hub:** `/pages/admin/index.html`
+
+The admin hub provides centralized access to:
+- **Fingerprint Admin** (`/pages/admin/fingerprint-admin.html`) - Toggle fingerprint blocking
+- **Leaderboard Admin** (`/pages/admin/leaderboard.html`) - View user statistics
+
+**Quick Access:**
+Bookmark the admin hub for easy access to all administrative features. See `pages/admin/README.md` for detailed documentation.
 
 ## Files Added
 
@@ -13,6 +24,8 @@ The fingerprint logger captures unique device fingerprints from visitors and log
 - `netlify/functions/log-fingerprint.js` - Serverless function that creates GitHub issues
 - `_includes/fingerprint-scripts.html` - Documentation and include template
 - `netlify.toml` - Netlify configuration
+- `pages/admin/index.html` - Admin hub with links to all admin pages
+- `pages/admin/fingerprint-admin.html` - Fingerprint management dashboard with toggle controls
 
 ## Deployment on Netlify
 
@@ -48,6 +61,30 @@ In your Netlify dashboard (Site settings > Environment variables), add:
 
 By default, the whitelist blocker is **disabled**. To enable it:
 
+### Method A: Using Admin Dashboard (Recommended)
+
+1. **Access Admin Dashboard:**
+   - Navigate to `/pages/admin/fingerprint-admin.html`
+   - Enter admin password (default: `admin123`)
+
+2. **Block Fingerprints:**
+   - View all logged fingerprints with associated display names
+   - Click the toggle switch next to a user to block them
+   - Status changes from "Allowed" to "BLOCKED"
+
+3. **Export Configuration:**
+   - Click "Export Whitelist" button
+   - Configuration is copied to clipboard
+   - Paste into `assets/whitelist-fingerprint.js`
+
+4. **Enable Blocker:**
+   - Uncomment the whitelist script in your HTML:
+   ```html
+   <script src="assets/whitelist-fingerprint.js"></script>
+   ```
+
+### Method B: Manual Configuration
+
 ### Step 1: Enable the Script
 
 In `index.html` (or other pages), add:
@@ -76,6 +113,32 @@ const allowedFingerprints = [
 - Whitelisted devices can access the site normally
 - Non-whitelisted devices see "Access Restricted" message
 - Empty array disables blocking (default)
+
+## Admin Dashboard Features
+
+### Fingerprint Admin (`/pages/admin/fingerprint-admin.html`)
+
+**Features:**
+- 🔒 Toggle switches to block/unblock individual fingerprints
+- 👤 View fingerprints associated with display names
+- 📊 Real-time statistics (Total, Blocked, Allowed)
+- 🔍 Search by name or fingerprint hash
+- 📥 Export whitelist configuration to clipboard
+- 🗑️ Clear all blocks with one click
+- 💾 Automatic saving to localStorage
+
+**Access:**
+- Default password: `admin123`
+- Change password by editing `ADMIN_PASSWORD` in page source
+- Session-based authentication
+
+**Bookmarking:**
+Save these URLs for quick access:
+- Admin Hub: `/pages/admin/index.html`
+- Fingerprint Admin: `/pages/admin/fingerprint-admin.html`
+- Leaderboard Admin: `/pages/admin/leaderboard.html`
+
+For detailed admin documentation, see `pages/admin/README.md`.
 
 ## Using a Custom Webhook
 

@@ -18,12 +18,14 @@ function createGitHubIssue(token, repo, payload, clientIp) {
   return new Promise((resolve, reject) => {
     const [owner, repoName] = repo.split('/');
     
+    const displayName = payload.name ? `**Display Name:** ${payload.name}\n` : '';
+    
     const issueBody = `## Fingerprint Log Entry
 
 **Timestamp:** ${payload.ts}
 **URL:** ${payload.url}
 **Client IP:** ${clientIp || 'unknown'}
-
+${displayName}
 ### Fingerprint Data
 - **Hash (SHA-256):** \`${payload.fp}\`
 - **User Agent:** ${payload.ua}
@@ -44,8 +46,9 @@ const allowedFingerprints = [
 *This issue was automatically created by the fingerprint logger.*
 `;
 
+    const titleName = payload.name ? ` (${payload.name})` : '';
     const issueData = JSON.stringify({
-      title: `Fingerprint Log: ${payload.fp.substring(0, 8)}... at ${new Date(payload.ts).toLocaleString()}`,
+      title: `Fingerprint Log: ${payload.fp.substring(0, 8)}...${titleName} at ${new Date(payload.ts).toLocaleString()}`,
       body: issueBody,
       labels: ['fingerprint-log']
     });
