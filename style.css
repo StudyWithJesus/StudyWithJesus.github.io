@@ -796,6 +796,10 @@ body.review-mode .question.correct {
   background: linear-gradient(135deg, var(--color-gray-400) 0%, var(--color-primary-light) 50%, var(--color-primary) 100%);
 }
 
+.exam-button.retry {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 50%, #d35400 100%);
+}
+
 .exam-button.ghost {
   background: transparent;
   color: var(--color-text-primary);

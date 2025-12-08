@@ -93,6 +93,18 @@ function initExamPage() {
     actions.appendChild(retakeBtn);
   }
 
+  // Find or create the retry wrong answers button
+  let retryBtn = form.querySelector("#retry-btn");
+  if (!retryBtn) {
+    retryBtn = document.createElement("button");
+    retryBtn.type = "button";
+    retryBtn.id = "retry-btn";
+    retryBtn.className = "exam-button retry";
+    retryBtn.innerHTML = '<span class="dot"></span><span>Retry Wrong Answers</span>';
+    retryBtn.style.display = "none"; // Hidden by default
+    actions.appendChild(retryBtn);
+  }
+
   // Create top action buttons (above first question)
   const topActions = document.createElement("div");
   topActions.className = "exam-actions exam-actions-top";
@@ -110,6 +122,14 @@ function initExamPage() {
   topRetakeBtn.className = "exam-button secondary";
   topRetakeBtn.innerHTML = '<span class="dot"></span><span>Retake &amp; Scramble</span>';
   topActions.appendChild(topRetakeBtn);
+
+  const topRetryBtn = document.createElement("button");
+  topRetryBtn.type = "button";
+  topRetryBtn.id = "retry-btn-top";
+  topRetryBtn.className = "exam-button retry";
+  topRetryBtn.innerHTML = '<span class="dot"></span><span>Retry Wrong Answers</span>';
+  topRetryBtn.style.display = "none"; // Hidden by default
+  topActions.appendChild(topRetryBtn);
   
   // Insert top actions before the question container
   questionContainer.parentElement.insertBefore(topActions, questionContainer);
@@ -379,6 +399,17 @@ function initExamPage() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    // Show retry button if there are incorrect answers
+    const retryBtn = form.querySelector("#retry-btn");
+    const topRetryBtn = form.querySelector("#retry-btn-top");
+    if (result.incorrect > 0) {
+      if (retryBtn) retryBtn.style.display = "inline-block";
+      if (topRetryBtn) topRetryBtn.style.display = "inline-block";
+    } else {
+      if (retryBtn) retryBtn.style.display = "none";
+      if (topRetryBtn) topRetryBtn.style.display = "none";
+    }
+
     // Persist last score for this exam
     try {
       localStorage.setItem(examKey + ":lastScore", String(score));
@@ -512,6 +543,12 @@ function initExamPage() {
     // Update submit button state (will be disabled since no answers selected)
     updateSubmitButtonState();
     
+    // Hide retry buttons
+    const retryBtn = form.querySelector("#retry-btn");
+    const topRetryBtn = form.querySelector("#retry-btn-top");
+    if (retryBtn) retryBtn.style.display = "none";
+    if (topRetryBtn) topRetryBtn.style.display = "none";
+    
     try {
       localStorage.removeItem(examKey);
       localStorage.removeItem(examKey + ":lastScore");
@@ -519,6 +556,68 @@ function initExamPage() {
     } catch {}
     
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Retry wrong answers only (keep correct answers locked)
+  function handleRetryWrong() {
+    // Clear only incorrect question states and unlock only those
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i];
+      
+      // Only process incorrect questions
+      if (q.classList.contains("incorrect")) {
+        // Clear labels
+        const labels = q.querySelectorAll("label");
+        for (let j = 0; j < labels.length; j++) {
+          labels[j].classList.remove("correct", "incorrect");
+        }
+        
+        // Clear selection
+        const inputs = q.querySelectorAll('input[type="radio"]');
+        for (let j = 0; j < inputs.length; j++) {
+          inputs[j].checked = false;
+          inputs[j].disabled = false; // Unlock incorrect questions
+        }
+        
+        // Remove incorrect class so it's not marked anymore
+        q.classList.remove("incorrect");
+        q.classList.remove("answered");
+      } else if (q.classList.contains("correct")) {
+        // Keep correct answers locked
+        const inputs = q.querySelectorAll('input[type="radio"]');
+        for (let j = 0; j < inputs.length; j++) {
+          inputs[j].disabled = true; // Keep correct answers locked
+        }
+      }
+    }
+
+    // Clear result banners
+    resultBanner.classList.remove("visible");
+    resultBanner.textContent = "";
+    topResultBanner.classList.remove("visible");
+    topResultBanner.textContent = "";
+
+    // Exit submitted mode but stay in review mode
+    document.body.classList.remove("submitted-mode");
+    
+    // Hide retry buttons
+    const retryBtn = form.querySelector("#retry-btn");
+    const topRetryBtn = form.querySelector("#retry-btn-top");
+    if (retryBtn) retryBtn.style.display = "none";
+    if (topRetryBtn) topRetryBtn.style.display = "none";
+
+    updateProgress(questions, progressFill, progressText);
+    
+    // Update submit button state
+    updateSubmitButtonState();
+    
+    // Scroll to first question that needs to be answered
+    const firstUnanswered = questions.find(q => !q.classList.contains("correct") && !q.classList.contains("answered"));
+    if (firstUnanswered) {
+      firstUnanswered.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   // Attach submit handlers to both buttons
@@ -541,6 +640,17 @@ function initExamPage() {
   topRetakeBtn.addEventListener("click", (e) => {
     e.preventDefault();
     handleRetake();
+  });
+
+  // Attach retry handlers to both buttons
+  retryBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    handleRetryWrong();
+  });
+
+  topRetryBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    handleRetryWrong();
   });
 }
 
