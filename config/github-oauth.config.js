@@ -25,7 +25,7 @@
  * For more details, see: docs/GITHUB_OAUTH_SETUP.md
  */
 
-window.GITHUB_OAUTH_CONFIG = {
+window.GITHUB_OAUTH_CONFIG = Ov23liWrCTAIplgEUl3P{
   // Replace this with your GitHub OAuth App Client ID
   // Example: 'Iv1.a1b2c3d4e5f6g7h8'
   clientId: '',
