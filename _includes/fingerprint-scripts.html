@@ -1,0 +1,63 @@
+<!-- Fingerprint Logger Scripts -->
+<!-- 
+  This include adds fingerprint logging to track unique visitors.
+  
+  IMPORTANT: This file does NOT contain any secrets or tokens.
+  All authentication happens server-side in the Netlify Function.
+  
+  Files included:
+  1. fingerprint-logger.js - Generates SHA-256 fingerprint and logs to serverless endpoint
+  2. whitelist-fingerprint.js - (Optional) Blocks access unless fingerprint is whitelisted
+  
+  SETUP INSTRUCTIONS:
+  
+  For Netlify Deployment:
+  =======================
+  1. Set environment variables in Netlify dashboard:
+     - GITHUB_TOKEN (required): Personal access token with 'repo' scope
+       Create at: https://github.com/settings/tokens
+     - GITHUB_REPO (optional): Format 'owner/repo', defaults to StudyWithJesus/StudyWithJesus.github.io
+  
+  2. Deploy to Netlify - the function will be available at:
+     /.netlify/functions/log-fingerprint
+  
+  3. Fingerprints will be logged as GitHub issues in your repository
+  
+  Using a Custom Webhook Instead:
+  ================================
+  To send fingerprints to a different endpoint (e.g., custom webhook):
+  
+  1. Edit assets/fingerprint-logger.js
+  2. Change this line:
+     const endpoint = '/.netlify/functions/log-fingerprint';
+     To:
+     const endpoint = 'https://your-webhook-url.com/log';
+  
+  3. Your webhook should accept POST requests with JSON payload:
+     {
+       "fp": "sha256-hash-string",
+       "ua": "user-agent-string",
+       "lang": "language-code",
+       "tz": timezone-offset-minutes,
+       "ts": "ISO-timestamp",
+       "url": "page-url"
+     }
+  
+  Whitelist Blocker (Optional):
+  ==============================
+  The whitelist-fingerprint.js script is commented out by default.
+  To enable access blocking:
+  
+  1. Uncomment the whitelist script below
+  2. Collect fingerprint hashes from GitHub issues created by the logger
+  3. Add approved hashes to the allowedFingerprints array in assets/whitelist-fingerprint.js
+  4. When the array is not empty, only whitelisted fingerprints can access the site
+  
+  NOTE: Keep the whitelist array empty to disable blocking (default behavior)
+-->
+
+<!-- Fingerprint Logger (Always Active) -->
+<script src="/assets/fingerprint-logger.js"></script>
+
+<!-- Whitelist Blocker (Commented out by default - uncomment to enable) -->
+<!-- <script src="/assets/whitelist-fingerprint.js"></script> -->
