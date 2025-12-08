@@ -244,14 +244,30 @@
           
           // Create elements safely to prevent XSS
           var img = document.createElement('img');
-          // Validate avatar URL is from GitHub or Firebase
-          if (user.avatar && (user.avatar.startsWith('https://avatars.githubusercontent.com/') || user.avatar.startsWith('https://lh3.googleusercontent.com/'))) {
-            img.src = user.avatar;
-          } else if (user.avatar) {
-            // Other avatar URLs - use as is (should be safe from Firebase Auth)
-            img.src = user.avatar;
+          // Validate avatar URL is from trusted sources only
+          var defaultAvatar = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="16" fill="%23ccc"/></svg>';
+          
+          if (user.avatar) {
+            // Only allow HTTPS URLs from trusted domains
+            var trustedDomains = [
+              'https://avatars.githubusercontent.com/',
+              'https://lh3.googleusercontent.com/',
+              'https://graph.facebook.com/',
+              'https://platform-lookaside.fbsbx.com/'
+            ];
+            
+            var isTrusted = trustedDomains.some(function(domain) {
+              return user.avatar.startsWith(domain);
+            });
+            
+            if (isTrusted) {
+              img.src = user.avatar;
+            } else {
+              console.warn('Untrusted avatar URL, using default:', user.avatar);
+              img.src = defaultAvatar;
+            }
           } else {
-            img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="16" fill="%23ccc"/></svg>';
+            img.src = defaultAvatar;
           }
           img.alt = 'User avatar';
           img.style.cssText = 'width: 32px; height: 32px; border-radius: 50%;';
