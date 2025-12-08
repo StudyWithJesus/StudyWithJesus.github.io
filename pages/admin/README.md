@@ -2,7 +2,24 @@
 
 ## Overview
 
-The Admin Hub provides centralized access to administrative features for StudyWithJesus.
+The Admin Hub provides centralized access to administrative features for StudyWithJesus, protected by GitHub OAuth authentication.
+
+## Authentication
+
+**🔐 GitHub OAuth Required**
+
+All admin pages now require authentication via GitHub OAuth. Only the authorized GitHub account (set via `ADMIN_GITHUB_USERNAME` environment variable) can access admin features.
+
+**Setup:** See [GitHub OAuth Setup Guide](../../docs/GITHUB_OAUTH_SETUP.md) for complete configuration instructions.
+
+**Quick Setup:**
+1. Create GitHub OAuth App at https://github.com/settings/developers
+2. Set environment variables in Netlify:
+   - `GITHUB_CLIENT_ID` - Your OAuth App Client ID
+   - `GITHUB_CLIENT_SECRET` - Your OAuth App Client Secret  
+   - `ADMIN_GITHUB_USERNAME` - Your GitHub username (e.g., `StudyWithJesus`)
+3. Deploy to Netlify
+4. Visit `/pages/admin/index.html` and sign in with GitHub
 
 ## Admin Pages
 
@@ -10,6 +27,8 @@ The Admin Hub provides centralized access to administrative features for StudyWi
 **URL:** `/pages/admin/index.html`
 
 Central dashboard with links to all admin features. Bookmark this page for easy access.
+
+**Authentication:** GitHub OAuth required
 
 ### 2. Fingerprint Admin
 **URL:** `/pages/admin/fingerprint-admin.html`
@@ -21,8 +40,7 @@ Manage access control via fingerprint blocking:
 - Search and filter fingerprints
 - Real-time statistics
 
-**Default Password:** `admin123`
-- Change the password by editing the `ADMIN_PASSWORD` constant in the page source
+**Authentication:** GitHub OAuth required (replaced password-based auth)
 
 **Features:**
 - 🔒 Toggle switches to block/unblock individual fingerprints
@@ -31,10 +49,11 @@ Manage access control via fingerprint blocking:
 - 📥 Export whitelist configuration to clipboard
 - 🗑️ Clear all blocks with one click
 - 💾 Automatic saving to localStorage
+- 👤 Shows your GitHub profile in header
 
 **How to Block a User:**
 1. Open the Fingerprint Admin page
-2. Enter the admin password (`admin123` by default)
+2. Sign in with your authorized GitHub account
 3. Find the user by name or fingerprint hash
 4. Click the toggle switch to change from "Allowed" to "BLOCKED"
 5. Click "Export Whitelist" to copy the configuration
@@ -72,13 +91,25 @@ https://your-site.com/pages/admin/leaderboard.html
 
 ## Security Considerations
 
+### GitHub OAuth Authentication
+- ✅ **OAuth 2.0 Standard** - Industry-standard authentication protocol
+- ✅ **Single Admin Account** - Only specified GitHub user can access
+- ✅ **No Password Storage** - No passwords to manage or leak
+- ✅ **Serverless Functions** - Secure token exchange server-side
+- ✅ **Session Expiration** - 24-hour automatic timeout
+- ✅ **HTTPS Only** - Secure cookies (HttpOnly, Secure, SameSite)
+
 ### Fingerprint Admin
-- Password-protected (stored in page source)
+- GitHub OAuth protected (OAuth token never exposed)
 - Session-based authentication (clears on logout)
 - No server-side persistence by default
 - Uses localStorage for blocked fingerprint list
+- Client Secret kept secure in environment variables
 
-**To enhance security:**
+**Environment Variables (Netlify):**
+- `GITHUB_CLIENT_ID` - Public OAuth App ID
+- `GITHUB_CLIENT_SECRET` - Private (never exposed to client)
+- `ADMIN_GITHUB_USERNAME` - Your GitHub username
 1. Change the default password in the page source
 2. Consider hosting behind additional authentication
 3. Use HTTPS in production

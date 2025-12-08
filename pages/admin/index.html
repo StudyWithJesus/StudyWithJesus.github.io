@@ -186,6 +186,13 @@
       }
     }
   </style>
+  <!-- GitHub OAuth Configuration -->
+  <script>
+    // Set your GitHub OAuth App Client ID here
+    // Get this from: https://github.com/settings/developers
+    window.GITHUB_CLIENT_ID = ''; // Will be set via environment or config
+  </script>
+  <script src="../../assets/js/github-auth.js"></script>
 </head>
 <body>
   <div class="container">
@@ -194,7 +201,11 @@
       <p>Centralized administration for StudyWithJesus</p>
     </div>
 
-    <div class="content">
+    <!-- Authentication Section -->
+    <div id="auth-section"></div>
+
+    <!-- Main Content (hidden until authenticated) -->
+    <div class="content" id="main-content" style="display: none;">
       <div class="info-box">
         <h3>📌 Bookmark These Links</h3>
         <p>Save these admin pages to your bookmarks for quick access:</p>
@@ -236,11 +247,58 @@
   </div>
 
   <script>
-    // Populate URLs for bookmarking
-    const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '');
-    document.getElementById('hub-url').textContent = window.location.href;
-    document.getElementById('fingerprint-url').textContent = baseUrl + 'fingerprint-admin.html';
-    document.getElementById('leaderboard-url').textContent = baseUrl + 'leaderboard.html';
+    // Initialize authentication
+    function init() {
+      // Check if authenticated
+      GitHubAuth.requireAuth().then(user => {
+        // User is authenticated - show main content
+        document.getElementById('auth-section').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        
+        // Show user info in header
+        showUserInfo(user);
+        
+        // Populate URLs for bookmarking
+        const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '');
+        document.getElementById('hub-url').textContent = window.location.href;
+        document.getElementById('fingerprint-url').textContent = baseUrl + 'fingerprint-admin.html';
+        document.getElementById('leaderboard-url').textContent = baseUrl + 'leaderboard.html';
+      }).catch(err => {
+        // Not authenticated - show login UI
+        document.getElementById('main-content').style.display = 'none';
+        GitHubAuth.showAuthUI('auth-section');
+      });
+    }
+    
+    function showUserInfo(user) {
+      const header = document.querySelector('.header');
+      const userInfo = document.createElement('div');
+      userInfo.style.cssText = 'position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px;';
+      userInfo.innerHTML = `
+        <img src="${user.avatar}" alt="${user.username}" style="width: 32px; height: 32px; border-radius: 50%;">
+        <span style="color: white; font-weight: 500;">${user.username}</span>
+        <button onclick="GitHubAuth.logout()" style="background: rgba(255,255,255,0.3); color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; margin-left: 8px;">Logout</button>
+      `;
+      header.style.position = 'relative';
+      header.appendChild(userInfo);
+    }
+    
+    // Load GitHub Client ID from config or meta tag
+    // In production, set this via Netlify environment variable injected into HTML
+    if (!window.GITHUB_CLIENT_ID) {
+      // Try to load from meta tag
+      const meta = document.querySelector('meta[name="github-client-id"]');
+      if (meta) {
+        window.GITHUB_CLIENT_ID = meta.getAttribute('content');
+      }
+    }
+    
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   </script>
 </body>
 </html>

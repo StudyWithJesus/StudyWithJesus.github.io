@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Fingerprint Admin Dashboard</title>
+  <!-- GitHub OAuth Configuration -->
+  <script>
+    window.GITHUB_CLIENT_ID = ''; // Will be set via environment or config
+  </script>
+  <script src="../../assets/js/github-auth.js"></script>
   <style>
     * {
       margin: 0;
@@ -295,23 +301,11 @@
 
     <!-- Authentication Section -->
     <div class="auth-section" id="auth-section">
-      <h2>Admin Authentication</h2>
-      <p style="margin: 20px 0; color: #666;">Enter the admin password to continue</p>
-      <input 
-        type="password" 
-        id="admin-password" 
-        placeholder="Enter admin password"
-        onkeypress="if(event.key==='Enter') authenticate()"
-      >
-      <br>
-      <button onclick="authenticate()">Access Dashboard</button>
-      <p style="margin-top: 20px; font-size: 0.9rem; color: #999;">
-        Default password: <code>admin123</code> (change in the page source)
-      </p>
+      <!-- Will be populated by GitHub Auth -->
     </div>
 
     <!-- Main Dashboard Content -->
-    <div class="main-content" id="main-content">
+    <div class="main-content" id="main-content" style="display: none;">
       <!-- Stats Section -->
       <div class="stats">
         <div class="stat-card">
@@ -363,42 +357,42 @@
     // State
     let fingerprintData = [];
     let blockedFingerprints = new Set();
-
-    /**
-     * Authentication
-     */
-    function authenticate() {
-      const password = document.getElementById('admin-password').value;
-      
-      if (password === ADMIN_PASSWORD) {
-        // Store auth in session
-        sessionStorage.setItem('fingerprint_admin_auth', 'true');
-        showDashboard();
-      } else {
-        alert('❌ Incorrect password. Please try again.');
-        document.getElementById('admin-password').value = '';
-      }
-    }
-
-    /**
-     * Logout
-     */
-    function logout() {
-      sessionStorage.removeItem('fingerprint_admin_auth');
-      document.getElementById('auth-section').style.display = 'block';
-      document.getElementById('main-content').classList.remove('active');
-      document.getElementById('logout-btn').style.display = 'none';
-      document.getElementById('admin-password').value = '';
-    }
+    let currentUser = null;
 
     /**
      * Show dashboard
      */
-    function showDashboard() {
+    function showDashboard(user) {
+      currentUser = user;
       document.getElementById('auth-section').style.display = 'none';
-      document.getElementById('main-content').classList.add('active');
-      document.getElementById('logout-btn').style.display = 'block';
+      document.getElementById('main-content').style.display = 'block';
+      
+      // Show user info in header
+      showUserInfo(user);
+      
       loadData();
+    }
+    
+    /**
+     * Show user info in header
+     */
+    function showUserInfo(user) {
+      const header = document.querySelector('.header');
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn) logoutBtn.remove();
+      
+      const userInfo = document.createElement('button');
+      userInfo.id = 'logout-btn';
+      userInfo.className = 'logout-btn';
+      userInfo.onclick = () => GitHubAuth.logout();
+      userInfo.style.display = 'flex';
+      userInfo.style.alignItems = 'center';
+      userInfo.style.gap = '8px';
+      userInfo.innerHTML = `
+        <img src="${user.avatar}" alt="${user.username}" style="width: 24px; height: 24px; border-radius: 50%;">
+        <span>${user.username}</span>
+      `;
+      header.appendChild(userInfo);
     }
 
     /**
@@ -641,18 +635,23 @@ ${allowed.join('\n')}
      * Initialize
      */
     function init() {
-      // Check if already authenticated
-      if (sessionStorage.getItem('fingerprint_admin_auth') === 'true') {
-        showDashboard();
-      }
-
-      // Log admin access
-      console.log('Fingerprint Admin Dashboard loaded');
-      console.log('Default password: admin123');
+      // Check GitHub authentication
+      GitHubAuth.requireAuth().then(user => {
+        // User is authenticated - show dashboard
+        showDashboard(user);
+      }).catch(err => {
+        // Not authenticated - show login UI
+        document.getElementById('main-content').style.display = 'none';
+        GitHubAuth.showAuthUI('auth-section');
+      });
     }
 
     // Initialize on page load
-    init();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   </script>
 </body>
 </html>
