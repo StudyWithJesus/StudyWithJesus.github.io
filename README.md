@@ -82,30 +82,21 @@ To enable real-time leaderboards with data persistence:
 
 ### Admin Access
 
-Admin pages are protected by GitHub OAuth authentication when deployed to Netlify:
+Admin pages are protected by Firebase Authentication with GitHub provider:
 
-#### Method 1: GitHub OAuth (Recommended for Production)
-- Deploy to Netlify with GitHub OAuth configured
-- Only the specified GitHub account can access admin pages
-- See [Netlify Deployment Guide](docs/NETLIFY_DEPLOYMENT.md) for complete setup
+**Setup Steps:**
+1. Enable GitHub provider in Firebase Console
+2. Create GitHub OAuth App with correct callback URL
+3. Add OAuth credentials to Firebase
+4. Any authenticated GitHub user has admin access (can add whitelist if needed)
 
-#### Method 2: URL Fragment (Demo/Development)
-- Access via: `/pages/admin/leaderboard.html#ADMIN_SECRET_KEY`
-- Fallback method when OAuth is not configured
-- Not secure for production use
-
-#### Method 3: Firebase Auth (Alternative)
-1. Set up Firebase Authentication
-2. Create admin user
-3. Set admin custom claim via Firebase Admin SDK:
-   ```javascript
-   admin.auth().setCustomUserClaims(uid, { admin: true });
-   ```
+See [FIREBASE_GITHUB_AUTH_SETUP.md](FIREBASE_GITHUB_AUTH_SETUP.md) for complete setup guide, or [GITHUB_OAUTH_QUICK_ANSWER.md](GITHUB_OAUTH_QUICK_ANSWER.md) for quick reference.
 
 ### Security Considerations
 
-- **GitHub OAuth** - Admin pages restricted to authorized GitHub account (Netlify)
-- **No secrets in repo** - All credentials are in gitignored config files or environment variables
+- **Firebase Authentication** - Handles all authentication securely
+- **GitHub OAuth** - Only authorized GitHub accounts can access admin pages
+- **No secrets in repo** - All credentials stored in Firebase or gitignored files
 - **Firestore rules** - Restrict writes and admin reads
 - **Admin audit logging** - Access attempts are logged locally
 - **IP hashing** - If storing IPs, use one-way hashing
@@ -150,33 +141,26 @@ This is a static HTML/CSS/JS site. No build step required.
 
 ## Deployment
 
-### Netlify (Recommended for Admin Features)
+### GitHub Pages (Recommended)
 
-Netlify deployment enables GitHub OAuth authentication for admin pages.
+This site is designed for GitHub Pages deployment with Firebase Authentication.
 
 **Quick Start:**
-1. Create Netlify site from GitHub repository
-2. Set up GitHub OAuth app (see [GitHub OAuth Setup Guide](docs/GITHUB_OAUTH_SETUP.md))
-3. Configure `config/github-oauth.config.js` with your Client ID
-4. Set Netlify environment variables (see [Netlify Deployment Guide](docs/NETLIFY_DEPLOYMENT.md))
-
-**Required Configuration:**
-1. **Client-side (in repository):**
-   - Edit `config/github-oauth.config.js` and set your OAuth App Client ID
-   
-2. **Server-side (in Netlify dashboard):**
-   - `GITHUB_CLIENT_SECRET` - OAuth App Client Secret
-   - `ADMIN_GITHUB_USERNAME` - Your GitHub username
-
-**Complete Setup:** See [docs/GITHUB_OAUTH_SETUP.md](docs/GITHUB_OAUTH_SETUP.md)
-
-### GitHub Pages (Static Only)
-
-GitHub Pages deployment works but admin OAuth features require serverless functions (not available on GitHub Pages). Admin pages will fall back to URL fragment or Firebase auth.
-
 1. Enable GitHub Pages in repository settings
 2. Set source to main branch
-3. Visit `https://[username].github.io/[repo]/`
+3. Set up Firebase Authentication with GitHub provider
+4. Create GitHub OAuth App (see [GITHUB_OAUTH_QUICK_ANSWER.md](GITHUB_OAUTH_QUICK_ANSWER.md))
+5. Add OAuth credentials to Firebase
+6. Visit `https://studywithjesus.github.io`
+
+**Firebase Setup:** See [FIREBASE_GITHUB_AUTH_SETUP.md](FIREBASE_GITHUB_AUTH_SETUP.md) for complete instructions.
+
+### Other Static Hosting
+
+This site works on any static hosting platform (Netlify, Vercel, etc.) with Firebase Authentication:
+- No build step required
+- No serverless functions needed
+- Firebase handles all authentication
 
 ## Browser Support
 
