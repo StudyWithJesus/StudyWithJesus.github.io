@@ -19,6 +19,8 @@ function createGitHubIssue(token, repo, payload, clientIp) {
     const [owner, repoName] = repo.split('/');
     
     const displayName = payload.name ? `**Display Name:** ${payload.name}\n` : '';
+    // Sanitize name for use in code comment - replace special chars
+    const safeName = (payload.name || 'User').replace(/[`'"\\]/g, '_');
     
     const issueBody = `## Fingerprint Log Entry
 
@@ -38,7 +40,7 @@ To blacklist this fingerprint (device/display name), use the Fingerprint Admin d
 
 \`\`\`javascript
 const manuallyBlockedFingerprints = [
-  '${payload.fp}', // ${payload.name || 'User'} - IP: ${clientIp} (info only)
+  '${payload.fp}', // ${safeName} - IP: ${clientIp} (info only)
 ];
 \`\`\`
 

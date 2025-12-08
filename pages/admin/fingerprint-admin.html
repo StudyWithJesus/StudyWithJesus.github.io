@@ -353,6 +353,10 @@
     const STORAGE_KEY_BLOCKED = 'fingerprint_blocked_list';
     const STORAGE_KEY_FINGERPRINTS = 'fingerprint_logs';
     
+    // Constants for IP placeholders
+    const IP_NOT_AVAILABLE = 'N/A';
+    const IP_LOCAL = 'N/A (local)';
+    
     // State
     let fingerprintData = [];
     let blockedFingerprints = new Set();
@@ -427,7 +431,7 @@
           id: Date.now(),
           name: username,
           fingerprint: currentFp,
-          ip: 'N/A (local)', // IP will be populated by server
+          ip: IP_LOCAL, // IP will be populated by server
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent,
           lastSeen: new Date().toISOString()
@@ -515,13 +519,15 @@
         const toggleClass = isBlocked ? 'toggle-switch active' : 'toggle-switch';
         const labelClass = isBlocked ? 'toggle-label blocked' : 'toggle-label';
         const labelText = isBlocked ? 'BLOCKED' : 'Allowed';
-        const ipAddress = fp.ip || 'N/A';
+        const ipAddress = fp.ip || IP_NOT_AVAILABLE;
+        // Escape IP for safe use in onclick attribute
+        const safeIp = escapeHtml(ipAddress).replace(/'/g, '&#39;');
 
         return `
           <div class="${itemClass}">
             <div 
               class="${toggleClass}" 
-              onclick="toggleBlock('${fp.fingerprint}', '${ipAddress}')"
+              onclick="toggleBlock('${fp.fingerprint}', '${safeIp}')"
               title="Click to ${isBlocked ? 'allow' : 'block'}"
             ></div>
             <div class="fingerprint-info">
@@ -592,7 +598,7 @@
       const blocked = fingerprintData
         .filter(fp => blockedFingerprints.has(fp.fingerprint))
         .map(fp => {
-          const ipInfo = fp.ip && fp.ip !== 'N/A' && fp.ip !== 'N/A (local)' ? ` - IP: ${fp.ip} (info only)` : '';
+          const ipInfo = fp.ip && fp.ip !== IP_NOT_AVAILABLE && fp.ip !== IP_LOCAL ? ` - IP: ${fp.ip} (info only)` : '';
           return `  '${fp.fingerprint}', // ${fp.name}${ipInfo}`;
         });
 
