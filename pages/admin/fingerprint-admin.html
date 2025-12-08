@@ -354,7 +354,7 @@
           oninput="filterFingerprints()"
         >
         <button onclick="refreshData()">🔄 Refresh</button>
-        <button onclick="exportWhitelist()">📥 Export Whitelist</button>
+        <button onclick="exportWhitelist()">📥 Export Blocklist</button>
         <button onclick="clearAllBlocks()" class="danger">🗑️ Clear All Blocks</button>
       </div>
 
@@ -598,30 +598,31 @@
     }
 
     /**
-     * Export whitelist configuration
+     * Export blocklist configuration
      */
     function exportWhitelist() {
-      const allowed = fingerprintData
-        .filter(fp => !blockedFingerprints.has(fp.fingerprint))
+      const blocked = fingerprintData
+        .filter(fp => blockedFingerprints.has(fp.fingerprint))
         .map(fp => `  '${fp.fingerprint}', // ${fp.name}`);
 
-      const config = `// Whitelist Configuration
+      const config = `// Blacklist Configuration (Manual Override)
 // Generated: ${new Date().toISOString()}
-// Copy this array to assets/whitelist-fingerprint.js
+// Copy this array to assets/whitelist-fingerprint.js (optional)
 
-const allowedFingerprints = [
-${allowed.join('\n')}
+const manuallyBlockedFingerprints = [
+${blocked.join('\n')}
 ];
 
-// Note: When this array is NOT empty, only these fingerprints can access the site.
-// To disable blocking, keep the array empty: const allowedFingerprints = [];`;
+// Note: Blocked fingerprints are automatically synced from localStorage.
+// This manual list is only needed if you want permanent blocks across browsers.
+// The admin dashboard automatically uses localStorage key 'fingerprint_blocked_list'.`;
 
       // Copy to clipboard
       navigator.clipboard.writeText(config).then(() => {
-        alert('✅ Whitelist configuration copied to clipboard!\n\nPaste this into assets/whitelist-fingerprint.js');
+        alert('✅ Blacklist configuration copied to clipboard!\n\n(Optional) Paste this into assets/whitelist-fingerprint.js for manual overrides.\n\nNote: Blocks are automatically synced via localStorage.');
       }).catch(() => {
         // Fallback: show in alert
-        prompt('Copy this whitelist configuration:', config);
+        prompt('Copy this blacklist configuration (optional):', config);
       });
     }
 

@@ -43,21 +43,27 @@
        "url": "page-url"
      }
   
-  Whitelist Blocker (Optional):
-  ==============================
-  The whitelist-fingerprint.js script is commented out by default.
-  To enable access blocking:
+  Blacklist Blocker (Enabled Site-Wide):
+  ======================================
+  The whitelist-fingerprint.js script blocks specific users.
   
-  1. Uncomment the whitelist script below
-  2. Collect fingerprint hashes from GitHub issues created by the logger
-  3. Add approved hashes to the allowedFingerprints array in assets/whitelist-fingerprint.js
-  4. When the array is not empty, only whitelisted fingerprints can access the site
+  BEHAVIOR:
+  - Everyone has access by default
+  - Only blocks fingerprints marked as "BLOCKED" in the admin dashboard
+  - Blocked list stored in browser localStorage (automatic sync)
   
-  NOTE: Keep the whitelist array empty to disable blocking (default behavior)
+  HOW TO USE:
+  1. Visit /pages/admin/fingerprint-admin.html
+  2. Click "Continue in Local Mode"
+  3. Find the fingerprint you want to block
+  4. Click the toggle switch to change status to "BLOCKED"
+  5. That fingerprint will be blocked across all pages immediately
+  
+  NOTE: No manual configuration needed - blocking is managed through the admin dashboard
 -->
 
 <!-- Fingerprint Logger (Always Active) -->
 <script src="/assets/fingerprint-logger.js"></script>
 
-<!-- Whitelist Blocker (Now enabled site-wide) -->
+<!-- Blacklist Blocker (Enabled site-wide - blocks users toggled in admin dashboard) -->
 <script src="/assets/whitelist-fingerprint.js"></script>

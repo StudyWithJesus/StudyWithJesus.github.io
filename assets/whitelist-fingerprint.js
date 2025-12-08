@@ -1,28 +1,27 @@
 /**
- * Whitelist Fingerprint Blocker
- * Computes SHA-256 fingerprint and blocks access if not in whitelist
+ * Blacklist Fingerprint Blocker
+ * Computes SHA-256 fingerprint and blocks access if in the blocked list
+ * 
+ * BEHAVIOR:
+ * - Everyone has access by default
+ * - Only blocks fingerprints that are explicitly marked as "blocked" in the admin dashboard
+ * - Blocked list is stored in localStorage under 'fingerprint_blocked_list'
  * 
  * USAGE:
- * 1. Add allowed fingerprint hashes to the allowedFingerprints array below
- * 2. To get a user's fingerprint, check the GitHub issues created by the logger
- * 3. Copy the fingerprint hash from the issue and add it to the array
- * 
- * Example:
- * const allowedFingerprints = [
- *   'a1b2c3d4e5f6...', // John's device
- *   'f6e5d4c3b2a1...'  // Jane's device
- * ];
+ * 1. Visit /pages/admin/fingerprint-admin.html
+ * 2. Toggle specific fingerprints to "BLOCKED" status
+ * 3. Those fingerprints will be blocked across all pages
  */
 (function() {
   'use strict';
 
   /**
-   * WHITELIST CONFIGURATION
-   * Add approved fingerprint hashes here
-   * Format: Array of SHA-256 hash strings (64 hex characters each)
+   * BLOCKED LIST CONFIGURATION
+   * This is now managed through the admin dashboard
+   * The array below is for manual overrides only (optional)
    */
-  const allowedFingerprints = [
-    // Add fingerprint hashes here, one per line
+  const manuallyBlockedFingerprints = [
+    // Manually add fingerprint hashes here if needed (optional)
     // Example: 'a1b2c3d4e5f6789012345678901234567890123456789012345678901234',
   ];
 
@@ -105,12 +104,23 @@
   }
 
   /**
-   * Check fingerprint against whitelist
+   * Check fingerprint against blocked list
    */
   async function checkAccess() {
     try {
-      // If whitelist is empty, allow access (disabled blocker)
-      if (allowedFingerprints.length === 0) {
+      // Get blocked list from localStorage (set by admin dashboard)
+      const STORAGE_KEY_BLOCKED = 'fingerprint_blocked_list';
+      const blockedListJson = localStorage.getItem(STORAGE_KEY_BLOCKED);
+      const blockedFromDashboard = blockedListJson ? JSON.parse(blockedListJson) : [];
+      
+      // Combine manually blocked with dashboard blocked
+      const allBlockedFingerprints = [
+        ...manuallyBlockedFingerprints,
+        ...blockedFromDashboard
+      ];
+
+      // If no fingerprints are blocked, allow access to everyone
+      if (allBlockedFingerprints.length === 0) {
         return;
       }
 
@@ -118,17 +128,17 @@
       const fingerprintData = collectFingerprintData();
       const fp = await sha256(fingerprintData);
 
-      // Check if fingerprint is in whitelist
-      const isAllowed = allowedFingerprints.includes(fp);
+      // Check if fingerprint is in blocked list
+      const isBlocked = allBlockedFingerprints.includes(fp);
 
-      if (!isAllowed) {
+      if (isBlocked) {
         // Block access immediately
         blockAccess();
       }
 
     } catch (err) {
       // On error, fail open (allow access) to prevent false positives
-      console.error('Whitelist check error:', err);
+      console.error('Blacklist check error:', err);
     }
   }
 
