@@ -109,8 +109,12 @@
       // Store fingerprint log locally for admin dashboard
       storeFingerprintLog(fp, displayName);
 
-      // Send to serverless endpoint
+      // Send to serverless endpoint (Netlify/Vercel only)
+      // On GitHub Pages, this will fail silently and fingerprints are stored locally only
       const endpoint = '/.netlify/functions/log-fingerprint';
+      
+      // Alternative: Use a webhook service like Formspree
+      // const endpoint = 'https://formspree.io/f/YOUR_FORM_ID';
       
       // Use keepalive if supported for reliability
       const options = {

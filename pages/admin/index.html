@@ -203,6 +203,23 @@
 
     <!-- Authentication Section -->
     <div id="auth-section"></div>
+    
+    <!-- GitHub Pages Notice -->
+    <div class="content" id="github-pages-notice" style="display: none; padding: 30px;">
+      <div class="alert warning" style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h3 style="color: #856404; margin-top: 0;">ℹ️ GitHub Pages Deployment Detected</h3>
+        <p style="color: #856404; line-height: 1.6;">
+          GitHub OAuth authentication requires serverless functions, which are not available on GitHub Pages.
+          The admin dashboard will work in <strong>local mode</strong> using your browser's localStorage.
+        </p>
+        <p style="color: #856404; line-height: 1.6; margin-bottom: 0;">
+          <strong>Alternatives:</strong> Deploy to Vercel or Netlify for full OAuth functionality, or use the dashboard in local mode below.
+        </p>
+      </div>
+      <button onclick="showLocalDashboard()" style="padding: 12px 24px; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;">
+        Continue in Local Mode
+      </button>
+    </div>
 
     <!-- Main Content (hidden until authenticated) -->
     <div class="content" id="main-content" style="display: none;">
@@ -247,12 +264,35 @@
   </div>
 
   <script>
+    // Check if running on GitHub Pages (no serverless functions)
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    
+    // Function to show local dashboard without auth
+    function showLocalDashboard() {
+      document.getElementById('github-pages-notice').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+      
+      // Populate URLs for bookmarking
+      const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '');
+      document.getElementById('hub-url').textContent = window.location.href;
+      document.getElementById('fingerprint-url').textContent = baseUrl + 'fingerprint-admin.html';
+      document.getElementById('leaderboard-url').textContent = baseUrl + 'leaderboard.html';
+    }
+    
     // Initialize authentication
     function init() {
+      // If on GitHub Pages and no OAuth Client ID is set, skip OAuth
+      if (isGitHubPages && !window.GITHUB_CLIENT_ID) {
+        document.getElementById('auth-section').style.display = 'none';
+        document.getElementById('github-pages-notice').style.display = 'block';
+        return;
+      }
+      
       // Check if authenticated
       GitHubAuth.requireAuth().then(user => {
         // User is authenticated - show main content
         document.getElementById('auth-section').style.display = 'none';
+        document.getElementById('github-pages-notice').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
         
         // Show user info in header
@@ -266,6 +306,7 @@
       }).catch(err => {
         // Not authenticated - show login UI
         document.getElementById('main-content').style.display = 'none';
+        document.getElementById('github-pages-notice').style.display = 'none';
         GitHubAuth.showAuthUI('auth-section');
       });
     }

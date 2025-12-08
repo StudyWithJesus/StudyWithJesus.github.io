@@ -301,7 +301,24 @@
 
     <!-- Authentication Section -->
     <div class="auth-section" id="auth-section">
-      <!-- Will be populated by GitHub Auth -->
+      <!-- Will be populated by GitHub Auth or show GitHub Pages notice -->
+    </div>
+    
+    <!-- GitHub Pages Notice -->
+    <div class="auth-section" id="github-pages-notice" style="display: none;">
+      <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h3 style="color: #856404; margin-top: 0;">ℹ️ Running in Local Mode (GitHub Pages)</h3>
+        <p style="color: #856404; line-height: 1.6;">
+          GitHub OAuth authentication requires serverless functions. This dashboard is running in <strong>local mode</strong>
+          using your browser's localStorage. Fingerprints are stored locally only.
+        </p>
+        <p style="color: #856404; line-height: 1.6; margin-bottom: 0;">
+          <strong>Note:</strong> Changes are saved in your browser only and won't sync across devices.
+        </p>
+      </div>
+      <button onclick="showLocalDashboard()" style="padding: 12px 24px; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;">
+        Continue to Dashboard
+      </button>
     </div>
 
     <!-- Main Dashboard Content -->
@@ -634,13 +651,32 @@ ${allowed.join('\n')}
      * Initialize
      */
     function init() {
+      // Check if running on GitHub Pages
+      const isGitHubPages = window.location.hostname.includes('github.io');
+      
+      // Function to show local dashboard without auth
+      window.showLocalDashboard = function() {
+        document.getElementById('github-pages-notice').style.display = 'none';
+        document.getElementById('auth-section').style.display = 'none';
+        showDashboard({ username: 'Local User', avatar: '', name: 'Local Mode' });
+      };
+      
+      // If on GitHub Pages and no OAuth Client ID, skip OAuth
+      if (isGitHubPages && !window.GITHUB_CLIENT_ID) {
+        document.getElementById('auth-section').style.display = 'none';
+        document.getElementById('github-pages-notice').style.display = 'block';
+        return;
+      }
+      
       // Check GitHub authentication
       GitHubAuth.requireAuth().then(user => {
         // User is authenticated - show dashboard
+        document.getElementById('github-pages-notice').style.display = 'none';
         showDashboard(user);
       }).catch(err => {
         // Not authenticated - show login UI
         document.getElementById('main-content').style.display = 'none';
+        document.getElementById('github-pages-notice').style.display = 'none';
         GitHubAuth.showAuthUI('auth-section');
       });
     }
