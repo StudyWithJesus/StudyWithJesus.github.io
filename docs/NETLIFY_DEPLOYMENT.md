@@ -2,6 +2,38 @@
 
 This guide provides step-by-step instructions for deploying StudyWithJesus to Netlify with GitHub OAuth authentication for admin pages.
 
+## Quick Start for silly-speculoos-4afae0.netlify.app
+
+If you're deploying to the existing `silly-speculoos-4afae0.netlify.app` site, follow these simplified steps:
+
+### 1. Verify/Update OAuth App
+- Go to https://github.com/settings/developers
+- Find or create OAuth App: "StudyWithJesus Admin"
+- Ensure callback URL is: `https://silly-speculoos-4afae0.netlify.app/.netlify/functions/github-oauth`
+
+### 2. Set Environment Variables in Netlify
+1. Go to https://app.netlify.com/sites/silly-speculoos-4afae0/configuration/env
+2. Add/verify these variables:
+   - `GITHUB_CLIENT_ID` - Your OAuth App Client ID
+   - `GITHUB_CLIENT_SECRET` - Your OAuth App Client Secret (keep secret)
+   - `ADMIN_GITHUB_USERNAME` - Your GitHub username (e.g., `StudyWithJesus`)
+   - `GITHUB_TOKEN` (optional) - For fingerprint logging to GitHub issues
+
+### 3. Deploy
+- Push your changes to the connected GitHub repository branch
+- Netlify will automatically deploy
+- Visit: https://silly-speculoos-4afae0.netlify.app/pages/admin/index.html
+
+### 4. Test Admin Access
+- Click "Sign in with GitHub"
+- Authorize with your GitHub account
+- You should see the admin dashboard
+- **Only your GitHub account** will have access!
+
+---
+
+## Full Deployment Guide (New Sites)
+
 ## Prerequisites
 
 - GitHub account (for hosting the repository and OAuth)

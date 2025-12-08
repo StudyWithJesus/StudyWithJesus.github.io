@@ -301,26 +301,9 @@
 
     <!-- Authentication Section -->
     <div class="auth-section" id="auth-section">
-      <!-- Will be populated by GitHub Auth or show GitHub Pages notice -->
+      <!-- Will be populated by GitHub Auth -->
     </div>
     
-    <!-- GitHub Pages Notice -->
-    <div class="auth-section" id="github-pages-notice" style="display: none;">
-      <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-        <h3 style="color: #856404; margin-top: 0;">ℹ️ Running in Local Mode (GitHub Pages)</h3>
-        <p style="color: #856404; line-height: 1.6;">
-          GitHub OAuth authentication requires serverless functions. This dashboard is running in <strong>local mode</strong>
-          using your browser's localStorage. Fingerprints are stored locally only.
-        </p>
-        <p style="color: #856404; line-height: 1.6; margin-bottom: 0;">
-          <strong>Note:</strong> Changes are saved in your browser only and won't sync across devices.
-        </p>
-      </div>
-      <button onclick="showLocalDashboard()" style="padding: 12px 24px; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;">
-        Continue to Dashboard
-      </button>
-    </div>
-
     <!-- Main Dashboard Content -->
     <div class="main-content" id="main-content" style="display: none;">
       <!-- Stats Section -->
@@ -342,7 +325,7 @@
       <!-- Alert Box -->
       <div class="alert info">
         <strong>ℹ️ How it works:</strong> Toggle the switch next to a fingerprint to block or allow access. 
-        Blocked fingerprints are added to the whitelist blocker. Changes are saved automatically.
+        Blocked fingerprints are added to the blacklist. IP addresses are tracked for information only and are NOT used for blocking. Changes are saved automatically.
       </div>
 
       <!-- Controls -->
@@ -350,11 +333,11 @@
         <input 
           type="text" 
           id="search-input" 
-          placeholder="Search by name or fingerprint hash..."
+          placeholder="Search by name, fingerprint hash, or IP address..."
           oninput="filterFingerprints()"
         >
         <button onclick="refreshData()">🔄 Refresh</button>
-        <button onclick="exportWhitelist()">📥 Export Blocklist</button>
+        <button onclick="exportWhitelist()">📥 Export Blacklist</button>
         <button onclick="clearAllBlocks()" class="danger">🗑️ Clear All Blocks</button>
       </div>
 
@@ -415,7 +398,7 @@
      * Load data from localStorage and GitHub issues simulation
      */
     function loadData() {
-      // Load blocked list
+      // Load blocked fingerprints list
       const blockedList = localStorage.getItem(STORAGE_KEY_BLOCKED);
       blockedFingerprints = new Set(blockedList ? JSON.parse(blockedList) : []);
 
@@ -444,6 +427,7 @@
           id: Date.now(),
           name: username,
           fingerprint: currentFp,
+          ip: 'N/A (local)', // IP will be populated by server
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent,
           lastSeen: new Date().toISOString()
@@ -506,7 +490,8 @@
 
       const filtered = fingerprintData.filter(fp => 
         fp.name.toLowerCase().includes(searchTerm) || 
-        fp.fingerprint.toLowerCase().includes(searchTerm)
+        fp.fingerprint.toLowerCase().includes(searchTerm) ||
+        (fp.ip && fp.ip.toLowerCase().includes(searchTerm))
       );
 
       if (filtered.length === 0) {
@@ -530,18 +515,20 @@
         const toggleClass = isBlocked ? 'toggle-switch active' : 'toggle-switch';
         const labelClass = isBlocked ? 'toggle-label blocked' : 'toggle-label';
         const labelText = isBlocked ? 'BLOCKED' : 'Allowed';
+        const ipAddress = fp.ip || 'N/A';
 
         return `
           <div class="${itemClass}">
             <div 
               class="${toggleClass}" 
-              onclick="toggleBlock('${fp.fingerprint}')"
+              onclick="toggleBlock('${fp.fingerprint}', '${ipAddress}')"
               title="Click to ${isBlocked ? 'allow' : 'block'}"
             ></div>
             <div class="fingerprint-info">
               <div class="name">${escapeHtml(fp.name)}</div>
               <div class="hash">${fp.fingerprint}</div>
               <div class="meta">
+                IP: ${escapeHtml(ipAddress)} • 
                 Last seen: ${new Date(fp.lastSeen).toLocaleString()} • 
                 First seen: ${new Date(fp.timestamp).toLocaleString()}
               </div>
@@ -555,14 +542,14 @@
     /**
      * Toggle block status
      */
-    function toggleBlock(fingerprint) {
+    function toggleBlock(fingerprint, ip) {
       if (blockedFingerprints.has(fingerprint)) {
         blockedFingerprints.delete(fingerprint);
       } else {
         blockedFingerprints.add(fingerprint);
       }
 
-      // Save to localStorage
+      // Save to localStorage (only fingerprints, not IPs)
       localStorage.setItem(STORAGE_KEY_BLOCKED, JSON.stringify([...blockedFingerprints]));
 
       // Update UI
@@ -579,7 +566,8 @@
      */
     function updateWhitelistFile() {
       console.log('Blocked fingerprints:', [...blockedFingerprints]);
-      console.log('Copy these fingerprints to assets/whitelist-fingerprint.js');
+      console.log('Copy these to assets/whitelist-fingerprint.js');
+      console.log('Note: IPs are tracked for information only and are NOT used for blocking');
     }
 
     /**
@@ -603,7 +591,10 @@
     function exportWhitelist() {
       const blocked = fingerprintData
         .filter(fp => blockedFingerprints.has(fp.fingerprint))
-        .map(fp => `  '${fp.fingerprint}', // ${fp.name}`);
+        .map(fp => {
+          const ipInfo = fp.ip && fp.ip !== 'N/A' && fp.ip !== 'N/A (local)' ? ` - IP: ${fp.ip} (info only)` : '';
+          return `  '${fp.fingerprint}', // ${fp.name}${ipInfo}`;
+        });
 
       const config = `// Blacklist Configuration (Manual Override)
 // Generated: ${new Date().toISOString()}
@@ -613,13 +604,15 @@ const manuallyBlockedFingerprints = [
 ${blocked.join('\n')}
 ];
 
-// Note: Blocked fingerprints are automatically synced from localStorage.
+// Note: IP addresses are tracked for information only and are NOT used for blocking.
+// Only fingerprints (device/display name) are used to block access.
+// Blocked fingerprints are automatically synced from localStorage.
 // This manual list is only needed if you want permanent blocks across browsers.
 // The admin dashboard automatically uses localStorage key 'fingerprint_blocked_list'.`;
 
       // Copy to clipboard
       navigator.clipboard.writeText(config).then(() => {
-        alert('✅ Blacklist configuration copied to clipboard!\n\n(Optional) Paste this into assets/whitelist-fingerprint.js for manual overrides.\n\nNote: Blocks are automatically synced via localStorage.');
+        alert('✅ Blacklist configuration copied to clipboard!\n\n(Optional) Paste this into assets/whitelist-fingerprint.js for manual overrides.\n\nNote: Only fingerprints are used for blocking. IPs are tracked for information only.');
       }).catch(() => {
         // Fallback: show in alert
         prompt('Copy this blacklist configuration (optional):', config);
@@ -652,32 +645,26 @@ ${blocked.join('\n')}
      * Initialize
      */
     function init() {
-      // Check if running on GitHub Pages
-      const isGitHubPages = window.location.hostname.includes('github.io');
-      
-      // Function to show local dashboard without auth
-      window.showLocalDashboard = function() {
-        document.getElementById('github-pages-notice').style.display = 'none';
-        document.getElementById('auth-section').style.display = 'none';
-        showDashboard({ username: 'Local User', avatar: '', name: 'Local Mode' });
-      };
-      
-      // If on GitHub Pages and no OAuth Client ID, skip OAuth
-      if (isGitHubPages && !window.GITHUB_CLIENT_ID) {
-        document.getElementById('auth-section').style.display = 'none';
-        document.getElementById('github-pages-notice').style.display = 'block';
+      // Check if GitHub Auth is available
+      if (!window.GitHubAuth) {
+        console.error('GitHub Auth module not loaded');
+        document.getElementById('auth-section').innerHTML = `
+          <div style="padding: 40px; text-align: center;">
+            <h2>Configuration Error</h2>
+            <p style="color: #666; margin: 20px 0;">GitHub OAuth is not properly configured.</p>
+            <p style="color: #666;">Please deploy to Netlify with environment variables set.</p>
+          </div>
+        `;
         return;
       }
       
       // Check GitHub authentication
       GitHubAuth.requireAuth().then(user => {
         // User is authenticated - show dashboard
-        document.getElementById('github-pages-notice').style.display = 'none';
         showDashboard(user);
       }).catch(err => {
         // Not authenticated - show login UI
         document.getElementById('main-content').style.display = 'none';
-        document.getElementById('github-pages-notice').style.display = 'none';
         GitHubAuth.showAuthUI('auth-section');
       });
     }
