@@ -38,7 +38,7 @@ window.GITHUB_OAUTH_CONFIG = {
 window.GITHUB_CLIENT_ID = window.GITHUB_OAUTH_CONFIG.clientId;
 
 // Show helpful error message if not configured
-if (!window.GITHUB_CLIENT_ID || window.GITHUB_CLIENT_ID === 'YOUR_GITHUB_CLIENT_ID_HERE') {
+if (!window.GITHUB_CLIENT_ID) {
   console.warn('⚠️ GitHub OAuth Client ID not configured!');
   console.warn('📝 To fix this, edit config/github-oauth.config.js and set your Client ID');
   console.warn('📚 For setup instructions, see: docs/GITHUB_OAUTH_SETUP.md');
