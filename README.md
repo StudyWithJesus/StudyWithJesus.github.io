@@ -154,15 +154,19 @@ Netlify deployment enables GitHub OAuth authentication for admin pages.
 
 **Quick Start:**
 1. Create Netlify site from GitHub repository
-2. Set up GitHub OAuth app
-3. Configure environment variables (see [Netlify Deployment Guide](docs/NETLIFY_DEPLOYMENT.md))
+2. Set up GitHub OAuth app (see [GitHub OAuth Setup Guide](docs/GITHUB_OAUTH_SETUP.md))
+3. Configure `config/github-oauth.config.js` with your Client ID
+4. Set Netlify environment variables (see [Netlify Deployment Guide](docs/NETLIFY_DEPLOYMENT.md))
 
-**Required Environment Variables:**
-- `GITHUB_CLIENT_ID` - OAuth App Client ID
-- `GITHUB_CLIENT_SECRET` - OAuth App Client Secret
-- `ADMIN_GITHUB_USERNAME` - Your GitHub username
+**Required Configuration:**
+1. **Client-side (in repository):**
+   - Edit `config/github-oauth.config.js` and set your OAuth App Client ID
+   
+2. **Server-side (in Netlify dashboard):**
+   - `GITHUB_CLIENT_SECRET` - OAuth App Client Secret
+   - `ADMIN_GITHUB_USERNAME` - Your GitHub username
 
-**Complete Setup:** See [docs/NETLIFY_DEPLOYMENT.md](docs/NETLIFY_DEPLOYMENT.md)
+**Complete Setup:** See [docs/GITHUB_OAUTH_SETUP.md](docs/GITHUB_OAUTH_SETUP.md)
 
 ### GitHub Pages (Static Only)
 
