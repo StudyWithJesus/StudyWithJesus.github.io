@@ -44,6 +44,23 @@
 # Environment variables documentation
 # Set these in Netlify Dashboard > Site settings > Environment variables:
 #
+# GitHub OAuth (required for admin pages)
+# GITHUB_CLIENT_ID (required)
+#   - OAuth App Client ID
+#   - Create OAuth App at: https://github.com/settings/developers
+#   - Used for admin page authentication
+#
+# GITHUB_CLIENT_SECRET (required)
+#   - OAuth App Client Secret
+#   - NEVER commit this to repository
+#   - Used by github-oauth serverless function
+#
+# ADMIN_GITHUB_USERNAME (required)
+#   - Your GitHub username (e.g., 'StudyWithJesus')
+#   - Only this account will be allowed admin access
+#   - Case-insensitive comparison
+#
+# Fingerprint Logger
 # GITHUB_TOKEN (required)
 #   - Personal access token with 'repo' scope
 #   - Create at: https://github.com/settings/tokens
