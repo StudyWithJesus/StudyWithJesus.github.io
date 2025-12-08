@@ -69,7 +69,7 @@
     // Clear the page
     document.documentElement.innerHTML = '';
     
-    // Create blocked page
+    // Create blocked page with image
     const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -81,41 +81,21 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      color: #fff;
+      background: #000;
     }
-    .container {
-      text-align: center;
-      padding: 2rem;
-      max-width: 500px;
-    }
-    h1 {
-      font-size: 3rem;
-      margin: 0 0 1rem 0;
-    }
-    p {
-      font-size: 1.2rem;
-      line-height: 1.6;
-      opacity: 0.9;
-    }
-    .icon {
-      font-size: 4rem;
-      margin-bottom: 1rem;
+    img {
+      max-width: 100%;
+      max-height: 100vh;
+      display: block;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="icon">🔒</div>
-    <h1>Access Restricted</h1>
-    <p>This resource is not available to your device.</p>
-    <p>If you believe this is an error, please contact the site administrator.</p>
-  </div>
+  <img src="https://magecomp.com/blog/wp-content/uploads/2023/01/github.png" alt="Access Restricted">
 </body>
 </html>`;
     
