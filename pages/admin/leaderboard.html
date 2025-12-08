@@ -9,6 +9,13 @@
   <link rel="stylesheet" href="../../style.css">
   <link rel="stylesheet" href="../../assets/css/leaderboard.css">
   
+  <!-- GitHub OAuth Configuration -->
+  <script>
+    // Set your GitHub OAuth App Client ID here
+    window.GITHUB_CLIENT_ID = ''; // Will be set via environment or config
+  </script>
+  <script src="../../assets/js/github-auth.js"></script>
+  
   <!-- Firebase Configuration and Integration -->
   <script src="../../config/firebase.config.js"></script>
   <script src="../../assets/js/leaderboard-firebase.js"></script>
@@ -45,15 +52,17 @@
     <!-- Access control section -->
     <section id="access-section" aria-labelledby="access-heading">
       
-      <!-- Access denied message (shown when no valid access) -->
-      <div class="admin-access-denied" id="access-denied">
+      <!-- GitHub OAuth Authentication Section -->
+      <div id="github-auth-section"></div>
+
+      <!-- Fallback: Access denied message (shown when no valid access) -->
+      <div class="admin-access-denied" id="access-denied" style="display: none;">
         <h3 id="access-heading">Admin Access Required</h3>
         <p>
-          This page requires admin authentication. Please sign in with your admin account
-          or provide the correct access key via URL fragment.
+          This page requires admin authentication via GitHub OAuth.
         </p>
         <p style="margin-top: var(--space-3);">
-          <strong>Access methods:</strong>
+          <strong>Fallback access methods (if GitHub OAuth is not configured):</strong>
         </p>
         <ul style="text-align: left; margin-top: var(--space-2); color: var(--color-text-muted);">
           <li>URL fragment: <code>/admin/leaderboard.html#YOUR_ADMIN_KEY</code></li>
@@ -61,7 +70,7 @@
         </ul>
       </div>
 
-      <!-- Authentication form (for Firebase Auth mode) -->
+      <!-- Authentication form (for Firebase Auth mode - fallback) -->
       <div class="admin-auth" id="auth-section" style="display: none;">
         <h3>Admin Sign In</h3>
         <form class="admin-auth-form" id="auth-form">
@@ -182,20 +191,18 @@
       'use strict';
 
       // Configuration
-      // ⚠️ SECURITY WARNING: Replace this demo key before production deployment!
-      // The fragment key method is for demo/development only and is NOT secure.
-      // For production, either:
-      // 1. Generate a unique random key (e.g., crypto.randomUUID())
-      // 2. Use Firebase Auth with admin custom claims (recommended)
-      // 3. Remove this fallback entirely and require Firebase Auth
+      // ⚠️ SECURITY WARNING: The fragment key method is for demo/development only and is NOT secure.
+      // Production deployments should use GitHub OAuth (primary) or Firebase Auth (fallback).
       var DEMO_ADMIN_KEY = 'BentleyTesla'; // ⚠️ CHANGE THIS!
 
       var isAuthenticated = false;
       var adminData = null;
+      var currentUser = null;
 
       // DOM elements
       var accessDeniedEl = document.getElementById('access-denied');
       var authSectionEl = document.getElementById('auth-section');
+      var githubAuthSectionEl = document.getElementById('github-auth-section');
       var authFormEl = document.getElementById('auth-form');
       var authStatusEl = document.getElementById('auth-status');
       var adminContentEl = document.getElementById('admin-content');
@@ -209,7 +216,7 @@
         // Log access attempt (for local auditing)
         logAdminAccess('Page loaded');
 
-        // Check access methods
+        // Check access methods (prioritize GitHub OAuth)
         checkAccess();
         
         // Set up event listeners
@@ -231,7 +238,36 @@
       }
 
       function checkAccess() {
-        // Method 1: Check URL fragment for demo key
+        // Check if running on GitHub Pages (no serverless functions)
+        // More robust check for GitHub Pages deployment
+        var isGitHubPages = window.location.hostname.endsWith('.github.io') || 
+                           window.location.hostname === 'github.io';
+        
+        // Method 1 (Primary): Check GitHub OAuth authentication
+        if (window.GitHubAuth && !isGitHubPages) {
+          GitHubAuth.requireAuth().then(function(user) {
+            // User is authenticated via GitHub OAuth
+            currentUser = user;
+            logAdminAccess('Authenticated via GitHub OAuth: ' + user.username);
+            showUserInfo(user);
+            grantAccess();
+          }).catch(function(err) {
+            // Not authenticated via GitHub OAuth - show login UI
+            if (githubAuthSectionEl) {
+              GitHubAuth.showAuthUI('github-auth-section');
+            }
+            // Try fallback methods
+            checkFallbackAccess();
+          });
+          return;
+        }
+
+        // If GitHub OAuth not available or on GitHub Pages, try fallback methods
+        checkFallbackAccess();
+      }
+
+      function checkFallbackAccess() {
+        // Method 2: Check URL fragment for demo key
         var fragment = window.location.hash.substring(1);
         if (fragment && fragment === DEMO_ADMIN_KEY) {
           logAdminAccess('Authenticated via URL fragment');
@@ -239,7 +275,7 @@
           return;
         }
 
-        // Method 2: Check for Firebase Auth (if available)
+        // Method 3: Check for Firebase Auth (if available)
         if (window.LeaderboardFirebase) {
           // Show auth form
           authSectionEl.style.display = 'block';
@@ -251,8 +287,53 @@
             }
           });
         } else {
-          // No Firebase - show instructions for fragment auth
+          // No auth method available - show access denied
           accessDeniedEl.style.display = 'block';
+        }
+      }
+      
+      function showUserInfo(user) {
+        // Add user info to header
+        var header = document.querySelector('.admin-header');
+        if (header && user) {
+          var userInfo = document.createElement('div');
+          userInfo.style.cssText = 'display: flex; align-items: center; gap: 10px; margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px;';
+          
+          // Create elements safely to prevent XSS
+          var img = document.createElement('img');
+          // Validate avatar URL is from GitHub
+          if (user.avatar && user.avatar.startsWith('https://avatars.githubusercontent.com/')) {
+            img.src = user.avatar;
+          } else {
+            img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="16" fill="%23ccc"/></svg>';
+          }
+          img.alt = 'User avatar';
+          img.style.cssText = 'width: 32px; height: 32px; border-radius: 50%;';
+          
+          var userDetails = document.createElement('div');
+          userDetails.style.cssText = 'flex: 1;';
+          
+          var authText = document.createElement('div');
+          authText.style.fontWeight = '600';
+          // Sanitize username - only allow alphanumeric, dash, and underscore (GitHub username rules)
+          var safeUsername = (user.username || 'Unknown').replace(/[^a-zA-Z0-9-_]/g, '');
+          authText.textContent = 'Authenticated as ' + safeUsername;
+          
+          var oauthLabel = document.createElement('div');
+          oauthLabel.style.cssText = 'font-size: 0.9rem; opacity: 0.8;';
+          oauthLabel.textContent = 'GitHub OAuth';
+          
+          var logoutBtn = document.createElement('button');
+          logoutBtn.textContent = 'Logout';
+          logoutBtn.style.cssText = 'padding: 6px 12px; background: var(--color-accent); color: white; border: none; border-radius: 4px; cursor: pointer;';
+          logoutBtn.onclick = function() { GitHubAuth.logout(); };
+          
+          userDetails.appendChild(authText);
+          userDetails.appendChild(oauthLabel);
+          userInfo.appendChild(img);
+          userInfo.appendChild(userDetails);
+          userInfo.appendChild(logoutBtn);
+          header.appendChild(userInfo);
         }
       }
 
