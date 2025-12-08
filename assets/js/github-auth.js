@@ -1,6 +1,9 @@
 /**
  * GitHub OAuth Authentication Module
- * Handles GitHub-based authentication for admin pages
+ * Handles GitHub-based authentication for admin pages using Firebase Authentication
+ * 
+ * This module now uses Firebase Authentication with GitHub provider,
+ * which works on GitHub Pages without requiring serverless functions.
  * 
  * Usage:
  * <script src="/assets/js/github-auth.js"></script>
@@ -17,78 +20,72 @@
 (function(window) {
   'use strict';
 
+  let firebaseAuth = null;
+  let firebaseInitialized = false;
+  let currentFirebaseUser = null;
+
   const GitHubAuth = {
     /**
-     * Configuration
-     * Set GITHUB_CLIENT_ID in your HTML before loading this script:
-     * <script>window.GITHUB_CLIENT_ID = 'your_client_id';</script>
+     * Initialize Firebase Auth
      */
-    getClientId: function() {
-      return window.GITHUB_CLIENT_ID || '';
-    },
-
-    /**
-     * Parse session token from URL or cookie
-     */
-    getSessionToken: function() {
-      // Check URL parameter first
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlToken = urlParams.get('session');
-      if (urlToken) {
-        // Store in sessionStorage and clean URL
-        sessionStorage.setItem('github_auth_session', urlToken);
-        window.history.replaceState({}, document.title, window.location.pathname);
-        return urlToken;
+    initFirebase: async function() {
+      if (firebaseInitialized) {
+        return true;
       }
 
-      // Check sessionStorage
-      const storedToken = sessionStorage.getItem('github_auth_session');
-      if (storedToken) {
-        return storedToken;
+      // Check if Firebase is configured
+      if (!window.FIREBASE_CONFIG) {
+        console.warn('Firebase not configured - falling back to Netlify OAuth if available');
+        return false;
       }
 
-      // Check cookie
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.startsWith('admin_session=')) {
-          const token = cookie.substring('admin_session='.length);
-          sessionStorage.setItem('github_auth_session', token);
-          return token;
-        }
-      }
-
-      return null;
-    },
-
-    /**
-     * Decode and validate session token
-     */
-    decodeSession: function(token) {
       try {
-        const decoded = JSON.parse(atob(token));
-        
-        // Check expiration
-        if (decoded.expiresAt && decoded.expiresAt < Date.now()) {
-          return null;
+        // Import Firebase modules
+        const { initializeApp, getApps, getApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
+        const { getAuth, signInWithPopup, signOut: firebaseSignOut, onAuthStateChanged, GithubAuthProvider } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js');
+
+        // Initialize Firebase if not already initialized
+        if (getApps().length === 0) {
+          initializeApp(window.FIREBASE_CONFIG);
         }
 
-        return {
-          username: decoded.username,
-          name: decoded.name,
-          avatar: decoded.avatar,
-          timestamp: decoded.timestamp
-        };
-      } catch (err) {
-        console.error('Failed to decode session token:', err);
-        return null;
+        firebaseAuth = getAuth();
+        
+        // Listen for auth state changes
+        onAuthStateChanged(firebaseAuth, (user) => {
+          currentFirebaseUser = user;
+          if (user) {
+            console.log('Firebase auth state: signed in as', user.displayName || user.email);
+          } else {
+            console.log('Firebase auth state: signed out');
+          }
+        });
+
+        firebaseInitialized = true;
+        console.info('Firebase Auth initialized successfully');
+        return true;
+      } catch (error) {
+        console.error('Failed to initialize Firebase Auth:', error);
+        return false;
       }
     },
 
     /**
-     * Get current authenticated user
+     * Get current authenticated user from Firebase
      */
-    getCurrentUser: function() {
+    getCurrentUser: async function() {
+      // Try Firebase Auth first
+      if (await this.initFirebase() && currentFirebaseUser) {
+        return {
+          username: currentFirebaseUser.reloadUserInfo?.screenName || currentFirebaseUser.displayName || 'user',
+          name: currentFirebaseUser.displayName || 'User',
+          avatar: currentFirebaseUser.photoURL || '',
+          email: currentFirebaseUser.email,
+          uid: currentFirebaseUser.uid
+        };
+      }
+
+      // Fallback to legacy session token (for Netlify deployments)
       const token = this.getSessionToken();
       if (!token) {
         return null;
@@ -99,30 +96,57 @@
     /**
      * Check if user is authenticated
      */
-    isAuthenticated: function() {
-      return this.getCurrentUser() !== null;
+    isAuthenticated: async function() {
+      const user = await this.getCurrentUser();
+      return user !== null;
     },
 
     /**
-     * Initiate GitHub OAuth flow
+     * Initiate GitHub sign-in via Firebase
      */
-    login: function() {
+    login: async function() {
+      // Try Firebase Auth first
+      if (await this.initFirebase()) {
+        try {
+          const { signInWithPopup, GithubAuthProvider } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js');
+          const provider = new GithubAuthProvider();
+          
+          // Request additional scopes if needed
+          provider.addScope('read:user');
+          
+          const result = await signInWithPopup(firebaseAuth, provider);
+          console.log('Successfully signed in via Firebase:', result.user.displayName);
+          
+          // Reload the page to refresh the UI
+          window.location.reload();
+          return;
+        } catch (error) {
+          console.error('Firebase GitHub sign-in failed:', error);
+          
+          // If user closed the popup, don't show error
+          if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
+            console.log('Sign-in cancelled by user');
+            return;
+          }
+          
+          alert('Failed to sign in with GitHub: ' + (error.message || 'Unknown error'));
+          return;
+        }
+      }
+
+      // Fallback to Netlify OAuth (for Netlify deployments)
       const clientId = this.getClientId();
       if (!clientId) {
-        console.error('GitHub OAuth Client ID not configured');
-        alert('GitHub OAuth is not configured. Please set GITHUB_CLIENT_ID.');
+        alert('Authentication is not configured. Please set up Firebase or GitHub OAuth.');
         return;
       }
 
-      // Build OAuth URL
+      // Build OAuth URL for Netlify
       const returnTo = encodeURIComponent(window.location.pathname);
       const redirectUri = `${window.location.origin}/.netlify/functions/github-oauth`;
       const state = Math.random().toString(36).substring(7);
       
-      // Store state for CSRF protection
       sessionStorage.setItem('github_oauth_state', state);
-
-      // Store callback URL for debugging
       sessionStorage.setItem('github_oauth_redirect_uri', redirectUri);
 
       const authUrl = `https://github.com/login/oauth/authorize?` +
@@ -133,19 +157,30 @@
         `return_to=${returnTo}`;
 
       console.log('Starting OAuth flow with redirect URI:', redirectUri);
-      console.log('Client ID:', clientId);
-      
       window.location.href = authUrl;
     },
 
     /**
      * Logout user
      */
-    logout: function() {
+    logout: async function() {
+      // Sign out from Firebase if initialized
+      if (firebaseInitialized && firebaseAuth && currentFirebaseUser) {
+        try {
+          const { signOut: firebaseSignOut } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js');
+          await firebaseSignOut(firebaseAuth);
+          console.log('Signed out from Firebase');
+        } catch (error) {
+          console.error('Firebase sign out failed:', error);
+        }
+      }
+
+      // Clear legacy session tokens
       sessionStorage.removeItem('github_auth_session');
       sessionStorage.removeItem('github_oauth_state');
-      // Clear cookie
       document.cookie = 'admin_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      
+      // Redirect to home
       window.location.href = '/';
     },
 
@@ -153,33 +188,31 @@
      * Require authentication - redirect to login if not authenticated
      * Returns Promise that resolves with user object or rejects
      */
-    requireAuth: function() {
-      return new Promise((resolve, reject) => {
-        const user = this.getCurrentUser();
-        if (user) {
-          resolve(user);
-        } else {
-          reject(new Error('Not authenticated'));
-        }
-      });
+    requireAuth: async function() {
+      const user = await this.getCurrentUser();
+      if (user) {
+        return user;
+      } else {
+        throw new Error('Not authenticated');
+      }
     },
 
     /**
      * Show authentication UI
      */
-    showAuthUI: function(containerId) {
+    showAuthUI: async function(containerId) {
       const container = document.getElementById(containerId);
       if (!container) {
         console.error('Container not found:', containerId);
         return;
       }
 
-      const user = this.getCurrentUser();
+      const user = await this.getCurrentUser();
       if (user) {
         // Show authenticated state
         container.innerHTML = `
           <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-            <img src="${user.avatar}" alt="${user.username}" style="width: 48px; height: 48px; border-radius: 50%;">
+            <img src="${user.avatar || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22><circle cx=%2224%22 cy=%2224%22 r=%2224%22 fill=%22%23ccc%22/></svg>'}" alt="${user.username}" style="width: 48px; height: 48px; border-radius: 50%;">
             <div style="flex: 1;">
               <div style="font-weight: 600; color: #333;">${user.name}</div>
               <div style="font-size: 0.9rem; color: #666;">@${user.username}</div>
@@ -206,6 +239,56 @@
             </p>
           </div>
         `;
+      }
+    },
+
+    // Legacy methods for backward compatibility with Netlify OAuth
+    getClientId: function() {
+      return window.GITHUB_CLIENT_ID || '';
+    },
+
+    getSessionToken: function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlToken = urlParams.get('session');
+      if (urlToken) {
+        sessionStorage.setItem('github_auth_session', urlToken);
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return urlToken;
+      }
+
+      const storedToken = sessionStorage.getItem('github_auth_session');
+      if (storedToken) {
+        return storedToken;
+      }
+
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith('admin_session=')) {
+          const token = cookie.substring('admin_session='.length);
+          sessionStorage.setItem('github_auth_session', token);
+          return token;
+        }
+      }
+
+      return null;
+    },
+
+    decodeSession: function(token) {
+      try {
+        const decoded = JSON.parse(atob(token));
+        if (decoded.expiresAt && decoded.expiresAt < Date.now()) {
+          return null;
+        }
+        return {
+          username: decoded.username,
+          name: decoded.name,
+          avatar: decoded.avatar,
+          timestamp: decoded.timestamp
+        };
+      } catch (err) {
+        console.error('Failed to decode session token:', err);
+        return null;
       }
     }
   };
