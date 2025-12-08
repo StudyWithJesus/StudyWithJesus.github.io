@@ -109,12 +109,13 @@
       // Store fingerprint log locally for admin dashboard
       storeFingerprintLog(fp, displayName);
 
-      // Send to serverless endpoint (Netlify/Vercel only)
-      // On GitHub Pages, this will fail silently and fingerprints are stored locally only
-      const endpoint = '/.netlify/functions/log-fingerprint';
+      // Send to Firebase Cloud Function
+      // Function URL format: https://<region>-<project-id>.cloudfunctions.net/logFingerprint
+      // or use Firebase Hosting rewrite for cleaner URLs
+      const endpoint = 'https://us-central1-studywithjesus.cloudfunctions.net/logFingerprint';
       
-      // Alternative: Use a webhook service like Formspree
-      // const endpoint = 'https://formspree.io/f/YOUR_FORM_ID';
+      // Alternative: If using Firebase Hosting rewrites (cleaner URL)
+      // const endpoint = '/api/logFingerprint';
       
       // Use keepalive if supported for reliability
       const options = {
