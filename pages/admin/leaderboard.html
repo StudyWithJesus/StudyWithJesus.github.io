@@ -239,7 +239,9 @@
 
       function checkAccess() {
         // Check if running on GitHub Pages (no serverless functions)
-        var isGitHubPages = window.location.hostname.includes('github.io');
+        // More robust check for GitHub Pages deployment
+        var isGitHubPages = window.location.hostname.endsWith('.github.io') || 
+                           window.location.hostname === 'github.io';
         
         // Method 1 (Primary): Check GitHub OAuth authentication
         if (window.GitHubAuth && !isGitHubPages) {
@@ -299,8 +301,13 @@
           
           // Create elements safely to prevent XSS
           var img = document.createElement('img');
-          img.src = user.avatar;
-          img.alt = user.username;
+          // Validate avatar URL is from GitHub
+          if (user.avatar && user.avatar.startsWith('https://avatars.githubusercontent.com/')) {
+            img.src = user.avatar;
+          } else {
+            img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="16" fill="%23ccc"/></svg>';
+          }
+          img.alt = 'User avatar';
           img.style.cssText = 'width: 32px; height: 32px; border-radius: 50%;';
           
           var userDetails = document.createElement('div');
@@ -308,7 +315,9 @@
           
           var authText = document.createElement('div');
           authText.style.fontWeight = '600';
-          authText.textContent = 'Authenticated as ' + user.username;
+          // Sanitize username - only allow alphanumeric, dash, and underscore (GitHub username rules)
+          var safeUsername = (user.username || 'Unknown').replace(/[^a-zA-Z0-9-_]/g, '');
+          authText.textContent = 'Authenticated as ' + safeUsername;
           
           var oauthLabel = document.createElement('div');
           oauthLabel.style.cssText = 'font-size: 0.9rem; opacity: 0.8;';

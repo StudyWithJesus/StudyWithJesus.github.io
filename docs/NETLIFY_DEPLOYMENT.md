@@ -219,14 +219,23 @@ If you need to allow multiple GitHub users admin access:
 
 1. **Modify the OAuth Function**
    - Edit `netlify/functions/github-oauth.js`
-   - Change single username check to array:
+   - Locate the username validation section (around line 186)
+   - Replace the single username check with array handling:
    ```javascript
+   // Replace this:
+   // if (user.login.toLowerCase() !== adminUsername.toLowerCase()) {
+   
+   // With this:
    const adminUsernames = process.env.ADMIN_GITHUB_USERNAME
      .split(',')
      .map(u => u.trim().toLowerCase());
    
+   // Check if user is authorized admin
    if (!adminUsernames.includes(user.login.toLowerCase())) {
-     // Access denied
+     return {
+       statusCode: 403,
+       // ... rest of access denied response
+     };
    }
    ```
 
