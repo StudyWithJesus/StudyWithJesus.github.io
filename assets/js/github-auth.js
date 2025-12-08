@@ -109,6 +109,7 @@
     login: function() {
       const clientId = this.getClientId();
       if (!clientId) {
+        console.error('GitHub OAuth Client ID not configured');
         alert('GitHub OAuth is not configured. Please set GITHUB_CLIENT_ID.');
         return;
       }
@@ -121,6 +122,9 @@
       // Store state for CSRF protection
       sessionStorage.setItem('github_oauth_state', state);
 
+      // Store callback URL for debugging
+      sessionStorage.setItem('github_oauth_redirect_uri', redirectUri);
+
       const authUrl = `https://github.com/login/oauth/authorize?` +
         `client_id=${clientId}&` +
         `redirect_uri=${encodeURIComponent(redirectUri)}&` +
@@ -128,6 +132,9 @@
         `state=${state}&` +
         `return_to=${returnTo}`;
 
+      console.log('Starting OAuth flow with redirect URI:', redirectUri);
+      console.log('Client ID:', clientId);
+      
       window.location.href = authUrl;
     },
 

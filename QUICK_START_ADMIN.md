@@ -39,6 +39,9 @@
 Admin Hub:
 https://silly-speculoos-4afae0.netlify.app/pages/admin/index.html
 
+OAuth Diagnostic Tool (troubleshooting):
+https://silly-speculoos-4afae0.netlify.app/pages/admin/oauth-diagnostic.html
+
 Fingerprint Admin:
 https://silly-speculoos-4afae0.netlify.app/pages/admin/fingerprint-admin.html
 
@@ -105,15 +108,41 @@ https://github.com/settings/developers
 
 ## 🐛 Troubleshooting
 
+### 🔍 Use the Diagnostic Tool
+**First step for any issue:**
+Visit: https://silly-speculoos-4afae0.netlify.app/pages/admin/oauth-diagnostic.html
+
+This tool will:
+- Check if Client ID is configured
+- Verify OAuth callback URL
+- Test Netlify function availability
+- Provide step-by-step fixes
+- Show complete debug information
+
 ### Can't access admin pages?
-1. Check environment variables are set
-2. Verify OAuth callback URL matches exactly
-3. Check Netlify deploy logs for errors
+1. **Run the diagnostic tool** (link above)
+2. Check environment variables are set
+3. Verify OAuth callback URL matches exactly
+4. Check Netlify deploy logs for errors
+5. See `docs/TROUBLESHOOTING_OAUTH.md` for detailed help
 
 ### "Access Denied" after login?
-1. Verify `ADMIN_GITHUB_USERNAME` matches your GitHub username
-2. Username comparison is case-insensitive
+1. Verify `ADMIN_GITHUB_USERNAME` matches your GitHub username exactly
+2. Username comparison is case-insensitive but spelling must match
 3. Redeploy after changing environment variables
+
+### "Server Configuration Error"?
+1. Missing environment variables in Netlify
+2. Go to: https://app.netlify.com/sites/silly-speculoos-4afae0/configuration/env
+3. Add all three required variables (see Step 2 above)
+4. Redeploy your site
+
+### OAuth redirect error from GitHub?
+1. Callback URL in OAuth App doesn't match deployment URL
+2. Go to: https://github.com/settings/developers
+3. Edit OAuth App
+4. Set callback to: `https://silly-speculoos-4afae0.netlify.app/.netlify/functions/github-oauth`
+5. Must match EXACTLY (check for typos)
 
 ### IP addresses show as "N/A"?
 - This is normal for local storage entries
@@ -125,6 +154,7 @@ https://github.com/settings/developers
 ## 📚 Documentation
 
 For more details, see:
+- `docs/TROUBLESHOOTING_OAUTH.md` - **Detailed troubleshooting guide**
 - `docs/SILLY_SPECULOOS_SETUP.md` - Complete setup guide
 - `docs/IMPLEMENTATION_SUMMARY_ADMIN.md` - What was changed
 - `docs/NETLIFY_DEPLOYMENT.md` - General Netlify guide
