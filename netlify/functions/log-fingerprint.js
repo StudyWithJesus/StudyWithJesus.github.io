@@ -19,12 +19,14 @@ function createGitHubIssue(token, repo, payload, clientIp) {
     const [owner, repoName] = repo.split('/');
     
     const displayName = payload.name ? `**Display Name:** ${payload.name}\n` : '';
+    // Sanitize name for use in code comment - replace special chars
+    const safeName = (payload.name || 'User').replace(/[`'"\\]/g, '_');
     
     const issueBody = `## Fingerprint Log Entry
 
 **Timestamp:** ${payload.ts}
 **URL:** ${payload.url}
-**Client IP:** ${clientIp || 'unknown'}
+**Client IP:** ${clientIp || 'unknown'} *(tracked for information only, not used for blocking)*
 ${displayName}
 ### Fingerprint Data
 - **Hash (SHA-256):** \`${payload.fp}\`
@@ -33,17 +35,19 @@ ${displayName}
 - **Timezone Offset:** ${payload.tz} minutes
 - **Page URL:** ${payload.url}
 
-### Instructions
-To whitelist this fingerprint, add the hash to the \`allowedFingerprints\` array in \`assets/whitelist-fingerprint.js\`:
+### Blacklist Instructions
+To blacklist this fingerprint (device/display name), use the Fingerprint Admin dashboard or manually add to \`assets/whitelist-fingerprint.js\`:
 
 \`\`\`javascript
-const allowedFingerprints = [
-  '${payload.fp}', // Add this line
+const manuallyBlockedFingerprints = [
+  '${payload.fp}', // ${safeName} - IP: ${clientIp} (info only)
 ];
 \`\`\`
 
+**Note:** Only the fingerprint (device ID) is used for blocking. IP addresses are tracked for information purposes only and do NOT affect access control.
+
 ---
-*This issue was automatically created by the fingerprint logger.*
+*This issue was automatically created by the fingerprint logger. IP address is tracked for information only.*
 `;
 
     const titleName = payload.name ? ` (${payload.name})` : '';

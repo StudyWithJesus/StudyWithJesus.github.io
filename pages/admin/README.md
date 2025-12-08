@@ -33,32 +33,35 @@ Central dashboard with links to all admin features. Bookmark this page for easy 
 ### 2. Fingerprint Admin
 **URL:** `/pages/admin/fingerprint-admin.html`
 
-Manage access control via fingerprint blocking:
-- View all logged fingerprints with associated display names
+Manage access control via fingerprint (device/display name) blocking:
+- View all logged fingerprints with associated display names and IP addresses
 - Toggle block/allow status for each fingerprint
-- Export whitelist configuration
-- Search and filter fingerprints
+- Export blacklist configuration with fingerprints (IPs shown for info only)
+- Search and filter by fingerprint, name, or IP address
 - Real-time statistics
+- **IP addresses are tracked for information only and NOT used for blocking**
 
-**Authentication:** GitHub OAuth required (replaced password-based auth)
+**Authentication:** GitHub OAuth required (no password-based auth)
 
 **Features:**
-- 🔒 Toggle switches to block/unblock individual fingerprints
+- 🔒 Toggle switches to block/unblock individual fingerprints (device IDs)
 - 📊 Real-time statistics (Total, Blocked, Allowed)
-- 🔍 Search by name or fingerprint hash
-- 📥 Export whitelist configuration to clipboard
+- 🔍 Search by name, fingerprint hash, or IP address
+- 📥 Export blacklist configuration to clipboard
 - 🗑️ Clear all blocks with one click
 - 💾 Automatic saving to localStorage
 - 👤 Shows your GitHub profile in header
+- 🌐 IP tracking for information/logging purposes only
 
 **How to Block a User:**
 1. Open the Fingerprint Admin page
 2. Sign in with your authorized GitHub account
-3. Find the user by name or fingerprint hash
+3. Find the user by name, fingerprint hash, or IP address
 4. Click the toggle switch to change from "Allowed" to "BLOCKED"
-5. Click "Export Whitelist" to copy the configuration
-6. Paste the exported config into `assets/whitelist-fingerprint.js`
-7. Uncomment the whitelist script in your HTML pages
+5. Only the fingerprint is blocked (IP is for information only)
+6. Click "Export Blacklist" to copy the configuration
+7. Paste the exported config into `assets/whitelist-fingerprint.js`
+8. Uncomment the blacklist script in your HTML pages
 
 ### 3. Leaderboard Admin
 **URL:** `/pages/admin/leaderboard.html`

@@ -55,30 +55,15 @@
       <!-- GitHub OAuth Authentication Section -->
       <div id="github-auth-section"></div>
 
-      <!-- Fallback: Access denied message (shown when no valid access) -->
+      <!-- Access denied message (shown when no valid access) -->
       <div class="admin-access-denied" id="access-denied" style="display: none;">
         <h3 id="access-heading">Admin Access Required</h3>
         <p>
           This page requires admin authentication via GitHub OAuth.
         </p>
         <p style="margin-top: var(--space-3);">
-          <strong>Fallback access methods (if GitHub OAuth is not configured):</strong>
+          Only the authorized GitHub account can access this page.
         </p>
-        <ul style="text-align: left; margin-top: var(--space-2); color: var(--color-text-muted);">
-          <li>URL fragment: <code>/admin/leaderboard.html#YOUR_ADMIN_KEY</code></li>
-          <li>Firebase Auth: Sign in below with admin credentials</li>
-        </ul>
-      </div>
-
-      <!-- Authentication form (for Firebase Auth mode - fallback) -->
-      <div class="admin-auth" id="auth-section" style="display: none;">
-        <h3>Admin Sign In</h3>
-        <form class="admin-auth-form" id="auth-form">
-          <input type="email" id="auth-email" placeholder="Admin email" autocomplete="email">
-          <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password">
-          <button type="submit">Sign In</button>
-        </form>
-        <div class="admin-auth-status" id="auth-status" style="display: none;"></div>
       </div>
 
     </section>
@@ -190,21 +175,14 @@
     ;(function() {
       'use strict';
 
-      // Configuration
-      // ⚠️ SECURITY WARNING: The fragment key method is for demo/development only and is NOT secure.
-      // Production deployments should use GitHub OAuth (primary) or Firebase Auth (fallback).
-      var DEMO_ADMIN_KEY = 'BentleyTesla'; // ⚠️ CHANGE THIS!
-
+      // Configuration - GitHub OAuth Only
       var isAuthenticated = false;
       var adminData = null;
       var currentUser = null;
 
       // DOM elements
       var accessDeniedEl = document.getElementById('access-denied');
-      var authSectionEl = document.getElementById('auth-section');
       var githubAuthSectionEl = document.getElementById('github-auth-section');
-      var authFormEl = document.getElementById('auth-form');
-      var authStatusEl = document.getElementById('auth-status');
       var adminContentEl = document.getElementById('admin-content');
       var usersTableBody = document.getElementById('users-table-body');
       var historyTableBody = document.getElementById('history-table-body');
@@ -216,7 +194,7 @@
         // Log access attempt (for local auditing)
         logAdminAccess('Page loaded');
 
-        // Check access methods (prioritize GitHub OAuth)
+        // Check access - GitHub OAuth only
         checkAccess();
         
         // Set up event listeners
@@ -224,9 +202,6 @@
       }
 
       function setupEventListeners() {
-        // Auth form (for Firebase Auth)
-        authFormEl.addEventListener('submit', handleAuthSubmit);
-
         // Pagination
         document.getElementById('prev-page').addEventListener('click', function() {
           // Pagination would be implemented with actual backend
@@ -238,58 +213,28 @@
       }
 
       function checkAccess() {
-        // Check if running on GitHub Pages (no serverless functions)
-        // More robust check for GitHub Pages deployment
-        var isGitHubPages = window.location.hostname.endsWith('.github.io') || 
-                           window.location.hostname === 'github.io';
-        
-        // Method 1 (Primary): Check GitHub OAuth authentication
-        if (window.GitHubAuth && !isGitHubPages) {
-          GitHubAuth.requireAuth().then(function(user) {
-            // User is authenticated via GitHub OAuth
-            currentUser = user;
-            logAdminAccess('Authenticated via GitHub OAuth: ' + user.username);
-            showUserInfo(user);
-            grantAccess();
-          }).catch(function(err) {
-            // Not authenticated via GitHub OAuth - show login UI
-            if (githubAuthSectionEl) {
-              GitHubAuth.showAuthUI('github-auth-section');
-            }
-            // Try fallback methods
-            checkFallbackAccess();
-          });
-          return;
-        }
-
-        // If GitHub OAuth not available or on GitHub Pages, try fallback methods
-        checkFallbackAccess();
-      }
-
-      function checkFallbackAccess() {
-        // Method 2: Check URL fragment for demo key
-        var fragment = window.location.hash.substring(1);
-        if (fragment && fragment === DEMO_ADMIN_KEY) {
-          logAdminAccess('Authenticated via URL fragment');
-          grantAccess();
-          return;
-        }
-
-        // Method 3: Check for Firebase Auth (if available)
-        if (window.LeaderboardFirebase) {
-          // Show auth form
-          authSectionEl.style.display = 'block';
-          
-          // Check existing auth state
-          window.LeaderboardFirebase.onAuthStateChanged(function(user) {
-            if (user) {
-              checkFirebaseAdmin();
-            }
-          });
-        } else {
-          // No auth method available - show access denied
+        // Check if GitHub Auth is available
+        if (!window.GitHubAuth) {
+          console.error('GitHub Auth module not loaded');
           accessDeniedEl.style.display = 'block';
+          return;
         }
+        
+        // Require GitHub OAuth authentication only
+        GitHubAuth.requireAuth().then(function(user) {
+          // User is authenticated via GitHub OAuth
+          currentUser = user;
+          logAdminAccess('Authenticated via GitHub OAuth: ' + user.username);
+          showUserInfo(user);
+          grantAccess();
+        }).catch(function(err) {
+          // Not authenticated - show login UI
+          if (githubAuthSectionEl) {
+            GitHubAuth.showAuthUI('github-auth-section');
+          } else {
+            accessDeniedEl.style.display = 'block';
+          }
+        });
       }
       
       function showUserInfo(user) {
@@ -337,60 +282,9 @@
         }
       }
 
-      async function checkFirebaseAdmin() {
-        try {
-          var isAdmin = await window.LeaderboardFirebase.isAdmin();
-          if (isAdmin) {
-            logAdminAccess('Authenticated via Firebase Auth');
-            grantAccess();
-          } else {
-            showAuthError('Your account does not have admin privileges.');
-          }
-        } catch (error) {
-          showAuthError('Failed to verify admin status.');
-        }
-      }
-
-      async function handleAuthSubmit(e) {
-        e.preventDefault();
-        
-        var email = document.getElementById('auth-email').value;
-        var password = document.getElementById('auth-password').value;
-
-        if (!email || !password) {
-          showAuthError('Please enter both email and password.');
-          return;
-        }
-
-        if (!window.LeaderboardFirebase) {
-          showAuthError('Firebase is not configured. Use URL fragment authentication instead.');
-          return;
-        }
-
-        try {
-          await window.LeaderboardFirebase.signIn(email, password);
-          await checkFirebaseAdmin();
-        } catch (error) {
-          showAuthError('Sign in failed: ' + error.message);
-        }
-      }
-
-      function showAuthError(message) {
-        authStatusEl.textContent = message;
-        authStatusEl.className = 'admin-auth-status error';
-        authStatusEl.style.display = 'block';
-      }
-
-      function showAuthSuccess(message) {
-        authStatusEl.textContent = message;
-        authStatusEl.className = 'admin-auth-status success';
-        authStatusEl.style.display = 'block';
-      }
-
       function grantAccess() {
         isAuthenticated = true;
         accessDeniedEl.style.display = 'none';
-        authSectionEl.style.display = 'none';
         adminContentEl.style.display = 'block';
         
         // Load admin data
