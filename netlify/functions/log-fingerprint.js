@@ -110,22 +110,6 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Check for required environment variable
-  const githubToken = process.env.GITHUB_TOKEN;
-  if (!githubToken) {
-    console.error('GITHUB_TOKEN environment variable is not set');
-    return {
-      statusCode: 500,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        error: 'Server configuration error. GITHUB_TOKEN not set.' 
-      })
-    };
-  }
-
-  // Get repository (default or from env)
-  const githubRepo = process.env.GITHUB_REPO || 'StudyWithJesus/StudyWithJesus.github.io';
-
   // Parse request body
   let payload;
   try {
@@ -149,6 +133,22 @@ exports.handler = async (event, context) => {
       };
     }
   }
+
+  // Check for required environment variable
+  const githubToken = process.env.GITHUB_TOKEN;
+  if (!githubToken) {
+    console.error('GITHUB_TOKEN environment variable is not set');
+    return {
+      statusCode: 500,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        error: 'Server configuration error. GITHUB_TOKEN not set.' 
+      })
+    };
+  }
+
+  // Get repository (default or from env)
+  const githubRepo = process.env.GITHUB_REPO || 'StudyWithJesus/StudyWithJesus.github.io';
 
   // Get client IP from headers
   const clientIp = event.headers['x-forwarded-for'] || 
