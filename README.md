@@ -80,14 +80,19 @@ To enable real-time leaderboards with data persistence:
 
 ### Admin Access
 
-The admin page is hidden from site navigation and requires authentication:
+Admin pages are protected by GitHub OAuth authentication when deployed to Netlify:
 
-#### Method 1: URL Fragment (Demo)
-Access via: `/pages/admin/leaderboard.html#ADMIN_SECRET_KEY`
+#### Method 1: GitHub OAuth (Recommended for Production)
+- Deploy to Netlify with GitHub OAuth configured
+- Only the specified GitHub account can access admin pages
+- See [Netlify Deployment Guide](docs/NETLIFY_DEPLOYMENT.md) for complete setup
 
-To change the key, edit the `DEMO_ADMIN_KEY` variable in the admin page.
+#### Method 2: URL Fragment (Demo/Development)
+- Access via: `/pages/admin/leaderboard.html#ADMIN_SECRET_KEY`
+- Fallback method when OAuth is not configured
+- Not secure for production use
 
-#### Method 2: Firebase Auth (Recommended)
+#### Method 3: Firebase Auth (Alternative)
 1. Set up Firebase Authentication
 2. Create admin user
 3. Set admin custom claim via Firebase Admin SDK:
@@ -97,7 +102,8 @@ To change the key, edit the `DEMO_ADMIN_KEY` variable in the admin page.
 
 ### Security Considerations
 
-- **No secrets in repo** - All credentials are in gitignored config files
+- **GitHub OAuth** - Admin pages restricted to authorized GitHub account (Netlify)
+- **No secrets in repo** - All credentials are in gitignored config files or environment variables
 - **Firestore rules** - Restrict writes and admin reads
 - **Admin audit logging** - Access attempts are logged locally
 - **IP hashing** - If storing IPs, use one-way hashing
@@ -139,6 +145,32 @@ This is a static HTML/CSS/JS site. No build step required.
 1. Clone the repository
 2. Open `index.html` in a browser
 3. For local server: `python -m http.server 8000` or `npx serve`
+
+## Deployment
+
+### Netlify (Recommended for Admin Features)
+
+Netlify deployment enables GitHub OAuth authentication for admin pages.
+
+**Quick Start:**
+1. Create Netlify site from GitHub repository
+2. Set up GitHub OAuth app
+3. Configure environment variables (see [Netlify Deployment Guide](docs/NETLIFY_DEPLOYMENT.md))
+
+**Required Environment Variables:**
+- `GITHUB_CLIENT_ID` - OAuth App Client ID
+- `GITHUB_CLIENT_SECRET` - OAuth App Client Secret
+- `ADMIN_GITHUB_USERNAME` - Your GitHub username
+
+**Complete Setup:** See [docs/NETLIFY_DEPLOYMENT.md](docs/NETLIFY_DEPLOYMENT.md)
+
+### GitHub Pages (Static Only)
+
+GitHub Pages deployment works but admin OAuth features require serverless functions (not available on GitHub Pages). Admin pages will fall back to URL fragment or Firebase auth.
+
+1. Enable GitHub Pages in repository settings
+2. Set source to main branch
+3. Visit `https://[username].github.io/[repo]/`
 
 ## Browser Support
 

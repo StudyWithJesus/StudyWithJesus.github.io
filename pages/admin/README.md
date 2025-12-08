@@ -68,11 +68,13 @@ View detailed leaderboard statistics and user data:
 - Per-user exam counts
 - Module performance
 - Detailed attempt history
-- Access control via URL fragment or Firebase auth
 
-**Access Methods:**
-- **URL Fragment (Demo):** `/pages/admin/leaderboard.html#ADMIN_SECRET_KEY`
-- **Firebase Auth:** Requires admin custom claim
+**Authentication:** GitHub OAuth required (primary), with fallback to URL fragment or Firebase auth for development/demo
+
+**Access Methods (in priority order):**
+1. **GitHub OAuth (Primary - Production):** Sign in with authorized GitHub account
+2. **URL Fragment (Fallback - Demo):** `/pages/admin/leaderboard.html#ADMIN_SECRET_KEY`
+3. **Firebase Auth (Fallback):** Requires admin custom claim
 
 ## Bookmarking Admin Links
 
@@ -118,8 +120,9 @@ https://your-site.com/pages/admin/leaderboard.html
 4. Monitor Netlify function logs for unauthorized access attempts
 
 ### Leaderboard Admin
+- GitHub OAuth protected (primary authentication)
+- Fallback to URL fragment or Firebase auth for development/demo
 - Hidden from site navigation
-- Requires authentication or secret key
 - Admin access attempts logged locally
 - See `docs/leaderboard-design.md` for Firebase admin setup
 
@@ -246,6 +249,8 @@ Edit `pages/admin/fingerprint-admin.html`:
 
 ## Related Documentation
 
+- [Netlify Deployment Guide](../../docs/NETLIFY_DEPLOYMENT.md) - Complete setup for Netlify with OAuth
+- [GitHub OAuth Setup Guide](../../docs/GITHUB_OAUTH_SETUP.md) - Detailed OAuth configuration
 - [Fingerprint Setup Guide](../../docs/FINGERPRINT_SETUP.md)
 - [Leaderboard Design](../../docs/leaderboard-design.md)
 - [Main README](../../README.md)
