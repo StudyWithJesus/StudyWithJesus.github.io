@@ -213,3 +213,143 @@ exports.regenerateLeaderboards = functions.https.onCall(async (data, context) =>
     throw new functions.https.HttpsError('internal', 'Failed to regenerate leaderboards');
   }
 });
+
+/**
+ * Log Fingerprint - HTTP Function
+ * 
+ * Receives fingerprint data and creates a GitHub issue for tracking.
+ * This replaces the Netlify function with equivalent Firebase Cloud Function.
+ * 
+ * Required Environment Variables (set via Firebase CLI or Console):
+ * - GITHUB_TOKEN: Personal access token with 'repo' scope
+ * - GITHUB_REPO: Repository in format 'owner/repo' (defaults to StudyWithJesus/StudyWithJesus.github.io)
+ * 
+ * Deploy with: firebase deploy --only functions:logFingerprint
+ */
+exports.logFingerprint = functions.https.onRequest(async (req, res) => {
+  // Enable CORS
+  res.set('Access-Control-Allow-Origin', '*');
+  
+  if (req.method === 'OPTIONS') {
+    // Handle preflight request
+    res.set('Access-Control-Allow-Methods', 'POST');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
+    res.set('Access-Control-Max-Age', '3600');
+    res.status(204).send('');
+    return;
+  }
+  
+  // Only accept POST requests
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'Method not allowed. Use POST.' });
+    return;
+  }
+
+  // Validate required fields
+  const payload = req.body;
+  const requiredFields = ['fp', 'ua', 'lang', 'tz', 'ts', 'url'];
+  for (const field of requiredFields) {
+    if (!(field in payload)) {
+      res.status(400).json({ error: `Missing required field: ${field}` });
+      return;
+    }
+  }
+
+  // Get GitHub configuration from environment
+  const githubToken = process.env.GITHUB_TOKEN;
+  const githubRepo = process.env.GITHUB_REPO || 'StudyWithJesus/StudyWithJesus.github.io';
+
+  if (!githubToken) {
+    console.error('GITHUB_TOKEN environment variable is not set');
+    res.status(500).json({ error: 'Server configuration error. GITHUB_TOKEN not set.' });
+    return;
+  }
+
+  // Get client IP
+  const clientIp = req.headers['x-forwarded-for'] || 
+                   req.headers['x-real-ip'] || 
+                   req.ip || 
+                   'unknown';
+
+  try {
+    // Create GitHub issue
+    const issue = await createGitHubIssue(githubToken, githubRepo, payload, clientIp);
+    
+    res.status(201).json({
+      success: true,
+      issueUrl: issue.html_url,
+      issueNumber: issue.number
+    });
+  } catch (error) {
+    console.error('Failed to create GitHub issue:', error);
+    res.status(500).json({
+      error: 'Failed to log fingerprint',
+      message: error.message
+    });
+  }
+});
+
+/**
+ * Helper function to create a GitHub issue with fingerprint data
+ */
+async function createGitHubIssue(token, repo, payload, clientIp) {
+  const [owner, repoName] = repo.split('/');
+  
+  const displayName = payload.name ? `**Display Name:** ${payload.name}\n` : '';
+  // Sanitize name for use in code comment - replace special chars
+  const safeName = (payload.name || 'User').replace(/[`'"\\]/g, '_');
+  
+  const issueBody = `## Fingerprint Log Entry
+
+**Timestamp:** ${payload.ts}
+**URL:** ${payload.url}
+**Client IP:** ${clientIp || 'unknown'} *(tracked for information only, not used for blocking)*
+${displayName}
+### Fingerprint Data
+- **Hash (SHA-256):** \`${payload.fp}\`
+- **User Agent:** ${payload.ua}
+- **Language:** ${payload.lang}
+- **Timezone Offset:** ${payload.tz} minutes
+- **Page URL:** ${payload.url}
+
+### Blacklist Instructions
+To blacklist this fingerprint (device/display name), use the Fingerprint Admin dashboard or manually add to \`assets/whitelist-fingerprint.js\`:
+
+\`\`\`javascript
+const manuallyBlockedFingerprints = [
+  '${payload.fp}', // ${safeName} - IP: ${clientIp} (info only)
+];
+\`\`\`
+
+**Note:** Only the fingerprint (device ID) is used for blocking. IP addresses are tracked for information purposes only and do NOT affect access control.
+
+---
+*This issue was automatically created by the fingerprint logger. IP address is tracked for information only.*
+`;
+
+  const titleName = payload.name ? ` (${payload.name})` : '';
+  const issueData = {
+    title: `Fingerprint Log: ${payload.fp.substring(0, 8)}...${titleName} at ${new Date(payload.ts).toLocaleString()}`,
+    body: issueBody,
+    labels: ['fingerprint-log']
+  };
+
+  // Use native fetch API (available in Node.js 18+)
+  const response = await fetch(`https://api.github.com/repos/${owner}/${repoName}/issues`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'User-Agent': 'Firebase-Function-Fingerprint-Logger'
+    },
+    body: JSON.stringify(issueData)
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`GitHub API error: ${response.status} - ${errorText}`);
+  }
+
+  return await response.json();
+}

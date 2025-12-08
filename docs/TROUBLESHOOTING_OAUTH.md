@@ -1,5 +1,7 @@
 # GitHub OAuth Troubleshooting Guide
 
+> **🚀 Quick Answer:** Not sure what values to use? See [GITHUB_OAUTH_QUICK_ANSWER.md](../GITHUB_OAUTH_QUICK_ANSWER.md) for exact copy-paste values.
+
 This guide helps diagnose and fix common issues with GitHub OAuth authentication on the admin pages.
 
 ## Quick Diagnostic Checklist

@@ -1,6 +1,6 @@
-# Firebase Cloud Functions for Leaderboard
+# Firebase Cloud Functions
 
-This directory contains Firebase Cloud Functions that automatically update the leaderboard when new exam attempts are submitted.
+This directory contains Firebase Cloud Functions for the StudyWithJesus application.
 
 ## Functions
 
@@ -26,6 +26,15 @@ This directory contains Firebase Cloud Functions that automatically update the l
 - **Trigger**: HTTPS Callable
 - **Description**: Rebuilds all leaderboard data from attempts collection
 - **Auth**: Requires admin custom claim
+
+### `logFingerprint`
+- **Trigger**: HTTPS Request
+- **Description**: Logs browser fingerprints to GitHub issues for visitor tracking
+- **Auth**: Public endpoint with CORS enabled
+- **Environment Variables**:
+  - `GITHUB_TOKEN` (required): GitHub Personal Access Token with `repo` scope
+  - `GITHUB_REPO` (optional): Repository in format `owner/repo` (defaults to `StudyWithJesus/StudyWithJesus.github.io`)
+- **Setup Guide**: See [FIREBASE_FINGERPRINT_SETUP.md](../FIREBASE_FINGERPRINT_SETUP.md)
 
 ## Deployment
 
@@ -54,6 +63,25 @@ firebase deploy --only functions
 
 # Deploy a specific function
 firebase deploy --only functions:updateLeaderboard
+firebase deploy --only functions:logFingerprint
+```
+
+### Configure Environment Variables
+
+For the `logFingerprint` function:
+
+```bash
+# Set GitHub token
+firebase functions:config:set github.token="YOUR_GITHUB_TOKEN"
+
+# Set repository (optional)
+firebase functions:config:set github.repo="StudyWithJesus/StudyWithJesus.github.io"
+
+# View current config
+firebase functions:config:get
+
+# After setting config, redeploy the function
+firebase deploy --only functions:logFingerprint
 ```
 
 ### Deploy Firestore Rules & Indexes
