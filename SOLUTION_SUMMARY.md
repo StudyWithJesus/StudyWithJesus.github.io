@@ -1,5 +1,7 @@
 # GitHub Sign-In Issue - RESOLVED ✅
 
+> **📖 Quick Reference:** See [GITHUB_OAUTH_QUICK_ANSWER.md](GITHUB_OAUTH_QUICK_ANSWER.md) for exact values to use in your GitHub OAuth App.
+
 ## Problem
 You were getting this error when trying to sign in with GitHub on the admin page:
 

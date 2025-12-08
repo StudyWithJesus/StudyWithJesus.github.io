@@ -1,5 +1,7 @@
 # Firebase Authentication with GitHub Setup Guide
 
+> **🚀 Quick Setup:** For exact copy-paste values to use in your GitHub OAuth App, see [GITHUB_OAUTH_QUICK_ANSWER.md](../GITHUB_OAUTH_QUICK_ANSWER.md)
+
 This guide explains how to set up GitHub authentication for the admin pages using Firebase Authentication, which works on both GitHub Pages and Netlify deployments.
 
 ## Overview

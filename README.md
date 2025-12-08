@@ -2,6 +2,8 @@
 
 Practice exams for Parts Technician Second Period modules (270201, 270202, 270203, 270204). Built as a static GitHub Pages site with exam-style practice questions.
 
+> **🚨 Getting "redirect_uri" Error?** See [GITHUB_OAUTH_QUICK_ANSWER.md](GITHUB_OAUTH_QUICK_ANSWER.md) for the exact values to use in your GitHub OAuth App settings.
+
 ## Features
 
 - **Module-based practice exams** - Questions organized by ILM (Individual Learning Module)

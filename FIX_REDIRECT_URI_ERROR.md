@@ -1,5 +1,7 @@
 # FIX: "redirect_uri is not associated with this application"
 
+> **🚀 Quick Answer:** See [GITHUB_OAUTH_QUICK_ANSWER.md](GITHUB_OAUTH_QUICK_ANSWER.md) for exact copy-paste values for your GitHub OAuth App settings.
+
 ## The Problem
 
 You're seeing this error from GitHub:

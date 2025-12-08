@@ -1,5 +1,7 @@
 # Quick Fix: GitHub Sign-In and Admin Leaderboard Data
 
+> **🚀 New User? Start Here:** [GITHUB_OAUTH_QUICK_ANSWER.md](../GITHUB_OAUTH_QUICK_ANSWER.md) - Get exact values for your GitHub OAuth App settings.
+
 ## Problem 1: Cannot Sign In with GitHub on Admin Pages
 
 **Issue**: The "Sign in with GitHub" button on https://studywithjesus.github.io/pages/admin/index.html doesn't work or shows errors.
