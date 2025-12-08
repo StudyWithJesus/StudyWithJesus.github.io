@@ -110,10 +110,12 @@ https://your-site.com/pages/admin/leaderboard.html
 - `GITHUB_CLIENT_ID` - Public OAuth App ID
 - `GITHUB_CLIENT_SECRET` - Private (never exposed to client)
 - `ADMIN_GITHUB_USERNAME` - Your GitHub username
-1. Change the default password in the page source
-2. Consider hosting behind additional authentication
-3. Use HTTPS in production
-4. Keep the admin URLs private
+
+**Best Practices:**
+1. Use HTTPS in production (Netlify provides this automatically)
+2. Keep the admin URLs private (not linked from public pages)
+3. Regularly review GitHub OAuth app access
+4. Monitor Netlify function logs for unauthorized access attempts
 
 ### Leaderboard Admin
 - Hidden from site navigation

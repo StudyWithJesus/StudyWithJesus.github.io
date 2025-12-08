@@ -411,9 +411,12 @@ function initExamPage() {
     }
 
     // Determine moduleId from examId (e.g., "270201b" -> "270201")
-    const moduleId = examId.match(/^(\d+)/)?.[1];
+    // Expected format: 6 digits optionally followed by letters
+    const moduleIdMatch = examId.match(/^(\d{6})/);
+    const moduleId = moduleIdMatch ? moduleIdMatch[1] : null;
+    
     if (!moduleId) {
-      console.warn('Could not determine module ID from exam ID:', examId);
+      console.warn('Could not determine module ID from exam ID:', examId, '- Expected format: 6 digits (e.g., 270201)');
       return;
     }
 
