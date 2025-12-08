@@ -1,0 +1,55 @@
+# Netlify Configuration
+# Documentation: https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # Publish directory (root for static site)
+  publish = "."
+  
+  # No build command needed for static site
+  command = "echo 'Static site - no build needed'"
+
+[functions]
+  # Directory for serverless functions
+  directory = "netlify/functions"
+  
+  # Node.js version for functions
+  node_bundler = "esbuild"
+
+# Headers for security and caching
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache images
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Environment variables documentation
+# Set these in Netlify Dashboard > Site settings > Environment variables:
+#
+# GITHUB_TOKEN (required)
+#   - Personal access token with 'repo' scope
+#   - Create at: https://github.com/settings/tokens
+#   - Used by log-fingerprint function to create issues
+#
+# GITHUB_REPO (optional)
+#   - Format: 'owner/repo'
+#   - Default: 'StudyWithJesus/StudyWithJesus.github.io'
+#   - Repository where fingerprint logs will be created as issues
