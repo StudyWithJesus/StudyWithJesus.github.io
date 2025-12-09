@@ -115,10 +115,12 @@ Access everything through: https://console.firebase.google.com/project/studywith
 
 **Yes, fully manageable remotely!**
 
+> **Note about IP Addresses:** IP addresses can only be captured when Cloud Functions are deployed. Without functions, you'll see "N/A (local)" because browsers cannot access their own public IP address directly - only a server can see it.
+
 **Option 1: View in GitHub Issues**
 1. Go to: https://github.com/StudyWithJesus/StudyWithJesus.github.io/issues
 2. Filter by label: `fingerprint-log`
-3. View visitor fingerprints and metadata
+3. View visitor fingerprints and metadata (including IPs if functions are deployed)
 4. Close or delete issues as needed
 
 **Option 2: View in Firestore** (if storing in database)
@@ -129,11 +131,18 @@ Access everything through: https://console.firebase.google.com/project/studywith
 
 **What you can do:**
 - ✅ View all visitor fingerprints
-- ✅ See IP addresses, browser info, and timestamps
+- ✅ See browser info and timestamps
+- ✅ See IP addresses (only after Cloud Functions are deployed)
 - ✅ Delete old fingerprint logs
 - ✅ Export fingerprint data
 - ✅ Search by date or browser type
 - ✅ Close GitHub issues for fingerprint logs
+
+**Why IP shows "N/A (local)":**
+- Fingerprint data is stored locally in browser localStorage
+- IP addresses can only be detected server-side by Cloud Functions
+- Deploy Cloud Functions once to enable IP tracking (see [REMOTE_CLOUD_SETUP.md](REMOTE_CLOUD_SETUP.md))
+- Without functions, everything else works but IPs aren't captured
 
 ### Manage Admin Users
 

@@ -32,8 +32,11 @@ Just visit the live site - no installation needed:
 ### For Firebase Admins (Remote Management)
 
 Manage Firebase through the web console - no cloning needed:
-- See [REMOTE_MANAGEMENT.md](REMOTE_MANAGEMENT.md) for complete guide
-- Access Firebase Console: https://console.firebase.google.com/project/studywithjesus
+- **Remote Management**: See [REMOTE_MANAGEMENT.md](REMOTE_MANAGEMENT.md) for viewing/managing data
+- **Cloud Setup**: See [REMOTE_CLOUD_SETUP.md](REMOTE_CLOUD_SETUP.md) for initial Firebase configuration
+- **Firebase Console**: https://console.firebase.google.com/project/studywithjesus
+
+**Note:** IP addresses in fingerprint logs will show "N/A (local)" until Cloud Functions are deployed (one-time setup).
 
 ### For Developers (Local Setup)
 
