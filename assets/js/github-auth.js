@@ -24,6 +24,7 @@
   let firebaseInitialized = false;
   let currentFirebaseUser = null;
   let authStateReady = null; // Promise that resolves when initial auth state is known
+  let authStateUnsubscribe = null; // Unsubscribe function for auth state listener
 
   const GitHubAuth = {
     /**
@@ -53,20 +54,25 @@
         firebaseAuth = getAuth();
         
         // Create a promise that resolves when initial auth state is known
-        authStateReady = new Promise((resolve) => {
-          // Listen for auth state changes
-          const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-            currentFirebaseUser = user;
-            if (user) {
-              console.log('Firebase auth state: signed in as', user.displayName || user.email);
-            } else {
-              console.log('Firebase auth state: signed out');
-            }
-            // Resolve the promise on first auth state change (initial state is known)
-            resolve(user);
-            // Note: We keep listening for future auth state changes, we just resolve once
+        // Only set up the listener once
+        // Note: authStateUnsubscribe is stored but not called - the auth listener
+        // should remain active for the application lifetime to track sign-in/sign-out events
+        if (!authStateReady) {
+          authStateReady = new Promise((resolve) => {
+            // Listen for auth state changes
+            authStateUnsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+              currentFirebaseUser = user;
+              if (user) {
+                console.log('Firebase auth state: signed in as', user.displayName || user.email);
+              } else {
+                console.log('Firebase auth state: signed out');
+              }
+              // Resolve the promise on first auth state change (initial state is known)
+              resolve(user);
+              // Note: We keep listening for future auth state changes, we just resolve once
+            });
           });
-        });
+        }
 
         firebaseInitialized = true;
         console.info('Firebase Auth initialized successfully');
