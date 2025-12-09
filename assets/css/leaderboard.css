@@ -563,3 +563,64 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== Table Layout Fixes for Header Alignment ===== */
+/* Enforce fixed table layout and explicit column widths to ensure
+   header and body columns always align across all viewports */
+.leaderboard-table {
+  table-layout: fixed;
+  box-sizing: border-box;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Explicit column widths via colgroup */
+.leaderboard-table .col-rank {
+  width: 50px;
+}
+
+.leaderboard-table .col-name {
+  width: auto; /* Flexible column for names */
+}
+
+.leaderboard-table .col-score {
+  width: 100px;
+}
+
+.leaderboard-table .col-attempts {
+  width: 100px;
+}
+
+.leaderboard-table .col-date {
+  width: 150px;
+}
+
+/* Prevent header text from wrapping, which can shift alignment */
+.leaderboard-table th {
+  white-space: nowrap;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 640px) {
+  .leaderboard-table .col-rank {
+    width: 40px;
+  }
+  
+  .leaderboard-table .col-score {
+    width: 80px;
+  }
+  
+  .leaderboard-table .col-attempts {
+    width: 80px;
+  }
+  
+  /* Date column is already hidden on mobile by existing rule */
+  .leaderboard-table .col-date {
+    width: 0;
+  }
+}

@@ -352,6 +352,13 @@
     }
     
     html += '<table class="leaderboard-table">';
+    html += '<colgroup>';
+    html += '<col class="col-rank">';
+    html += '<col class="col-name">';
+    html += '<col class="col-score">';
+    html += '<col class="col-attempts">';
+    html += '<col class="col-date">';
+    html += '</colgroup>';
     html += '<thead><tr>';
     html += '<th class="leaderboard-rank">#</th>';
     html += '<th class="leaderboard-name">Name</th>';
