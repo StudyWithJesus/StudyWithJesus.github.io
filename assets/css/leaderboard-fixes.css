@@ -1,0 +1,44 @@
+/* Center Best Score and Attempts columns, keep Name left-aligned */
+
+/* Target the score & attempts header and cells */
+.leaderboard-table th.leaderboard-score,
+.leaderboard-table td.leaderboard-score,
+.leaderboard-table th.leaderboard-attempts,
+.leaderboard-table td.leaderboard-attempts {
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  /* Optional: set a fixed-ish width so columns look centered and consistent */
+  width: 140px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* Keep the name column readable and left-aligned */
+.leaderboard-table th.leaderboard-name,
+.leaderboard-table td.leaderboard-name {
+  text-align: left;
+  min-width: 280px;
+}
+
+/* If you want the header labels to visually center inside their cells */
+.leaderboard-table thead th {
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+/* Small-screen adjustments */
+@media (max-width: 720px) {
+  .leaderboard-table th.leaderboard-score,
+  .leaderboard-table td.leaderboard-score,
+  .leaderboard-table th.leaderboard-attempts,
+  .leaderboard-table td.leaderboard-attempts {
+    width: 90px;
+    font-size: 13px;
+  }
+
+  .leaderboard-table th.leaderboard-name,
+  .leaderboard-table td.leaderboard-name {
+    min-width: 160px;
+  }
+}
