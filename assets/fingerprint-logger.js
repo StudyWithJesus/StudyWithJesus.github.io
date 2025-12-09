@@ -41,6 +41,23 @@
   }
 
   /**
+   * Sanitize display name to prevent XSS and issues
+   * @param {string} name - Raw display name
+   * @returns {string} - Sanitized name
+   */
+  function sanitizeName(name) {
+    if (!name || typeof name !== 'string') {
+      return 'Guest';
+    }
+    // Remove HTML tags, limit length, trim whitespace
+    return name
+      .replace(/<[^>]*>/g, '')  // Remove HTML tags
+      .replace(/[<>'"&]/g, '')  // Remove dangerous characters
+      .trim()
+      .substring(0, 30) || 'Guest';
+  }
+
+  /**
    * Store fingerprint log locally for admin dashboard
    * @param {string} fp - Fingerprint hash
    * @param {string} name - Display name
@@ -53,14 +70,17 @@
       const storageKey = 'fingerprint_logs';
       const logs = JSON.parse(localStorage.getItem(storageKey) || '[]');
       
+      // Sanitize the name
+      const sanitizedName = sanitizeName(name);
+      
       // Check if fingerprint already exists
       const existingIndex = logs.findIndex(log => log.fingerprint === fp);
       
       if (existingIndex !== -1) {
         // Update existing entry
         logs[existingIndex].lastSeen = new Date().toISOString();
-        if (name && !logs[existingIndex].name) {
-          logs[existingIndex].name = name;
+        if (sanitizedName && sanitizedName !== 'Guest' && !logs[existingIndex].name) {
+          logs[existingIndex].name = sanitizedName;
         }
         if (ip && ip !== 'unknown') {
           logs[existingIndex].ip = ip;
@@ -75,7 +95,7 @@
         // Add new entry
         const entry = {
           id: Date.now(),
-          name: name || 'Guest',
+          name: sanitizedName,
           fingerprint: fp,
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent || '',
@@ -144,26 +164,52 @@
         options.keepalive = true;
       }
 
-      // Send request and get IP from response
-      fetch(endpoint, options)
-        .then(function(response) {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error('Server error');
-        })
-        .then(function(data) {
-          // Store fingerprint log with IP info from server response
-          const serverIp = data.clientIp || 'unknown';
-          const ipv4 = data.ipv4 || null;
-          const ipv6 = data.ipv6 || null;
-          storeFingerprintLog(fp, displayName, serverIp, ipv4, ipv6);
-        })
-        .catch(function(err) {
-          // Still store the log even if server request fails, just without IP
-          storeFingerprintLog(fp, displayName, 'N/A', null, null);
-          console.debug('Fingerprint logging failed:', err.message);
-        });
+      // Send request and get IP from response with retry logic
+      const maxRetries = 2;
+      let retryCount = 0;
+      
+      const sendRequest = () => {
+        return fetch(endpoint, options)
+          .then(function(response) {
+            if (response.ok) {
+              return response.json();
+            }
+            if (response.status === 429) {
+              // Rate limited - don't retry
+              throw new Error('Rate limited');
+            }
+            throw new Error('Server error: ' + response.status);
+          })
+          .then(function(data) {
+            // Store fingerprint log with IP info from server response
+            const serverIp = data.clientIp || 'unknown';
+            const ipv4 = data.ipv4 || null;
+            const ipv6 = data.ipv6 || null;
+            storeFingerprintLog(fp, displayName, serverIp, ipv4, ipv6);
+          })
+          .catch(function(err) {
+            if (err.message === 'Rate limited') {
+              // Rate limited - store without IP
+              storeFingerprintLog(fp, displayName, 'Rate limited', null, null);
+              console.debug('Fingerprint logging rate limited');
+              throw err; // Don't retry
+            }
+            
+            // Retry on network errors
+            if (retryCount < maxRetries) {
+              retryCount++;
+              const delay = Math.min(1000 * Math.pow(2, retryCount), 5000); // Exponential backoff
+              console.debug(`Retrying fingerprint log (${retryCount}/${maxRetries}) in ${delay}ms...`);
+              return new Promise(resolve => setTimeout(resolve, delay)).then(sendRequest);
+            }
+            
+            // All retries failed - still store the log locally without IP
+            storeFingerprintLog(fp, displayName, 'N/A', null, null);
+            console.debug('Fingerprint logging failed after retries:', err.message);
+          });
+      };
+      
+      sendRequest();
 
     } catch (err) {
       // Silent failure

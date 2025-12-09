@@ -230,6 +230,12 @@ exports.regenerateLeaderboards = onCall(async (request) => {
  * 
  * Deploy with: firebase deploy --only functions:logFingerprint
  */
+
+// Rate limiting: Track recent requests by fingerprint
+const recentFingerprints = new Map();
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 3;
+
 exports.logFingerprint = onRequest({cors: true}, async (req, res) => {
   // Only accept POST requests
   if (req.method !== 'POST') {
@@ -245,6 +251,40 @@ exports.logFingerprint = onRequest({cors: true}, async (req, res) => {
       res.status(400).json({ error: `Missing required field: ${field}` });
       return;
     }
+  }
+
+  // Rate limiting: Check if this fingerprint has made too many requests recently
+  const now = Date.now();
+  const fpKey = payload.fp;
+  
+  if (recentFingerprints.has(fpKey)) {
+    const requests = recentFingerprints.get(fpKey);
+    const recentRequests = requests.filter(time => now - time < RATE_LIMIT_WINDOW);
+    
+    if (recentRequests.length >= MAX_REQUESTS_PER_WINDOW) {
+      console.warn(`Rate limit exceeded for fingerprint: ${fpKey.substring(0, 8)}...`);
+      res.status(429).json({ 
+        error: 'Too many requests. Please try again later.',
+        retryAfter: Math.ceil(RATE_LIMIT_WINDOW / 1000)
+      });
+      return;
+    }
+    
+    recentRequests.push(now);
+    recentFingerprints.set(fpKey, recentRequests);
+  } else {
+    recentFingerprints.set(fpKey, [now]);
+  }
+  
+  // Clean up old entries (prevent memory leak)
+  if (recentFingerprints.size > 1000) {
+    const entriesToDelete = [];
+    for (const [key, times] of recentFingerprints.entries()) {
+      if (times.every(time => now - time > RATE_LIMIT_WINDOW)) {
+        entriesToDelete.push(key);
+      }
+    }
+    entriesToDelete.forEach(key => recentFingerprints.delete(key));
   }
 
   // Get GitHub configuration from environment variables
