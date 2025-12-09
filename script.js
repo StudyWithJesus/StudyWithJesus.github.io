@@ -253,6 +253,227 @@ function initExamPage() {
     }
   }
 
+  // ----------------------
+  // Timer Pause Functionality
+  // ----------------------
+  let isPaused = false;
+  let pauseOverlay = null;
+
+  // Create pause overlay
+  function createPauseOverlay() {
+    if (pauseOverlay) return pauseOverlay;
+    
+    pauseOverlay = document.createElement('div');
+    pauseOverlay.id = 'timer-pause-overlay';
+    pauseOverlay.className = 'timer-pause-overlay';
+    pauseOverlay.innerHTML = `
+      <div class="pause-content">
+        <div class="pause-icon">⏸</div>
+        <h2>Test Paused</h2>
+        <p>Click anywhere to resume</p>
+        <div class="pause-timer">
+          <span class="pause-timer-icon">⏱</span>
+          <span class="pause-timer-text">${formatTime(remainingSeconds)}</span>
+        </div>
+      </div>
+    `;
+    
+    // Add styles
+    const style = document.createElement('style');
+    style.id = 'pause-overlay-styles';
+    style.textContent = `
+      .timer-pause-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.98);
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        animation: pauseOverlayFadeIn 0.3s ease-out;
+        cursor: pointer;
+      }
+      
+      @keyframes pauseOverlayFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      .pause-content {
+        text-align: center;
+        color: white;
+        animation: pauseContentSlide 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      @keyframes pauseContentSlide {
+        from { transform: translateY(-30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      .pause-icon {
+        font-size: 80px;
+        margin-bottom: 24px;
+        animation: pauseIconPulse 2s ease-in-out infinite;
+      }
+      
+      @keyframes pauseIconPulse {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.1); opacity: 1; }
+      }
+      
+      .pause-content h2 {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 0 0 16px 0;
+        color: #f1f5f9;
+      }
+      
+      .pause-content p {
+        font-size: 18px;
+        color: #cbd5e1;
+        margin: 0 0 32px 0;
+      }
+      
+      .pause-timer {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 32px;
+        background: rgba(59, 130, 246, 0.1);
+        border: 2px solid rgba(59, 130, 246, 0.3);
+        border-radius: 12px;
+        font-size: 32px;
+        font-weight: 700;
+        color: #60a5fa;
+        font-variant-numeric: tabular-nums;
+      }
+      
+      .pause-timer-icon {
+        font-size: 32px;
+      }
+      
+      @media (max-width: 768px) {
+        .pause-icon {
+          font-size: 60px;
+        }
+        
+        .pause-content h2 {
+          font-size: 28px;
+        }
+        
+        .pause-content p {
+          font-size: 16px;
+        }
+        
+        .pause-timer {
+          font-size: 28px;
+          padding: 14px 28px;
+        }
+        
+        .pause-timer-icon {
+          font-size: 28px;
+        }
+      }
+    `;
+    
+    if (!document.getElementById('pause-overlay-styles')) {
+      document.head.appendChild(style);
+    }
+    
+    // Click anywhere to resume
+    pauseOverlay.addEventListener('click', function() {
+      resumeTimer();
+    });
+    
+    return pauseOverlay;
+  }
+
+  // Pause the timer
+  function pauseTimer() {
+    if (isPaused || !timerStarted || document.body.classList.contains("submitted-mode")) return;
+    
+    isPaused = true;
+    stopTimer();
+    
+    // Create and show overlay
+    const overlay = createPauseOverlay();
+    document.body.appendChild(overlay);
+    
+    // Update timer display to show pause icon
+    if (timerDisplay) {
+      timerDisplay.classList.add('timer-paused');
+      const timerIcon = timerDisplay.querySelector('.timer-icon');
+      if (timerIcon) {
+        timerIcon.textContent = '⏸';
+      }
+    }
+  }
+
+  // Resume the timer
+  function resumeTimer() {
+    if (!isPaused) return;
+    
+    isPaused = false;
+    
+    // Remove overlay
+    if (pauseOverlay && pauseOverlay.parentNode) {
+      pauseOverlay.style.animation = 'pauseOverlayFadeIn 0.3s ease-out reverse';
+      setTimeout(() => {
+        if (pauseOverlay && pauseOverlay.parentNode) {
+          pauseOverlay.parentNode.removeChild(pauseOverlay);
+        }
+      }, 300);
+    }
+    
+    // Resume timer
+    startTimer();
+    
+    // Update timer display to show normal icon
+    if (timerDisplay) {
+      timerDisplay.classList.remove('timer-paused');
+      const timerIcon = timerDisplay.querySelector('.timer-icon');
+      if (timerIcon) {
+        timerIcon.textContent = '⏱';
+      }
+    }
+  }
+
+  // Add click handler to timer display for pause/resume
+  if (timerDisplay) {
+    timerDisplay.style.cursor = 'pointer';
+    timerDisplay.title = 'Click to pause/resume timer';
+    timerDisplay.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (isPaused) {
+        resumeTimer();
+      } else if (timerStarted && !document.body.classList.contains("submitted-mode")) {
+        pauseTimer();
+      }
+    });
+  }
+
+  // Add keyboard shortcut for pause/resume (Space or P key)
+  document.addEventListener('keydown', function(e) {
+    // Only activate if we're on an exam page and not typing in an input
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    
+    // Don't interfere with Konami code
+    if (e.code === 'KeyB' || e.code === 'KeyA') return;
+    
+    if (e.code === 'Space' || e.code === 'KeyP') {
+      e.preventDefault();
+      if (isPaused) {
+        resumeTimer();
+      } else if (timerStarted && !document.body.classList.contains("submitted-mode")) {
+        pauseTimer();
+      }
+    }
+  });
+
   // Ensure result banner exists at the bottom
   let resultBanner = document.getElementById("result-banner");
   if (!resultBanner) {
