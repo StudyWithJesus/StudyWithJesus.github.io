@@ -134,30 +134,20 @@
         }
       }
 
-      // Fallback to Netlify OAuth (for Netlify deployments)
+      // Firebase initialization failed - cannot authenticate on GitHub Pages
       const clientId = this.getClientId();
+      
       if (!clientId) {
-        alert('Authentication is not configured. Please set up Firebase or GitHub OAuth.');
+        console.error('GitHub OAuth: No client ID configured');
+        alert('Authentication is not configured. Please configure Firebase Authentication with the GitHub provider for GitHub Pages. See the FIREBASE_GITHUB_AUTH_SETUP.md file in the repository root.');
         return;
       }
 
-      // Build OAuth URL for Netlify
-      const returnTo = encodeURIComponent(window.location.pathname);
-      const redirectUri = `${window.location.origin}/.netlify/functions/github-oauth`;
-      const state = Math.random().toString(36).substring(7);
-      
-      sessionStorage.setItem('github_oauth_state', state);
-      sessionStorage.setItem('github_oauth_redirect_uri', redirectUri);
-
-      const authUrl = `https://github.com/login/oauth/authorize?` +
-        `client_id=${clientId}&` +
-        `redirect_uri=${encodeURIComponent(redirectUri)}&` +
-        `scope=read:user&` +
-        `state=${state}&` +
-        `return_to=${returnTo}`;
-
-      console.log('Starting OAuth flow with redirect URI:', redirectUri);
-      window.location.href = authUrl;
+      // Firebase failed to initialize but client ID exists
+      console.error('GitHub OAuth: Firebase not configured but client ID present');
+      console.error('GitHub Pages requires Firebase Authentication - Netlify functions are not available');
+      alert('Firebase is not configured for this site. GitHub Pages cannot use Netlify functions for OAuth. Configure Firebase GitHub auth (see FIREBASE_GITHUB_AUTH_SETUP.md in repository) or deploy to Netlify.');
+      return;
     },
 
     /**

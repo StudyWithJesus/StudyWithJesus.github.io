@@ -271,14 +271,11 @@
         return true;
       }
       
-      // Fallback: Any authenticated GitHub user has admin access
-      // In production, you can add a whitelist here:
-      // const adminUsers = ['allowed-username1', 'allowed-username2'];
-      // const username = auth.currentUser.reloadUserInfo?.screenName || auth.currentUser.displayName;
-      // return adminUsers.includes(username);
-      
-      // For now, any authenticated user is admin
-      return true;
+      // Restrict admin access to specific GitHub usernames
+      const adminUsers = ['StudyWithJesus']; // Replace with your GitHub username
+      const username = auth.currentUser.reloadUserInfo?.screenName || 
+                       auth.currentUser.displayName;
+      return adminUsers.includes(username);
     } catch (error) {
       console.error('Failed to check admin status:', error);
       

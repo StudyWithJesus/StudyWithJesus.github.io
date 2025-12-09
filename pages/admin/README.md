@@ -6,20 +6,19 @@ The Admin Hub provides centralized access to administrative features for StudyWi
 
 ## Authentication
 
-**🔐 GitHub OAuth Required**
+**🔐 Firebase Authentication with GitHub Provider**
 
-All admin pages now require authentication via GitHub OAuth. Only the authorized GitHub account (set via `ADMIN_GITHUB_USERNAME` environment variable) can access admin features.
+All admin pages now require authentication via Firebase Authentication with GitHub provider. This works on both GitHub Pages and Netlify.
 
-**Setup:** See [GitHub OAuth Setup Guide](../../docs/GITHUB_OAUTH_SETUP.md) for complete configuration instructions.
+**Setup:** See [FIREBASE_GITHUB_AUTH_SETUP.md](../../FIREBASE_GITHUB_AUTH_SETUP.md) for complete configuration instructions.
 
 **Quick Setup:**
-1. Create GitHub OAuth App at https://github.com/settings/developers
-2. Set environment variables in Netlify:
-   - `GITHUB_CLIENT_ID` - Your OAuth App Client ID
-   - `GITHUB_CLIENT_SECRET` - Your OAuth App Client Secret  
-   - `ADMIN_GITHUB_USERNAME` - Your GitHub username (e.g., `StudyWithJesus`)
-3. Deploy to Netlify
+1. Enable Firebase Authentication with GitHub provider
+2. Create GitHub OAuth App with Firebase callback URL
+3. Configure Firebase in `config/firebase.config.js`
 4. Visit `/pages/admin/index.html` and sign in with GitHub
+
+**Note:** Legacy Netlify OAuth setup is deprecated. Use Firebase Authentication for all deployments.
 
 ## Admin Pages
 
@@ -132,12 +131,12 @@ https://your-site.com/pages/admin/leaderboard.html
 ## Integration with Fingerprint Logger
 
 The Fingerprint Admin page works in conjunction with:
-- `assets/fingerprint-logger.js` - Logs fingerprints to endpoint
+- `assets/fingerprint-logger.js` - Generates device fingerprints and logs them to Firebase Cloud Function
 - `assets/whitelist-fingerprint.js` - Blocks based on whitelist
-- `netlify/functions/log-fingerprint.js` - Creates GitHub issues
+- `functions/index.js` - Firebase Cloud Functions (includes logFingerprint)
 
 **Workflow:**
-1. Users visit the site → fingerprint is logged
+1. Users visit the site → fingerprint is logged to Firebase
 2. Admin reviews fingerprints in admin panel
 3. Admin blocks unwanted fingerprints
 4. Admin exports whitelist configuration

@@ -1,237 +1,183 @@
 # GitHub OAuth Troubleshooting Guide
 
-> **🚀 Quick Answer:** Not sure what values to use? See [GITHUB_OAUTH_QUICK_ANSWER.md](../GITHUB_OAUTH_QUICK_ANSWER.md) for exact copy-paste values.
+> **⚠️ IMPORTANT:** GitHub Pages deployments use Firebase Authentication. See [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md) for setup instructions.
+
+> **📝 Note:** Netlify-specific OAuth instructions have been deprecated for GitHub Pages. If deploying to Netlify, you may still use Netlify functions, but Firebase Authentication is recommended for all deployments.
 
 This guide helps diagnose and fix common issues with GitHub OAuth authentication on the admin pages.
 
-## Quick Diagnostic Checklist
+## For GitHub Pages Deployments
+
+### Quick Diagnostic Checklist
 
 Work through these steps in order:
 
-### 1. ✅ Is the OAuth App Created?
+### 1. ✅ Is Firebase Authentication Configured?
+
+**Check Firebase Console:** https://console.firebase.google.com/
+
+- [ ] Firebase project exists (e.g., `studywithjesus`)
+- [ ] Authentication is enabled
+- [ ] GitHub provider is enabled
+- [ ] Firebase config is set in `config/firebase.config.js`
+
+**❌ Not configured?**
+See [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md) for complete setup instructions.
+
+### 2. ✅ Is the GitHub OAuth App Created with Firebase Callback?
 
 **Check:** https://github.com/settings/developers
 
-- [ ] OAuth App exists for StudyWithJesus Admin
-- [ ] Application name: `StudyWithJesus Admin (silly-speculoos)` or similar
-- [ ] Homepage URL: `https://silly-speculoos-4afae0.netlify.app`
-- [ ] **Authorization callback URL:** `https://silly-speculoos-4afae0.netlify.app/.netlify/functions/github-oauth`
+- [ ] OAuth App exists for your Firebase project
+- [ ] Application name: `StudyWithJesus Firebase Auth` or similar
+- [ ] Homepage URL: `https://studywithjesus.github.io`
+- [ ] **Authorization callback URL:** `https://studywithjesus.firebaseapp.com/__/auth/handler`
 
 **❌ Not created?**
 1. Go to https://github.com/settings/developers
 2. Click "OAuth Apps" → "New OAuth App"
-3. Fill in the details above
-4. Copy the Client ID and generate a Client Secret
+3. Get the callback URL from Firebase Console (Authentication → Sign-in method → GitHub)
+4. Use that URL as the Authorization callback URL
+5. Copy the Client ID and Client Secret to Firebase Console
 
-### 2. ✅ Are Environment Variables Set?
+### 3. ✅ Does the Callback URL Match Firebase?
 
-**Check:** https://app.netlify.com/sites/silly-speculoos-4afae0/configuration/env
+**Common mistake:** Using Netlify callback URL instead of Firebase callback URL
 
-Required variables:
-- [ ] `GITHUB_CLIENT_ID` - Your OAuth App Client ID (starts with `Ov` or `Iv`)
-- [ ] `GITHUB_CLIENT_SECRET` - Your OAuth App Client Secret (40+ characters)
-- [ ] `ADMIN_GITHUB_USERNAME` - Your exact GitHub username
-
-**❌ Not set?**
-1. Go to Netlify environment variables (link above)
-2. Click "Add a variable" for each missing one
-3. Scope: Production, Deploy previews, Branch deploys
-4. Mark `GITHUB_CLIENT_SECRET` as secret
-5. Redeploy your site after adding
-
-### 3. ✅ Does the Callback URL Match Exactly?
-
-**Common mistake:** Typo in the callback URL or wrong domain
-
-Check that the callback URL in your GitHub OAuth App is EXACTLY:
+The callback URL in your GitHub OAuth App should be:
 ```
-https://silly-speculoos-4afae0.netlify.app/.netlify/functions/github-oauth
+https://YOUR-PROJECT-ID.firebaseapp.com/__/auth/handler
 ```
+(Replace YOUR-PROJECT-ID with your Firebase project ID)
 
-Watch out for:
-- ❌ `.netlifyapp.` (wrong - missing dot before `app`)
-- ❌ `netlify.com` (wrong - should be `netlify.app`)
-- ❌ Missing `/.netlify/functions/github-oauth` path
-- ❌ Extra slashes or spaces
-- ❌ Wrong site name
+**❌ Wrong callback URL?**
+- Using `/.netlify/functions/github-oauth` will NOT work on GitHub Pages
+- Update your GitHub OAuth App to use the Firebase callback URL
+- Get the correct URL from Firebase Console → Authentication → Sign-in method → GitHub
 
-**Fix:**
-1. Go to https://github.com/settings/developers
-2. Click on your OAuth App
-3. Click "Update application"
-4. Fix the Authorization callback URL
-5. Save changes
+### 4. ✅ Are Authorized Domains Configured in Firebase?
 
-### 4. ✅ Is the Client ID Configured in the Code?
+**Check:** Firebase Console → Authentication → Settings → Authorized domains
 
-The Client ID is already configured in `config/github-oauth.config.js` as:
-```javascript
-clientId: 'Ov23liWrCTAIplgEUl3P'
-```
+Required domains:
+- [ ] `studywithjesus.github.io` (your GitHub Pages domain)
+- [ ] `localhost` (for local testing)
 
-**Verify this matches your actual OAuth App:**
-1. Go to https://github.com/settings/developers
-2. Click on your OAuth App
-3. Compare the Client ID shown with the one in the config file
-4. If different, update the config file or create a new OAuth App
-
-### 5. ✅ Has the Site Been Deployed?
-
-**Check:** https://app.netlify.com/sites/silly-speculoos-4afae0/deploys
-
-- [ ] Latest deploy shows "Published" with green checkmark
-- [ ] Deploy was after setting environment variables
-
-**❌ Not deployed?**
-1. Push your changes to GitHub
-2. Or trigger a manual deploy in Netlify
-3. Wait for deploy to complete (watch the logs)
-
-### 6. ✅ Are the Netlify Functions Working?
-
-**Check:** https://app.netlify.com/sites/silly-speculoos-4afae0/functions
-
-- [ ] `github-oauth` function is listed
-- [ ] Function has no error badge
-
-**Test the function directly:**
-Visit: https://silly-speculoos-4afae0.netlify.app/.netlify/functions/github-oauth
-
-You should see an "Authentication Error" page (this is expected - it means the function is working but needs an OAuth code).
-
-**❌ Function not listed or erroring?**
-1. Check the deploy logs for function build errors
-2. Verify `netlify.toml` exists in repository root
-3. Check that `netlify/functions/github-oauth.js` exists
+**❌ Not authorized?**
+1. Go to Firebase Console → Authentication → Settings
+2. Click "Authorized domains"
+3. Add your GitHub Pages domain
+4. Save changes
 
 ## Common Error Messages and Fixes
 
-### "Server Configuration Error"
+### "Firebase not configured for this site"
 
-**What you see:** HTML page listing missing environment variables
+**What you see:** Alert saying Firebase is not configured and GitHub Pages cannot use Netlify functions
 
-**Cause:** Required environment variables not set in Netlify
-
-**Fix:**
-1. Go to https://app.netlify.com/sites/silly-speculoos-4afae0/configuration/env
-2. Add all three required variables (see checklist #2)
-3. Trigger a new deploy
-
-### "Access Denied - You are logged in as [username]"
-
-**What you see:** Error page showing your GitHub username doesn't match
-
-**Cause:** `ADMIN_GITHUB_USERNAME` doesn't match your actual username
+**Cause:** Firebase Authentication is not properly set up
 
 **Fix:**
-1. Check your exact GitHub username at https://github.com/[your-username]
-2. Update `ADMIN_GITHUB_USERNAME` in Netlify to match exactly
-3. Redeploy the site
-4. Note: Comparison is case-insensitive, but double-check spelling
-
-### "OAuth Error - No authorization code provided"
-
-**What you see:** Error about missing authorization code
-
-**Causes:**
-1. Callback URL mismatch (most common)
-2. You clicked "Cancel" on GitHub's authorization page
-3. OAuth request expired
-
-**Fix:**
-1. Verify callback URL in GitHub OAuth App (see checklist #3)
-2. Try signing in again from scratch
-3. Clear browser cache/cookies if issue persists
+1. Follow [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md)
+2. Ensure `config/firebase.config.js` has correct Firebase config
+3. Enable GitHub provider in Firebase Console
+4. Clear browser cache and try again
 
 ### "redirect_uri_mismatch" from GitHub
 
 **What you see:** GitHub shows an error page about redirect URI
 
-**Cause:** The callback URL in your OAuth App doesn't match the URL being used
+**Cause:** The callback URL in your OAuth App doesn't match the Firebase callback URL
 
 **Fix:**
 1. Go to https://github.com/settings/developers
 2. Edit your OAuth App
-3. Update "Authorization callback URL" to exactly:
-   ```
-   https://silly-speculoos-4afae0.netlify.app/.netlify/functions/github-oauth
-   ```
+3. Update "Authorization callback URL" to match Firebase:
+   - Get the exact URL from Firebase Console → Authentication → GitHub provider
+   - Example: `https://studywithjesus.firebaseapp.com/__/auth/handler`
 4. Save changes
 5. Try signing in again
 
-### "Failed to authenticate with GitHub" (Generic Error)
+### "Authentication is not configured"
 
-**What you see:** Error with technical message
+**What you see:** Alert saying authentication is not configured
 
-**Common causes:**
-1. Invalid Client Secret
-2. GitHub API is down
-3. Network/timeout issues
-4. Wrong Client ID
+**Cause:** Missing Firebase configuration or GitHub OAuth Client ID
 
 **Fix:**
-1. Double-check all environment variables
-2. Try regenerating Client Secret in GitHub OAuth App
-3. Update the new secret in Netlify
-4. Check GitHub Status: https://www.githubstatus.com/
-5. Check Netlify function logs for detailed error
+1. Check `config/firebase.config.js` exists and has valid config
+2. Check `config/github-oauth.config.js` has a Client ID (optional fallback)
+3. Follow the complete setup guide in FIREBASE_GITHUB_AUTH_SETUP.md
+
+### Popup closes immediately or is blocked
+
+**What you see:** Sign-in popup doesn't appear or closes right away
+
+**Cause:** Browser popup blocker
+
+**Fix:**
+1. Allow popups for your site in browser settings
+2. Try signing in again
+3. Check browser console for errors
 
 ## Debug Mode
 
-To see detailed OAuth flow information in browser console:
+To see detailed authentication information in browser console:
 
 1. Open browser Developer Tools (F12)
 2. Go to Console tab
 3. Try signing in to admin page
 4. Look for log messages:
-   - "Starting OAuth flow with redirect URI: ..."
-   - "Client ID: ..."
+   - "Firebase Auth initialized successfully"
+   - "Firebase auth state: signed in as ..."
    - Any error messages
 
 ## Testing the Flow Step-by-Step
 
 1. **Visit admin page:**
-   https://silly-speculoos-4afae0.netlify.app/pages/admin/index.html
+   https://your-username.github.io/pages/admin/index.html
+   (Replace your-username with your GitHub username or organization)
 
 2. **Expected:** See "Sign in with GitHub" button
 
 3. **Click sign in button**
-   - Opens GitHub authorization page
-   - URL should start with `https://github.com/login/oauth/authorize`
+   - Opens Firebase authentication popup
+   - Shows GitHub authorization page
    - Shows your OAuth App name
 
 4. **Click "Authorize" on GitHub**
-   - Redirects to `https://silly-speculoos-4afae0.netlify.app/.netlify/functions/github-oauth?code=...`
+   - Popup closes
+   - Page reloads showing admin dashboard
+   - Your GitHub avatar and username appear
 
-5. **Expected:** Redirect back to admin page
-   - URL: `https://silly-speculoos-4afae0.netlify.app/pages/admin/index.html?session=...`
-   - See admin dashboard
-   - Your GitHub avatar and username in header
+5. **Expected:** Admin page shows your user info and data
+
+## For Legacy Netlify Deployments (Deprecated)
+
+> **⚠️ Netlify OAuth is deprecated for this project.** Use Firebase Authentication instead.
+
+If you absolutely must use Netlify functions:
+
+1. Create a separate GitHub OAuth App with Netlify callback URL
+2. Set `GITHUB_CLIENT_SECRET` and `ADMIN_GITHUB_USERNAME` environment variables in Netlify
+3. Implement the `github-oauth.js` serverless function
+4. See legacy documentation for details (not recommended)
 
 ## Still Having Issues?
-
-### Check Netlify Function Logs
-
-https://app.netlify.com/sites/silly-speculoos-4afae0/functions
-
-1. Click on `github-oauth` function
-2. Click "Function log" tab
-3. Look for recent invocations
-4. Check error messages
 
 ### Check Browser Console
 
 1. Open Developer Tools (F12)
 2. Go to Console tab
-3. Look for red error messages
+3. Look for error messages related to Firebase or authentication
 4. Check Network tab for failed requests
 
-### Verify Your OAuth App Status
+### Verify Firebase Configuration
 
-1. Go to https://github.com/settings/developers
-2. Click on your OAuth App
-3. Check "Recent Deliveries" or "Recent Requests" if available
-4. Look for any error codes
+1. Check `config/firebase.config.js` has valid configuration
+2. Verify Firebase project is active in Firebase Console
+3. Confirm GitHub provider is enabled in Firebase Authentication
+4. Check authorized domains include your deployment domain
 
 ### Try Incognito/Private Mode
 
@@ -239,14 +185,6 @@ Sometimes browser extensions or cached data can interfere:
 1. Open incognito/private browsing window
 2. Try signing in again
 3. If it works, clear cookies/cache in normal mode
-
-### Check Netlify Site Configuration
-
-https://app.netlify.com/sites/silly-speculoos-4afae0/configuration/general
-
-- [ ] Site is not paused
-- [ ] Custom domain (if any) is configured correctly
-- [ ] HTTPS is enabled
 
 ## Need Help?
 
@@ -256,36 +194,23 @@ If you've tried everything and it's still not working:
    - What error message do you see exactly?
    - Screenshot of the error
    - Browser console logs
-   - Netlify function logs
+   - Firebase Console authentication logs
 
 2. **Double-check:**
-   - All 3 environment variables are set
-   - Callback URL matches exactly
-   - OAuth App Client ID matches config
-   - Site has been redeployed after config changes
+   - Firebase is properly configured
+   - GitHub OAuth App callback URL matches Firebase
+   - Authorized domains are configured
+   - Browser allows popups
 
 3. **Try Creating Fresh OAuth App:**
    Sometimes starting from scratch helps:
    - Create a new OAuth App in GitHub
-   - Use new Client ID and Secret
-   - Update config and environment variables
-   - Redeploy
-
-## Prevention Checklist
-
-To avoid issues in the future:
-
-- [ ] Keep OAuth App credentials secure and backed up
-- [ ] Document your `ADMIN_GITHUB_USERNAME` in a safe place
-- [ ] Test authentication after any configuration changes
-- [ ] Regularly check Netlify function logs for issues
-- [ ] Keep track of which GitHub account is authorized
-- [ ] Monitor GitHub OAuth App for suspicious activity
+   - Use Firebase callback URL from Firebase Console
+   - Add Client ID and Secret to Firebase
+   - Test authentication
 
 ## Related Documentation
 
-- [GITHUB_OAUTH_SETUP.md](GITHUB_OAUTH_SETUP.md) - Complete setup guide
-- [SILLY_SPECULOOS_SETUP.md](SILLY_SPECULOOS_SETUP.md) - Site-specific setup
-- [QUICK_START_ADMIN.md](../QUICK_START_ADMIN.md) - Quick reference
+- [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md) - Complete Firebase setup guide
 - [GitHub OAuth Documentation](https://docs.github.com/en/developers/apps/building-oauth-apps) - Official GitHub docs
-- [Netlify Functions](https://docs.netlify.com/functions/overview/) - Official Netlify docs
+- [Firebase Authentication](https://firebase.google.com/docs/auth) - Official Firebase docs

@@ -1,37 +1,165 @@
 # Fingerprint Logger Setup Guide
 
-This guide explains how to set up and use the fingerprint logging and whitelist blocking features.
+This guide explains how to set up and use the Firebase-based fingerprint logging and whitelist blocking features.
 
 ## Overview
 
-The fingerprint logger captures unique device fingerprints from visitors and logs them to GitHub issues. The optional whitelist blocker can restrict access to only approved fingerprints. An admin dashboard allows you to manage blocked fingerprints with toggle switches.
+The fingerprint logger captures unique device fingerprints from visitors and logs them via Firebase Cloud Functions. **Fingerprints are stored as GitHub Issues** in your repository for easy tracking and management. The optional whitelist blocker can restrict access to only approved fingerprints. An admin dashboard allows you to manage blocked fingerprints with toggle switches.
+
+## Current Implementation
+
+**Firebase-Based Architecture (logs TO GitHub):**
+- ✅ Client-side fingerprint generation (`assets/fingerprint-logger.js`)
+- ✅ Firebase Cloud Function receives fingerprint data
+- ✅ Firebase function creates GitHub Issues for each fingerprint
+- ✅ Local storage for admin dashboard (fingerprints cached client-side)
+- ✅ Works on GitHub Pages and any static hosting
+
+**Data Flow:**
+```
+Visitor's Browser → Firebase Cloud Function → GitHub Issue Created
+       ↓
+  Local Storage (for admin dashboard)
+```
 
 ## Admin Dashboard
 
 **🔐 Admin Hub:** `/pages/admin/index.html`
 
 The admin hub provides centralized access to:
-- **Fingerprint Admin** (`/pages/admin/fingerprint-admin.html`) - Toggle fingerprint blocking
-- **Leaderboard Admin** (`/pages/admin/leaderboard.html`) - View user statistics
+- **Fingerprint Admin** (`/pages/admin/fingerprint-admin.html`) - Toggle fingerprint blocking (uses local storage)
+- **Leaderboard Admin** (`/pages/admin/leaderboard.html`) - View user statistics (Firebase Firestore)
 
 **Quick Access:**
 Bookmark the admin hub for easy access to all administrative features. See `pages/admin/README.md` for detailed documentation.
 
-## Files Added
+## Files
 
-- `assets/fingerprint-logger.js` - Generates SHA-256 fingerprint and sends to serverless endpoint
+- `assets/fingerprint-logger.js` - Generates SHA-256 fingerprint and sends to Firebase Cloud Function
 - `assets/whitelist-fingerprint.js` - Optional blocker that restricts access to whitelisted fingerprints
-- `netlify/functions/log-fingerprint.js` - Serverless function that creates GitHub issues
+- `functions/index.js` - Firebase Cloud Functions (includes `logFingerprint` that creates GitHub issues)
 - `_includes/fingerprint-scripts.html` - Documentation and include template
-- `netlify.toml` - Netlify configuration
 - `pages/admin/index.html` - Admin hub with links to all admin pages
 - `pages/admin/fingerprint-admin.html` - Fingerprint management dashboard with toggle controls
 
-## Deployment on Netlify
+## Firebase Setup
 
-### Step 1: Set Environment Variables
+### Step 1: Set Firebase Environment Variables
 
-In your Netlify dashboard (Site settings > Environment variables), add:
+The logFingerprint function needs GitHub credentials to create issues:
+
+```bash
+firebase functions:config:set github.token="your-github-personal-access-token"
+firebase functions:config:set github.repo="owner/repo"
+```
+
+**GitHub Token Requirements:**
+- Create at: https://github.com/settings/tokens
+- Required scope: `repo` (to create issues)
+- Store securely
+
+### Step 2: Deploy Firebase Cloud Function
+
+The fingerprint logger sends data to a Firebase Cloud Function which then creates GitHub issues:
+
+1. **Install Firebase CLI** (if not already installed):
+   ```bash
+   npm install -g firebase-tools
+   ```
+
+2. **Navigate to functions directory**:
+   ```bash
+   cd functions
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+4. **Deploy the function**:
+   ```bash
+   firebase deploy --only functions:logFingerprint
+   ```
+
+5. **Note the function URL** after deployment:
+   ```
+   https://us-central1-YOUR-PROJECT-ID.cloudfunctions.net/logFingerprint
+   ```
+
+### Step 3: Configure Function Endpoint
+
+Update the endpoint in `assets/fingerprint-logger.js` to match your Firebase project:
+
+```javascript
+const endpoint = 'https://us-central1-YOUR-PROJECT-ID.cloudfunctions.net/logFingerprint';
+```
+
+If you're using Firebase Hosting rewrites, you can use a cleaner URL:
+```javascript
+const endpoint = '/api/logFingerprint';
+```
+
+And add this to your `firebase.json`:
+```json
+{
+  "hosting": {
+    "rewrites": [
+      {
+        "source": "/api/logFingerprint",
+        "function": "logFingerprint"
+      }
+    ]
+  }
+}
+```
+
+### Step 4: Verify Setup
+
+After deploying:
+
+1. **Visit your site** - Fingerprints will be generated automatically
+2. **Check GitHub Repository** - Look for new issues with label `fingerprint-log`
+3. **Verify Issue Content** - Should contain:
+   - Fingerprint hash (SHA-256)
+   - User agent, language, timezone
+   - Display name (if set)
+   - Client IP (for information only)
+   - Instructions for blocking
+
+**Example Issue Title:**
+```
+Fingerprint Log: a1b2c3d4... (John Doe) at 12/9/2024, 12:00:00 AM
+```
+
+## How It Works
+
+### Data Flow
+
+1. **Client Side** (`assets/fingerprint-logger.js`):
+   - Collects browser properties (user agent, screen size, timezone, etc.)
+   - Generates SHA-256 hash as fingerprint
+   - Stores fingerprint in local storage (for admin dashboard)
+   - Sends fingerprint data to Firebase Cloud Function
+
+2. **Firebase Cloud Function** (`functions/index.js` - `logFingerprint`):
+   - Receives POST request with fingerprint data
+   - Validates required fields
+   - Creates GitHub issue using GitHub REST API
+   - Issue includes fingerprint hash, metadata, and blocking instructions
+
+3. **GitHub Repository**:
+   - Stores fingerprint logs as issues with label `fingerprint-log`
+   - Provides permanent audit trail
+   - Easy to search and review
+
+4. **Admin Dashboard** (`pages/admin/fingerprint-admin.html`):
+   - Reads fingerprints from local storage
+   - Allows toggling block/allow status
+   - Exports whitelist configuration
+   - Does NOT query GitHub issues (uses local cache only)
+
+## Using the Whitelist Blocker (Optional)
 
 **Required:**
 - `GITHUB_TOKEN` - Personal access token with `repo` scope

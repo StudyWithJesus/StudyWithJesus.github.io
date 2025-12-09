@@ -5,7 +5,7 @@
 ### Issue 1: Unable to Sign In via GitHub on Admin Page
 **Problem**: Users could not sign in through GitHub on https://studywithjesus.github.io/pages/admin/index.html
 
-**Root Cause**: The admin pages were using Netlify OAuth serverless functions (`/.netlify/functions/github-oauth`) which don't work on GitHub Pages. GitHub Pages only supports static hosting and does not support serverless functions.
+**Root Cause**: The admin pages previously had a Netlify OAuth fallback (`/.netlify/functions/github-oauth`) which doesn't work on GitHub Pages. GitHub Pages only supports static hosting and does not support serverless functions.
 
 ### Issue 2: Admin Leaderboard Showing Sample Data Only
 **Problem**: The admin leaderboard at https://studywithjesus.github.io/pages/admin/leaderboard.html was showing sample data instead of actual Firebase data.
@@ -16,11 +16,11 @@
 
 ### 1. Firebase Authentication with GitHub Provider
 
-Replaced the Netlify OAuth flow with **Firebase Authentication using GitHub provider**, which:
+The site now uses **Firebase Authentication with GitHub provider** exclusively:
 - Works on **any static hosting** including GitHub Pages
 - Doesn't require serverless functions
 - Provides a better user experience with popup-based authentication
-- Maintains backward compatibility with Netlify deployments
+- **Netlify OAuth fallback removed** to prevent redirect_uri errors on GitHub Pages
 
 ### 2. Simplified Admin Access Control
 
@@ -42,9 +42,9 @@ Added strict validation for:
 
 ### Core Authentication Module
 - **`assets/js/github-auth.js`**
-  - Added Firebase Auth initialization
+  - Uses Firebase Auth for GitHub sign-in
   - Implemented GitHub provider sign-in with popup
-  - Maintained backward compatibility with Netlify OAuth
+  - **Removed Netlify OAuth fallback** to prevent errors on GitHub Pages
   - Added proper async/await support
 
 ### Firebase Integration Module
@@ -127,11 +127,12 @@ See `QUICK_FIX_GITHUB_AUTH.md` for step-by-step instructions.
 
 ## Backward Compatibility
 
-The solution maintains backward compatibility:
-- Still supports Netlify OAuth functions if available
-- Falls back to Firebase Auth if Netlify functions aren't present
+The solution focuses on Firebase Authentication:
+- **Netlify OAuth fallback removed** to prevent redirect_uri errors on GitHub Pages
+- Firebase Auth works on all static hosting platforms
 - Existing Firestore data structure unchanged
 - No breaking changes to API
+- For Netlify deployments, Firebase Auth is recommended over Netlify functions
 
 ## Testing Checklist
 
