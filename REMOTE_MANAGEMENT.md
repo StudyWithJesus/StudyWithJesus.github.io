@@ -136,9 +136,10 @@ You can edit code directly on GitHub:
 
 **Or use GitHub's web-based VS Code:**
 1. Go to: https://github.com/StudyWithJesus/StudyWithJesus.github.io
-2. Press `.` (period key)
-3. Edit files in VS Code for Web
-4. Commit and push changes
+2. Press `.` (period key) on your keyboard
+3. Wait for VS Code for Web to load in your browser
+4. Edit files just like in desktop VS Code
+5. Use Source Control panel (left sidebar) to commit and push changes
 
 ## Deployment Without Local Setup
 
