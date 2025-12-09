@@ -1,0 +1,167 @@
+/* Responsive fixes for admin pages - add or merge into your admin stylesheet */
+
+/* 1) Header / action buttons layout */
+.admin-header, .admin-actions, .admin-banner {
+  box-sizing: border-box;
+}
+
+/* Container that holds "Back to Admin Hub", "Back to Main Site" and avatar */
+.admin-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap; /* allow buttons to wrap on narrow screens */
+  justify-content: flex-start;
+}
+
+/* Make each button flexible but not overflow the container */
+.admin-controls .btn,
+.admin-controls .back-btn {
+  flex: 1 1 auto;
+  min-width: 120px;
+  max-width: calc(50% - 12px); /* two-up layout on small screens */
+}
+
+/* Avatar/profile badge placed in the same flow to avoid overlap */
+.admin-controls .avatar-badge,
+.admin-controls .profile {
+  position: relative; /* don't use absolute positioning that can overlap */
+  z-index: 2;
+  margin-left: 6px;
+}
+
+/* If avatar was absolutely positioned previously, ensure it becomes inline on small screens */
+@media (max-width: 900px) {
+  .admin-controls .avatar-badge,
+  .admin-controls .profile {
+    position: static !important;
+    transform: none !important;
+    margin-top: 6px;
+  }
+}
+
+/* 2) Stat cards and counters - allow wrapping and consistent padding */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+/* Make stat cards visually consistent and responsive */
+.stat-card {
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* 3) Table responsiveness
+   - allow horizontal scroll on narrow screens
+   - provide an optional stacked-card layout for very small screens
+*/
+.admin-table-wrapper {
+  width: 100%;
+  overflow-x: auto; /* allow horizontal scroll when table is too wide */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+}
+
+/* Keep table layout stable, but allow min-width for columns */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px; /* allow internal horizontal scroll for many columns */
+}
+
+/* Optional: styling to keep header / rows uniform like your cards */
+.admin-table thead th {
+  padding: 12px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.admin-table tbody td {
+  padding: 12px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* For very small screens, convert rows into stacked "cards" */
+@media (max-width: 420px) {
+  .admin-table {
+    min-width: 0;
+  }
+
+  /* If you want full stacked mode, add class .admin-table-stacked to wrapper */
+  .admin-table-stacked .admin-table,
+  .admin-table-stacked thead,
+  .admin-table-stacked tbody,
+  .admin-table-stacked th,
+  .admin-table-stacked td,
+  .admin-table-stacked tr {
+    display: block;
+    width: 100%;
+  }
+
+  .admin-table-stacked thead {
+    display: none; /* hide header in stacked mode */
+  }
+
+  .admin-table-stacked tr {
+    margin-bottom: 12px;
+    background: var(--card-bg, #0f1720);
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  .admin-table-stacked td {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+
+  /* Use data-label attributes for field labels when using stacked mode */
+  .admin-table-stacked td[data-label]::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--muted-text, #9aa4b2);
+    margin-right: 10px;
+  }
+}
+
+/* 4) Small UI tweaks */
+.btn[aria-pressed] {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure search box + refresh button wrap nicely */
+.admin-search-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.admin-search-row .search-input {
+  flex: 1 1 220px;
+  min-width: 150px;
+}
+.admin-search-row .refresh-btn {
+  flex: 0 0 auto;
+}
+
+/* Prevent buttons from overlapping the banner image */
+.admin-banner .controls {
+  z-index: 3;
+}
+
+/* Safety: force break long hashed text inside fingerprint lists */
+.fingerprint-hash, .long-text {
+  word-break: break-word;
+  hyphens: auto;
+  max-width: 100%;
+}
+
+/* End of admin-responsive.css */
