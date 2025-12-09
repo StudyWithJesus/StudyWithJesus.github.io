@@ -1842,7 +1842,7 @@ function showUsernameRequiredOverlay(form) {
     
     // Team America: World Police GIFs - using external URLs with fallback handling
     const americaGifs = [
-      'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2w4ZGt5aGQ2YzB5MmF5NmE2YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5/3o7TKDMvVn8bW0lv9e/giphy.gif', // Team America
+      'https://media.giphy.com/media/3o7TKDMvVn8bW0lv9e/giphy.gif', // Team America
       'https://media.giphy.com/media/YJ5OlVLZ2QNl6/giphy.gif', // America F Yeah
       'https://media.giphy.com/media/l0HlCBdbv6wTNxKvu/giphy.gif', // Team America Flag
       'https://media.giphy.com/media/3oEjHKvjqt5pssL99C/giphy.gif', // Team America Puppet
