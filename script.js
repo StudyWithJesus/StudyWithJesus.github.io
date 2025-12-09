@@ -1202,12 +1202,106 @@ function showUsernameRequiredOverlay(form) {
   let lastGestureTime = 0;
   let patternTimeout = null;
   
+  // Achievement counter
+  let konamiTriggerCount = 0;
+  try {
+    konamiTriggerCount = parseInt(localStorage.getItem('konami_trigger_count') || '0', 10);
+  } catch {}
+  
+  // Team America quotes
+  const teamAmericaQuotes = [
+    "America, F*** YEAH!",
+    "Freedom is the only way, yeah!",
+    "Coming again to save the motherf***ing day, yeah!",
+    "Freedom costs a buck o' five",
+    "Terrorists, your game is through",
+    "So lick my butt and suck on my balls!",
+    "America, F*** YEAH! What you gonna do?",
+    "Books!",
+    "Bed Bath & Beyond! F*** YEAH!"
+  ];
+  
+  // Show progress indicator
+  function showProgress(current, total, isMobile) {
+    const existing = document.getElementById('konami-progress-indicator');
+    if (existing) existing.remove();
+    
+    const indicator = document.createElement('div');
+    indicator.id = 'konami-progress-indicator';
+    indicator.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(220, 38, 38, 0.9);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      z-index: 99999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      animation: konamiProgressPulse 0.3s ease-out;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    `;
+    
+    const progressBar = document.createElement('div');
+    progressBar.style.cssText = `
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    `;
+    
+    const progressFill = document.createElement('div');
+    progressFill.style.cssText = `
+      width: ${(current / total) * 100}%;
+      height: 100%;
+      background: white;
+      border-radius: 2px;
+      transition: width 0.3s ease-out;
+    `;
+    
+    progressBar.appendChild(progressFill);
+    indicator.innerHTML = `<div style="display: flex; align-items: center; gap: 8px;">
+      <span>🦅</span>
+      <span>${current}/${total}</span>
+      ${current === total ? '<span>✓</span>' : ''}
+    </div>`;
+    indicator.appendChild(progressBar);
+    
+    document.body.appendChild(indicator);
+    
+    setTimeout(() => {
+      if (indicator.parentNode) {
+        indicator.style.animation = 'konamiProgressFadeOut 0.3s ease-out';
+        setTimeout(() => indicator.remove(), 300);
+      }
+    }, current === total ? 500 : 1500);
+  }
+  
+  // Add progress animation styles
+  const progressStyles = document.createElement('style');
+  progressStyles.textContent = `
+    @keyframes konamiProgressPulse {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes konamiProgressFadeOut {
+      to { opacity: 0; transform: translateY(10px); }
+    }
+  `;
+  document.head.appendChild(progressStyles);
+  
   // Desktop keyboard listener
   document.addEventListener('keydown', function(e) {
     const key = e.code;
     
     if (key === konamiSequence[konamiIndex]) {
       konamiIndex++;
+      showProgress(konamiIndex, konamiSequence.length, false);
       if (konamiIndex === konamiSequence.length) {
         konamiIndex = 0;
         triggerEasterEgg();
@@ -1217,6 +1311,7 @@ function showUsernameRequiredOverlay(form) {
       // Check if the pressed key matches the start of the sequence
       if (key === konamiSequence[0]) {
         konamiIndex = 1;
+        showProgress(1, konamiSequence.length, false);
       }
     }
   });
@@ -1269,9 +1364,7 @@ function showUsernameRequiredOverlay(form) {
       // Check if gesture matches the next expected one
       if (gesture === mobileSequence[mobilePattern.length]) {
         mobilePattern.push(gesture);
-        
-        // Optional: Add visual/audio feedback for progress (uncomment to debug)
-        // console.log('Konami progress:', mobilePattern.length + '/' + mobileSequence.length, gesture);
+        showProgress(mobilePattern.length, mobileSequence.length, true);
         
         if (mobilePattern.length === mobileSequence.length) {
           mobilePattern = [];
@@ -1284,6 +1377,7 @@ function showUsernameRequiredOverlay(form) {
         // Check if this gesture starts the sequence
         if (gesture === mobileSequence[0]) {
           mobilePattern.push(gesture);
+          showProgress(1, mobileSequence.length, true);
         }
       }
     }
@@ -1299,12 +1393,44 @@ function showUsernameRequiredOverlay(form) {
   }
   
   function triggerEasterEgg() {
+    // Increment and save trigger count
+    konamiTriggerCount++;
+    try {
+      localStorage.setItem('konami_trigger_count', konamiTriggerCount.toString());
+    } catch {}
+    
+    // Play a triumphant beep sound using Web Audio API
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 523.25; // C5 note
+      oscillator.type = 'square';
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (e) {
+      // Audio API not supported, silently fail
+    }
+    
+    // Pick a random quote
+    const randomQuote = teamAmericaQuotes[Math.floor(Math.random() * teamAmericaQuotes.length)];
+    
     // Create overlay for Team America GIFs with center image
     const overlay = document.createElement('div');
     overlay.id = 'konami-overlay';
     overlay.innerHTML = `
       <div class="konami-center-content">
         <img src="${getBasePath()}bftb.png" alt="Easter Egg" class="konami-center-image">
+        <div class="konami-quote">${randomQuote}</div>
+        <div class="konami-achievement">🏆 Triggered ${konamiTriggerCount} time${konamiTriggerCount !== 1 ? 's' : ''}!</div>
         <button class="konami-close" aria-label="Close">&times;</button>
       </div>
       <div class="america-gifs-container"></div>
@@ -1344,15 +1470,57 @@ function showUsernameRequiredOverlay(form) {
       
       .konami-center-image {
         max-width: 80vw;
-        max-height: 70vh;
+        max-height: 50vh;
         border-radius: 12px;
         box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
         animation: konamiImagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
       
+      .konami-quote {
+        margin-top: 24px;
+        font-size: 28px;
+        font-weight: 900;
+        color: #fff;
+        text-shadow: 
+          3px 3px 0 #dc2626,
+          -1px -1px 0 #1e40af,
+          1px -1px 0 #1e40af,
+          -1px 1px 0 #1e40af,
+          1px 1px 0 #1e40af,
+          0 0 20px rgba(220, 38, 38, 0.8);
+        text-align: center;
+        max-width: 90vw;
+        animation: konamiQuoteBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s backwards;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+      
+      .konami-achievement {
+        margin-top: 16px;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        color: #78350f;
+        border-radius: 24px;
+        font-weight: bold;
+        font-size: 16px;
+        box-shadow: 0 4px 12px rgba(251, 191, 36, 0.5);
+        animation: konamiAchievementSlide 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s backwards;
+      }
+      
       @keyframes konamiImagePop {
         from { transform: scale(0.5); opacity: 0; }
         to { transform: scale(1); opacity: 1; }
+      }
+      
+      @keyframes konamiQuoteBounce {
+        0% { transform: translateY(-30px) scale(0.8); opacity: 0; }
+        60% { transform: translateY(5px) scale(1.05); }
+        100% { transform: translateY(0) scale(1); opacity: 1; }
+      }
+      
+      @keyframes konamiAchievementSlide {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
       }
       
       .america-gifs-container {
@@ -1418,7 +1586,19 @@ function showUsernameRequiredOverlay(form) {
       @media (max-width: 768px) {
         .konami-center-image {
           max-width: 90vw;
-          max-height: 60vh;
+          max-height: 40vh;
+        }
+        
+        .konami-quote {
+          font-size: 20px;
+          margin-top: 16px;
+          padding: 0 16px;
+        }
+        
+        .konami-achievement {
+          font-size: 14px;
+          padding: 10px 20px;
+          margin-top: 12px;
         }
         
         .america-gif img {
