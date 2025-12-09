@@ -5,15 +5,14 @@ This directory contains configuration files for the StudyWithJesus application.
 ## Files
 
 ### `firebase.config.js`
-Configuration for Firebase/Firestore integration used by the leaderboard feature.
+Configuration for Firebase/Firestore integration used by the leaderboard feature and authentication.
 
 **Setup:**
-- Created and already configured with project credentials
-- Leaderboard feature is enabled by default
-- See `docs/leaderboard-design.md` for details
+- Copy from `firebase.config.js.example` and configure with your Firebase project credentials
+- See [FIREBASE_SETUP_GUIDE.md](../FIREBASE_SETUP_GUIDE.md) for complete setup instructions
 
 ### `github-oauth.config.js`
-Configuration for GitHub OAuth authentication used by admin pages.
+Configuration for GitHub OAuth authentication used by admin pages (via Firebase).
 
 **Setup Required:**
 
@@ -21,30 +20,29 @@ Configuration for GitHub OAuth authentication used by admin pages.
    - Go to: https://github.com/settings/developers
    - Click "OAuth Apps" → "New OAuth App"
    - Fill in details:
-     - **Application name:** StudyWithJesus Admin
-     - **Homepage URL:** https://your-site.netlify.app (your actual domain)
-     - **Authorization callback URL:** https://your-site.netlify.app/.netlify/functions/github-oauth
+     - **Application name:** StudyWithJesus Firebase Auth
+     - **Homepage URL:** https://studywithjesus.github.io
+     - **Authorization callback URL:** Get from Firebase Console (see setup guide)
 
 2. **Get Client ID:**
    - After creating the app, copy the **Client ID**
-   - Edit `github-oauth.config.js` and replace the empty `clientId` value with your actual Client ID
+   - Edit `github-oauth.config.js` and replace the `clientId` value with your actual Client ID
    - Example: `clientId: 'Iv1.a1b2c3d4e5f6g7h8'`
 
-3. **Set Netlify Environment Variables:**
-   In your Netlify dashboard (Site settings → Environment variables), add:
-   - `GITHUB_CLIENT_SECRET`: Your OAuth App Client Secret (from GitHub)
-   - `ADMIN_GITHUB_USERNAME`: Your GitHub username (e.g., 'StudyWithJesus')
+3. **Configure Firebase:**
+   - Add your GitHub OAuth Client ID and Secret to Firebase Console
+   - Firebase handles all authentication securely
 
 4. **Deploy:**
    - Commit your changes with the updated `github-oauth.config.js`
    - Push to GitHub
-   - Netlify will automatically deploy
+   - GitHub Pages will automatically deploy
 
-**For detailed instructions, see:** [`docs/GITHUB_OAUTH_SETUP.md`](../docs/GITHUB_OAUTH_SETUP.md)
+**For detailed instructions, see:** [FIREBASE_SETUP_GUIDE.md](../FIREBASE_SETUP_GUIDE.md)
 
 ## Security Notes
 
 - ✅ **Client ID is safe to commit** - It's public and only used to initiate OAuth
-- ❌ **NEVER commit Client Secret** - Keep it in Netlify environment variables only
+- ❌ **NEVER commit Client Secret** - Managed securely by Firebase
 - ✅ **Config files can be committed** - They only contain public configuration
-- ℹ️ **Firebase config is public** - Firebase security is handled by Firestore rules
+- ℹ️ **Firebase config is public** - Firebase security is handled by Firestore rules and Firebase Authentication

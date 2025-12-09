@@ -1,6 +1,11 @@
 # Quick Fix: GitHub Sign-In and Admin Leaderboard Data
 
-> **🚀 New User? Start Here:** [GITHUB_OAUTH_QUICK_ANSWER.md](../GITHUB_OAUTH_QUICK_ANSWER.md) - Get exact values for your GitHub OAuth App settings.
+> **📚 UPDATED GUIDE AVAILABLE:** Please use [FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md) for complete step-by-step instructions.  
+> **🚀 New User? Start Here:** [GITHUB_OAUTH_QUICK_ANSWER.md](GITHUB_OAUTH_QUICK_ANSWER.md) - Get exact values for your GitHub OAuth App settings.
+
+This document is kept for reference but the new comprehensive guide is recommended.
+
+---
 
 ## Problem 1: Cannot Sign In with GitHub on Admin Pages
 

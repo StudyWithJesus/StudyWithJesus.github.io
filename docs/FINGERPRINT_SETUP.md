@@ -1,5 +1,7 @@
 # Fingerprint Logger Setup Guide
 
+> **📚 UPDATED GUIDE AVAILABLE:** For complete Firebase setup including fingerprint logging, see [FIREBASE_SETUP_GUIDE.md](../FIREBASE_SETUP_GUIDE.md).
+
 This guide explains how to set up and use the Firebase-based fingerprint logging and whitelist blocking features.
 
 ## Overview

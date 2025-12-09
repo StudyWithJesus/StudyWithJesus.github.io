@@ -1,5 +1,7 @@
 # Implementation Summary: GitHub OAuth Admin Access
 
+> **📝 HISTORICAL DOCUMENT:** This document describes a historical implementation. For current setup instructions, see [FIREBASE_SETUP_GUIDE.md](../FIREBASE_SETUP_GUIDE.md).
+
 ## Completion Status: ✅ COMPLETE
 
 This document summarizes the implementation of GitHub OAuth authentication to restrict admin page access to only the repository owner's GitHub account on Netlify.

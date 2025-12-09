@@ -1,5 +1,7 @@
 # Implementation Summary
 
+> **📝 HISTORICAL DOCUMENT:** This document describes a historical implementation. For current setup instructions, see [FIREBASE_SETUP_GUIDE.md](../FIREBASE_SETUP_GUIDE.md).
+
 ## ⚠️ GitHub Pages Deployment
 
 **Important:** This site is hosted on GitHub Pages, which does **not support serverless functions**. 

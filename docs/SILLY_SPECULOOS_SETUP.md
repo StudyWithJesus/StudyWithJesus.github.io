@@ -1,8 +1,8 @@
-# Setup Guide for silly-speculoos-4afae0.netlify.app
+# Setup Guide - Historical Reference
 
-> **⚠️ DEPRECATION NOTICE:** This Netlify-specific setup guide is deprecated. The project now uses Firebase Authentication for GitHub Pages.
+> **📚 UPDATED GUIDE AVAILABLE:** For complete setup instructions, use [FIREBASE_SETUP_GUIDE.md](../FIREBASE_SETUP_GUIDE.md) instead.
 >
-> **For GitHub Pages**: Use [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md) instead.
+> This document is kept for historical reference only. The project now uses Firebase Authentication for all deployments.
 >
 > This guide is kept for reference only for existing Netlify deployments.
 
