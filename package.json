@@ -1,0 +1,28 @@
+{
+  "name": "studywithjesus",
+  "version": "1.0.0",
+  "description": "Practice exams for Parts Technician Second Period modules with Firebase leaderboards",
+  "private": true,
+  "scripts": {
+    "serve": "firebase emulators:start",
+    "deploy": "firebase deploy",
+    "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:functions": "npm --prefix functions run deploy",
+    "functions:install": "cd functions && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StudyWithJesus/StudyWithJesus.github.io.git"
+  },
+  "keywords": [
+    "exam",
+    "practice",
+    "firebase",
+    "leaderboard"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "firebase-tools": "^13.0.0"
+  }
+}
