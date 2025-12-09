@@ -508,10 +508,16 @@
         console.warn('No matching attempt found to delete');
         return false;
       }
+      
+      // Warn if multiple documents match (shouldn't happen normally)
+      if (snapshot.size > 1) {
+        console.warn('Multiple attempts match deletion criteria. Deleting all ' + snapshot.size + ' matching records.');
+      }
 
       // Delete all matching documents (should typically be just one)
       var deletePromises = [];
       snapshot.forEach(function(docSnap) {
+        console.log('Deleting attempt document:', docSnap.id);
         deletePromises.push(deleteDoc(doc(db, 'attempts', docSnap.id)));
       });
       
