@@ -34,111 +34,114 @@ This PR successfully implements:
 
 ## 📊 Changes Summary
 
-### Files Created: 14
-- `assets/fingerprint-logger.js` - Client-side fingerprint generation and logging
+### Files Created/Modified
+- `assets/fingerprint-logger.js` - Client-side fingerprint generation, logs to Firebase Cloud Function
 - `assets/whitelist-fingerprint.js` - Access control blocker
-- `assets/js/github-auth.js` - OAuth authentication module
-- `netlify/functions/log-fingerprint.js` - Fingerprint logging endpoint (Netlify/Vercel only)
-- `netlify/functions/github-oauth.js` - OAuth callback handler (Netlify/Vercel only)
-- `netlify.toml` - Netlify/Vercel configuration
+- `assets/js/github-auth.js` - Firebase Authentication module for GitHub sign-in
+- `assets/js/leaderboard-firebase.js` - Firebase-based leaderboard implementation
+- ~~`netlify/functions/log-fingerprint.js`~~ - **Removed** (now uses Firebase Cloud Function)
+- ~~`netlify/functions/github-oauth.js`~~ - **Never existed** (uses Firebase Auth)
+- `functions/index.js` - Firebase Cloud Functions (includes logFingerprint)
 - `_includes/fingerprint-scripts.html` - Integration documentation
-- `pages/admin/index.html` - Admin hub (works in local mode)
-- `pages/admin/fingerprint-admin.html` - Fingerprint management dashboard (works in local mode)
+- `pages/admin/index.html` - Admin hub with Firebase Auth
+- `pages/admin/fingerprint-admin.html` - Fingerprint management dashboard
+- `pages/admin/leaderboard.html` - Firebase-based leaderboard admin
 - `pages/admin/README.md` - Admin documentation
-- `docs/FINGERPRINT_SETUP.md` - Fingerprint setup guide
-- `docs/GITHUB_OAUTH_SETUP.md` - OAuth setup guide (Netlify/Vercel only)
-- `docs/GITHUB_PAGES_DEPLOYMENT.md` - **GitHub Pages specific instructions**
+- `docs/FINGERPRINT_SETUP.md` - Firebase-based fingerprint setup guide
+- `docs/GITHUB_OAUTH_SETUP.md` - OAuth setup guide (Firebase recommended)
+- `docs/FIREBASE_GITHUB_AUTH_SETUP.md` - **Firebase Auth setup guide**
 - `docs/IMPLEMENTATION_SUMMARY.md` - This file
+- `config/firebase.config.js` - Firebase configuration
 
-### Files Modified: 58
+### Files Modified: 58+
 - `index.html` - Added fingerprint logger
 - `script.js` - Added leaderboard submission functionality
 - All 56 quiz HTML files - Added leaderboard scripts for score submission
 
 ## 🔒 Security Features
 
-- ✅ **GitHub OAuth 2.0** - Industry-standard authentication (Netlify/Vercel only)
-- ✅ **Single admin account** - Restricted to specified GitHub user (Netlify/Vercel only)
-- ✅ **No password storage** - OAuth tokens managed securely (Netlify/Vercel only)
-- ✅ **Server-side secrets** - GITHUB_CLIENT_SECRET never exposed
-- ✅ **24-hour sessions** - Automatic expiration
-- ✅ **HTTPS only** - Secure cookies (HttpOnly, Secure, SameSite)
+- ✅ **Firebase Authentication** - Industry-standard authentication with GitHub provider
+- ✅ **Works on GitHub Pages** - No serverless functions required
+- ✅ **Popup-based OAuth** - Better UX than redirect-based flows
+- ✅ **No Netlify OAuth fallback** - Prevents redirect_uri errors on GitHub Pages
+- ✅ **Server-side secrets** - Client secrets managed by Firebase
+- ✅ **Session management** - Handled by Firebase Auth
+- ✅ **HTTPS only** - Secure authentication
 - ✅ **CodeQL verified** - 0 security alerts
 - ✅ **Fail-open design** - Errors don't block legitimate users
 
-## 📝 Environment Variables Required
+## 📝 Firebase Configuration Required
 
-### For Fingerprint Logging
-Set in Netlify Dashboard → Site settings → Environment variables:
+### For Firebase Authentication
+Set up in Firebase Console:
 
 ```
-GITHUB_TOKEN (required)
-  - Personal access token with 'repo' scope
-  - Used to create fingerprint log issues
-  - Create at: https://github.com/settings/tokens
-
-GITHUB_REPO (optional)
-  - Format: 'owner/repo'
-  - Default: 'StudyWithJesus/StudyWithJesus.github.io'
-  - Repository where logs are created
+1. Enable GitHub Authentication provider
+2. Create GitHub OAuth App with Firebase callback URL
+3. Configure Firebase config in config/firebase.config.js
 ```
 
-### For Admin Authentication
+### For Firebase Cloud Functions (Optional - for fingerprint logging)
 ```
-GITHUB_CLIENT_ID (required)
-  - OAuth App Client ID
-  - Create OAuth app at: https://github.com/settings/developers
-
-GITHUB_CLIENT_SECRET (required)
-  - OAuth App Client Secret
-  - Generated when creating OAuth app
-
-ADMIN_GITHUB_USERNAME (required)
-  - Your GitHub username (e.g., 'StudyWithJesus')
-  - Only this user can access admin pages
+Deploy logFingerprint function:
+  - Located in functions/index.js
+  - Receives fingerprint data from client
+  - Can store in Firestore or create GitHub issues
+  - Deploy with: firebase deploy --only functions:logFingerprint
 ```
 
 ## 🚀 Deployment Steps
 
-### 1. Set up GitHub OAuth App
+### 1. Set up Firebase Authentication
 
-1. Go to https://github.com/settings/developers
-2. Click "OAuth Apps" → "New OAuth App"
-3. Configure:
-   - **Application name:** StudyWithJesus Admin
-   - **Homepage URL:** https://your-site.netlify.app
-   - **Callback URL:** https://your-site.netlify.app/.netlify/functions/github-oauth
-4. Save Client ID and Client Secret
+1. Go to Firebase Console → Authentication
+2. Enable GitHub provider
+3. Create GitHub OAuth App with Firebase callback URL
+4. Add Client ID and Secret to Firebase
+5. Configure `config/firebase.config.js`
 
-### 2. Configure Netlify
+See [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md) for detailed instructions.
 
-1. Go to Netlify Dashboard → Your Site → Site settings → Environment variables
-2. Add all 5 environment variables listed above
-3. Save and redeploy
+### 2. Deploy to GitHub Pages (or any static hosting)
 
-### 3. Test the Setup
+1. Push your code to GitHub repository
+2. GitHub Pages will automatically deploy
+3. Authentication will work via Firebase
+4. No serverless functions needed
 
-**Test Fingerprint Logging:**
-1. Visit your site
-2. Check GitHub repository for new issue with label `fingerprint-log`
-3. Issue should contain your fingerprint hash and display name
+### 3. (Optional) Deploy Firebase Cloud Functions
 
-**Test Admin Access:**
+For fingerprint logging:
+```bash
+cd functions
+npm install
+firebase deploy --only functions:logFingerprint
+```
+
+### 4. Test the Setup
+
+**Test Firebase Authentication:**
 1. Visit `/pages/admin/index.html`
 2. Click "Sign in with GitHub"
-3. Authorize the OAuth app
-4. You should see the admin dashboard
+3. Firebase popup should appear
+4. After authorization, you should see the admin dashboard
 
 **Test Leaderboard:**
 1. Set a display name on the main page
 2. Take any quiz and submit it
 3. Check `/pages/leaderboard.html`
-4. Your score should appear on the leaderboard
+4. Your score should appear on the leaderboard (stored in Firebase Firestore)
 
-### 4. Verify Everything Works
+**Test Fingerprint Logging (if Cloud Function deployed):**
+1. Visit your site
+2. Check Firestore or GitHub issues (depending on your function implementation)
+3. Fingerprint data should be logged
 
-- [ ] Fingerprint logs appear as GitHub issues
-- [ ] Admin pages require GitHub authentication
+### 5. Verify Everything Works
+
+- [ ] Admin pages authenticate via Firebase
+- [ ] Quiz scores appear on leaderboard (Firebase Firestore)
+- [ ] Fingerprint admin shows logged fingerprints (local storage)
 - [ ] Only your GitHub account can access admin
 - [ ] Quiz scores appear on leaderboard
 - [ ] Fingerprint admin shows logged fingerprints
@@ -176,10 +179,10 @@ All documentation is in the `docs/` directory:
 - Real-time statistics
 
 **Leaderboard Fix:**
-- Scores now properly submit to Firebase
-- Works with existing Firebase configuration
-- Supports both Firebase and REST API backends
+- Scores now properly submit to Firebase Firestore
+- Works with Firebase backend
 - Visual confirmation when score submits
+- Admin view shows real-time data
 
 ## 🎯 Admin Pages
 
@@ -187,13 +190,13 @@ All documentation is in the `docs/` directory:
 
 ```
 Admin Hub:
-https://your-site.netlify.app/pages/admin/index.html
+https://studywithjesus.github.io/pages/admin/index.html
 
 Fingerprint Admin (toggle blocker):
-https://your-site.netlify.app/pages/admin/fingerprint-admin.html
+https://studywithjesus.github.io/pages/admin/fingerprint-admin.html
 
-Leaderboard Admin:
-https://your-site.netlify.app/pages/admin/leaderboard.html
+Leaderboard Admin (Firebase-based):
+https://studywithjesus.github.io/pages/admin/leaderboard.html
 ```
 
 ## 🔧 How to Block a User

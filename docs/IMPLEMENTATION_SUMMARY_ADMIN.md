@@ -1,27 +1,38 @@
 # Implementation Summary: Admin Access & IP Tracking
 
-## What Was Changed
+> **⚠️ NOTE:** This document describes legacy Netlify-specific implementation. The current implementation uses Firebase Authentication and Firebase Cloud Functions.
+>
+> **For current setup:** See [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md) and [FINGERPRINT_SETUP.md](FINGERPRINT_SETUP.md)
 
-### 1. Removed Local/Demo Access Methods
+## What Was Changed (Legacy)
 
-**Files Modified:**
-- `pages/admin/index.html`
-- `pages/admin/leaderboard.html`
-- `pages/admin/fingerprint-admin.html`
+### 1. Authentication Moved to Firebase
 
-**Changes:**
-- ❌ Removed URL fragment authentication (`#ADMIN_KEY`)
-- ❌ Removed Firebase Auth fallback
-- ❌ Removed GitHub Pages local mode
-- ❌ Removed password-based authentication
-- ✅ Now requires GitHub OAuth only
-
-**Result:** Admin pages are now accessible ONLY through GitHub OAuth authentication with your specific GitHub account.
-
-### 2. IP Address Tracking (Information Only)
+**Current Implementation:**
+- ✅ Firebase Authentication with GitHub provider
+- ✅ Works on GitHub Pages without serverless functions
+- ✅ Popup-based OAuth flow
+- ❌ Netlify OAuth fallback removed (caused redirect_uri errors)
 
 **Files Modified:**
-- `netlify/functions/log-fingerprint.js`
+- `assets/js/github-auth.js` - Now uses Firebase Auth exclusively
+- `pages/admin/index.html` - Firebase Auth required
+- `pages/admin/leaderboard.html` - Firebase-based
+- `pages/admin/fingerprint-admin.html` - Firebase Auth
+
+**Result:** Admin pages use Firebase Authentication, not Netlify OAuth.
+
+### 2. Fingerprint Logging Moved to Firebase
+
+**Current Implementation:**
+- ✅ Firebase Cloud Functions for fingerprint logging
+- ✅ Local storage for admin dashboard
+- ✅ Can optionally store in Firestore
+
+**Files Modified:**
+- `assets/fingerprint-logger.js` - Sends to Firebase Cloud Function
+- ~~`netlify/functions/log-fingerprint.js`~~ - **Removed** (replaced by Firebase function)
+- `functions/index.js` - Firebase Cloud Function implementation
 - `pages/admin/fingerprint-admin.html`
 - `pages/admin/README.md`
 
