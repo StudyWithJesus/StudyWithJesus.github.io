@@ -44,8 +44,9 @@
    * Store fingerprint log locally for admin dashboard
    * @param {string} fp - Fingerprint hash
    * @param {string} name - Display name
+   * @param {string} ip - IP address from server
    */
-  function storeFingerprintLog(fp, name) {
+  function storeFingerprintLog(fp, name, ip) {
     try {
       const storageKey = 'fingerprint_logs';
       const logs = JSON.parse(localStorage.getItem(storageKey) || '[]');
@@ -59,6 +60,9 @@
         if (name && !logs[existingIndex].name) {
           logs[existingIndex].name = name;
         }
+        if (ip && ip !== 'unknown') {
+          logs[existingIndex].ip = ip;
+        }
       } else {
         // Add new entry
         logs.push({
@@ -67,7 +71,8 @@
           fingerprint: fp,
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent || '',
-          lastSeen: new Date().toISOString()
+          lastSeen: new Date().toISOString(),
+          ip: ip && ip !== 'unknown' ? ip : 'N/A'
         });
       }
       
@@ -106,9 +111,6 @@
         name: displayName
       };
 
-      // Store fingerprint log locally for admin dashboard
-      storeFingerprintLog(fp, displayName);
-
       // Send to Firebase Cloud Function
       // Function URL format: https://<region>-<project-id>.cloudfunctions.net/logFingerprint
       // or use Firebase Hosting rewrite for cleaner URLs
@@ -131,11 +133,24 @@
         options.keepalive = true;
       }
 
-      // Send request (fire and forget - don't await response)
-      fetch(endpoint, options).catch(function(err) {
-        // Silent failure - don't disrupt user experience
-        console.debug('Fingerprint logging failed:', err.message);
-      });
+      // Send request and get IP from response
+      fetch(endpoint, options)
+        .then(function(response) {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Server error');
+        })
+        .then(function(data) {
+          // Store fingerprint log with IP from server response
+          const serverIp = data.clientIp || 'unknown';
+          storeFingerprintLog(fp, displayName, serverIp);
+        })
+        .catch(function(err) {
+          // Still store the log even if server request fails, just without IP
+          storeFingerprintLog(fp, displayName, 'N/A');
+          console.debug('Fingerprint logging failed:', err.message);
+        });
 
     } catch (err) {
       // Silent failure

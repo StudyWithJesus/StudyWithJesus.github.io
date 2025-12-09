@@ -6,7 +6,9 @@
  * Deploy with: firebase deploy --only functions
  */
 
-const functions = require('firebase-functions');
+const {onRequest} = require('firebase-functions/v2/https');
+const {onDocumentCreated} = require('firebase-functions/v2/firestore');
+const {onCall, HttpsError} = require('firebase-functions/v2/https');
 const admin = require('firebase-admin');
 
 admin.initializeApp();
@@ -17,9 +19,11 @@ admin.initializeApp();
  * This function triggers whenever a new document is created in the 'attempts' collection.
  * It updates the materialized leaderboard view for the corresponding module.
  */
-exports.updateLeaderboard = functions.firestore
-  .document('attempts/{attemptId}')
-  .onCreate(async (snap, _context) => {
+exports.updateLeaderboard = onDocumentCreated('attempts/{attemptId}', async (event) => {
+    const snap = event.data;
+    if (!snap) {
+      return null;
+    }
     const attempt = snap.data();
     const { moduleId, username, score, timestamp } = attempt;
     
@@ -82,22 +86,22 @@ exports.updateLeaderboard = functions.firestore
  * Callable function to log admin access for security auditing.
  * Only users with admin custom claims can call this function.
  */
-exports.logAdminAccess = functions.https.onCall(async (data, context) => {
+exports.logAdminAccess = onCall(async (request) => {
   // Verify admin
-  if (!context.auth || !context.auth.token.admin) {
-    throw new functions.https.HttpsError('permission-denied', 'Admin access required');
+  if (!request.auth || !request.auth.token.admin) {
+    throw new HttpsError('permission-denied', 'Admin access required');
   }
   
   // Log access
   await admin.firestore().collection('admin_logs').add({
-    uid: context.auth.uid,
-    email: context.auth.token.email,
-    action: data.action,
+    uid: request.auth.uid,
+    email: request.auth.token.email,
+    action: request.data.action,
     timestamp: admin.firestore.FieldValue.serverTimestamp(),
-    ip: context.rawRequest.ip
+    ip: request.rawRequest.ip
   });
   
-  console.log(`Admin access logged: ${context.auth.token.email} - ${data.action}`);
+  console.log(`Admin access logged: ${request.auth.token.email} - ${request.data.action}`);
   return { success: true };
 });
 
@@ -107,26 +111,26 @@ exports.logAdminAccess = functions.https.onCall(async (data, context) => {
  * This is a callable function that allows existing admins to grant admin access to other users.
  * For initial admin setup, use the Firebase Admin SDK directly or Firebase Console.
  */
-exports.setAdminClaim = functions.https.onCall(async (data, context) => {
+exports.setAdminClaim = onCall(async (request) => {
   // Verify caller is admin
-  if (!context.auth || !context.auth.token.admin) {
-    throw new functions.https.HttpsError('permission-denied', 'Admin access required');
+  if (!request.auth || !request.auth.token.admin) {
+    throw new HttpsError('permission-denied', 'Admin access required');
   }
   
-  const { uid, isAdmin } = data;
+  const { uid, isAdmin } = request.data;
   
   if (!uid || typeof isAdmin !== 'boolean') {
-    throw new functions.https.HttpsError('invalid-argument', 'uid and isAdmin are required');
+    throw new HttpsError('invalid-argument', 'uid and isAdmin are required');
   }
   
   try {
     await admin.auth().setCustomUserClaims(uid, { admin: isAdmin });
-    console.log(`Admin claim ${isAdmin ? 'granted' : 'revoked'} for user ${uid} by ${context.auth.token.email}`);
+    console.log(`Admin claim ${isAdmin ? 'granted' : 'revoked'} for user ${uid} by ${request.auth.token.email}`);
     
     // Log this action
     await admin.firestore().collection('admin_logs').add({
-      uid: context.auth.uid,
-      email: context.auth.token.email,
+      uid: request.auth.uid,
+      email: request.auth.token.email,
       action: `setAdminClaim: ${uid} = ${isAdmin}`,
       timestamp: admin.firestore.FieldValue.serverTimestamp()
     });
@@ -134,7 +138,7 @@ exports.setAdminClaim = functions.https.onCall(async (data, context) => {
     return { success: true };
   } catch (error) {
     console.error('Error setting admin claim:', error);
-    throw new functions.https.HttpsError('internal', 'Failed to set admin claim');
+    throw new HttpsError('internal', 'Failed to set admin claim');
   }
 });
 
@@ -145,10 +149,10 @@ exports.setAdminClaim = functions.https.onCall(async (data, context) => {
  * Useful for data recovery or when the leaderboard data becomes inconsistent.
  * Only admins can call this function.
  */
-exports.regenerateLeaderboards = functions.https.onCall(async (data, context) => {
+exports.regenerateLeaderboards = onCall(async (request) => {
   // Verify admin
-  if (!context.auth || !context.auth.token.admin) {
-    throw new functions.https.HttpsError('permission-denied', 'Admin access required');
+  if (!request.auth || !request.auth.token.admin) {
+    throw new HttpsError('permission-denied', 'Admin access required');
   }
   
   const db = admin.firestore();
@@ -201,8 +205,8 @@ exports.regenerateLeaderboards = functions.https.onCall(async (data, context) =>
     
     // Log this action
     await admin.firestore().collection('admin_logs').add({
-      uid: context.auth.uid,
-      email: context.auth.token.email,
+      uid: request.auth.uid,
+      email: request.auth.token.email,
       action: 'regenerateLeaderboards',
       timestamp: admin.firestore.FieldValue.serverTimestamp()
     });
@@ -210,7 +214,7 @@ exports.regenerateLeaderboards = functions.https.onCall(async (data, context) =>
     return { success: true, message: 'All leaderboards regenerated' };
   } catch (error) {
     console.error('Error regenerating leaderboards:', error);
-    throw new functions.https.HttpsError('internal', 'Failed to regenerate leaderboards');
+    throw new HttpsError('internal', 'Failed to regenerate leaderboards');
   }
 });
 
@@ -220,25 +224,13 @@ exports.regenerateLeaderboards = functions.https.onCall(async (data, context) =>
  * Receives fingerprint data and creates a GitHub issue for tracking.
  * This is a Firebase Cloud Function for logging device fingerprints.
  * 
- * Required Environment Variables (set via Firebase CLI or Console):
+ * Required Configuration (set in functions/.env file):
  * - GITHUB_TOKEN: Personal access token with 'repo' scope
- * - GITHUB_REPO: Repository in format 'owner/repo' (defaults to StudyWithJesus/StudyWithJesus.github.io)
+ * - GITHUB_REPO: Repository in format 'owner/repo'
  * 
  * Deploy with: firebase deploy --only functions:logFingerprint
  */
-exports.logFingerprint = functions.https.onRequest(async (req, res) => {
-  // Enable CORS
-  res.set('Access-Control-Allow-Origin', '*');
-  
-  if (req.method === 'OPTIONS') {
-    // Handle preflight request
-    res.set('Access-Control-Allow-Methods', 'POST');
-    res.set('Access-Control-Allow-Headers', 'Content-Type');
-    res.set('Access-Control-Max-Age', '3600');
-    res.status(204).send('');
-    return;
-  }
-  
+exports.logFingerprint = onRequest({cors: true}, async (req, res) => {
   // Only accept POST requests
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed. Use POST.' });
@@ -255,7 +247,7 @@ exports.logFingerprint = functions.https.onRequest(async (req, res) => {
     }
   }
 
-  // Get GitHub configuration from environment
+  // Get GitHub configuration from environment variables
   const githubToken = process.env.GITHUB_TOKEN;
   const githubRepo = process.env.GITHUB_REPO || 'StudyWithJesus/StudyWithJesus.github.io';
 
@@ -278,7 +270,8 @@ exports.logFingerprint = functions.https.onRequest(async (req, res) => {
     res.status(201).json({
       success: true,
       issueUrl: issue.html_url,
-      issueNumber: issue.number
+      issueNumber: issue.number,
+      clientIp: clientIp  // Return IP so client can store it locally
     });
   } catch (error) {
     console.error('Failed to create GitHub issue:', error);
