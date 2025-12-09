@@ -291,10 +291,37 @@
     .logout-btn:hover {
       background: rgba(255, 255, 255, 0.3);
     }
+
+    .back-link {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .back-link a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      transition: background 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .back-link a:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Back buttons -->
+    <div class="back-link">
+      <a href="index.html">← Back to Admin Hub</a>
+      <a href="../../index.html">← Back to Main Site</a>
+    </div>
+    
     <div class="header">
       <h1>🔒 Fingerprint Admin Dashboard</h1>
       <p>Manage and control access via fingerprint whitelist</p>
