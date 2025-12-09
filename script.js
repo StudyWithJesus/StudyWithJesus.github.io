@@ -253,6 +253,227 @@ function initExamPage() {
     }
   }
 
+  // ----------------------
+  // Timer Pause Functionality
+  // ----------------------
+  let isPaused = false;
+  let pauseOverlay = null;
+
+  // Create pause overlay
+  function createPauseOverlay() {
+    if (pauseOverlay) return pauseOverlay;
+    
+    pauseOverlay = document.createElement('div');
+    pauseOverlay.id = 'timer-pause-overlay';
+    pauseOverlay.className = 'timer-pause-overlay';
+    pauseOverlay.innerHTML = `
+      <div class="pause-content">
+        <div class="pause-icon">⏸</div>
+        <h2>Test Paused</h2>
+        <p>Click anywhere to resume</p>
+        <div class="pause-timer">
+          <span class="pause-timer-icon">⏱</span>
+          <span class="pause-timer-text">${formatTime(remainingSeconds)}</span>
+        </div>
+      </div>
+    `;
+    
+    // Add styles
+    const style = document.createElement('style');
+    style.id = 'pause-overlay-styles';
+    style.textContent = `
+      .timer-pause-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.98);
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        animation: pauseOverlayFadeIn 0.3s ease-out;
+        cursor: pointer;
+      }
+      
+      @keyframes pauseOverlayFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      .pause-content {
+        text-align: center;
+        color: white;
+        animation: pauseContentSlide 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      @keyframes pauseContentSlide {
+        from { transform: translateY(-30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      .pause-icon {
+        font-size: 80px;
+        margin-bottom: 24px;
+        animation: pauseIconPulse 2s ease-in-out infinite;
+      }
+      
+      @keyframes pauseIconPulse {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.1); opacity: 1; }
+      }
+      
+      .pause-content h2 {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 0 0 16px 0;
+        color: #f1f5f9;
+      }
+      
+      .pause-content p {
+        font-size: 18px;
+        color: #cbd5e1;
+        margin: 0 0 32px 0;
+      }
+      
+      .pause-timer {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 32px;
+        background: rgba(59, 130, 246, 0.1);
+        border: 2px solid rgba(59, 130, 246, 0.3);
+        border-radius: 12px;
+        font-size: 32px;
+        font-weight: 700;
+        color: #60a5fa;
+        font-variant-numeric: tabular-nums;
+      }
+      
+      .pause-timer-icon {
+        font-size: 32px;
+      }
+      
+      @media (max-width: 768px) {
+        .pause-icon {
+          font-size: 60px;
+        }
+        
+        .pause-content h2 {
+          font-size: 28px;
+        }
+        
+        .pause-content p {
+          font-size: 16px;
+        }
+        
+        .pause-timer {
+          font-size: 28px;
+          padding: 14px 28px;
+        }
+        
+        .pause-timer-icon {
+          font-size: 28px;
+        }
+      }
+    `;
+    
+    if (!document.getElementById('pause-overlay-styles')) {
+      document.head.appendChild(style);
+    }
+    
+    // Click anywhere to resume
+    pauseOverlay.addEventListener('click', function() {
+      resumeTimer();
+    });
+    
+    return pauseOverlay;
+  }
+
+  // Pause the timer
+  function pauseTimer() {
+    if (isPaused || !timerStarted || document.body.classList.contains("submitted-mode")) return;
+    
+    isPaused = true;
+    stopTimer();
+    
+    // Create and show overlay
+    const overlay = createPauseOverlay();
+    document.body.appendChild(overlay);
+    
+    // Update timer display to show pause icon
+    if (timerDisplay) {
+      timerDisplay.classList.add('timer-paused');
+      const timerIcon = timerDisplay.querySelector('.timer-icon');
+      if (timerIcon) {
+        timerIcon.textContent = '⏸';
+      }
+    }
+  }
+
+  // Resume the timer
+  function resumeTimer() {
+    if (!isPaused) return;
+    
+    isPaused = false;
+    
+    // Remove overlay
+    if (pauseOverlay && pauseOverlay.parentNode) {
+      pauseOverlay.style.animation = 'pauseOverlayFadeIn 0.3s ease-out reverse';
+      setTimeout(() => {
+        if (pauseOverlay && pauseOverlay.parentNode) {
+          pauseOverlay.parentNode.removeChild(pauseOverlay);
+        }
+      }, 300);
+    }
+    
+    // Resume timer
+    startTimer();
+    
+    // Update timer display to show normal icon
+    if (timerDisplay) {
+      timerDisplay.classList.remove('timer-paused');
+      const timerIcon = timerDisplay.querySelector('.timer-icon');
+      if (timerIcon) {
+        timerIcon.textContent = '⏱';
+      }
+    }
+  }
+
+  // Add click handler to timer display for pause/resume
+  if (timerDisplay) {
+    timerDisplay.style.cursor = 'pointer';
+    timerDisplay.title = 'Click to pause/resume timer';
+    timerDisplay.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (isPaused) {
+        resumeTimer();
+      } else if (timerStarted && !document.body.classList.contains("submitted-mode")) {
+        pauseTimer();
+      }
+    });
+  }
+
+  // Add keyboard shortcut for pause/resume (Space or P key)
+  document.addEventListener('keydown', function(e) {
+    // Only activate if we're on an exam page and not typing in an input
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    
+    // Don't interfere with Konami code
+    if (e.code === 'KeyB' || e.code === 'KeyA') return;
+    
+    if (e.code === 'Space' || e.code === 'KeyP') {
+      e.preventDefault();
+      if (isPaused) {
+        resumeTimer();
+      } else if (timerStarted && !document.body.classList.contains("submitted-mode")) {
+        pauseTimer();
+      }
+    }
+  });
+
   // Ensure result banner exists at the bottom
   let resultBanner = document.getElementById("result-banner");
   if (!resultBanner) {
@@ -1202,12 +1423,106 @@ function showUsernameRequiredOverlay(form) {
   let lastGestureTime = 0;
   let patternTimeout = null;
   
+  // Achievement counter
+  let konamiTriggerCount = 0;
+  try {
+    konamiTriggerCount = parseInt(localStorage.getItem('konami_trigger_count') || '0', 10);
+  } catch {}
+  
+  // Team America quotes
+  const teamAmericaQuotes = [
+    "America, F*** YEAH!",
+    "Freedom is the only way, yeah!",
+    "Coming again to save the motherf***ing day, yeah!",
+    "Freedom costs a buck o' five",
+    "Terrorists, your game is through",
+    "So lick my butt and suck on my balls!",
+    "America, F*** YEAH! What you gonna do?",
+    "Books!",
+    "Bed Bath & Beyond! F*** YEAH!"
+  ];
+  
+  // Show progress indicator
+  function showProgress(current, total, isMobile) {
+    const existing = document.getElementById('konami-progress-indicator');
+    if (existing) existing.remove();
+    
+    const indicator = document.createElement('div');
+    indicator.id = 'konami-progress-indicator';
+    indicator.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(220, 38, 38, 0.9);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      z-index: 99999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      animation: konamiProgressPulse 0.3s ease-out;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    `;
+    
+    const progressBar = document.createElement('div');
+    progressBar.style.cssText = `
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    `;
+    
+    const progressFill = document.createElement('div');
+    progressFill.style.cssText = `
+      width: ${(current / total) * 100}%;
+      height: 100%;
+      background: white;
+      border-radius: 2px;
+      transition: width 0.3s ease-out;
+    `;
+    
+    progressBar.appendChild(progressFill);
+    indicator.innerHTML = `<div style="display: flex; align-items: center; gap: 8px;">
+      <span>🦅</span>
+      <span>${current}/${total}</span>
+      ${current === total ? '<span>✓</span>' : ''}
+    </div>`;
+    indicator.appendChild(progressBar);
+    
+    document.body.appendChild(indicator);
+    
+    setTimeout(() => {
+      if (indicator.parentNode) {
+        indicator.style.animation = 'konamiProgressFadeOut 0.3s ease-out';
+        setTimeout(() => indicator.remove(), 300);
+      }
+    }, current === total ? 500 : 1500);
+  }
+  
+  // Add progress animation styles
+  const progressStyles = document.createElement('style');
+  progressStyles.textContent = `
+    @keyframes konamiProgressPulse {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes konamiProgressFadeOut {
+      to { opacity: 0; transform: translateY(10px); }
+    }
+  `;
+  document.head.appendChild(progressStyles);
+  
   // Desktop keyboard listener
   document.addEventListener('keydown', function(e) {
     const key = e.code;
     
     if (key === konamiSequence[konamiIndex]) {
       konamiIndex++;
+      showProgress(konamiIndex, konamiSequence.length, false);
       if (konamiIndex === konamiSequence.length) {
         konamiIndex = 0;
         triggerEasterEgg();
@@ -1217,6 +1532,7 @@ function showUsernameRequiredOverlay(form) {
       // Check if the pressed key matches the start of the sequence
       if (key === konamiSequence[0]) {
         konamiIndex = 1;
+        showProgress(1, konamiSequence.length, false);
       }
     }
   });
@@ -1236,20 +1552,25 @@ function showUsernameRequiredOverlay(form) {
     const touchEndY = e.changedTouches[0].clientY;
     const deltaX = touchEndX - touchStartX;
     const deltaY = touchEndY - touchStartY;
-    const minSwipeDistance = 50;
+    const minSwipeDistance = 30; // Reduced from 50 for easier detection
+    const tapThreshold = 15; // Reduced from 25 for more sensitive tap detection
     
     let gesture = null;
     
     // Determine if it's a swipe or tap
-    if (Math.abs(deltaX) < 25 && Math.abs(deltaY) < 25) {
+    if (Math.abs(deltaX) < tapThreshold && Math.abs(deltaY) < tapThreshold) {
       // It's a tap
       gesture = 'tap';
     } else if (Math.abs(deltaX) > Math.abs(deltaY)) {
       // Horizontal swipe
-      gesture = deltaX > minSwipeDistance ? 'right' : (deltaX < -minSwipeDistance ? 'left' : null);
+      if (Math.abs(deltaX) > minSwipeDistance) {
+        gesture = deltaX > 0 ? 'right' : 'left';
+      }
     } else {
       // Vertical swipe
-      gesture = deltaY > minSwipeDistance ? 'down' : (deltaY < -minSwipeDistance ? 'up' : null);
+      if (Math.abs(deltaY) > minSwipeDistance) {
+        gesture = deltaY > 0 ? 'down' : 'up';
+      }
     }
     
     if (gesture) {
@@ -1259,20 +1580,25 @@ function showUsernameRequiredOverlay(form) {
       if (patternTimeout) clearTimeout(patternTimeout);
       patternTimeout = setTimeout(function() {
         mobilePattern = [];
-      }, 4000); // Reset after 4 seconds of inactivity
+      }, 5000); // Increased from 4000 to give more time
       
+      // Check if gesture matches the next expected one
       if (gesture === mobileSequence[mobilePattern.length]) {
         mobilePattern.push(gesture);
+        showProgress(mobilePattern.length, mobileSequence.length, true);
+        
         if (mobilePattern.length === mobileSequence.length) {
           mobilePattern = [];
           if (patternTimeout) clearTimeout(patternTimeout);
           triggerEasterEgg();
         }
       } else {
+        // Reset pattern, but allow starting fresh
         mobilePattern = [];
         // Check if this gesture starts the sequence
         if (gesture === mobileSequence[0]) {
           mobilePattern.push(gesture);
+          showProgress(1, mobileSequence.length, true);
         }
       }
     }
@@ -1288,15 +1614,47 @@ function showUsernameRequiredOverlay(form) {
   }
   
   function triggerEasterEgg() {
-    // Create overlay for Jesus memes with center image
+    // Increment and save trigger count
+    konamiTriggerCount++;
+    try {
+      localStorage.setItem('konami_trigger_count', konamiTriggerCount.toString());
+    } catch {}
+    
+    // Play a triumphant beep sound using Web Audio API
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 523.25; // C5 note
+      oscillator.type = 'square';
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (e) {
+      // Audio API not supported, silently fail
+    }
+    
+    // Pick a random quote
+    const randomQuote = teamAmericaQuotes[Math.floor(Math.random() * teamAmericaQuotes.length)];
+    
+    // Create overlay for Team America GIFs with center image
     const overlay = document.createElement('div');
     overlay.id = 'konami-overlay';
     overlay.innerHTML = `
       <div class="konami-center-content">
         <img src="${getBasePath()}bftb.png" alt="Easter Egg" class="konami-center-image">
+        <div class="konami-quote">${randomQuote}</div>
+        <div class="konami-achievement">🏆 Triggered ${konamiTriggerCount} time${konamiTriggerCount !== 1 ? 's' : ''}!</div>
         <button class="konami-close" aria-label="Close">&times;</button>
       </div>
-      <div class="jesus-memes-container"></div>
+      <div class="america-gifs-container"></div>
     `;
     
     // Add styles
@@ -1333,10 +1691,41 @@ function showUsernameRequiredOverlay(form) {
       
       .konami-center-image {
         max-width: 80vw;
-        max-height: 70vh;
+        max-height: 50vh;
         border-radius: 12px;
         box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
         animation: konamiImagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      .konami-quote {
+        margin-top: 24px;
+        font-size: 28px;
+        font-weight: 900;
+        color: #fff;
+        text-shadow: 
+          3px 3px 0 #dc2626,
+          -1px -1px 0 #1e40af,
+          1px -1px 0 #1e40af,
+          -1px 1px 0 #1e40af,
+          1px 1px 0 #1e40af,
+          0 0 20px rgba(220, 38, 38, 0.8);
+        text-align: center;
+        max-width: 90vw;
+        animation: konamiQuoteBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s backwards;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+      
+      .konami-achievement {
+        margin-top: 16px;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        color: #78350f;
+        border-radius: 24px;
+        font-weight: bold;
+        font-size: 16px;
+        box-shadow: 0 4px 12px rgba(251, 191, 36, 0.5);
+        animation: konamiAchievementSlide 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s backwards;
       }
       
       @keyframes konamiImagePop {
@@ -1344,7 +1733,18 @@ function showUsernameRequiredOverlay(form) {
         to { transform: scale(1); opacity: 1; }
       }
       
-      .jesus-memes-container {
+      @keyframes konamiQuoteBounce {
+        0% { transform: translateY(-30px) scale(0.8); opacity: 0; }
+        60% { transform: translateY(5px) scale(1.05); }
+        100% { transform: translateY(0) scale(1); opacity: 1; }
+      }
+      
+      @keyframes konamiAchievementSlide {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      .america-gifs-container {
         position: fixed;
         top: 0;
         left: 0;
@@ -1355,14 +1755,14 @@ function showUsernameRequiredOverlay(form) {
         overflow: hidden;
       }
       
-      .jesus-meme {
+      .america-gif {
         position: absolute;
         animation: flyAcross linear infinite;
         filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
         z-index: 9999;
       }
       
-      .jesus-meme img {
+      .america-gif img {
         width: auto;
         height: auto;
         max-width: 150px;
@@ -1407,10 +1807,22 @@ function showUsernameRequiredOverlay(form) {
       @media (max-width: 768px) {
         .konami-center-image {
           max-width: 90vw;
-          max-height: 60vh;
+          max-height: 40vh;
         }
         
-        .jesus-meme img {
+        .konami-quote {
+          font-size: 20px;
+          margin-top: 16px;
+          padding: 0 16px;
+        }
+        
+        .konami-achievement {
+          font-size: 14px;
+          padding: 10px 20px;
+          margin-top: 12px;
+        }
+        
+        .america-gif img {
           max-width: 100px;
           max-height: 100px;
         }
@@ -1428,43 +1840,43 @@ function showUsernameRequiredOverlay(form) {
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     
-    // Jesus meme images - using external URLs with fallback handling
-    const jesusMemes = [
-      'https://i.imgflip.com/1jenson.jpg', // Buddy Christ
-      'https://i.imgflip.com/1h7in3.jpg', // Jesus Facepalm
-      'https://i.imgflip.com/9vct.jpg', // Laughing Jesus
-      'https://i.imgflip.com/28j0te.jpg', // Jesus with Gun
-      'https://i.imgflip.com/3si4.jpg', // Jesus Blessing Meme
-      'https://i.imgflip.com/1otk96.jpg', // Smiling Jesus
-      'https://i.imgflip.com/8k0sa.jpg', // Cool Jesus
-      'https://i.imgflip.com/1b5opc.jpg' // Jesus Approves
+    // Team America: World Police GIFs - using external URLs with fallback handling
+    const americaGifs = [
+      'https://media.giphy.com/media/3o7TKDMvVn8bW0lv9e/giphy.gif', // Team America
+      'https://media.giphy.com/media/YJ5OlVLZ2QNl6/giphy.gif', // America F Yeah
+      'https://media.giphy.com/media/l0HlCBdbv6wTNxKvu/giphy.gif', // Team America Flag
+      'https://media.giphy.com/media/3oEjHKvjqt5pssL99C/giphy.gif', // Team America Puppet
+      'https://media.giphy.com/media/l0HlEjnJQqKEWq6Hu/giphy.gif', // Team America Attack
+      'https://media.giphy.com/media/3o6Zt7y2O1r7qW4Pu0/giphy.gif', // Team America Action
+      'https://media.giphy.com/media/xT0GqtHaCvCzFmz0D6/giphy.gif', // Team America Fighter
+      'https://media.giphy.com/media/l0HlK4u4zLK1L4K9q/giphy.gif' // Team America Explosion
     ];
     
-    const memesContainer = overlay.querySelector('.jesus-memes-container');
-    let memeInterval;
-    let activeMemeCount = 0;
-    const maxConcurrentMemes = 20;
+    const gifsContainer = overlay.querySelector('.america-gifs-container');
+    let gifInterval;
+    let activeGifCount = 0;
+    const maxConcurrentGifs = 20;
     
-    function createFlyingMeme() {
-      // Limit concurrent memes to prevent performance issues
-      if (activeMemeCount >= maxConcurrentMemes) return;
+    function createFlyingGif() {
+      // Limit concurrent GIFs to prevent performance issues
+      if (activeGifCount >= maxConcurrentGifs) return;
       
-      activeMemeCount++;
-      const meme = document.createElement('div');
-      meme.className = 'jesus-meme';
+      activeGifCount++;
+      const gif = document.createElement('div');
+      gif.className = 'america-gif';
       
       const img = document.createElement('img');
       const size = 80 + Math.floor(Math.random() * 100); // 80-180px
-      img.src = jesusMemes[Math.floor(Math.random() * jesusMemes.length)];
-      img.alt = 'Jesus Meme';
+      img.src = americaGifs[Math.floor(Math.random() * americaGifs.length)];
+      img.alt = 'Team America GIF';
       img.style.width = size + 'px';
       img.style.height = 'auto';
       // Handle failed image loads gracefully
       img.onerror = function() {
-        meme.remove();
-        activeMemeCount--;
+        gif.remove();
+        activeGifCount--;
       };
-      meme.appendChild(img);
+      gif.appendChild(img);
       
       // Random starting position (from edges)
       const edge = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
@@ -1504,34 +1916,34 @@ function showUsernameRequiredOverlay(form) {
       const scale = 0.5 + Math.random() * 1.5; // 0.5-2x size
       const rotation = Math.random() * 360;
       
-      meme.style.setProperty('--startX', startX + 'px');
-      meme.style.setProperty('--startY', startY + 'px');
-      meme.style.setProperty('--endX', endX + 'px');
-      meme.style.setProperty('--endY', endY + 'px');
-      meme.style.setProperty('--scale', scale);
-      meme.style.setProperty('--rotation', rotation + 'deg');
-      meme.style.animationDuration = duration + 's';
+      gif.style.setProperty('--startX', startX + 'px');
+      gif.style.setProperty('--startY', startY + 'px');
+      gif.style.setProperty('--endX', endX + 'px');
+      gif.style.setProperty('--endY', endY + 'px');
+      gif.style.setProperty('--scale', scale);
+      gif.style.setProperty('--rotation', rotation + 'deg');
+      gif.style.animationDuration = duration + 's';
       
-      memesContainer.appendChild(meme);
+      gifsContainer.appendChild(gif);
       
-      // Remove meme after animation and decrement counter
+      // Remove GIF after animation and decrement counter
       setTimeout(() => {
-        meme.remove();
-        activeMemeCount--;
+        gif.remove();
+        activeGifCount--;
       }, duration * 1000);
     }
     
-    // Spawn initial burst of memes
+    // Spawn initial burst of GIFs
     for (let i = 0; i < 10; i++) {
-      setTimeout(() => createFlyingMeme(), i * 150);
+      setTimeout(() => createFlyingGif(), i * 150);
     }
-    // Continue spawning memes at a reasonable interval
-    memeInterval = setInterval(createFlyingMeme, 350);
+    // Continue spawning GIFs at a reasonable interval
+    gifInterval = setInterval(createFlyingGif, 350);
     
     // Close on button click
     overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);
     
-    // Close on overlay click (outside memes)
+    // Close on overlay click (outside GIFs)
     overlay.addEventListener('click', function(e) {
       if (e.target === overlay) {
         closeEasterEgg();
@@ -1547,10 +1959,10 @@ function showUsernameRequiredOverlay(form) {
     });
     
     function closeEasterEgg() {
-      // Stop spawning memes
-      if (memeInterval) {
-        clearInterval(memeInterval);
-        memeInterval = null;
+      // Stop spawning GIFs
+      if (gifInterval) {
+        clearInterval(gifInterval);
+        gifInterval = null;
       }
       overlay.style.animation = 'konamiFadeIn 0.3s ease-out reverse';
       setTimeout(function() {
