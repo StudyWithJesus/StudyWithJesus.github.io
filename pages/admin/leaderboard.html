@@ -196,6 +196,13 @@
         
         // Set up event listeners
         setupEventListeners();
+        
+        // Listen for successful login events
+        window.addEventListener('githubauth:login', function(event) {
+          console.log('Login event received, refreshing UI...');
+          // Re-check access to show authenticated content
+          checkAccess();
+        });
       }
 
       function setupEventListeners() {

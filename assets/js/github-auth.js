@@ -23,6 +23,7 @@
   let firebaseAuth = null;
   let firebaseInitialized = false;
   let currentFirebaseUser = null;
+  let authStateReady = null; // Promise that resolves when initial auth state is known
 
   const GitHubAuth = {
     /**
@@ -51,14 +52,20 @@
 
         firebaseAuth = getAuth();
         
-        // Listen for auth state changes
-        onAuthStateChanged(firebaseAuth, (user) => {
-          currentFirebaseUser = user;
-          if (user) {
-            console.log('Firebase auth state: signed in as', user.displayName || user.email);
-          } else {
-            console.log('Firebase auth state: signed out');
-          }
+        // Create a promise that resolves when initial auth state is known
+        authStateReady = new Promise((resolve) => {
+          // Listen for auth state changes
+          const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+            currentFirebaseUser = user;
+            if (user) {
+              console.log('Firebase auth state: signed in as', user.displayName || user.email);
+            } else {
+              console.log('Firebase auth state: signed out');
+            }
+            // Resolve the promise on first auth state change (initial state is known)
+            resolve(user);
+            // Note: We keep listening for future auth state changes, we just resolve once
+          });
         });
 
         firebaseInitialized = true;
@@ -75,14 +82,21 @@
      */
     getCurrentUser: async function() {
       // Try Firebase Auth first
-      if (await this.initFirebase() && currentFirebaseUser) {
-        return {
-          username: currentFirebaseUser.reloadUserInfo?.screenName || currentFirebaseUser.displayName || 'user',
-          name: currentFirebaseUser.displayName || 'User',
-          avatar: currentFirebaseUser.photoURL || '',
-          email: currentFirebaseUser.email,
-          uid: currentFirebaseUser.uid
-        };
+      if (await this.initFirebase()) {
+        // Wait for initial auth state to be known
+        if (authStateReady) {
+          await authStateReady;
+        }
+        
+        if (currentFirebaseUser) {
+          return {
+            username: currentFirebaseUser.reloadUserInfo?.screenName || currentFirebaseUser.displayName || 'user',
+            name: currentFirebaseUser.displayName || 'User',
+            avatar: currentFirebaseUser.photoURL || '',
+            email: currentFirebaseUser.email,
+            uid: currentFirebaseUser.uid
+          };
+        }
       }
 
       // No Firebase user found
@@ -113,8 +127,12 @@
           const result = await signInWithPopup(firebaseAuth, provider);
           console.log('Successfully signed in via Firebase:', result.user.displayName);
           
-          // Reload the page to refresh the UI
-          window.location.reload();
+          // Update currentFirebaseUser immediately
+          currentFirebaseUser = result.user;
+          
+          // Trigger a custom event to notify the page that login succeeded
+          window.dispatchEvent(new CustomEvent('githubauth:login', { detail: { user: result.user } }));
+          
           return;
         } catch (error) {
           console.error('Firebase GitHub sign-in failed:', error);
