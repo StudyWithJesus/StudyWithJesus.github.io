@@ -1445,8 +1445,11 @@ function showUsernameRequiredOverlay(form) {
     "Bed Bath & Beyond! F*** YEAH!"
   ];
   
-  // Show progress indicator
+  // Show progress indicator (mobile only)
   function showProgress(current, total, isMobile) {
+    // Only show on mobile devices (screen width <= 768px)
+    if (window.innerWidth > 768) return;
+    
     const existing = document.getElementById('konami-progress-indicator');
     if (existing) existing.remove();
     
@@ -1454,16 +1457,16 @@ function showUsernameRequiredOverlay(form) {
     indicator.id = 'konami-progress-indicator';
     indicator.style.cssText = `
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 15px;
+      right: 15px;
       background: rgba(220, 38, 38, 0.9);
       color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
+      padding: 6px 12px;
+      border-radius: 6px;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 11px;
       z-index: 99999;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
       animation: konamiProgressPulse 0.3s ease-out;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     `;
@@ -1471,10 +1474,10 @@ function showUsernameRequiredOverlay(form) {
     const progressBar = document.createElement('div');
     progressBar.style.cssText = `
       width: 100%;
-      height: 4px;
+      height: 2px;
       background: rgba(255, 255, 255, 0.3);
-      border-radius: 2px;
-      margin-top: 8px;
+      border-radius: 1px;
+      margin-top: 4px;
       overflow: hidden;
     `;
     
@@ -1483,15 +1486,15 @@ function showUsernameRequiredOverlay(form) {
       width: ${(current / total) * 100}%;
       height: 100%;
       background: white;
-      border-radius: 2px;
+      border-radius: 1px;
       transition: width 0.3s ease-out;
     `;
     
     progressBar.appendChild(progressFill);
-    indicator.innerHTML = `<div style="display: flex; align-items: center; gap: 8px;">
-      <span>🦅</span>
+    indicator.innerHTML = `<div style="display: flex; align-items: center; gap: 4px;">
+      <span style="font-size: 10px;">🦅</span>
       <span>${current}/${total}</span>
-      ${current === total ? '<span>✓</span>' : ''}
+      ${current === total ? '<span style="font-size: 10px;">✓</span>' : ''}
     </div>`;
     indicator.appendChild(progressBar);
     
@@ -1843,16 +1846,16 @@ function showUsernameRequiredOverlay(form) {
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     
-    // Team America: World Police GIFs - using external URLs with fallback handling
+    // Team America: World Police GIFs - using direct Giphy CDN URLs
     const americaGifs = [
-      'https://media.giphy.com/media/3o7TKDMvVn8bW0lv9e/giphy.gif', // Team America
-      'https://media.giphy.com/media/YJ5OlVLZ2QNl6/giphy.gif', // America F Yeah
-      'https://media.giphy.com/media/l0HlCBdbv6wTNxKvu/giphy.gif', // Team America Flag
-      'https://media.giphy.com/media/3oEjHKvjqt5pssL99C/giphy.gif', // Team America Puppet
-      'https://media.giphy.com/media/l0HlEjnJQqKEWq6Hu/giphy.gif', // Team America Attack
-      'https://media.giphy.com/media/3o6Zt7y2O1r7qW4Pu0/giphy.gif', // Team America Action
-      'https://media.giphy.com/media/xT0GqtHaCvCzFmz0D6/giphy.gif', // Team America Fighter
-      'https://media.giphy.com/media/l0HlK4u4zLK1L4K9q/giphy.gif' // Team America Explosion
+      'https://media0.giphy.com/media/3o7TKDMvVn8bW0lv9e/giphy.gif',
+      'https://media1.giphy.com/media/YJ5OlVLZ2QNl6/giphy.gif',
+      'https://media2.giphy.com/media/l0HlCBdbv6wTNxKvu/giphy.gif',
+      'https://media3.giphy.com/media/3oEjHKvjqt5pssL99C/giphy.gif',
+      'https://media0.giphy.com/media/l0HlEjnJQqKEWq6Hu/giphy.gif',
+      'https://media1.giphy.com/media/3o6Zt7y2O1r7qW4Pu0/giphy.gif',
+      'https://media2.giphy.com/media/xT0GqtHaCvCzFmz0D6/giphy.gif',
+      'https://media3.giphy.com/media/l0HlK4u4zLK1L4K9q/giphy.gif'
     ];
     
     const gifsContainer = overlay.querySelector('.america-gifs-container');
