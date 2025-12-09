@@ -4,25 +4,26 @@
  * This file contains the GitHub OAuth Client ID for admin page authentication.
  * The Client ID is safe to expose publicly as it's used for OAuth flow initiation.
  * 
- * SETUP INSTRUCTIONS:
+ * SETUP INSTRUCTIONS FOR GITHUB PAGES:
  * 
- * 1. Create a GitHub OAuth App:
- *    - Go to: https://github.com/settings/developers
- *    - Click "OAuth Apps" → "New OAuth App"
- *    - Application name: StudyWithJesus Admin
- *    - Homepage URL: https://your-site.netlify.app (or your actual domain)
+ * GitHub Pages deployments MUST use Firebase Authentication with GitHub provider.
+ * See FIREBASE_GITHUB_AUTH_SETUP.md for complete setup instructions.
+ * 
+ * 1. Set up Firebase Authentication:
+ *    - Enable GitHub provider in Firebase Console
+ *    - Configure Firebase config in config/firebase.config.js
+ *    - Set Authorization callback URL to: https://studywithjesus.firebaseapp.com/__/auth/handler
+ * 
+ * 2. (Optional) For Netlify deployments:
+ *    - You can create a separate GitHub OAuth App with Netlify callback
  *    - Authorization callback URL: https://your-site.netlify.app/.netlify/functions/github-oauth
+ *    - Set GITHUB_CLIENT_SECRET and ADMIN_GITHUB_USERNAME as environment variables
  * 
- * 2. Get your Client ID:
- *    - After creating the app, copy the Client ID
- *    - Replace 'YOUR_GITHUB_CLIENT_ID_HERE' below with your actual Client ID
+ * SECURITY NOTE:
+ * - The Client ID below is safe to commit to version control
+ * - NEVER commit Client Secrets - use environment variables only
  * 
- * 3. Set up Netlify Environment Variables:
- *    - In your Netlify dashboard, set these environment variables:
- *    - GITHUB_CLIENT_SECRET: Your OAuth App Client Secret (NEVER commit this!)
- *    - ADMIN_GITHUB_USERNAME: Your GitHub username (e.g., 'StudyWithJesus')
- * 
- * For more details, see: docs/GITHUB_OAUTH_SETUP.md
+ * For more details, see: FIREBASE_GITHUB_AUTH_SETUP.md
  */
 
 window.GITHUB_OAUTH_CONFIG = {
