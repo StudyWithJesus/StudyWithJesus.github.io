@@ -17,11 +17,32 @@ Practice exams for Parts Technician Second Period modules (270201, 270202, 27020
 
 ## Getting Started
 
-1. Open `index.html` in a browser, or visit the hosted GitHub Pages site
-2. Select a module (270201, 270202, 270203, or 270204)
-3. Choose an ILM exam to practice
-4. Answer questions and submit when ready
-5. Review your results and retake to improve
+### For Users (No Setup Required!)
+
+Just visit the live site - no installation needed:
+
+1. **Visit**: https://studywithjesus.github.io
+2. **Select a module**: 270201, 270202, 270203, or 270204
+3. **Choose an ILM exam** to practice
+4. **Answer questions** and submit when ready
+5. **Review your results** and retake to improve
+
+**Admin Access**: https://studywithjesus.github.io/pages/admin/index.html (requires GitHub sign-in)
+
+### For Firebase Admins (Remote Management)
+
+Manage Firebase through the web console - no cloning needed:
+- **Remote Management**: See [REMOTE_MANAGEMENT.md](REMOTE_MANAGEMENT.md) for viewing/managing data
+- **Cloud Setup**: See [REMOTE_CLOUD_SETUP.md](REMOTE_CLOUD_SETUP.md) for initial Firebase configuration
+- **Firebase Console**: https://console.firebase.google.com/project/studywithjesus
+
+**Note:** IP addresses in fingerprint logs will show "N/A (local)" until Cloud Functions are deployed (one-time setup).
+
+### For Developers (Local Setup)
+
+Only needed if you want to modify code and deploy changes:
+- See [GETTING_STARTED.md](GETTING_STARTED.md) for detailed setup instructions
+- Clone repository: `git clone https://github.com/StudyWithJesus/StudyWithJesus.github.io.git`
 
 ## Leaderboard Feature
 
