@@ -40,7 +40,7 @@ Your GitHub OAuth App's "Authorization callback URL" doesn't match the URL Fireb
 
 4. **Common mistakes to avoid:**
    - ❌ Wrong callback URL (not from Firebase)
-   - ❌ Using a custom or Netlify URL
+   - ❌ Using a custom URL instead of Firebase URL
    - ❌ Extra spaces or trailing slashes
    - ❌ Using `http://` instead of `https://`
    - ❌ Typos in the Firebase URL

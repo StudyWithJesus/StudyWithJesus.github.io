@@ -1,6 +1,10 @@
 # Quick Start: GitHub OAuth Configuration
 
-> **⚠️ IMPORTANT:** This guide is for legacy Netlify deployments. For GitHub Pages, use [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md) instead.
+> **📚 UPDATED GUIDE AVAILABLE:** For complete setup instructions, use [FIREBASE_SETUP_GUIDE.md](../FIREBASE_SETUP_GUIDE.md) instead.
+
+This document is kept for reference but the comprehensive Firebase setup guide is recommended.
+
+---
 
 ## For GitHub Pages Deployments
 

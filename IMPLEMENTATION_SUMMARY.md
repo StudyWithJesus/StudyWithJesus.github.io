@@ -5,7 +5,7 @@
 ### Issue 1: Unable to Sign In via GitHub on Admin Page
 **Problem**: Users could not sign in through GitHub on https://studywithjesus.github.io/pages/admin/index.html
 
-**Root Cause**: The admin pages previously had a Netlify OAuth fallback (`/.netlify/functions/github-oauth`) which doesn't work on GitHub Pages. GitHub Pages only supports static hosting and does not support serverless functions.
+**Root Cause**: The admin pages required proper Firebase Authentication setup. GitHub Pages only supports static hosting and Firebase provides the authentication infrastructure.
 
 ### Issue 2: Admin Leaderboard Showing Sample Data Only
 **Problem**: The admin leaderboard at https://studywithjesus.github.io/pages/admin/leaderboard.html was showing sample data instead of actual Firebase data.
@@ -16,11 +16,11 @@
 
 ### 1. Firebase Authentication with GitHub Provider
 
-The site now uses **Firebase Authentication with GitHub provider** exclusively:
+The site uses **Firebase Authentication with GitHub provider**:
 - Works on **any static hosting** including GitHub Pages
 - Doesn't require serverless functions
 - Provides a better user experience with popup-based authentication
-- **Netlify OAuth fallback removed** to prevent redirect_uri errors on GitHub Pages
+- Fully integrated authentication flow
 
 ### 2. Simplified Admin Access Control
 
@@ -44,7 +44,7 @@ Added strict validation for:
 - **`assets/js/github-auth.js`**
   - Uses Firebase Auth for GitHub sign-in
   - Implemented GitHub provider sign-in with popup
-  - **Removed Netlify OAuth fallback** to prevent errors on GitHub Pages
+  - Clean Firebase-only authentication
   - Added proper async/await support
 
 ### Firebase Integration Module
@@ -65,7 +65,8 @@ Added strict validation for:
   - Improved user info display
 
 ### Documentation
-- **`FIREBASE_GITHUB_AUTH_SETUP.md`** - Detailed setup guide
+- **`FIREBASE_SETUP_GUIDE.md`** - Complete Firebase setup guide
+- **`FIREBASE_GITHUB_AUTH_SETUP.md`** - Detailed authentication setup
 - **`QUICK_FIX_GITHUB_AUTH.md`** - Quick troubleshooting guide
 
 ## How It Works Now
@@ -109,7 +110,7 @@ See `QUICK_FIX_GITHUB_AUTH.md` for step-by-step instructions.
 
 ### For GitHub Pages Deployment
 ✅ Authentication works without serverless functions  
-✅ No need for Netlify or other serverless hosting  
+✅ Works on GitHub Pages and any static hosting  
 ✅ Popup-based auth is faster than redirects  
 ✅ Firebase handles session management  
 
@@ -127,12 +128,10 @@ See `QUICK_FIX_GITHUB_AUTH.md` for step-by-step instructions.
 
 ## Backward Compatibility
 
-The solution focuses on Firebase Authentication:
-- **Netlify OAuth fallback removed** to prevent redirect_uri errors on GitHub Pages
+The solution uses Firebase Authentication exclusively:
 - Firebase Auth works on all static hosting platforms
 - Existing Firestore data structure unchanged
 - No breaking changes to API
-- For Netlify deployments, Firebase Auth is recommended over Netlify functions
 
 ## Testing Checklist
 

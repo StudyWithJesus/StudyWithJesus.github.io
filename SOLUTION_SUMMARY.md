@@ -82,7 +82,7 @@ When setting up GitHub OAuth with Firebase, watch out for:
 
 ❌ Wrong homepage URL:
 - `https://studywithjesus.github.com` (should be `.github.io`)
-- Using Netlify URL instead of GitHub Pages URL
+- Using incorrect domain
 
 ✅ Correct setup:
 - Homepage URL: `https://studywithjesus.github.io`

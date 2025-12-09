@@ -1,8 +1,10 @@
-# GitHub Pages Deployment Guide (Without Netlify)
+# GitHub Pages Deployment Guide
 
-## Important: GitHub Pages Limitations
+> **📚 UPDATED GUIDE AVAILABLE:** For complete setup instructions, see [FIREBASE_SETUP_GUIDE.md](../FIREBASE_SETUP_GUIDE.md).
 
-Since you're using GitHub Pages (not Netlify), serverless functions are **not available**. This guide provides alternatives that work with GitHub Pages.
+## Important: GitHub Pages and Firebase
+
+GitHub Pages is a static hosting platform that works perfectly with Firebase Authentication. This guide provides setup information specific to GitHub Pages deployment.
 
 ## Option 1: Client-Side Only (Recommended for GitHub Pages)
 

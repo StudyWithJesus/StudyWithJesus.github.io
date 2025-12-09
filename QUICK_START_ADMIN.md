@@ -1,4 +1,10 @@
-# Quick Reference: Admin Setup for silly-speculoos-4afae0
+# Quick Reference: Admin Setup
+
+> **📚 UPDATED GUIDE AVAILABLE:** Please use [FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md) for complete step-by-step instructions.
+
+This document is kept for reference but the new comprehensive guide is recommended.
+
+---
 
 ## 🚀 Quick Start (Do This First)
 

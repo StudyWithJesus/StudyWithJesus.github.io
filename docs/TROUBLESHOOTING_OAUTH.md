@@ -1,8 +1,8 @@
 # GitHub OAuth Troubleshooting Guide
 
-> **⚠️ IMPORTANT:** GitHub Pages deployments use Firebase Authentication. See [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md) for setup instructions.
+> **📚 UPDATED GUIDE AVAILABLE:** For complete setup and troubleshooting, see [FIREBASE_SETUP_GUIDE.md](../FIREBASE_SETUP_GUIDE.md).
 
-> **📝 Note:** Netlify-specific OAuth instructions have been deprecated for GitHub Pages. If deploying to Netlify, you may still use Netlify functions, but Firebase Authentication is recommended for all deployments.
+This guide provides troubleshooting tips for GitHub OAuth authentication with Firebase.
 
 This guide helps diagnose and fix common issues with GitHub OAuth authentication on the admin pages.
 

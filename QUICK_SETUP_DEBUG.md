@@ -1,5 +1,11 @@
 # Quick Setup & Debug Guide
 
+> **📚 UPDATED GUIDE AVAILABLE:** Please use [FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md) for complete step-by-step instructions with troubleshooting.
+
+This document is kept for reference but the new comprehensive guide includes all setup steps and debugging tips.
+
+---
+
 This guide helps you get OAuth, fingerprints, and leaderboards up and running quickly, with debug tips for common issues.
 
 ## 🚀 Quick Start Checklist

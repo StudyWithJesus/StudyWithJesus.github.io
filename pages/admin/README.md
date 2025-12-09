@@ -40,7 +40,7 @@ Manage access control via fingerprint (device/display name) blocking:
 - Real-time statistics
 - **IP addresses are tracked for information only and NOT used for blocking**
 
-**Authentication:** GitHub OAuth required (no password-based auth)
+**Authentication:** GitHub OAuth required
 
 **Features:**
 - 🔒 Toggle switches to block/unblock individual fingerprints (device IDs)
@@ -99,27 +99,21 @@ https://your-site.com/pages/admin/leaderboard.html
 - ✅ **OAuth 2.0 Standard** - Industry-standard authentication protocol
 - ✅ **Single Admin Account** - Only specified GitHub user can access
 - ✅ **No Password Storage** - No passwords to manage or leak
-- ✅ **Serverless Functions** - Secure token exchange server-side
-- ✅ **Session Expiration** - 24-hour automatic timeout
-- ✅ **HTTPS Only** - Secure cookies (HttpOnly, Secure, SameSite)
+- ✅ **Firebase Authentication** - Secure token exchange via Firebase
+- ✅ **Session Expiration** - Automatic timeout
+- ✅ **HTTPS Only** - Secure communication
 
 ### Fingerprint Admin
-- GitHub OAuth protected (OAuth token never exposed)
+- GitHub OAuth protected
 - Session-based authentication (clears on logout)
 - No server-side persistence by default
 - Uses localStorage for blocked fingerprint list
-- Client Secret kept secure in environment variables
-
-**Environment Variables (Netlify):**
-- `GITHUB_CLIENT_ID` - Public OAuth App ID
-- `GITHUB_CLIENT_SECRET` - Private (never exposed to client)
-- `ADMIN_GITHUB_USERNAME` - Your GitHub username
+- Firebase handles all authentication securely
 
 **Best Practices:**
-1. Use HTTPS in production (Netlify provides this automatically)
+1. Use HTTPS in production (GitHub Pages provides this automatically)
 2. Keep the admin URLs private (not linked from public pages)
 3. Regularly review GitHub OAuth app access
-4. Monitor Netlify function logs for unauthorized access attempts
 
 ### Leaderboard Admin
 - GitHub OAuth protected (primary authentication)
@@ -251,8 +245,8 @@ Edit `pages/admin/fingerprint-admin.html`:
 
 ## Related Documentation
 
-- [Netlify Deployment Guide](../../docs/NETLIFY_DEPLOYMENT.md) - Complete setup for Netlify with OAuth
-- [GitHub OAuth Setup Guide](../../docs/GITHUB_OAUTH_SETUP.md) - Detailed OAuth configuration
+- [Firebase Setup Guide](../../FIREBASE_SETUP_GUIDE.md) - Complete Firebase setup
+- [GitHub OAuth Setup Guide](../../docs/GITHUB_OAUTH_SETUP.md) - OAuth configuration
 - [Fingerprint Setup Guide](../../docs/FINGERPRINT_SETUP.md)
 - [Leaderboard Design](../../docs/leaderboard-design.md)
 - [Main README](../../README.md)

@@ -38,13 +38,12 @@ Authorization callback URL: [GET THIS FROM FIREBASE - see below]
 ## Common Mistakes to Avoid
 
 ❌ **Wrong callback URL**:
-- NOT from Netlify → Must be from Firebase Console
-- NOT a custom URL → Must be the exact URL Firebase shows you
+- Must be from Firebase Console
 - Format should be: `https://studywithjesus.firebaseapp.com/__/auth/handler`
 
 ❌ **Wrong homepage URL**:
-- NOT Netlify URL → Use `https://studywithjesus.github.io`
-- NOT `.github.com` → Should be `.github.io`
+- Use `https://studywithjesus.github.io`
+- Should be `.github.io`
 
 ❌ **Extra spaces or characters**:
 - Copy-paste carefully from Firebase Console
@@ -63,7 +62,7 @@ Authorization callback URL: [GET THIS FROM FIREBASE - see below]
 3. Check browser console (F12) for Firebase errors
 
 ### Get More Help:
-- **Firebase Setup**: See [FIREBASE_GITHUB_AUTH_SETUP.md](FIREBASE_GITHUB_AUTH_SETUP.md)
+- **Firebase Setup**: See [FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md)
 - **Detailed Fix Guide**: See [FIX_REDIRECT_URI_ERROR.md](FIX_REDIRECT_URI_ERROR.md)
 - **Troubleshooting**: See [docs/TROUBLESHOOTING_OAUTH.md](docs/TROUBLESHOOTING_OAUTH.md)
 

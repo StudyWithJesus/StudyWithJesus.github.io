@@ -218,7 +218,7 @@ exports.regenerateLeaderboards = functions.https.onCall(async (data, context) =>
  * Log Fingerprint - HTTP Function
  * 
  * Receives fingerprint data and creates a GitHub issue for tracking.
- * This replaces the Netlify function with equivalent Firebase Cloud Function.
+ * This is a Firebase Cloud Function for logging device fingerprints.
  * 
  * Required Environment Variables (set via Firebase CLI or Console):
  * - GITHUB_TOKEN: Personal access token with 'repo' scope

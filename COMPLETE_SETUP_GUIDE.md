@@ -1,12 +1,37 @@
 # Complete Setup Guide - GitHub Pages with Firebase
 
-This is the **ONLY guide** you need to set up authentication, admin access, fingerprint logging, and leaderboards for your GitHub Pages site.
+> **📚 This guide has been superseded by [FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md)**  
+> Please use the new comprehensive guide which includes all features and step-by-step instructions.
 
-## Prerequisites
+This document remains for reference but the new guide is more complete and up-to-date.
 
-- GitHub account (you already have this)
-- Firebase project created at: https://console.firebase.google.com
-- Site deployed to GitHub Pages at: https://studywithjesus.github.io
+---
+
+## Quick Links
+
+For complete setup instructions, see:
+- **[FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md)** - Complete step-by-step guide for all Firebase features
+- **[GITHUB_OAUTH_QUICK_ANSWER.md](GITHUB_OAUTH_QUICK_ANSWER.md)** - Quick reference for OAuth setup
+- **[README.md](README.md)** - Project overview and getting started
+
+## What's Included in the New Guide
+
+The new [FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md) covers:
+
+1. ✅ Firebase Project Setup
+2. ✅ GitHub Authentication Configuration
+3. ✅ Firestore Database & Leaderboards
+4. ✅ Cloud Functions Deployment
+5. ✅ Fingerprint Logging (Optional)
+6. ✅ Security Rules Configuration
+7. ✅ Testing & Verification
+8. ✅ Comprehensive Troubleshooting
+
+---
+
+## Legacy Content Below
+
+The content below is kept for reference but may be outdated.
 
 ---
 

@@ -298,8 +298,7 @@
       header.appendChild(userInfo);
     }
     
-    // Load GitHub Client ID from config or meta tag
-    // Set via Netlify environment variable injected into HTML
+    // Load GitHub Client ID from config or meta tag (for backward compatibility)
     if (!window.GITHUB_CLIENT_ID) {
       // Try to load from meta tag
       const meta = document.querySelector('meta[name="github-client-id"]');
