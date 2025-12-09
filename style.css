@@ -813,8 +813,18 @@ body.review-mode .question.correct {
 }
 
 .exam-button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
   box-shadow: var(--shadow-glow-strong), var(--shadow-lg);
+  animation: pulse-shadow 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-shadow {
+  0%, 100% {
+    box-shadow: var(--shadow-glow-strong), var(--shadow-lg);
+  }
+  50% {
+    box-shadow: 0 0 25px 5px rgba(var(--color-primary-rgb), 0.6), var(--shadow-xl);
+  }
 }
 
 .exam-button:active {
@@ -957,14 +967,39 @@ body.review-mode .question.correct {
   transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
   box-shadow: var(--shadow-md);
   text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer effect on hover */
+.module-card::before,
+.exam-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--color-primary-rgb), 0.1),
+    transparent
+  );
+  transition: left 0.5s ease-in-out;
 }
 
 .module-card:hover,
 .exam-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.02);
   border-color: rgba(var(--color-primary-rgb), 0.6);
   box-shadow: var(--shadow-xl), var(--shadow-glow);
   text-decoration: none;
+}
+
+.module-card:hover::before,
+.exam-card:hover::before {
+  left: 100%;
 }
 
 .module-card:focus-visible,
@@ -1352,3 +1387,56 @@ body::after {
   border-color: var(--color-success);
 }
 
+
+
+/* ===== Cool Visual Enhancements ===== */
+
+/* Fade-in animation for content on page load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply fade-in to main content sections */
+.module-grid {
+  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+}
+
+.tips-section {
+  animation: fadeInUp 0.6s ease-out 0.3s backwards;
+}
+
+.username-setup-section {
+  animation: fadeInUp 0.6s ease-out 0.1s backwards;
+}
+
+.leaderboard-link-section {
+  animation: fadeInUp 0.6s ease-out 0.05s backwards;
+}
+
+/* Enhanced glow effect for focused inputs */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.2),
+              0 0 20px rgba(var(--color-primary-rgb), 0.3);
+}
+
+/* Smooth transitions for all interactive elements */
+a, button, input, select, textarea {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Improve link hover effects */
+a:not(.module-card):not(.exam-card):hover {
+  filter: brightness(1.2);
+  text-shadow: 0 0 8px rgba(var(--color-primary-rgb), 0.5);
+}
