@@ -88,7 +88,7 @@
    */
   async function getLeaderboard(moduleId, limitNum) {
     if (!await initialize()) {
-      return [];
+      throw new Error('Firebase not initialized - falling back to sample data');
     }
 
     limitNum = limitNum || 10;
@@ -107,7 +107,7 @@
       return await aggregateLeaderboard(moduleId, limitNum);
     } catch (error) {
       console.error('Failed to fetch leaderboard:', error);
-      return [];
+      throw error; // Propagate error to trigger fallback to sample data
     }
   }
 
@@ -475,6 +475,7 @@
   // Export public API
   window.LeaderboardFirebase = {
     initialize: initialize,
+    isInitialized: function() { return initialized; },
     getLeaderboard: getLeaderboard,
     submitAttempt: submitAttempt,
     getUserAttempts: getUserAttempts,
