@@ -68,9 +68,14 @@
   async function fetchLeaderboard(moduleId) {
     const config = getConfig();
     
-    // If Firebase is enabled, use Firebase integration
+    // If Firebase is enabled, try Firebase integration with fallback
     if (config.firebaseEnabled && window.LeaderboardFirebase) {
-      return window.LeaderboardFirebase.getLeaderboard(moduleId, config.topN);
+      try {
+        return await window.LeaderboardFirebase.getLeaderboard(moduleId, config.topN);
+      } catch (error) {
+        console.warn('Firebase fetch failed, falling back to sample data:', error);
+        return fetchSampleData(moduleId);
+      }
     }
     
     // If backend URL is configured, fetch from REST API
@@ -305,12 +310,28 @@
   }
 
   /**
-   * Check if a backend is configured
-   * @returns {boolean} - True if backend is available
+   * Check if a backend is configured and working
+   * @returns {Promise<boolean>} - True if backend is available
    */
-  function isBackendConfigured() {
+  async function isBackendConfigured() {
     const config = getConfig();
-    return !!(config.backendUrl || config.firebaseEnabled);
+    
+    // Check if REST API backend is configured
+    if (config.backendUrl) {
+      return true;
+    }
+    
+    // Check if Firebase is enabled and initialized
+    if (config.firebaseEnabled && window.LeaderboardFirebase) {
+      try {
+        await window.LeaderboardFirebase.initialize();
+        return window.LeaderboardFirebase.isInitialized();
+      } catch (error) {
+        return false;
+      }
+    }
+    
+    return false;
   }
 
   /**
@@ -342,12 +363,19 @@
     
     for (var i = 0; i < Math.min(entries.length, config.topN); i++) {
       var entry = entries[i];
+      
+      // Validate entry has required properties
+      if (!entry || typeof entry.username === 'undefined' || typeof entry.bestScore === 'undefined') {
+        console.warn('Skipping invalid leaderboard entry:', entry);
+        continue;
+      }
+      
       var rankClass = i < 3 ? 'rank-' + (i + 1) : '';
       html += '<tr class="leaderboard-row ' + rankClass + '">';
       html += '<td class="leaderboard-rank">' + (i + 1) + '</td>';
       html += '<td class="leaderboard-name">' + escapeHtml(entry.username) + '</td>';
       html += '<td class="leaderboard-score">' + entry.bestScore + '%</td>';
-      html += '<td class="leaderboard-attempts">' + entry.attemptsCount + '</td>';
+      html += '<td class="leaderboard-attempts">' + (entry.attemptsCount || 0) + '</td>';
       html += '<td class="leaderboard-date">' + formatTimestamp(entry.lastAttempt) + '</td>';
       html += '</tr>';
     }

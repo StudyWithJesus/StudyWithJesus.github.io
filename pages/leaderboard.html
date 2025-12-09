@@ -174,8 +174,8 @@
         }
       }
 
-      function updateBackendStatus() {
-        var isConfigured = Leaderboard.isBackendConfigured();
+      async function updateBackendStatus() {
+        var isConfigured = await Leaderboard.isBackendConfigured();
         if (isConfigured) {
           statusEl.classList.add('status-live');
           statusTextEl.textContent = 'Live data connected';
