@@ -1,6 +1,55 @@
-# Firebase Cloud Functions
+# Functions - Local / Cloud Dev instructions
 
-This directory contains Firebase Cloud Functions for the StudyWithJesus application.
+This directory contains the Firebase Cloud Functions for the StudyWithJesus site. Cloud Functions must use a supported Node runtime. Google Cloud Functions decommissioned Node 18 on 2025-10-30. We set the project to use Node 20.
+
+## Prerequisites
+
+- Use Node 20 in your dev environment. If you use nvm: `nvm install 20 && nvm use 20`.
+- If you're in a devcontainer, ensure the container image uses Node 20 or add `.nvmrc` so the container picks the correct version.
+
+## Install dependencies
+
+Run from the repository root or inside functions:
+
+```bash
+cd functions
+npm run functions:install
+```
+
+**Notes:** `functions:install` will cleanly remove node_modules and package-lock.json then run `npm install` to rebuild native modules for Node 20.
+
+## Firebase deploy steps (interactive)
+
+```bash
+# Authenticate
+firebase login --no-localhost
+
+# Select the project
+firebase use studywithjesus
+
+# Deploy only functions
+firebase deploy --only functions
+```
+
+## Non-interactive deployment (CI)
+
+If you need to run the CLI non-interactively (CI), generate a token with `firebase login:ci` and use:
+
+```bash
+npx firebase-tools deploy --only functions --token "$FIREBASE_TOKEN"
+```
+
+## GitHub Actions / CI
+
+If CI or GitHub Actions are used, update the runner to use Node 20:
+
+```yaml
+- uses: actions/setup-node@v3
+  with:
+    node-version: '20'
+```
+
+---
 
 ## Functions
 
@@ -36,37 +85,25 @@ This directory contains Firebase Cloud Functions for the StudyWithJesus applicat
   - `GITHUB_REPO` (optional): Repository in format `owner/repo` (defaults to `StudyWithJesus/StudyWithJesus.github.io`)
 - **Setup Guide**: See [FIREBASE_FINGERPRINT_SETUP.md](../FIREBASE_FINGERPRINT_SETUP.md)
 
-## Deployment
+## Local Development
 
-### Prerequisites
-
-1. Install Firebase CLI:
-   ```bash
-   npm install -g firebase-tools
-   ```
-
-2. Login to Firebase:
-   ```bash
-   firebase login
-   ```
-
-3. Initialize project (if not already done):
-   ```bash
-   firebase use studywithjesus
-   ```
-
-### Deploy Functions
+### Run Emulators
 
 ```bash
-# Deploy all functions
-firebase deploy --only functions
-
-# Deploy a specific function
-firebase deploy --only functions:updateLeaderboard
-firebase deploy --only functions:logFingerprint
+cd functions
+npm install
+npm run serve
 ```
 
-### Configure Environment Variables
+This starts the Firebase emulators for local testing.
+
+### View Logs
+
+```bash
+firebase functions:log
+```
+
+## Configure Environment Variables
 
 For the `logFingerprint` function:
 
@@ -84,7 +121,7 @@ firebase functions:config:get
 firebase deploy --only functions:logFingerprint
 ```
 
-### Deploy Firestore Rules & Indexes
+## Deploy Firestore Rules & Indexes
 
 ```bash
 # Deploy security rules
@@ -92,24 +129,6 @@ firebase deploy --only firestore:rules
 
 # Deploy indexes
 firebase deploy --only firestore:indexes
-```
-
-## Local Development
-
-### Run Emulators
-
-```bash
-cd functions
-npm install
-npm run serve
-```
-
-This starts the Firebase emulators for local testing.
-
-### View Logs
-
-```bash
-firebase functions:log
 ```
 
 ## Initial Admin Setup
