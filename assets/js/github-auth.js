@@ -139,14 +139,14 @@
       
       if (!clientId) {
         console.error('GitHub OAuth: No client ID configured');
-        alert('Authentication is not configured. Please configure Firebase Authentication with the GitHub provider for GitHub Pages (see FIREBASE_GITHUB_AUTH_SETUP.md).');
+        alert('Authentication is not configured. Please configure Firebase Authentication with the GitHub provider for GitHub Pages. See the FIREBASE_GITHUB_AUTH_SETUP.md file in the repository root.');
         return;
       }
 
       // Firebase failed to initialize but client ID exists
       console.error('GitHub OAuth: Firebase not configured but client ID present');
       console.error('GitHub Pages requires Firebase Authentication - Netlify functions are not available');
-      alert('Firebase is not configured for this site. GitHub Pages cannot use Netlify functions for OAuth. Configure Firebase GitHub auth or deploy to Netlify.');
+      alert('Firebase is not configured for this site. GitHub Pages cannot use Netlify functions for OAuth. Configure Firebase GitHub auth (see FIREBASE_GITHUB_AUTH_SETUP.md in repository) or deploy to Netlify.');
       return;
     },
 

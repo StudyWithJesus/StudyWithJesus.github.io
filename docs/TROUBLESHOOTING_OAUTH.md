@@ -46,9 +46,9 @@ See [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md) for comple
 
 The callback URL in your GitHub OAuth App should be:
 ```
-https://studywithjesus.firebaseapp.com/__/auth/handler
+https://YOUR-PROJECT-ID.firebaseapp.com/__/auth/handler
 ```
-(or your project's Firebase Auth handler URL)
+(Replace YOUR-PROJECT-ID with your Firebase project ID)
 
 **❌ Wrong callback URL?**
 - Using `/.netlify/functions/github-oauth` will NOT work on GitHub Pages
@@ -135,7 +135,8 @@ To see detailed authentication information in browser console:
 ## Testing the Flow Step-by-Step
 
 1. **Visit admin page:**
-   https://studywithjesus.github.io/pages/admin/index.html
+   https://your-username.github.io/pages/admin/index.html
+   (Replace your-username with your GitHub username or organization)
 
 2. **Expected:** See "Sign in with GitHub" button
 

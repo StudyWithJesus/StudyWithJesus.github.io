@@ -131,7 +131,7 @@ https://your-site.com/pages/admin/leaderboard.html
 ## Integration with Fingerprint Logger
 
 The Fingerprint Admin page works in conjunction with:
-- `assets/fingerprint-logger.js` - Logs fingerprints to Firebase Cloud Function
+- `assets/fingerprint-logger.js` - Generates device fingerprints and logs them to Firebase Cloud Function
 - `assets/whitelist-fingerprint.js` - Blocks based on whitelist
 - `functions/index.js` - Firebase Cloud Functions (includes logFingerprint)
 
