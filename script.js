@@ -1423,6 +1423,9 @@ function showUsernameRequiredOverlay(form) {
   let lastGestureTime = 0;
   let patternTimeout = null;
   
+  // Delay to prevent mobile touch events from immediately triggering overlay close
+  const MOBILE_TOUCH_DELAY = 300; // milliseconds
+  
   // Achievement counter
   let konamiTriggerCount = 0;
   try {
@@ -1944,11 +1947,14 @@ function showUsernameRequiredOverlay(form) {
     overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);
     
     // Close on overlay click (outside GIFs)
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) {
-        closeEasterEgg();
-      }
-    });
+    // Add a delay to prevent immediate closure from the final tap on mobile
+    setTimeout(function() {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+          closeEasterEgg();
+        }
+      });
+    }, MOBILE_TOUCH_DELAY);
     
     // Close on Escape key
     document.addEventListener('keydown', function escHandler(e) {
