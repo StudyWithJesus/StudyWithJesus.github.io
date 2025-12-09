@@ -257,11 +257,28 @@ exports.logFingerprint = onRequest({cors: true}, async (req, res) => {
     return;
   }
 
-  // Get client IP
-  const clientIp = req.headers['x-forwarded-for'] || 
-                   req.headers['x-real-ip'] || 
-                   req.ip || 
-                   'unknown';
+  // Get client IP - handle both IPv4 and IPv6
+  let clientIp = req.headers['x-forwarded-for'] || 
+                 req.headers['x-real-ip'] || 
+                 req.ip || 
+                 'unknown';
+  
+  // If x-forwarded-for contains multiple IPs (comma-separated), take the first one
+  if (clientIp.includes(',')) {
+    clientIp = clientIp.split(',')[0].trim();
+  }
+  
+  // Extract IPv4 if available (sometimes both IPv4 and IPv6 are present)
+  const ipv4Match = clientIp.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/);
+  const ipv6Match = clientIp.match(/([0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}/);
+  
+  // Format IP for display
+  const ipInfo = {
+    full: clientIp,
+    ipv4: ipv4Match ? ipv4Match[0] : null,
+    ipv6: ipv6Match ? ipv6Match[0] : null,
+    display: ipv4Match ? ipv4Match[0] : clientIp  // Prefer IPv4 for display
+  };
 
   try {
     // Create GitHub issue
@@ -271,7 +288,9 @@ exports.logFingerprint = onRequest({cors: true}, async (req, res) => {
       success: true,
       issueUrl: issue.html_url,
       issueNumber: issue.number,
-      clientIp: clientIp  // Return IP so client can store it locally
+      clientIp: ipInfo.display,  // Return preferred IP format
+      ipv4: ipInfo.ipv4,
+      ipv6: ipInfo.ipv6
     });
   } catch (error) {
     console.error('Failed to create GitHub issue:', error);

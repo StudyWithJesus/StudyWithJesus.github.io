@@ -44,9 +44,11 @@
    * Store fingerprint log locally for admin dashboard
    * @param {string} fp - Fingerprint hash
    * @param {string} name - Display name
-   * @param {string} ip - IP address from server
+   * @param {string} ip - IP address from server (IPv4 or IPv6)
+   * @param {string} ipv4 - IPv4 address if available
+   * @param {string} ipv6 - IPv6 address if available
    */
-  function storeFingerprintLog(fp, name, ip) {
+  function storeFingerprintLog(fp, name, ip, ipv4, ipv6) {
     try {
       const storageKey = 'fingerprint_logs';
       const logs = JSON.parse(localStorage.getItem(storageKey) || '[]');
@@ -63,9 +65,15 @@
         if (ip && ip !== 'unknown') {
           logs[existingIndex].ip = ip;
         }
+        if (ipv4) {
+          logs[existingIndex].ipv4 = ipv4;
+        }
+        if (ipv6) {
+          logs[existingIndex].ipv6 = ipv6;
+        }
       } else {
         // Add new entry
-        logs.push({
+        const entry = {
           id: Date.now(),
           name: name || 'Guest',
           fingerprint: fp,
@@ -73,7 +81,10 @@
           userAgent: navigator.userAgent || '',
           lastSeen: new Date().toISOString(),
           ip: ip && ip !== 'unknown' ? ip : 'N/A'
-        });
+        };
+        if (ipv4) entry.ipv4 = ipv4;
+        if (ipv6) entry.ipv6 = ipv6;
+        logs.push(entry);
       }
       
       // Keep only last 100 entries
@@ -142,13 +153,15 @@
           throw new Error('Server error');
         })
         .then(function(data) {
-          // Store fingerprint log with IP from server response
+          // Store fingerprint log with IP info from server response
           const serverIp = data.clientIp || 'unknown';
-          storeFingerprintLog(fp, displayName, serverIp);
+          const ipv4 = data.ipv4 || null;
+          const ipv6 = data.ipv6 || null;
+          storeFingerprintLog(fp, displayName, serverIp, ipv4, ipv6);
         })
         .catch(function(err) {
           // Still store the log even if server request fails, just without IP
-          storeFingerprintLog(fp, displayName, 'N/A');
+          storeFingerprintLog(fp, displayName, 'N/A', null, null);
           console.debug('Fingerprint logging failed:', err.message);
         });
 

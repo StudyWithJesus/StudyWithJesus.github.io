@@ -536,7 +536,7 @@
               <div class="name">${escapeHtml(fp.name)}</div>
               <div class="hash">${fp.fingerprint}</div>
               <div class="meta">
-                IP: ${escapeHtml(ipAddress)} • 
+                ${fp.ipv4 ? `IPv4: ${escapeHtml(fp.ipv4)}` : ''}${fp.ipv4 && fp.ipv6 ? ' • ' : ''}${fp.ipv6 ? `IPv6: ${escapeHtml(fp.ipv6)}` : ''}${!fp.ipv4 && !fp.ipv6 ? `IP: ${escapeHtml(ipAddress)}` : ''} • 
                 Last seen: ${new Date(fp.lastSeen).toLocaleString()} • 
                 First seen: ${new Date(fp.timestamp).toLocaleString()}
               </div>
