@@ -2,6 +2,8 @@
 
 Practice exams for Parts Technician Second Period modules (270201, 270202, 270203, 270204). Built as a static GitHub Pages site with exam-style practice questions.
 
+> **📚 Complete Firebase Setup Guide:** See [FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md) for step-by-step instructions to set up all features including authentication, leaderboards, and fingerprint logging.
+
 > **🚨 Getting "redirect_uri" Error?** See [GITHUB_OAUTH_QUICK_ANSWER.md](GITHUB_OAUTH_QUICK_ANSWER.md) for the exact values to use in your GitHub OAuth App settings.
 
 ## Features
@@ -90,7 +92,7 @@ Admin pages are protected by Firebase Authentication with GitHub provider:
 3. Add OAuth credentials to Firebase
 4. Any authenticated GitHub user has admin access (can add whitelist if needed)
 
-See [FIREBASE_GITHUB_AUTH_SETUP.md](FIREBASE_GITHUB_AUTH_SETUP.md) for complete setup guide, or [GITHUB_OAUTH_QUICK_ANSWER.md](GITHUB_OAUTH_QUICK_ANSWER.md) for quick reference.
+See [FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md) for complete setup guide, or [GITHUB_OAUTH_QUICK_ANSWER.md](GITHUB_OAUTH_QUICK_ANSWER.md) for quick reference.
 
 ### Security Considerations
 
@@ -153,11 +155,11 @@ This site is designed for GitHub Pages deployment with Firebase Authentication.
 5. Add OAuth credentials to Firebase
 6. Visit `https://studywithjesus.github.io`
 
-**Firebase Setup:** See [FIREBASE_GITHUB_AUTH_SETUP.md](FIREBASE_GITHUB_AUTH_SETUP.md) for complete instructions.
+**Firebase Setup:** See [FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md) for complete instructions.
 
 ### Other Static Hosting
 
-This site works on any static hosting platform (Netlify, Vercel, etc.) with Firebase Authentication:
+This site works on any static hosting platform (Vercel, etc.) with Firebase Authentication:
 - No build step required
 - No serverless functions needed
 - Firebase handles all authentication

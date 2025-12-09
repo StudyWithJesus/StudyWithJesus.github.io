@@ -35,7 +35,7 @@
 
       // Check if Firebase is configured
       if (!window.FIREBASE_CONFIG) {
-        console.warn('Firebase not configured - falling back to Netlify OAuth if available');
+        console.warn('Firebase not configured');
         return false;
       }
 
@@ -85,12 +85,8 @@
         };
       }
 
-      // Fallback to legacy session token (for Netlify deployments)
-      const token = this.getSessionToken();
-      if (!token) {
-        return null;
-      }
-      return this.decodeSession(token);
+      // No Firebase user found
+      return null;
     },
 
     /**
@@ -134,19 +130,9 @@
         }
       }
 
-      // Firebase initialization failed - cannot authenticate on GitHub Pages
-      const clientId = this.getClientId();
-      
-      if (!clientId) {
-        console.error('GitHub OAuth: No client ID configured');
-        alert('Authentication is not configured. Please configure Firebase Authentication with the GitHub provider for GitHub Pages. See the FIREBASE_GITHUB_AUTH_SETUP.md file in the repository root.');
-        return;
-      }
-
-      // Firebase failed to initialize but client ID exists
-      console.error('GitHub OAuth: Firebase not configured but client ID present');
-      console.error('GitHub Pages requires Firebase Authentication - Netlify functions are not available');
-      alert('Firebase is not configured for this site. GitHub Pages cannot use Netlify functions for OAuth. Configure Firebase GitHub auth (see FIREBASE_GITHUB_AUTH_SETUP.md in repository) or deploy to Netlify.');
+      // Firebase initialization failed - cannot authenticate
+      console.error('GitHub OAuth: Firebase not configured');
+      alert('Authentication is not configured. Please configure Firebase Authentication with the GitHub provider. See the FIREBASE_SETUP_GUIDE.md file in the repository root.');
       return;
     },
 
@@ -164,11 +150,6 @@
           console.error('Firebase sign out failed:', error);
         }
       }
-
-      // Clear legacy session tokens
-      sessionStorage.removeItem('github_auth_session');
-      sessionStorage.removeItem('github_oauth_state');
-      document.cookie = 'admin_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       
       // Redirect to home
       window.location.href = '/';
@@ -232,55 +213,7 @@
       }
     },
 
-    // Legacy methods for backward compatibility with Netlify OAuth
-    getClientId: function() {
-      return window.GITHUB_CLIENT_ID || '';
-    },
 
-    getSessionToken: function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlToken = urlParams.get('session');
-      if (urlToken) {
-        sessionStorage.setItem('github_auth_session', urlToken);
-        window.history.replaceState({}, document.title, window.location.pathname);
-        return urlToken;
-      }
-
-      const storedToken = sessionStorage.getItem('github_auth_session');
-      if (storedToken) {
-        return storedToken;
-      }
-
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.startsWith('admin_session=')) {
-          const token = cookie.substring('admin_session='.length);
-          sessionStorage.setItem('github_auth_session', token);
-          return token;
-        }
-      }
-
-      return null;
-    },
-
-    decodeSession: function(token) {
-      try {
-        const decoded = JSON.parse(atob(token));
-        if (decoded.expiresAt && decoded.expiresAt < Date.now()) {
-          return null;
-        }
-        return {
-          username: decoded.username,
-          name: decoded.name,
-          avatar: decoded.avatar,
-          timestamp: decoded.timestamp
-        };
-      } catch (err) {
-        console.error('Failed to decode session token:', err);
-        return null;
-      }
-    }
   };
 
   // Expose to global scope

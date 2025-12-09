@@ -2,16 +2,16 @@
 
 > **🚀 Quick Setup:** For exact copy-paste values to use in your GitHub OAuth App, see [GITHUB_OAUTH_QUICK_ANSWER.md](../GITHUB_OAUTH_QUICK_ANSWER.md)
 
-This guide explains how to set up GitHub authentication for the admin pages using Firebase Authentication, which works on both GitHub Pages and Netlify deployments.
+This guide explains how to set up GitHub authentication for the admin pages using Firebase Authentication, which works on GitHub Pages and any static hosting platform.
 
 ## Overview
 
-The admin pages now use **Firebase Authentication with GitHub provider** instead of relying solely on Netlify serverless functions. This allows the site to work properly on GitHub Pages (https://studywithjesus.github.io) where serverless functions are not available.
+The admin pages use **Firebase Authentication with GitHub provider** for secure authentication. This works on GitHub Pages (https://studywithjesus.github.io) and any static hosting platform without requiring serverless functions.
 
 ## What Changed
 
 ### Authentication Flow
-- **Before**: Used Netlify OAuth functions (`.netlify/functions/github-oauth`) which only work on Netlify
+- **Before**: Required custom backend authentication solutions
 - **After**: Uses Firebase Authentication with GitHub provider, which works on any static hosting including GitHub Pages
 
 ### Admin Access
@@ -74,7 +74,7 @@ The admin pages now use **Firebase Authentication with GitHub provider** instead
 1. In Firebase Console, go to **Authentication** → **Settings** → **Authorized domains**
 2. Make sure these domains are authorized:
    - `studywithjesus.github.io` (for GitHub Pages)
-   - Your Netlify domain (if using Netlify)
+   - Any other custom domain you use
    - `localhost` (for local testing)
 
 ## Testing the Setup
@@ -158,17 +158,12 @@ service cloud.firestore {
 }
 ```
 
-## Fallback Support
+## Authentication Support
 
-The authentication system has fallback support for Netlify deployments:
-
-1. First, it tries to use Firebase Authentication (works everywhere)
-2. If Firebase is not configured, it falls back to Netlify OAuth functions (only works on Netlify)
-
-This means the site will work on:
-- ✅ GitHub Pages (using Firebase Auth)
-- ✅ Netlify (using Firebase Auth or Netlify functions)
-- ✅ Any static hosting (using Firebase Auth)
+The authentication system uses Firebase Authentication exclusively, which works on:
+- ✅ GitHub Pages
+- ✅ Any static hosting platform (Vercel, Cloudflare Pages, etc.)
+- ✅ Custom domains with HTTPS
 
 ## Benefits of This Approach
 
