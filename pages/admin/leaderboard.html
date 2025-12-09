@@ -18,6 +18,35 @@
   <script src="../../assets/js/leaderboard-firebase.js"></script>
   
   <script src="../../assets/js/leaderboard.js"></script>
+  <style>
+    /* Admin back button styling to match Admin Hub */
+    .admin-wrapper > .back-link {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      margin-bottom: 0;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .admin-wrapper > .back-link a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      transition: background 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .admin-wrapper > .back-link a:hover {
+      background: rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+  </style>
 </head>
 <body>
   <!-- Skip to main content link for accessibility -->
@@ -37,7 +66,7 @@
   <main id="main-content" class="admin-wrapper">
     <!-- Back link -->
     <div class="back-link">
-      <a href="index.html">← Back to Admin Hub</a> | 
+      <a href="index.html">← Back to Admin Hub</a>
       <a href="../../index.html">← Back to Main Site</a>
     </div>
 
