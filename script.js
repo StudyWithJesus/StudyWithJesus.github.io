@@ -1944,11 +1944,14 @@ function showUsernameRequiredOverlay(form) {
     overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);
     
     // Close on overlay click (outside GIFs)
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) {
-        closeEasterEgg();
-      }
-    });
+    // Add a delay to prevent immediate closure from the final tap on mobile
+    setTimeout(function() {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+          closeEasterEgg();
+        }
+      });
+    }, 300);
     
     // Close on Escape key
     document.addEventListener('keydown', function escHandler(e) {
