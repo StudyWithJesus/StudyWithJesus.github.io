@@ -44,13 +44,13 @@
     try {
       // Dynamically import Firebase modules
       const { initializeApp, getApps, getApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
-      const { getFirestore, collection, doc, getDoc, getDocs, addDoc, query, where, orderBy, limit, startAfter, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js');
+      const { getFirestore, collection, doc, getDoc, getDocs, addDoc, deleteDoc, query, where, orderBy, limit, startAfter, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js');
       const { getAuth, signInWithEmailAndPassword, signOut: firebaseSignOut, onAuthStateChanged: firebaseOnAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js');
       const { getAnalytics } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js');
 
       // Store module references for later use
       firebaseModules = {
-        collection, doc, getDoc, getDocs, addDoc, query, where, orderBy, limit, startAfter, serverTimestamp,
+        collection, doc, getDoc, getDocs, addDoc, deleteDoc, query, where, orderBy, limit, startAfter, serverTimestamp,
         signInWithEmailAndPassword, firebaseSignOut, firebaseOnAuthStateChanged
       };
 
@@ -472,6 +472,65 @@
     }
   }
 
+  /**
+   * Delete a specific attempt (admin only)
+   * @param {string} username - Username of the attempt
+   * @param {string} moduleId - Module ID
+   * @param {string} examId - Exam ID
+   * @param {string} timestamp - ISO timestamp
+   * @returns {Promise<boolean>} - Success status
+   */
+  async function deleteAttempt(username, moduleId, examId, timestamp) {
+    if (!await initialize()) {
+      return false;
+    }
+
+    if (!await isAdmin()) {
+      console.error('Admin access required to delete attempts');
+      return false;
+    }
+
+    const { collection, query, where, getDocs, deleteDoc, doc } = firebaseModules;
+
+    try {
+      // Find the attempt document that matches all criteria
+      var attemptsQuery = query(
+        collection(db, 'attempts'),
+        where('username', '==', username),
+        where('moduleId', '==', moduleId),
+        where('examId', '==', examId),
+        where('timestamp', '==', timestamp)
+      );
+      
+      var snapshot = await getDocs(attemptsQuery);
+      
+      if (snapshot.empty) {
+        console.warn('No matching attempt found to delete');
+        return false;
+      }
+      
+      // Warn if multiple documents match (shouldn't happen normally)
+      if (snapshot.size > 1) {
+        console.warn('Multiple attempts match deletion criteria. Deleting all ' + snapshot.size + ' matching records.');
+      }
+
+      // Delete all matching documents (should typically be just one)
+      var deletePromises = [];
+      snapshot.forEach(function(docSnap) {
+        console.log('Deleting attempt document:', docSnap.id);
+        deletePromises.push(deleteDoc(doc(db, 'attempts', docSnap.id)));
+      });
+      
+      await Promise.all(deletePromises);
+      
+      console.log('Successfully deleted attempt(s):', { username, moduleId, examId, timestamp });
+      return true;
+    } catch (error) {
+      console.error('Failed to delete attempt:', error);
+      return false;
+    }
+  }
+
   // Export public API
   window.LeaderboardFirebase = {
     initialize: initialize,
@@ -485,7 +544,8 @@
     getCurrentUser: getCurrentUser,
     onAuthStateChanged: onAuthStateChanged,
     getAdminUserStats: getAdminUserStats,
-    getAdminAttemptHistory: getAdminAttemptHistory
+    getAdminAttemptHistory: getAdminAttemptHistory,
+    deleteAttempt: deleteAttempt
   };
 
 })();
