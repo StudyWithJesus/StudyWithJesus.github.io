@@ -54,9 +54,10 @@
         firebaseAuth = getAuth();
         
         // Create a promise that resolves when initial auth state is known
-        // Only set up the listener once
+        // Only set up the listener once to prevent multiple concurrent listeners
         // Note: authStateUnsubscribe is stored but not called - the auth listener
-        // should remain active for the application lifetime to track sign-in/sign-out events
+        // should remain active for the application lifetime to track sign-in/sign-out events.
+        // The check `if (!authStateReady)` ensures we never create duplicate listeners.
         if (!authStateReady) {
           authStateReady = new Promise((resolve) => {
             // Listen for auth state changes
@@ -69,7 +70,7 @@
               }
               // Resolve the promise on first auth state change (initial state is known)
               resolve(user);
-              // Note: We keep listening for future auth state changes, we just resolve once
+              // The listener continues to run after resolve() to track future auth changes
             });
           });
         }
