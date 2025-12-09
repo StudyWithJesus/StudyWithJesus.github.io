@@ -1236,20 +1236,25 @@ function showUsernameRequiredOverlay(form) {
     const touchEndY = e.changedTouches[0].clientY;
     const deltaX = touchEndX - touchStartX;
     const deltaY = touchEndY - touchStartY;
-    const minSwipeDistance = 50;
+    const minSwipeDistance = 30; // Reduced from 50 for easier detection
+    const tapThreshold = 15; // Reduced from 25 for more sensitive tap detection
     
     let gesture = null;
     
     // Determine if it's a swipe or tap
-    if (Math.abs(deltaX) < 25 && Math.abs(deltaY) < 25) {
+    if (Math.abs(deltaX) < tapThreshold && Math.abs(deltaY) < tapThreshold) {
       // It's a tap
       gesture = 'tap';
     } else if (Math.abs(deltaX) > Math.abs(deltaY)) {
       // Horizontal swipe
-      gesture = deltaX > minSwipeDistance ? 'right' : (deltaX < -minSwipeDistance ? 'left' : null);
+      if (Math.abs(deltaX) > minSwipeDistance) {
+        gesture = deltaX > 0 ? 'right' : 'left';
+      }
     } else {
       // Vertical swipe
-      gesture = deltaY > minSwipeDistance ? 'down' : (deltaY < -minSwipeDistance ? 'up' : null);
+      if (Math.abs(deltaY) > minSwipeDistance) {
+        gesture = deltaY > 0 ? 'down' : 'up';
+      }
     }
     
     if (gesture) {
@@ -1259,16 +1264,22 @@ function showUsernameRequiredOverlay(form) {
       if (patternTimeout) clearTimeout(patternTimeout);
       patternTimeout = setTimeout(function() {
         mobilePattern = [];
-      }, 4000); // Reset after 4 seconds of inactivity
+      }, 5000); // Increased from 4000 to give more time
       
+      // Check if gesture matches the next expected one
       if (gesture === mobileSequence[mobilePattern.length]) {
         mobilePattern.push(gesture);
+        
+        // Optional: Add visual/audio feedback for progress (uncomment to debug)
+        // console.log('Konami progress:', mobilePattern.length + '/' + mobileSequence.length, gesture);
+        
         if (mobilePattern.length === mobileSequence.length) {
           mobilePattern = [];
           if (patternTimeout) clearTimeout(patternTimeout);
           triggerEasterEgg();
         }
       } else {
+        // Reset pattern, but allow starting fresh
         mobilePattern = [];
         // Check if this gesture starts the sequence
         if (gesture === mobileSequence[0]) {
@@ -1288,7 +1299,7 @@ function showUsernameRequiredOverlay(form) {
   }
   
   function triggerEasterEgg() {
-    // Create overlay for Jesus memes with center image
+    // Create overlay for Team America GIFs with center image
     const overlay = document.createElement('div');
     overlay.id = 'konami-overlay';
     overlay.innerHTML = `
@@ -1296,7 +1307,7 @@ function showUsernameRequiredOverlay(form) {
         <img src="${getBasePath()}bftb.png" alt="Easter Egg" class="konami-center-image">
         <button class="konami-close" aria-label="Close">&times;</button>
       </div>
-      <div class="jesus-memes-container"></div>
+      <div class="america-gifs-container"></div>
     `;
     
     // Add styles
@@ -1344,7 +1355,7 @@ function showUsernameRequiredOverlay(form) {
         to { transform: scale(1); opacity: 1; }
       }
       
-      .jesus-memes-container {
+      .america-gifs-container {
         position: fixed;
         top: 0;
         left: 0;
@@ -1355,14 +1366,14 @@ function showUsernameRequiredOverlay(form) {
         overflow: hidden;
       }
       
-      .jesus-meme {
+      .america-gif {
         position: absolute;
         animation: flyAcross linear infinite;
         filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
         z-index: 9999;
       }
       
-      .jesus-meme img {
+      .america-gif img {
         width: auto;
         height: auto;
         max-width: 150px;
@@ -1410,7 +1421,7 @@ function showUsernameRequiredOverlay(form) {
           max-height: 60vh;
         }
         
-        .jesus-meme img {
+        .america-gif img {
           max-width: 100px;
           max-height: 100px;
         }
@@ -1428,43 +1439,43 @@ function showUsernameRequiredOverlay(form) {
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     
-    // Jesus meme images - using external URLs with fallback handling
-    const jesusMemes = [
-      'https://i.imgflip.com/1jenson.jpg', // Buddy Christ
-      'https://i.imgflip.com/1h7in3.jpg', // Jesus Facepalm
-      'https://i.imgflip.com/9vct.jpg', // Laughing Jesus
-      'https://i.imgflip.com/28j0te.jpg', // Jesus with Gun
-      'https://i.imgflip.com/3si4.jpg', // Jesus Blessing Meme
-      'https://i.imgflip.com/1otk96.jpg', // Smiling Jesus
-      'https://i.imgflip.com/8k0sa.jpg', // Cool Jesus
-      'https://i.imgflip.com/1b5opc.jpg' // Jesus Approves
+    // Team America: World Police GIFs - using external URLs with fallback handling
+    const americaGifs = [
+      'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2w4ZGt5aGQ2YzB5MmF5NmE2YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5YzF5/3o7TKDMvVn8bW0lv9e/giphy.gif', // Team America
+      'https://media.giphy.com/media/YJ5OlVLZ2QNl6/giphy.gif', // America F Yeah
+      'https://media.giphy.com/media/l0HlCBdbv6wTNxKvu/giphy.gif', // Team America Flag
+      'https://media.giphy.com/media/3oEjHKvjqt5pssL99C/giphy.gif', // Team America Puppet
+      'https://media.giphy.com/media/l0HlEjnJQqKEWq6Hu/giphy.gif', // Team America Attack
+      'https://media.giphy.com/media/3o6Zt7y2O1r7qW4Pu0/giphy.gif', // Team America Action
+      'https://media.giphy.com/media/xT0GqtHaCvCzFmz0D6/giphy.gif', // Team America Fighter
+      'https://media.giphy.com/media/l0HlK4u4zLK1L4K9q/giphy.gif' // Team America Explosion
     ];
     
-    const memesContainer = overlay.querySelector('.jesus-memes-container');
-    let memeInterval;
-    let activeMemeCount = 0;
-    const maxConcurrentMemes = 20;
+    const gifsContainer = overlay.querySelector('.america-gifs-container');
+    let gifInterval;
+    let activeGifCount = 0;
+    const maxConcurrentGifs = 20;
     
-    function createFlyingMeme() {
-      // Limit concurrent memes to prevent performance issues
-      if (activeMemeCount >= maxConcurrentMemes) return;
+    function createFlyingGif() {
+      // Limit concurrent GIFs to prevent performance issues
+      if (activeGifCount >= maxConcurrentGifs) return;
       
-      activeMemeCount++;
-      const meme = document.createElement('div');
-      meme.className = 'jesus-meme';
+      activeGifCount++;
+      const gif = document.createElement('div');
+      gif.className = 'america-gif';
       
       const img = document.createElement('img');
       const size = 80 + Math.floor(Math.random() * 100); // 80-180px
-      img.src = jesusMemes[Math.floor(Math.random() * jesusMemes.length)];
-      img.alt = 'Jesus Meme';
+      img.src = americaGifs[Math.floor(Math.random() * americaGifs.length)];
+      img.alt = 'Team America GIF';
       img.style.width = size + 'px';
       img.style.height = 'auto';
       // Handle failed image loads gracefully
       img.onerror = function() {
-        meme.remove();
-        activeMemeCount--;
+        gif.remove();
+        activeGifCount--;
       };
-      meme.appendChild(img);
+      gif.appendChild(img);
       
       // Random starting position (from edges)
       const edge = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
@@ -1504,34 +1515,34 @@ function showUsernameRequiredOverlay(form) {
       const scale = 0.5 + Math.random() * 1.5; // 0.5-2x size
       const rotation = Math.random() * 360;
       
-      meme.style.setProperty('--startX', startX + 'px');
-      meme.style.setProperty('--startY', startY + 'px');
-      meme.style.setProperty('--endX', endX + 'px');
-      meme.style.setProperty('--endY', endY + 'px');
-      meme.style.setProperty('--scale', scale);
-      meme.style.setProperty('--rotation', rotation + 'deg');
-      meme.style.animationDuration = duration + 's';
+      gif.style.setProperty('--startX', startX + 'px');
+      gif.style.setProperty('--startY', startY + 'px');
+      gif.style.setProperty('--endX', endX + 'px');
+      gif.style.setProperty('--endY', endY + 'px');
+      gif.style.setProperty('--scale', scale);
+      gif.style.setProperty('--rotation', rotation + 'deg');
+      gif.style.animationDuration = duration + 's';
       
-      memesContainer.appendChild(meme);
+      gifsContainer.appendChild(gif);
       
-      // Remove meme after animation and decrement counter
+      // Remove GIF after animation and decrement counter
       setTimeout(() => {
-        meme.remove();
-        activeMemeCount--;
+        gif.remove();
+        activeGifCount--;
       }, duration * 1000);
     }
     
-    // Spawn initial burst of memes
+    // Spawn initial burst of GIFs
     for (let i = 0; i < 10; i++) {
-      setTimeout(() => createFlyingMeme(), i * 150);
+      setTimeout(() => createFlyingGif(), i * 150);
     }
-    // Continue spawning memes at a reasonable interval
-    memeInterval = setInterval(createFlyingMeme, 350);
+    // Continue spawning GIFs at a reasonable interval
+    gifInterval = setInterval(createFlyingGif, 350);
     
     // Close on button click
     overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);
     
-    // Close on overlay click (outside memes)
+    // Close on overlay click (outside GIFs)
     overlay.addEventListener('click', function(e) {
       if (e.target === overlay) {
         closeEasterEgg();
@@ -1547,10 +1558,10 @@ function showUsernameRequiredOverlay(form) {
     });
     
     function closeEasterEgg() {
-      // Stop spawning memes
-      if (memeInterval) {
-        clearInterval(memeInterval);
-        memeInterval = null;
+      // Stop spawning GIFs
+      if (gifInterval) {
+        clearInterval(gifInterval);
+        gifInterval = null;
       }
       overlay.style.animation = 'konamiFadeIn 0.3s ease-out reverse';
       setTimeout(function() {
