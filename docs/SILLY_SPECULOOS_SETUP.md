@@ -1,53 +1,32 @@
 # Setup Guide for silly-speculoos-4afae0.netlify.app
 
-Complete setup instructions for the silly-speculoos-4afae0 Netlify site.
+> **⚠️ DEPRECATION NOTICE:** This Netlify-specific setup guide is deprecated. The project now uses Firebase Authentication for GitHub Pages.
+>
+> **For GitHub Pages**: Use [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md) instead.
+>
+> This guide is kept for reference only for existing Netlify deployments.
 
-## Site Information
+---
+
+## Legacy Netlify Site Information
 
 - **Site Name**: silly-speculoos-4afae0
 - **Site URL**: https://silly-speculoos-4afae0.netlify.app
 - **Admin URL**: https://silly-speculoos-4afae0.netlify.app/pages/admin/index.html
 - **Netlify Dashboard**: https://app.netlify.com/sites/silly-speculoos-4afae0
 
-## Quick Setup Checklist
+## Recommended Migration Path
 
-- [ ] GitHub OAuth App created and configured
-- [ ] Netlify environment variables set
-- [ ] Netlify OAuth configured (optional)
-- [ ] Site deployed and tested
-- [ ] Admin access verified
+Instead of using Netlify OAuth, migrate to Firebase Authentication:
 
----
+1. Follow [FIREBASE_GITHUB_AUTH_SETUP.md](../FIREBASE_GITHUB_AUTH_SETUP.md)
+2. Firebase works on both Netlify and GitHub Pages
+3. Better security and user experience
+4. No serverless functions required
 
-## Step 1: Create GitHub OAuth App
+## Legacy Setup (Not Recommended)
 
-This is required for admin authentication.
-
-1. **Go to GitHub OAuth Apps**
-   - Visit: https://github.com/settings/developers
-   - Click "OAuth Apps" → "New OAuth App"
-
-2. **Configure the OAuth App**
-   ```
-   Application name: StudyWithJesus Admin (silly-speculoos)
-   Homepage URL: https://silly-speculoos-4afae0.netlify.app
-   Application description: Admin authentication for StudyWithJesus
-   Authorization callback URL: https://silly-speculoos-4afae0.netlify.app/.netlify/functions/github-oauth
-   ```
-
-3. **Save the Credentials**
-   - After creating, copy the **Client ID** (starts with `Iv1.` or `Ov`)
-   - Click "Generate a new client secret"
-   - **Copy the Client Secret immediately** (you won't see it again!)
-   - Keep both in a secure location
-
----
-
-## Step 2: Configure Netlify Environment Variables
-
-Environment variables are required for OAuth and fingerprint logging to work.
-
-1. **Go to Environment Variables**
+If you must continue using Netlify OAuth:
    - Visit: https://app.netlify.com/sites/silly-speculoos-4afae0/configuration/env
    - Or: Netlify Dashboard → Site configuration → Environment variables
 

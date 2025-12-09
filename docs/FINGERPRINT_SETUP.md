@@ -1,10 +1,18 @@
 # Fingerprint Logger Setup Guide
 
-This guide explains how to set up and use the fingerprint logging and whitelist blocking features.
+This guide explains how to set up and use the Firebase-based fingerprint logging and whitelist blocking features.
 
 ## Overview
 
-The fingerprint logger captures unique device fingerprints from visitors and logs them to GitHub issues. The optional whitelist blocker can restrict access to only approved fingerprints. An admin dashboard allows you to manage blocked fingerprints with toggle switches.
+The fingerprint logger captures unique device fingerprints from visitors and logs them to Firebase via Cloud Functions. The optional whitelist blocker can restrict access to only approved fingerprints. An admin dashboard allows you to manage blocked fingerprints with toggle switches.
+
+## Current Implementation
+
+**Firebase-Based Architecture:**
+- ✅ Client-side fingerprint generation (`assets/fingerprint-logger.js`)
+- ✅ Firebase Cloud Function endpoint for logging
+- ✅ Local storage for admin dashboard
+- ✅ Works on GitHub Pages and any static hosting
 
 ## Admin Dashboard
 
@@ -12,22 +20,97 @@ The fingerprint logger captures unique device fingerprints from visitors and log
 
 The admin hub provides centralized access to:
 - **Fingerprint Admin** (`/pages/admin/fingerprint-admin.html`) - Toggle fingerprint blocking
-- **Leaderboard Admin** (`/pages/admin/leaderboard.html`) - View user statistics
+- **Leaderboard Admin** (`/pages/admin/leaderboard.html`) - View user statistics (Firebase-based)
 
 **Quick Access:**
 Bookmark the admin hub for easy access to all administrative features. See `pages/admin/README.md` for detailed documentation.
 
-## Files Added
+## Files
 
-- `assets/fingerprint-logger.js` - Generates SHA-256 fingerprint and sends to serverless endpoint
+- `assets/fingerprint-logger.js` - Generates SHA-256 fingerprint and sends to Firebase Cloud Function
 - `assets/whitelist-fingerprint.js` - Optional blocker that restricts access to whitelisted fingerprints
-- `netlify/functions/log-fingerprint.js` - Serverless function that creates GitHub issues
 - `_includes/fingerprint-scripts.html` - Documentation and include template
-- `netlify.toml` - Netlify configuration
 - `pages/admin/index.html` - Admin hub with links to all admin pages
 - `pages/admin/fingerprint-admin.html` - Fingerprint management dashboard with toggle controls
+- `functions/index.js` - Firebase Cloud Functions (includes logFingerprint function)
 
-## Deployment on Netlify
+## Firebase Setup
+
+### Step 1: Deploy Firebase Cloud Function
+
+The fingerprint logger sends data to a Firebase Cloud Function. You need to deploy this function:
+
+1. **Install Firebase CLI** (if not already installed):
+   ```bash
+   npm install -g firebase-tools
+   ```
+
+2. **Navigate to functions directory**:
+   ```bash
+   cd functions
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+4. **Deploy the function**:
+   ```bash
+   firebase deploy --only functions:logFingerprint
+   ```
+
+5. **Note the function URL** after deployment:
+   ```
+   https://us-central1-studywithjesus.cloudfunctions.net/logFingerprint
+   ```
+
+### Step 2: Configure Function Endpoint
+
+The endpoint is configured in `assets/fingerprint-logger.js`:
+
+```javascript
+const endpoint = 'https://us-central1-studywithjesus.cloudfunctions.net/logFingerprint';
+```
+
+If you're using Firebase Hosting rewrites, you can use a cleaner URL:
+```javascript
+const endpoint = '/api/logFingerprint';
+```
+
+And add this to your `firebase.json`:
+```json
+{
+  "hosting": {
+    "rewrites": [
+      {
+        "source": "/api/logFingerprint",
+        "function": "logFingerprint"
+      }
+    ]
+  }
+}
+```
+
+### Step 3: Set Up Firestore (Optional)
+
+If your Cloud Function stores fingerprints in Firestore:
+
+1. Enable Firestore in Firebase Console
+2. Set up security rules to allow function writes:
+   ```javascript
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /fingerprints/{fingerprintId} {
+         allow write: if request.auth != null; // Or configure for Cloud Functions
+         allow read: if request.auth != null;
+       }
+     }
+   }
+   ```
+
+## Using the Whitelist Blocker (Optional)
 
 ### Step 1: Set Environment Variables
 
