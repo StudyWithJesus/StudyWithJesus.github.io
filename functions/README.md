@@ -6,6 +6,64 @@ This directory contains the Firebase Cloud Functions for the StudyWithJesus site
 
 - Use Node 20 in your dev environment. If you use nvm: `nvm install 20 && nvm use 20`.
 - If you're in a devcontainer, ensure the container image uses Node 20 or add `.nvmrc` so the container picks the correct version.
+- Firebase Blaze (pay-as-you-go) plan for Cloud Functions (2M invocations/month free)
+- GitHub Personal Access Token with `repo` scope (for IP logging)
+
+## Quick Reference: Configure Live Leaderboards & IP Logging
+
+### 1. Install and Authenticate
+```bash
+# Use Node 20
+nvm use 20
+
+# Install dependencies
+cd functions
+npm run functions:install
+
+# Login to Firebase
+firebase login --no-localhost
+
+# Select project
+firebase use studywithjesus
+```
+
+### 2. Configure IP Logging (logFingerprint function)
+```bash
+# Set GitHub token for fingerprint logging
+firebase functions:config:set github.token="ghp_YOUR_TOKEN_HERE"
+
+# Optional: Set repository (defaults to StudyWithJesus/StudyWithJesus.github.io)
+firebase functions:config:set github.repo="StudyWithJesus/StudyWithJesus.github.io"
+
+# View current config
+firebase functions:config:get
+```
+
+**Get GitHub Token**: Go to https://github.com/settings/tokens → Generate new token (classic) → Select `repo` scope
+
+### 3. Deploy All Functions
+```bash
+# Deploy all functions (leaderboard + fingerprint logging)
+firebase deploy --only functions
+
+# Or deploy individually:
+firebase deploy --only functions:updateLeaderboard
+firebase deploy --only functions:logFingerprint
+```
+
+### 4. Verify Deployment
+After deployment, you'll see function URLs like:
+```
+Function URL (logFingerprint): https://us-central1-studywithjesus.cloudfunctions.net/logFingerprint
+```
+
+**Test leaderboards**: Submit a test attempt through the site, check Firestore `leaderboard` collection.
+
+**Test IP logging**: Visit the site, check GitHub issues for new fingerprint entries.
+
+For detailed setup instructions, see [FIREBASE_FINGERPRINT_SETUP.md](../FIREBASE_FINGERPRINT_SETUP.md).
+
+---
 
 ## Install dependencies
 
