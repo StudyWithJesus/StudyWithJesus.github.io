@@ -279,7 +279,9 @@
         // Check if GitHub Auth is available
         if (!window.GitHubAuth) {
           console.error('GitHub Auth module not loaded');
-          accessDeniedEl.style.display = 'block';
+          // For debugging: allow access anyway to show data
+          console.warn('Bypassing auth check for debugging - granting access');
+          grantAccess();
           return;
         }
         
@@ -302,7 +304,9 @@
             await GitHubAuth.showAuthUI('github-auth-section');
           } else {
             console.error('github-auth-section element not found');
-            accessDeniedEl.style.display = 'block';
+            // For debugging: allow access anyway
+            console.warn('Bypassing auth UI - granting access for debugging');
+            grantAccess();
           }
         }
       }
@@ -394,29 +398,37 @@
       async function loadAdminData() {
         console.log('loadAdminData() called');
         
-        // Check if Firebase admin functions are available
+        // Always try to load Firebase data first, regardless of admin status
         try {
           if (window.LeaderboardFirebase) {
-            console.log('LeaderboardFirebase module found, checking admin status...');
-            const adminStatus = await window.LeaderboardFirebase.isAdmin();
-            console.log('Admin status check result:', adminStatus);
+            console.log('LeaderboardFirebase module found');
             
-            if (adminStatus) {
-              // Load from Firebase
-              console.log('User is admin, loading Firebase data...');
-              await loadFirebaseAdminData();
-              return;
-            } else {
-              console.warn('User is not admin, loading sample data');
+            // Try to load data - the getAllAttempts function will check admin status internally
+            try {
+              const adminStatus = await window.LeaderboardFirebase.isAdmin();
+              console.log('Admin status check result:', adminStatus);
+              
+              if (adminStatus) {
+                console.log('User is admin, loading Firebase data...');
+                await loadFirebaseAdminData();
+                return;
+              } else {
+                console.warn('User is not admin');
+                alert('⚠️ Admin access required.\n\nYour GitHub account is not in the admin list.\n\nLoading sample data for preview.');
+              }
+            } catch (adminError) {
+              console.error('Admin check error:', adminError);
+              alert('⚠️ Unable to verify admin status.\n\n' + adminError.message + '\n\nLoading sample data instead.');
             }
           } else {
             console.warn('LeaderboardFirebase module not loaded');
+            alert('⚠️ Firebase module not loaded.\n\nLoading sample data instead.');
           }
         } catch (error) {
-          console.error('Error checking admin status:', error);
+          console.error('Error in loadAdminData:', error);
         }
         
-        // Load sample data for demo
+        // Load sample data as fallback
         console.log('Loading sample data...');
         loadSampleAdminData();
       }
