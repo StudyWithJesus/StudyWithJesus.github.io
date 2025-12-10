@@ -1215,6 +1215,12 @@ function initUsernameSetup() {
   // Only run on pages with the username setup section
   if (!setupSection || !setupForm) return;
   
+  // Ensure currentDisplay exists
+  if (!currentDisplay) {
+    console.error('username-current-display element not found');
+    return;
+  }
+  
   // Set username in localStorage
   function setUsername(name) {
     try {
@@ -1230,6 +1236,7 @@ function initUsernameSetup() {
   // Update the display of the current username
   function updateDisplay() {
     const current = getStoredUsername();
+    console.log('Updating username display. Current username:', current);
     if (current) {
       currentDisplay.innerHTML = 'Your name: <strong class="username-highlight">' + escapeHtml(current) + '</strong> <button type="button" id="change-name-btn" class="change-name-link">(change)</button>';
       usernameInput.placeholder = 'Change your display name';
