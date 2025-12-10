@@ -1980,7 +1980,7 @@ function showUsernameRequiredOverlay(form) {
         
         const img = document.createElement('img');
         img.alt = 'Team America GIF';
-        img.loading = 'lazy'; // Use lazy loading for better performance
+        img.loading = 'eager'; // Load immediately for better Easter egg UX
         
         gif.appendChild(img);
         
