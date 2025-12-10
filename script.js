@@ -1690,17 +1690,20 @@ function showUsernameRequiredOverlay(form) {
     // Pick a random quote
     const randomQuote = teamAmericaQuotes[Math.floor(Math.random() * teamAmericaQuotes.length)];
     
-    // Create overlay for Team America GIFs with center image
+    // Random rotation and flip for the image
+    const randomRotation = Math.floor(Math.random() * 360);
+    const randomFlipX = Math.random() > 0.5 ? -1 : 1;
+    const randomFlipY = Math.random() > 0.5 ? -1 : 1;
+    
+    // Create overlay with just the image
     const overlay = document.createElement('div');
     overlay.id = 'konami-overlay';
     overlay.innerHTML = `
       <div class="konami-center-content">
-        <img src="/bftb.png" alt="Easter Egg" class="konami-center-image">
+        <img src="/bftb.png" alt="Easter Egg" class="konami-center-image" style="transform: rotate(${randomRotation}deg) scaleX(${randomFlipX}) scaleY(${randomFlipY});">
         <div class="konami-quote">${randomQuote}</div>
         <div class="konami-achievement">🏆 Triggered ${konamiTriggerCount} time${konamiTriggerCount !== 1 ? 's' : ''}!</div>
-        <button class="konami-close" aria-label="Close">&times;</button>
       </div>
-      <div class="america-gifs-container"></div>
     `;
     
     // Add styles
@@ -1720,6 +1723,7 @@ function showUsernameRequiredOverlay(form) {
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
       }
       
       @keyframes konamiFadeIn {
@@ -1733,6 +1737,7 @@ function showUsernameRequiredOverlay(form) {
         display: flex;
         flex-direction: column;
         align-items: center;
+        pointer-events: none;
       }
       
       .konami-center-image {
@@ -1741,6 +1746,7 @@ function showUsernameRequiredOverlay(form) {
         border-radius: 12px;
         box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
         animation: konamiImagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: transform 0.3s ease;
       }
       
       .konami-quote {
@@ -1790,84 +1796,6 @@ function showUsernameRequiredOverlay(form) {
         to { transform: translateY(0); opacity: 1; }
       }
       
-      .america-gifs-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 9999;
-        overflow: hidden;
-      }
-      
-      .america-gif-collage {
-        position: absolute;
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        animation: gifFadeIn 0.5s ease-out forwards, gifFloat 3s ease-in-out infinite;
-        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
-        z-index: 9999;
-      }
-      
-      .america-gif-collage.loaded {
-        opacity: 1;
-      }
-      
-      .america-gif-collage img,
-      .america-gif-collage video {
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-        border-radius: 8px;
-        border: 2px solid rgba(255, 215, 0, 0.6);
-      }
-      
-      @keyframes gifFadeIn {
-        0% {
-          opacity: 0;
-          transform: translate(-50%, -50%) scale(0.5);
-        }
-        100% {
-          opacity: 1;
-          transform: translate(-50%, -50%) scale(1);
-        }
-      }
-      
-      @keyframes gifFloat {
-        0%, 100% {
-          transform: translate(-50%, -50%) translateY(0) rotate(0deg);
-        }
-        50% {
-          transform: translate(-50%, -50%) translateY(-10px) rotate(2deg);
-        }
-      }
-      
-      .konami-close {
-        position: absolute;
-        top: -15px;
-        right: -15px;
-        width: 44px;
-        height: 44px;
-        border: none;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #ffd700, #ffb800);
-        color: #333;
-        font-size: 26px;
-        font-weight: bold;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
-        z-index: 10002;
-        transition: transform 0.2s;
-      }
-      
-      .konami-close:hover {
-        transform: scale(1.1);
-      }
-      
       @media (max-width: 768px) {
         .konami-center-image {
           max-width: 90vw;
@@ -1885,232 +1813,14 @@ function showUsernameRequiredOverlay(form) {
           padding: 10px 20px;
           margin-top: 12px;
         }
-        
-        .america-gif-collage img,
-        .america-gif-collage video {
-          width: 80px;
-          height: 80px;
-        }
-        
-        .konami-close {
-          width: 38px;
-          height: 38px;
-          font-size: 22px;
-          top: -10px;
-          right: -10px;
-        }
       }
     `;
     
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     
-    // Meme videos/GIFs - 712 local media files from Dominicentek/my-meme-folder
-    // We select 24 random ones to display in a collage around the center image
-    // Total media count: 712 unique local files
-    // Files are located in /assets/gifs/ as america-001.mp4 through america-712.mp4 (mostly MP4, some GIFs)
-    const americaGifs = Array.from({ length: 712 }, (_, i) => {
-      const num = String(i + 1).padStart(3, '0');
-      // Most files are MP4, but we'll try to load them and fall back if needed
-      return `/assets/gifs/america-${num}.mp4`;
-    });
-    
-    const gifsContainer = overlay.querySelector('.america-gifs-container');
-    
-    // Select 24 random GIFs from the pool of 50 for the collage using Fisher-Yates shuffle
-    function shuffleArray(array) {
-      const arr = [...array];
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-    
-    const shuffledGifs = shuffleArray(americaGifs).slice(0, 24);
-    
-    // Create collage layout with 24 GIFs positioned around the center
-    // Positions array has exactly 24 positions to match shuffledGifs.slice(0, 24)
-    // Layout: 6 on top, 6 on right, 6 on bottom, 6 on left
-    function createCollageGifs() {
-      const positions = [
-        // Top row (6 GIFs)
-        { top: '5%', left: '15%' },
-        { top: '5%', left: '28%' },
-        { top: '5%', left: '41%' },
-        { top: '5%', left: '54%' },
-        { top: '5%', left: '67%' },
-        { top: '5%', left: '80%' },
-        
-        // Right side (6 GIFs)
-        { top: '18%', left: '88%' },
-        { top: '31%', left: '88%' },
-        { top: '44%', left: '88%' },
-        { top: '57%', left: '88%' },
-        { top: '70%', left: '88%' },
-        { top: '83%', left: '88%' },
-        
-        // Bottom row (6 GIFs)
-        { top: '90%', left: '80%' },
-        { top: '90%', left: '67%' },
-        { top: '90%', left: '54%' },
-        { top: '90%', left: '41%' },
-        { top: '90%', left: '28%' },
-        { top: '90%', left: '15%' },
-        
-        // Left side (6 GIFs)
-        { top: '83%', left: '5%' },
-        { top: '70%', left: '5%' },
-        { top: '57%', left: '5%' },
-        { top: '44%', left: '5%' },
-        { top: '31%', left: '5%' },
-        { top: '18%', left: '5%' }
-      ];
-      
-      // Concurrency control: limit simultaneous GIF loads
-      const MAX_CONCURRENT_LOADS = 6;
-      let activeLoads = 0;
-      const loadQueue = [];
-      
-      function loadGifWithConcurrency(mediaUrl, mediaElement, container, isVideo) {
-        return new Promise((resolve) => {
-          function attemptLoad() {
-            if (activeLoads >= MAX_CONCURRENT_LOADS) {
-              loadQueue.push(attemptLoad);
-              return;
-            }
-            
-            activeLoads++;
-            
-            if (isVideo) {
-              // Set up error handler for video
-              mediaElement.onerror = function() {
-                // Failed to load video - try with .gif extension as fallback
-                const gifUrl = mediaUrl.replace('.mp4', '.gif').replace('.webm', '.gif');
-                
-                // Replace video with img element
-                const img = document.createElement('img');
-                img.alt = 'Meme';
-                img.src = gifUrl;
-                img.onerror = function() {
-                  // If GIF also fails, use fallback
-                  img.src = '/assets/images/gif-fallback.svg';
-                  container.classList.add('loaded');
-                  completeLoad();
-                };
-                img.onload = function() {
-                  container.classList.add('loaded');
-                  completeLoad();
-                };
-                
-                // Replace video with image
-                container.replaceChild(img, mediaElement);
-              };
-              
-              // Set up success handler for video
-              mediaElement.onloadeddata = function() {
-                container.classList.add('loaded');
-                mediaElement.play().catch(() => {
-                  // Auto-play might be blocked, that's okay
-                });
-                completeLoad();
-              };
-              
-              // Start loading video
-              mediaElement.src = mediaUrl;
-            } else {
-              // Set up error handler for image
-              mediaElement.onerror = function() {
-                // Failed to load image - using fallback image silently
-                mediaElement.src = '/assets/images/gif-fallback.svg';
-                // Still mark as loaded so it appears
-                container.classList.add('loaded');
-                completeLoad();
-              };
-              
-              // Set up success handler for image
-              mediaElement.onload = function() {
-                container.classList.add('loaded');
-                completeLoad();
-              };
-              
-              // Start loading image
-              mediaElement.src = mediaUrl;
-            }
-          }
-          
-          function completeLoad() {
-            activeLoads--;
-            resolve();
-            // Process next in queue
-            if (loadQueue.length > 0) {
-              const nextLoad = loadQueue.shift();
-              nextLoad();
-            }
-          }
-          
-          attemptLoad();
-        });
-      }
-      
-      // Create all media elements (videos or GIFs)
-      const loadPromises = shuffledGifs.map((mediaUrl, index) => {
-        const mediaContainer = document.createElement('div');
-        mediaContainer.className = 'america-gif-collage';
-        
-        // Determine if it's a video or image based on file extension
-        const isVideo = mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm');
-        
-        let mediaElement;
-        if (isVideo) {
-          mediaElement = document.createElement('video');
-          mediaElement.autoplay = true;
-          mediaElement.loop = true;
-          mediaElement.muted = true;
-          mediaElement.playsInline = true;
-          mediaElement.setAttribute('playsinline', ''); // iOS compatibility
-        } else {
-          mediaElement = document.createElement('img');
-          mediaElement.alt = 'Meme';
-        }
-        
-        mediaElement.loading = 'eager'; // Load immediately for better Easter egg UX
-        
-        mediaContainer.appendChild(mediaElement);
-        
-        // Position the media
-        const pos = positions[index];
-        mediaContainer.style.top = pos.top;
-        mediaContainer.style.left = pos.left;
-        
-        // Add staggered animation delay for cascade effect
-        mediaContainer.style.animationDelay = (index * 0.05) + 's';
-        
-        gifsContainer.appendChild(mediaContainer);
-        
-        // Start loading with concurrency control
-        return loadGifWithConcurrency(mediaUrl, mediaElement, mediaContainer, isVideo);
-      });
-      
-      // Konami code GIF collage loading complete
-    });
-    }
-    
-    // Create the collage
-    createCollageGifs();
-    
-    // Close on button click
-    overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);
-    
-    // Close on overlay click (outside GIFs)
-    // Add a delay to prevent immediate closure from the final tap on mobile
-    setTimeout(function() {
-      overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) {
-          closeEasterEgg();
-        }
-      });
-    }, MOBILE_TOUCH_DELAY);
+    // Click anywhere to close
+    overlay.addEventListener('click', closeEasterEgg);
     
     // Close on Escape key
     document.addEventListener('keydown', function escHandler(e) {
