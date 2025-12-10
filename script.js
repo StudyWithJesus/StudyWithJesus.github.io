@@ -1115,9 +1115,6 @@ function restoreOrder(container, questions, orderKey) {
   }
   
   // Append any questions not in the saved order (shouldn't happen, but just in case)
-  if (questionsByName.size > 0) {
-    console.warn('restoreOrder: Some questions were not in saved order, appending at end');
-  }
   questionsByName.forEach(q => fragment.appendChild(q));
   
   container.appendChild(fragment);
@@ -1221,12 +1218,7 @@ function initUsernameSetup() {
   // Set username in localStorage
   function setUsername(name) {
     try {
-      // Remove HTML tags, dangerous characters, but preserve spaces
-      const sanitized = name
-        .replace(/<[^>]*>/g, '')  // Remove HTML tags
-        .replace(/[<>"'`&]/g, '') // Remove dangerous characters but keep spaces
-        .trim()
-        .substring(0, 30);
+      const sanitized = name.trim().substring(0, 30).replace(/[<>'"&]/g, '');
       if (sanitized) {
         localStorage.setItem('leaderboard_username', sanitized);
         return sanitized;
@@ -1638,7 +1630,26 @@ function showUsernameRequiredOverlay(form) {
       localStorage.setItem('konami_trigger_count', konamiTriggerCount.toString());
     } catch {}
     
-    // No sound/noise
+    // Play a triumphant beep sound using Web Audio API
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 523.25; // C5 note
+      oscillator.type = 'square';
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (e) {
+      // Audio API not supported, silently fail
+    }
     
     // Pick a random quote
     const randomQuote = teamAmericaQuotes[Math.floor(Math.random() * teamAmericaQuotes.length)];
@@ -1647,13 +1658,13 @@ function showUsernameRequiredOverlay(form) {
     const overlay = document.createElement('div');
     overlay.id = 'konami-overlay';
     overlay.innerHTML = `
-      <div class="america-gifs-container"></div>
       <div class="konami-center-content">
-        <img src="${getBasePath()}bftb.png" alt="Easter Egg" class="konami-center-image">
+        <img src="/bftb.png" alt="Easter Egg" class="konami-center-image">
         <div class="konami-quote">${randomQuote}</div>
         <div class="konami-achievement">🏆 Triggered ${konamiTriggerCount} time${konamiTriggerCount !== 1 ? 's' : ''}!</div>
         <button class="konami-close" aria-label="Close">&times;</button>
       </div>
+      <div class="america-gifs-container"></div>
     `;
     
     // Add styles
@@ -1666,17 +1677,13 @@ function showUsernameRequiredOverlay(form) {
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.9);
+        background: rgba(0, 0, 0, 0.85);
         z-index: 10000;
         animation: konamiFadeIn 0.3s ease-out;
+        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
-      }
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        padding: 40px 20px;
       }
       
       @keyframes konamiFadeIn {
@@ -1755,38 +1762,48 @@ function showUsernameRequiredOverlay(form) {
         height: 100%;
         pointer-events: none;
         z-index: 9999;
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: repeat(4, 1fr);
-        gap: 15px;
-        padding: 30px;
-      }
-      
-      .america-gif {
-        width: 100%;
-        height: 100%;
-        animation: gifFadeIn 0.5s ease-out forwards;
-        opacity: 0;
         overflow: hidden;
       }
       
-      .america-gif img,
-      .america-gif video {
-        width: 100%;
-        height: 100%;
+      .america-gif-collage {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        animation: gifFadeIn 0.5s ease-out forwards, gifFloat 3s ease-in-out infinite;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+        z-index: 9999;
+      }
+      
+      .america-gif-collage.loaded {
+        opacity: 1;
+      }
+      
+      .america-gif-collage img,
+      .america-gif-collage video {
+        width: 120px;
+        height: 120px;
         object-fit: cover;
         border-radius: 8px;
-        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        border: 2px solid rgba(255, 215, 0, 0.6);
       }
       
       @keyframes gifFadeIn {
-        from {
+        0% {
           opacity: 0;
-          transform: scale(0.8);
+          transform: translate(-50%, -50%) scale(0.5);
         }
-        to {
+        100% {
           opacity: 1;
-          transform: scale(1);
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+      
+      @keyframes gifFloat {
+        0%, 100% {
+          transform: translate(-50%, -50%) translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translate(-50%, -50%) translateY(-10px) rotate(2deg);
         }
       }
       
@@ -1833,11 +1850,10 @@ function showUsernameRequiredOverlay(form) {
           margin-top: 12px;
         }
         
-        .america-gifs-container {
-          grid-template-columns: repeat(4, 1fr);
-          grid-template-rows: repeat(6, 1fr);
-          gap: 10px;
-          padding: 15px;
+        .america-gif-collage img,
+        .america-gif-collage video {
+          width: 80px;
+          height: 80px;
         }
         
         .konami-close {
@@ -1853,69 +1869,199 @@ function showUsernameRequiredOverlay(form) {
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     
-    // Load meme videos from external repository (711 MP4s)
-    const script = document.createElement('script');
-    script.src = getBasePath() + 'assets/meme-urls.js';
-    script.onload = function() {
-      if (typeof MEME_VIDEOS !== 'undefined') {
-        americaGifs = shuffleArray(MEME_VIDEOS);
-      } else {
-        // Fallback to empty array
-        americaGifs = [];
-      }
-      startGifAnimation();
-    };
-    script.onerror = function() {
-      // Fallback if script fails to load
-      americaGifs = [];
-      startGifAnimation();
-    };
-    document.head.appendChild(script);
-    
-    let americaGifs = [];
-    
-    // Shuffle the array to randomize on each load
-    function shuffleArray(array) {
-      const shuffled = [...array];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-      return shuffled;
-    }
+    // Meme videos/GIFs - 712 local media files from Dominicentek/my-meme-folder
+    // We select 24 random ones to display in a collage around the center image
+    // Total media count: 712 unique local files
+    // Files are located in /assets/gifs/ as america-001.mp4 through america-712.mp4 (mostly MP4, some GIFs)
+    const americaGifs = Array.from({ length: 712 }, (_, i) => {
+      const num = String(i + 1).padStart(3, '0');
+      // Most files are MP4, but we'll try to load them and fall back if needed
+      return `/assets/gifs/america-${num}.mp4`;
+    });
     
     const gifsContainer = overlay.querySelector('.america-gifs-container');
-    let activeGifCount = 0;
-    const maxGifs = 24; // Grid of memes around center image
     
-    function createCollageGif(index) {
-      const gif = document.createElement('div');
-      gif.className = 'america-gif';
-      gif.style.animationDelay = (index * 0.05) + 's';
-      
-      // Use video element for MP4s, completely muted
-      const video = document.createElement('video');
-      video.src = americaGifs[index % americaGifs.length];
-      video.muted = true; // Ensure video is muted
-      video.autoplay = true;
-      video.loop = true;
-      video.playsInline = true; // For mobile devices
-      video.volume = 0; // Extra ensure no sound
-      video.setAttribute('muted', ''); // Extra attribute
-      video.onerror = function() {
-        gif.style.visibility = 'hidden';
-      };
-      gif.appendChild(video);
-      
-      gifsContainer.appendChild(gif);
-    }
-    
-    function startGifAnimation() {
-      // Create collage of GIFs
-      for (let i = 0; i < Math.min(maxGifs, americaGifs.length); i++) {
-        createCollageGif(i);
+    // Select 24 random GIFs from the pool of 50 for the collage using Fisher-Yates shuffle
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
+      return arr;
     }
+    
+    const shuffledGifs = shuffleArray(americaGifs).slice(0, 24);
+    
+    // Create collage layout with 24 GIFs positioned around the center
+    // Positions array has exactly 24 positions to match shuffledGifs.slice(0, 24)
+    // Layout: 6 on top, 6 on right, 6 on bottom, 6 on left
+    function createCollageGifs() {
+      const positions = [
+        // Top row (6 GIFs)
+        { top: '5%', left: '15%' },
+        { top: '5%', left: '28%' },
+        { top: '5%', left: '41%' },
+        { top: '5%', left: '54%' },
+        { top: '5%', left: '67%' },
+        { top: '5%', left: '80%' },
+        
+        // Right side (6 GIFs)
+        { top: '18%', left: '88%' },
+        { top: '31%', left: '88%' },
+        { top: '44%', left: '88%' },
+        { top: '57%', left: '88%' },
+        { top: '70%', left: '88%' },
+        { top: '83%', left: '88%' },
+        
+        // Bottom row (6 GIFs)
+        { top: '90%', left: '80%' },
+        { top: '90%', left: '67%' },
+        { top: '90%', left: '54%' },
+        { top: '90%', left: '41%' },
+        { top: '90%', left: '28%' },
+        { top: '90%', left: '15%' },
+        
+        // Left side (6 GIFs)
+        { top: '83%', left: '5%' },
+        { top: '70%', left: '5%' },
+        { top: '57%', left: '5%' },
+        { top: '44%', left: '5%' },
+        { top: '31%', left: '5%' },
+        { top: '18%', left: '5%' }
+      ];
+      
+      // Concurrency control: limit simultaneous GIF loads
+      const MAX_CONCURRENT_LOADS = 6;
+      let activeLoads = 0;
+      const loadQueue = [];
+      
+      function loadGifWithConcurrency(mediaUrl, mediaElement, container, isVideo) {
+        return new Promise((resolve) => {
+          function attemptLoad() {
+            if (activeLoads >= MAX_CONCURRENT_LOADS) {
+              loadQueue.push(attemptLoad);
+              return;
+            }
+            
+            activeLoads++;
+            
+            if (isVideo) {
+              // Set up error handler for video
+              mediaElement.onerror = function() {
+                // Failed to load video - try with .gif extension as fallback
+                const gifUrl = mediaUrl.replace('.mp4', '.gif').replace('.webm', '.gif');
+                
+                // Replace video with img element
+                const img = document.createElement('img');
+                img.alt = 'Meme';
+                img.src = gifUrl;
+                img.onerror = function() {
+                  // If GIF also fails, use fallback
+                  img.src = '/assets/images/gif-fallback.svg';
+                  container.classList.add('loaded');
+                  completeLoad();
+                };
+                img.onload = function() {
+                  container.classList.add('loaded');
+                  completeLoad();
+                };
+                
+                // Replace video with image
+                container.replaceChild(img, mediaElement);
+              };
+              
+              // Set up success handler for video
+              mediaElement.onloadeddata = function() {
+                container.classList.add('loaded');
+                mediaElement.play().catch(() => {
+                  // Auto-play might be blocked, that's okay
+                });
+                completeLoad();
+              };
+              
+              // Start loading video
+              mediaElement.src = mediaUrl;
+            } else {
+              // Set up error handler for image
+              mediaElement.onerror = function() {
+                // Failed to load image - using fallback image silently
+                mediaElement.src = '/assets/images/gif-fallback.svg';
+                // Still mark as loaded so it appears
+                container.classList.add('loaded');
+                completeLoad();
+              };
+              
+              // Set up success handler for image
+              mediaElement.onload = function() {
+                container.classList.add('loaded');
+                completeLoad();
+              };
+              
+              // Start loading image
+              mediaElement.src = mediaUrl;
+            }
+          }
+          
+          function completeLoad() {
+            activeLoads--;
+            resolve();
+            // Process next in queue
+            if (loadQueue.length > 0) {
+              const nextLoad = loadQueue.shift();
+              nextLoad();
+            }
+          }
+          
+          attemptLoad();
+        });
+      }
+      
+      // Create all media elements (videos or GIFs)
+      const loadPromises = shuffledGifs.map((mediaUrl, index) => {
+        const mediaContainer = document.createElement('div');
+        mediaContainer.className = 'america-gif-collage';
+        
+        // Determine if it's a video or image based on file extension
+        const isVideo = mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm');
+        
+        let mediaElement;
+        if (isVideo) {
+          mediaElement = document.createElement('video');
+          mediaElement.autoplay = true;
+          mediaElement.loop = true;
+          mediaElement.muted = true;
+          mediaElement.playsInline = true;
+          mediaElement.setAttribute('playsinline', ''); // iOS compatibility
+        } else {
+          mediaElement = document.createElement('img');
+          mediaElement.alt = 'Meme';
+        }
+        
+        mediaElement.loading = 'eager'; // Load immediately for better Easter egg UX
+        
+        mediaContainer.appendChild(mediaElement);
+        
+        // Position the media
+        const pos = positions[index];
+        mediaContainer.style.top = pos.top;
+        mediaContainer.style.left = pos.left;
+        
+        // Add staggered animation delay for cascade effect
+        mediaContainer.style.animationDelay = (index * 0.05) + 's';
+        
+        gifsContainer.appendChild(mediaContainer);
+        
+        // Start loading with concurrency control
+        return loadGifWithConcurrency(mediaUrl, mediaElement, mediaContainer, isVideo);
+      });
+      
+      // Konami code GIF collage loading complete
+    });
+    }
+    
+    // Create the collage
+    createCollageGifs();
     
     // Close on button click
     overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);

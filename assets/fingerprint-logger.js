@@ -12,7 +12,7 @@
     if (db) return db;
     
     if (!window.FIREBASE_CONFIG) {
-      console.error('Firebase config not found');
+      // Firebase config not found - silent fail
       return null;
     }
     
@@ -24,7 +24,7 @@
       db = firebase.firestore();
       return db;
     } catch (error) {
-      console.error('Failed to initialize Firebase:', error);
+      // Failed to initialize Firebase - silent fail
       return null;
     }
   }
@@ -149,7 +149,6 @@
       
     } catch (err) {
       // Silent failure - don't disrupt user experience
-      console.debug('Failed to store fingerprint log:', err.message);
     }
   }
   
@@ -162,7 +161,7 @@
     try {
       const firestore = initFirebase();
       if (!firestore) {
-        console.debug('Firestore not available, skipping cloud save');
+        // Firestore not available, skipping cloud save
         return;
       }
       
@@ -196,9 +195,9 @@
         });
       }
       
-      console.debug('Fingerprint saved to Firestore');
+      // Fingerprint saved to Firestore successfully
     } catch (err) {
-      console.debug('Failed to save to Firestore:', err.message);
+      // Failed to save to Firestore - silent fail
     }
   }
 
@@ -274,7 +273,7 @@
             if (err.message === 'Rate limited') {
               // Rate limited - store without IP
               storeFingerprintLog(fp, displayName, 'Rate limited', null, null);
-              console.debug('Fingerprint logging rate limited');
+              // Rate limited - silent fail
               throw err; // Don't retry
             }
             
@@ -282,21 +281,20 @@
             if (retryCount < maxRetries) {
               retryCount++;
               const delay = Math.min(1000 * Math.pow(2, retryCount), 5000); // Exponential backoff
-              console.debug(`Retrying fingerprint log (${retryCount}/${maxRetries}) in ${delay}ms...`);
+              // Retrying fingerprint log silently
               return new Promise(resolve => setTimeout(resolve, delay)).then(sendRequest);
             }
             
             // All retries failed - still store the log locally without IP
             storeFingerprintLog(fp, displayName, 'N/A', null, null);
-            console.debug('Fingerprint logging failed after retries:', err.message);
+            // Fingerprint logging failed after retries - silent fail
           });
       };
       
       sendRequest();
 
     } catch (err) {
-      // Silent failure
-      console.debug('Fingerprint generation error:', err.message);
+      // Silent failure - fingerprint generation error
     }
   }
 
