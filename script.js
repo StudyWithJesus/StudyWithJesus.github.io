@@ -154,6 +154,8 @@ function initExamPage() {
   }
   
   let timerDisplay = document.getElementById("exam-timer");
+  let cancelBtn = document.getElementById("exam-cancel-btn");
+  
   if (!timerDisplay && progressBar) {
     timerDisplay = document.createElement("div");
     timerDisplay.id = "exam-timer";
@@ -167,6 +169,53 @@ function initExamPage() {
     console.warn("Progress bar not found - timer cannot be displayed");
   } else if (timerDisplay) {
     console.log("Timer already exists");
+  }
+  
+  // Create cancel button (hidden initially, shown when timer starts)
+  if (!cancelBtn && progressBar) {
+    cancelBtn = document.createElement("button");
+    cancelBtn.id = "exam-cancel-btn";
+    cancelBtn.className = "exam-cancel-btn";
+    cancelBtn.type = "button";
+    cancelBtn.textContent = "Cancel Test";
+    cancelBtn.style.display = "none";
+    cancelBtn.title = "Cancel test and return to menu";
+    progressBar.appendChild(cancelBtn);
+    
+    // Add cancel button handler
+    cancelBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      if (confirm('Are you sure you want to cancel this test?\n\nYour progress will be lost and the timer will be reset.')) {
+        // Stop and reset timer
+        stopTimer();
+        resetTimer();
+        
+        // Clear saved answers
+        try {
+          localStorage.removeItem(examKey);
+        } catch {}
+        
+        // Reset form
+        form.reset();
+        
+        // Remove answered class from all questions
+        questions.forEach(q => q.classList.remove('answered'));
+        
+        // Update progress
+        updateProgress(questions, progressFill, progressText);
+        updateSubmitButtonState();
+        
+        // Hide cancel button
+        cancelBtn.style.display = "none";
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        alert('Test cancelled. You can start again when ready.');
+      }
+    });
   }
 
   // Format seconds as MM:SS
@@ -224,6 +273,12 @@ function initExamPage() {
   function startTimer() {
     if (timerInterval) return; // Already running
     timerStarted = true;
+    
+    // Show cancel button when timer starts
+    if (cancelBtn) {
+      cancelBtn.style.display = "block";
+    }
+    
     timerInterval = setInterval(function() {
       remainingSeconds--;
       updateTimerDisplay();
@@ -254,6 +309,10 @@ function initExamPage() {
     timerStarted = false;
     if (timerDisplay) {
       timerDisplay.classList.remove('timer-warning', 'timer-critical');
+    }
+    // Hide cancel button on reset
+    if (cancelBtn) {
+      cancelBtn.style.display = "none";
     }
     updateTimerDisplay();
     try {

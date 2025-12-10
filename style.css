@@ -573,6 +573,32 @@ a:hover {
   50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
 }
 
+/* Cancel Test Button */
+.exam-cancel-btn {
+  padding: var(--space-2) var(--space-3);
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: var(--border-radius);
+  color: var(--color-error-light);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.exam-cancel-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: var(--color-error);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.exam-cancel-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(239, 68, 68, 0.2);
+}
+
 /* ===== Main layout wrappers ===== */
 .module-index-wrapper,
 .exam-index-wrapper,
