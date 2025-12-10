@@ -244,6 +244,10 @@
 
       function init() {
         console.log('=== Admin Leaderboard Initialization ===');
+        console.log('DOM elements check:');
+        console.log('- accessDeniedEl:', accessDeniedEl);
+        console.log('- adminContentEl:', adminContentEl);
+        console.log('- githubAuthSectionEl:', githubAuthSectionEl);
         
         // Log access attempt (for local auditing)
         logAdminAccess('Page loaded');
@@ -377,10 +381,24 @@
 
       async function grantAccess() {
         console.log('grantAccess() called');
+        console.log('Setting adminContentEl display to block...');
+        console.log('adminContentEl before:', adminContentEl, 'style:', adminContentEl ? adminContentEl.style.display : 'null');
         
         isAuthenticated = true;
-        accessDeniedEl.style.display = 'none';
-        adminContentEl.style.display = 'block';
+        
+        if (accessDeniedEl) {
+          accessDeniedEl.style.display = 'none';
+          console.log('accessDeniedEl hidden');
+        }
+        
+        if (adminContentEl) {
+          adminContentEl.style.display = 'block';
+          console.log('adminContentEl shown, style:', adminContentEl.style.display);
+        } else {
+          console.error('adminContentEl is null! Cannot show admin content!');
+          alert('ERROR: Admin content element not found in page!');
+          return;
+        }
         
         console.log('Admin content displayed');
         
