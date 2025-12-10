@@ -163,7 +163,7 @@ function initExamPage() {
     timerDisplay.className = "exam-timer";
     // Explicitly set display style to ensure visibility
     timerDisplay.style.cssText = "display: flex !important; align-items: center !important; gap: var(--space-2) !important;";
-    timerDisplay.innerHTML = '<span class="timer-icon">⏱</span><span class="timer-text">20:00</span>';
+    timerDisplay.innerHTML = '<span class="timer-icon">⏱</span><span class="timer-text">' + formatTime(remainingSeconds) + '</span>';
     progressBar.appendChild(timerDisplay);
     console.log("Timer created and appended to progress bar");
   } else if (!progressBar) {
