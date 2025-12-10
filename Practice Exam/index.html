@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PTP2SG - Study Guide Exam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Load Firebase config and leaderboard for score submission -->
+  <script src="../config/firebase.config.js"></script>
+  <script src="../assets/js/leaderboard-firebase.js"></script>
+  <script src="../assets/js/leaderboard.js"></script>
+  <script src="../assets/whitelist-fingerprint.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="../assets/fingerprint-logger.js"></script>
+</head>
+<body>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>PTP2 Study Guide Exam</h1>
+      <p>Comprehensive Practice Test</p>
+    </div>
+  </header>
+
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
+    </div>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
+    </div>
+  </div>
+
+  <main class="page-content">
+    <div class="back-link">
+      <a href="../index.html">&larr; Back to main menu</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>PTP2 Study Guide Exam</h2>
+      <p>
+        Comprehensive practice test covering all modules. Timer: 30 seconds per question.
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form">
+
+      <!-- Engine Block Casting -->
+      <div class="question">
+        <p><strong>Which type of casting method produces an engine block that is free of air bubbles, requires less machining, and uses a reusable mould?</strong></p>
+        <label><input type="radio" name="q1" value="a"> Sand casting</label>
+        <label><input type="radio" name="q1" value="b"> Die casting</label>
+        <label><input type="radio" name="q1" value="c"> Investment casting</label>
+        <label><input type="radio" name="q1" value="d"> Permanent mold casting</label>
+      </div>
+
+      <!-- Engine Components -->
+      <div class="question">
+        <p><strong>Which engine component(s) are commonly sand cast?</strong></p>
+        <label><input type="radio" name="q2" value="a"> Block</label>
+        <label><input type="radio" name="q2" value="b"> Cylinder head</label>
+        <label><input type="radio" name="q2" value="c"> Intake manifold</label>
+        <label><input type="radio" name="q2" value="d"> All of the above</label>
+      </div>
+
+      <!-- Gas vs Diesel -->
+      <div class="question">
+        <p><strong>What is the main difference between gas and diesel engines?</strong></p>
+        <label><input type="radio" name="q3" value="a"> Compression ratio</label>
+        <label><input type="radio" name="q3" value="b"> Fuel and ignition systems</label>
+        <label><input type="radio" name="q3" value="c"> Cooling systems</label>
+        <label><input type="radio" name="q3" value="d"> Number of strokes</label>
+      </div>
+
+      <!-- Water Jacket -->
+      <div class="question">
+        <p><strong>What is the name of the hollow chamber/passages in which coolant flows around the cylinder(s)?</strong></p>
+        <label><input type="radio" name="q4" value="a"> Coolant jacket</label>
+        <label><input type="radio" name="q4" value="b"> Heat gallery</label>
+        <label><input type="radio" name="q4" value="c"> Water jacket</label>
+        <label><input type="radio" name="q4" value="d"> Coolant passage</label>
+      </div>
+
+      <!-- Dry Liner -->
+      <div class="question">
+        <p><strong>A dry liner:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Is supported by block material from top to bottom</label>
+        <label><input type="radio" name="q5" value="b"> Requires sealing rings at the bottom only</label>
+        <label><input type="radio" name="q5" value="c"> Requires sealing rings at both top and bottom</label>
+        <label><input type="radio" name="q5" value="d"> Is always removable from the top of the block</label>
+      </div>
+
+      <!-- Gasoline Engine Liners -->
+      <div class="question">
+        <p><strong>Most gasoline engines use which type of liner?</strong></p>
+        <label><input type="radio" name="q6" value="a"> Wet liners</label>
+        <label><input type="radio" name="q6" value="b"> Integral liners</label>
+        <label><input type="radio" name="q6" value="c"> Semi-wet liners</label>
+        <label><input type="radio" name="q6" value="d"> Replaceable flange liners</label>
+      </div>
+
+      <!-- Liner Seals -->
+      <div class="question">
+        <p><strong>Seals are needed for the installation of which type of liner?</strong></p>
+        <label><input type="radio" name="q7" value="a"> Integral</label>
+        <label><input type="radio" name="q7" value="b"> Dry</label>
+        <label><input type="radio" name="q7" value="c"> Semi-dry</label>
+        <label><input type="radio" name="q7" value="d"> Wet</label>
+      </div>
+
+      <!-- Piston Material -->
+      <div class="question">
+        <p><strong>Most gasoline engine pistons are made of:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Cast aluminum</label>
+        <label><input type="radio" name="q8" value="b"> Forged steel</label>
+        <label><input type="radio" name="q8" value="c"> Cast iron</label>
+        <label><input type="radio" name="q8" value="d"> Forged aluminum</label>
+      </div>
+
+      <!-- Connecting Rod Parts -->
+      <div class="question">
+        <p><strong>Eye, shank, head, and cap are all parts of a:</strong></p>
+        <label><input type="radio" name="q9" value="a"> Connecting rod</label>
+        <label><input type="radio" name="q9" value="b"> Camshaft</label>
+        <label><input type="radio" name="q9" value="c"> Piston</label>
+        <label><input type="radio" name="q9" value="d"> Crankshaft</label>
+      </div>
+
+      <!-- Bearing Availability -->
+      <div class="question">
+        <p><strong>Which of the following would be available as standard and undersized?</strong></p>
+        <label><input type="radio" name="q10" value="a"> Connecting rod bearings</label>
+        <label><input type="radio" name="q10" value="b"> Pushrods</label>
+        <label><input type="radio" name="q10" value="c"> Cam followers</label>
+        <label><input type="radio" name="q10" value="d"> Valve seats</label>
+      </div>
+
+      <!-- Tappet/Timing Chain/Shell -->
+      <div class="question">
+        <p><strong>Other names for lifter, silent chain, and bearing insert are:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Pusher, timing belt, bearing shell</label>
+        <label><input type="radio" name="q11" value="b"> Tappet, timing belt, bushing</label>
+        <label><input type="radio" name="q11" value="c"> Pusher, timing chain, insert</label>
+        <label><input type="radio" name="q11" value="d"> Tappet, timing chain, shell</label>
+      </div>
+
+      <!-- Hydraulic Lifters -->
+      <div class="question">
+        <p><strong>Hydraulic valve lifters eliminate the need for:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Valve springs</label>
+        <label><input type="radio" name="q12" value="b"> Cam lobes</label>
+        <label><input type="radio" name="q12" value="c"> Valve clearance</label>
+        <label><input type="radio" name="q12" value="d"> Pushrods</label>
+      </div>
+
+      <!-- Parkerizing -->
+      <div class="question">
+        <p><strong>A process which gives camshafts a dull finish and helps retain initial lubricants is called:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Nitriding</label>
+        <label><input type="radio" name="q13" value="b"> Case hardening</label>
+        <label><input type="radio" name="q13" value="c"> Shot peening</label>
+        <label><input type="radio" name="q13" value="d"> Parkerizing</label>
+      </div>
+
+      <!-- Valve Rotator -->
+      <div class="question">
+        <p><strong>A device used to help keep exhaust valves free from carbon build up is a:</strong></p>
+        <label><input type="radio" name="q14" value="a"> Valve spring</label>
+        <label><input type="radio" name="q14" value="b"> Valve lock</label>
+        <label><input type="radio" name="q14" value="c"> Valve shim</label>
+        <label><input type="radio" name="q14" value="d"> Valve rotator</label>
+      </div>
+
+      <!-- Intake vs Exhaust Valve -->
+      <div class="question">
+        <p><strong>The diameter of an intake valve is usually:</strong></p>
+        <label><input type="radio" name="q15" value="a"> Larger than that of an exhaust valve</label>
+        <label><input type="radio" name="q15" value="b"> Smaller than that of an exhaust valve</label>
+        <label><input type="radio" name="q15" value="c"> The same as an exhaust valve</label>
+        <label><input type="radio" name="q15" value="d"> Unrelated to the exhaust valve size</label>
+      </div>
+
+      <!-- Gasket Set -->
+      <div class="question">
+        <p><strong>A customer requests a rocker cover gasket, a head gasket, valve seals and manifold gaskets; what should you supply?</strong></p>
+        <label><input type="radio" name="q16" value="a"> Oil pan gasket set</label>
+        <label><input type="radio" name="q16" value="b"> Valve seal kit (top end kit)</label>
+        <label><input type="radio" name="q16" value="c"> Exhaust gasket set</label>
+        <label><input type="radio" name="q16" value="d"> Complete engine overhaul kit</label>
+      </div>
+
+      <!-- Muffler Related Items -->
+      <div class="question">
+        <p><strong>When selling a muffler, related items may include:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Only muffler clamps</label>
+        <label><input type="radio" name="q17" value="b"> Muffler and tailpipe</label>
+        <label><input type="radio" name="q17" value="c"> Hangers, clamps, and a pipe adapter</label>
+        <label><input type="radio" name="q17" value="d"> Manifold and gasket set</label>
+      </div>
+
+      <!-- Fuel Energy -->
+      <div class="question">
+        <p><strong>Of the fuels listed below which one will produce the most heat energy per gallon?</strong></p>
+        <label><input type="radio" name="q18" value="a"> Diesel</label>
+        <label><input type="radio" name="q18" value="b"> Gasoline</label>
+        <label><input type="radio" name="q18" value="c"> Propane</label>
+        <label><input type="radio" name="q18" value="d"> Natural gas</label>
+      </div>
+
+      <!-- Catalytic Converter Material -->
+      <div class="question">
+        <p><strong>The oxidizing catalyst material in a catalytic converter is:</strong></p>
+        <label><input type="radio" name="q19" value="a"> Nickel and chrome</label>
+        <label><input type="radio" name="q19" value="b"> Silver and gold</label>
+        <label><input type="radio" name="q19" value="c"> Copper and zinc</label>
+        <label><input type="radio" name="q19" value="d"> Platinum and palladium</label>
+      </div>
+
+      <!-- Oxidizing Catalyst Effect -->
+      <div class="question">
+        <p><strong>The chemical reaction brought about by the oxidizing catalyst:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Reduces NOₓ emissions</label>
+        <label><input type="radio" name="q20" value="b"> Lowers combustion temperature</label>
+        <label><input type="radio" name="q20" value="c"> Improves fuel economy</label>
+        <label><input type="radio" name="q20" value="d"> Improves oxidation of HC and CO</label>
+      </div>
+
+      <!-- Reducing Catalyst -->
+      <div class="question">
+        <p><strong>The chemical reaction brought about by the reducing catalyst:</strong></p>
+        <label><input type="radio" name="q21" value="a"> Reduces NOₓ in exhaust gases</label>
+        <label><input type="radio" name="q21" value="b"> Increases NOₓ in exhaust gases</label>
+        <label><input type="radio" name="q21" value="c"> Improves oxidation of CO only</label>
+        <label><input type="radio" name="q21" value="d"> Has no effect on emissions</label>
+      </div>
+
+      <!-- EGR Purpose -->
+      <div class="question">
+        <p><strong>The main job of the EGR system is to reduce:</strong></p>
+        <label><input type="radio" name="q22" value="a"> Oxides of nitrogen (NOₓ)</label>
+        <label><input type="radio" name="q22" value="b"> Carbon monoxide (CO)</label>
+        <label><input type="radio" name="q22" value="c"> Hydrocarbons (HC)</label>
+        <label><input type="radio" name="q22" value="d"> Particulates</label>
+      </div>
+
+      <!-- Latent Heat -->
+      <div class="question">
+        <p><strong>The latent heat of vaporization and the latent heat of condensation refer to:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Heat loss in metal components</label>
+        <label><input type="radio" name="q23" value="b"> The amount of heat added or removed to change a substance from a liquid to a vapour or from a vapour to a liquid</label>
+        <label><input type="radio" name="q23" value="c"> Heat transfer in electrical components</label>
+        <label><input type="radio" name="q23" value="d"> Ambient air temperature variation</label>
+      </div>
+
+      <!-- Schrader Valve -->
+      <div class="question">
+        <p><strong>A Schrader valve is used in an air conditioning system to:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Restrict refrigerant flow</label>
+        <label><input type="radio" name="q24" value="b"> Filter moisture</label>
+        <label><input type="radio" name="q24" value="c"> Charge the system</label>
+        <label><input type="radio" name="q24" value="d"> Oil the compressor</label>
+      </div>
+
+      <!-- Planetary Gears -->
+      <div class="question">
+        <p><strong>Planetary gears are used to:</strong></p>
+        <label><input type="radio" name="q25" value="a"> Increase torque</label>
+        <label><input type="radio" name="q25" value="b"> Decrease torque</label>
+        <label><input type="radio" name="q25" value="c"> Maintain constant torque</label>
+        <label><input type="radio" name="q25" value="d"> Both increase and decrease torque</label>
+      </div>
+
+      <!-- Torque Definition -->
+      <div class="question">
+        <p><strong>Torque is:</strong></p>
+        <label><input type="radio" name="q26" value="a"> A twisting force</label>
+        <label><input type="radio" name="q26" value="b"> A linear force</label>
+        <label><input type="radio" name="q26" value="c"> A compressive force</label>
+        <label><input type="radio" name="q26" value="d"> A tensile force</label>
+      </div>
+
+      <!-- Speedometer Drive Gear -->
+      <div class="question">
+        <p><strong>The speedometer drive gear is mounted on:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Countershaft</label>
+        <label><input type="radio" name="q27" value="b"> Input shaft</label>
+        <label><input type="radio" name="q27" value="c"> Main shaft</label>
+        <label><input type="radio" name="q27" value="d"> Reverse idler shaft</label>
+      </div>
+
+      <!-- Splines Purpose -->
+      <div class="question">
+        <p><strong>Splines are used to connect parts and allow them to:</strong></p>
+        <label><input type="radio" name="q28" value="a"> Rotate only</label>
+        <label><input type="radio" name="q28" value="b"> Lock solidly</label>
+        <label><input type="radio" name="q28" value="c"> Slide</label>
+        <label><input type="radio" name="q28" value="d"> Flex</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
+
+  <script>
+    window.ANSWERS = {
+      "q1": "b",
+      "q2": "d",
+      "q3": "b",
+      "q4": "c",
+      "q5": "a",
+      "q6": "b",
+      "q7": "d",
+      "q8": "a",
+      "q9": "a",
+      "q10": "a",
+      "q11": "d",
+      "q12": "c",
+      "q13": "d",
+      "q14": "d",
+      "q15": "a",
+      "q16": "b",
+      "q17": "c",
+      "q18": "a",
+      "q19": "d",
+      "q20": "d",
+      "q21": "a",
+      "q22": "a",
+      "q23": "b",
+      "q24": "c",
+      "q25": "d",
+      "q26": "a",
+      "q27": "c",
+      "q28": "c"
+    };
+    
+    // Custom timer for this exam: 30 seconds per question
+    // 28 questions × 30 seconds = 840 seconds = 14 minutes
+    const EXAM_TIMER_DURATION = 28 * 30;
+  </script>
+  <script src="../script.js"></script>
+</body>
+</html>
