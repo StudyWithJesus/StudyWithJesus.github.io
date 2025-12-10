@@ -276,8 +276,8 @@
         return true;
       }
       
-      // Restrict admin access to specific GitHub usernames
-      const adminUsers = ['StudyWithJesus']; // Replace with your GitHub username
+      // Restrict admin access to specific GitHub usernames or user IDs
+      const adminUsers = ['StudyWithJesus', '247877581']; // GitHub username or user ID
       
       // Try multiple ways to get the GitHub username
       let username = null;
