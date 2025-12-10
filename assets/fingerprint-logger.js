@@ -1,9 +1,33 @@
 /**
  * Fingerprint Logger
- * Computes a SHA-256 fingerprint from browser properties and POSTs to serverless endpoint
+ * Computes a SHA-256 fingerprint from browser properties and saves to Firestore
  */
 (function() {
   'use strict';
+
+  // Initialize Firebase if not already done
+  let db = null;
+  
+  function initFirebase() {
+    if (db) return db;
+    
+    if (!window.FIREBASE_CONFIG) {
+      console.error('Firebase config not found');
+      return null;
+    }
+    
+    try {
+      // Check if Firebase is already initialized
+      if (!firebase.apps || firebase.apps.length === 0) {
+        firebase.initializeApp(window.FIREBASE_CONFIG);
+      }
+      db = firebase.firestore();
+      return db;
+    } catch (error) {
+      console.error('Failed to initialize Firebase:', error);
+      return null;
+    }
+  }
 
   /**
    * Generate SHA-256 hash from string
@@ -59,13 +83,14 @@
 
   /**
    * Store fingerprint log locally for admin dashboard
+   * Also saves to Firestore for centralized tracking
    * @param {string} fp - Fingerprint hash
    * @param {string} name - Display name
    * @param {string} ip - IP address from server (IPv4 or IPv6)
    * @param {string} ipv4 - IPv4 address if available
    * @param {string} ipv6 - IPv6 address if available
    */
-  function storeFingerprintLog(fp, name, ip, ipv4, ipv6) {
+  async function storeFingerprintLog(fp, name, ip, ipv4, ipv6) {
     try {
       const storageKey = 'fingerprint_logs';
       const logs = JSON.parse(localStorage.getItem(storageKey) || '[]');
@@ -75,6 +100,18 @@
       
       // Check if fingerprint already exists
       const existingIndex = logs.findIndex(log => log.fingerprint === fp);
+      
+      const entryData = {
+        name: sanitizedName,
+        fingerprint: fp,
+        timestamp: new Date().toISOString(),
+        lastSeen: new Date().toISOString(),
+        userAgent: navigator.userAgent || '',
+        ip: ip && ip !== 'unknown' ? ip : 'N/A'
+      };
+      
+      if (ipv4) entryData.ipv4 = ipv4;
+      if (ipv6) entryData.ipv6 = ipv6;
       
       if (existingIndex !== -1) {
         // Update existing entry
@@ -95,27 +132,73 @@
         // Add new entry
         const entry = {
           id: Date.now(),
-          name: sanitizedName,
-          fingerprint: fp,
-          timestamp: new Date().toISOString(),
-          userAgent: navigator.userAgent || '',
-          lastSeen: new Date().toISOString(),
-          ip: ip && ip !== 'unknown' ? ip : 'N/A'
+          ...entryData
         };
-        if (ipv4) entry.ipv4 = ipv4;
-        if (ipv6) entry.ipv6 = ipv6;
         logs.push(entry);
       }
       
-      // Keep only last 100 entries
+      // Keep only last 100 entries in localStorage
       if (logs.length > 100) {
         logs.splice(0, logs.length - 100);
       }
       
       localStorage.setItem(storageKey, JSON.stringify(logs));
+      
+      // Save to Firestore for centralized tracking
+      await saveToFirestore(fp, entryData);
+      
     } catch (err) {
       // Silent failure - don't disrupt user experience
       console.debug('Failed to store fingerprint log:', err.message);
+    }
+  }
+  
+  /**
+   * Save fingerprint to Firestore
+   * @param {string} fp - Fingerprint hash
+   * @param {object} data - Fingerprint data
+   */
+  async function saveToFirestore(fp, data) {
+    try {
+      const firestore = initFirebase();
+      if (!firestore) {
+        console.debug('Firestore not available, skipping cloud save');
+        return;
+      }
+      
+      const docRef = firestore.collection('fingerprints').doc(fp);
+      
+      // Check if document exists
+      const doc = await docRef.get();
+      
+      if (doc.exists) {
+        // Update existing document
+        await docRef.update({
+          lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+          visitCount: firebase.firestore.FieldValue.increment(1),
+          ...(data.name && data.name !== 'Guest' && { name: data.name }),
+          ...(data.ip && data.ip !== 'N/A' && { ip: data.ip }),
+          ...(data.ipv4 && { ipv4: data.ipv4 }),
+          ...(data.ipv6 && { ipv6: data.ipv6 })
+        });
+      } else {
+        // Create new document
+        await docRef.set({
+          fingerprint: fp,
+          name: data.name || 'Guest',
+          ip: data.ip || 'N/A',
+          ipv4: data.ipv4 || null,
+          ipv6: data.ipv6 || null,
+          userAgent: data.userAgent || '',
+          firstSeen: firebase.firestore.FieldValue.serverTimestamp(),
+          lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+          visitCount: 1
+        });
+      }
+      
+      console.debug('Fingerprint saved to Firestore');
+    } catch (err) {
+      console.debug('Failed to save to Firestore:', err.message);
     }
   }
 

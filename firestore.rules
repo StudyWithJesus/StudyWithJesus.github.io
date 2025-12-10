@@ -55,5 +55,20 @@ service cloud.firestore {
       // No client writes
       allow write: if false;
     }
+    
+    // Fingerprints collection (visitor tracking)
+    match /fingerprints/{fingerprintId} {
+      // Anyone can write their own fingerprint
+      allow create, update: if 
+        request.resource.data.fingerprint is string &&
+        request.resource.data.name is string &&
+        request.resource.data.name.size() <= 30;
+      
+      // Only admins can read fingerprints
+      allow read: if isAdmin();
+      
+      // No deletes from client
+      allow delete: if false;
+    }
   }
 }

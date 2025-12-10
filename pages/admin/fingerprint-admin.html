@@ -450,48 +450,77 @@
     }
 
     /**
-     * Load data from localStorage and GitHub issues simulation
+     * Load data from Firestore and localStorage
      */
-    function loadData() {
+    async function loadData() {
       // Load blocked fingerprints list
       const blockedList = localStorage.getItem(STORAGE_KEY_BLOCKED);
       blockedFingerprints = new Set(blockedList ? JSON.parse(blockedList) : []);
 
-      // Load fingerprint logs (normally would fetch from GitHub issues)
-      // For now, we'll create a mock based on current fingerprint + username
-      fingerprintData = loadFingerprintLogs();
+      // Load fingerprint logs from Firestore
+      fingerprintData = await loadFingerprintLogs();
 
       updateStats();
       renderFingerprints();
     }
 
     /**
-     * Load fingerprint logs
-     * In production, this would fetch from GitHub issues API
+     * Load fingerprint logs from Firestore
+     * Falls back to localStorage if Firestore is unavailable
      */
-    function loadFingerprintLogs() {
-      const logs = localStorage.getItem(STORAGE_KEY_FINGERPRINTS);
-      let data = logs ? JSON.parse(logs) : [];
-
-      // If no logs, create current user's fingerprint
-      if (data.length === 0) {
-        const username = localStorage.getItem('leaderboard_username') || 'Guest';
-        const currentFp = generateCurrentFingerprint();
+    async function loadFingerprintLogs() {
+      try {
+        // Initialize Firebase
+        if (!firebase.apps || firebase.apps.length === 0) {
+          if (!window.FIREBASE_CONFIG) {
+            throw new Error('Firebase config not found');
+          }
+          firebase.initializeApp(window.FIREBASE_CONFIG);
+        }
         
-        data.push({
-          id: Date.now(),
-          name: username,
-          fingerprint: currentFp,
-          ip: IP_LOCAL, // IP will be populated by server
-          timestamp: new Date().toISOString(),
-          userAgent: navigator.userAgent,
-          lastSeen: new Date().toISOString()
+        const db = firebase.firestore();
+        
+        // Fetch all fingerprints from Firestore
+        const snapshot = await db.collection('fingerprints').get();
+        
+        if (snapshot.empty) {
+          console.log('No fingerprints in Firestore yet');
+          return [];
+        }
+        
+        const data = [];
+        snapshot.forEach(doc => {
+          const fpData = doc.data();
+          data.push({
+            id: fpData.firstSeen?.toMillis() || Date.now(),
+            name: fpData.name || 'Guest',
+            fingerprint: fpData.fingerprint || doc.id,
+            ip: fpData.ip || 'N/A',
+            ipv4: fpData.ipv4 || null,
+            ipv6: fpData.ipv6 || null,
+            timestamp: fpData.firstSeen?.toDate().toISOString() || new Date().toISOString(),
+            lastSeen: fpData.lastSeen?.toDate().toISOString() || new Date().toISOString(),
+            userAgent: fpData.userAgent || '',
+            visitCount: fpData.visitCount || 1
+          });
         });
-
-        localStorage.setItem(STORAGE_KEY_FINGERPRINTS, JSON.stringify(data));
+        
+        // Sort by last seen (most recent first)
+        data.sort((a, b) => new Date(b.lastSeen) - new Date(a.lastSeen));
+        
+        console.log(`Loaded ${data.length} fingerprints from Firestore`);
+        return data;
+        
+      } catch (error) {
+        console.error('Failed to load from Firestore:', error);
+        
+        // Fallback to localStorage
+        const logs = localStorage.getItem(STORAGE_KEY_FINGERPRINTS);
+        let data = logs ? JSON.parse(logs) : [];
+        
+        console.log(`Fallback: Loaded ${data.length} fingerprints from localStorage`);
+        return data;
       }
-
-      return data;
     }
 
     /**
@@ -586,6 +615,7 @@
               <div class="hash">${fp.fingerprint}</div>
               <div class="meta">
                 ${fp.ipv4 ? `IPv4: ${escapeHtml(fp.ipv4)}` : ''}${fp.ipv4 && fp.ipv6 ? ' • ' : ''}${fp.ipv6 ? `IPv6: ${escapeHtml(fp.ipv6)}` : ''}${!fp.ipv4 && !fp.ipv6 ? `IP: ${escapeHtml(ipAddress)}` : ''} • 
+                ${fp.visitCount ? `Visits: ${fp.visitCount} • ` : ''}
                 Last seen: ${new Date(fp.lastSeen).toLocaleString()} • 
                 First seen: ${new Date(fp.timestamp).toLocaleString()}
               </div>
@@ -635,11 +665,15 @@
     }
 
     /**
-     * Refresh data
+     * Refresh data from Firestore
      */
-    function refreshData() {
-      loadData();
-      alert('✅ Data refreshed successfully!');
+    async function refreshData() {
+      try {
+        await loadData();
+        alert('✅ Data refreshed successfully from Firestore!');
+      } catch (error) {
+        alert('⚠️ Failed to refresh data: ' + error.message);
+      }
     }
 
     /**
@@ -701,7 +735,7 @@ ${blocked.join('\n')}
     /**
      * Initialize
      */
-    function init() {
+    async function init() {
       // Check if GitHub Auth is available
       if (!window.GitHubAuth) {
         console.error('GitHub Auth module not loaded');
@@ -716,14 +750,15 @@ ${blocked.join('\n')}
       }
       
       // Check GitHub authentication
-      GitHubAuth.requireAuth().then(user => {
+      try {
+        const user = await GitHubAuth.requireAuth();
         // User is authenticated - show dashboard
         showDashboard(user);
-      }).catch(err => {
+      } catch (err) {
         // Not authenticated - show login UI
         document.getElementById('main-content').style.display = 'none';
         GitHubAuth.showAuthUI('auth-section');
-      });
+      }
     }
 
     // Listen for successful login events
