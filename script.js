@@ -1655,7 +1655,7 @@ function showUsernameRequiredOverlay(form) {
     overlay.id = 'konami-overlay';
     overlay.innerHTML = `
       <div class="konami-center-content">
-        <img src="${getBasePath()}bftb.png" alt="Easter Egg" class="konami-center-image">
+        <img src="/bftb.png" alt="Easter Egg" class="konami-center-image">
         <div class="konami-quote">${randomQuote}</div>
         <div class="konami-achievement">🏆 Triggered ${konamiTriggerCount} time${konamiTriggerCount !== 1 ? 's' : ''}!</div>
         <button class="konami-close" aria-label="Close">&times;</button>
@@ -1863,61 +1863,14 @@ function showUsernameRequiredOverlay(form) {
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     
-    // Team America: World Police GIFs - 50 GIFs from Giphy CDN
+    // Team America: World Police GIFs - 50 local GIF files
     // We select 24 random ones to display in a collage around the center image
-    // Total GIF count: 50 unique URLs
-    const americaGifs = [
-      'https://media0.giphy.com/media/3o7TKDMvVn8bW0lv9e/giphy.gif',
-      'https://media1.giphy.com/media/YJ5OlVLZ2QNl6/giphy.gif',
-      'https://media2.giphy.com/media/l0HlCBdbv6wTNxKvu/giphy.gif',
-      'https://media3.giphy.com/media/3oEjHKvjqt5pssL99C/giphy.gif',
-      'https://media0.giphy.com/media/l0HlEjnJQqKEWq6Hu/giphy.gif',
-      'https://media1.giphy.com/media/3o6Zt7y2O1r7qW4Pu0/giphy.gif',
-      'https://media2.giphy.com/media/xT0GqtHaCvCzFmz0D6/giphy.gif',
-      'https://media3.giphy.com/media/l0HlK4u4zLK1L4K9q/giphy.gif',
-      'https://media0.giphy.com/media/TbYgHMnICI1A4/giphy.gif',
-      'https://media1.giphy.com/media/3o6ZtdkPTnGfUvFBHW/giphy.gif',
-      'https://media2.giphy.com/media/26FPqAHtgCBzKG9Uc/giphy.gif',
-      'https://media3.giphy.com/media/d3mlE7uhX8KFgEmY/giphy.gif',
-      'https://media0.giphy.com/media/l0HlQQBwYXVUaGwJW/giphy.gif',
-      'https://media1.giphy.com/media/l0HlJWbeToTgdVHlC/giphy.gif',
-      'https://media2.giphy.com/media/3o6ZtpWDXbwcCxQxZm/giphy.gif',
-      'https://media3.giphy.com/media/xT0GqssRweIhlz209i/giphy.gif',
-      'https://media0.giphy.com/media/26FPxF3zvCaJAkJHO/giphy.gif',
-      'https://media1.giphy.com/media/3o6ZteJxYiWGrXCQtW/giphy.gif',
-      'https://media2.giphy.com/media/xT0GqCkrWBpBdSRTMs/giphy.gif',
-      'https://media3.giphy.com/media/26FPpSuhgHvYo3hu8/giphy.gif',
-      'https://media0.giphy.com/media/l0HlSK2VF5tV3PfOM/giphy.gif',
-      'https://media1.giphy.com/media/26FPCXdkvDbKBbgOI/giphy.gif',
-      'https://media2.giphy.com/media/3o6Zt7R02Q62fxgChq/giphy.gif',
-      'https://media3.giphy.com/media/xT0Gqn9yuw8hnPGn5K/giphy.gif',
-      'https://media0.giphy.com/media/l0HlGMn8SPCqPuNqM/giphy.gif',
-      'https://media1.giphy.com/media/26FPImXfDlv4AFqdO/giphy.gif',
-      'https://media2.giphy.com/media/xT0GqwQCwZ0CW9FMsM/giphy.gif',
-      'https://media3.giphy.com/media/l0HlRjBK4YUTrYcYE/giphy.gif',
-      'https://media0.giphy.com/media/26FPBWg1bD5MZWOMO/giphy.gif',
-      'https://media1.giphy.com/media/l0HlvD3f7bsQNHWPS/giphy.gif',
-      'https://media2.giphy.com/media/xT0GqGvXRF7F7TlbWM/giphy.gif',
-      'https://media3.giphy.com/media/l0HlAkKDQ0WKKxoJO/giphy.gif',
-      'https://media0.giphy.com/media/26FPOrBx1fDOBxTl6/giphy.gif',
-      'https://media1.giphy.com/media/xT0GquhXfNh4WnWW5O/giphy.gif',
-      'https://media2.giphy.com/media/l0HlBC9fBOgCWxMLC/giphy.gif',
-      'https://media3.giphy.com/media/xT0GqvEn9CgbpK3rTW/giphy.gif',
-      'https://media0.giphy.com/media/26FPDSIy4zPQCUahu/giphy.gif',
-      'https://media1.giphy.com/media/l0HlPH0ziPrQvXXTG/giphy.gif',
-      'https://media2.giphy.com/media/xT0Gqto7r5pFuP8gF2/giphy.gif',
-      'https://media3.giphy.com/media/l0HlRhYvDQCpBZ5hC/giphy.gif',
-      'https://media0.giphy.com/media/26FPJwxTkM94hgYMg/giphy.gif',
-      'https://media1.giphy.com/media/xT0Gqs40S8dCj0ZceY/giphy.gif',
-      'https://media2.giphy.com/media/l0HlIK3qZO3kGzNXq/giphy.gif',
-      'https://media3.giphy.com/media/26FPBKFvGpCziQQwM/giphy.gif',
-      'https://media0.giphy.com/media/xT0GqD7VWEKQKqo8zC/giphy.gif',
-      'https://media1.giphy.com/media/l0HlGpJVTxm4A6EWQ/giphy.gif',
-      'https://media2.giphy.com/media/xT0GqpYgSZ4vKR2FRS/giphy.gif',
-      'https://media3.giphy.com/media/l0HlvtIPDiQEYTGuY/giphy.gif',
-      'https://media0.giphy.com/media/26FPxyqaxWNrI5bwY/giphy.gif',
-      'https://media1.giphy.com/media/xT0GqEAnlKp1F8TM9q/giphy.gif'
-    ];
+    // Total GIF count: 50 unique local files
+    // Files should be located in /assets/gifs/ as america-01.gif through america-50.gif
+    const americaGifs = Array.from({ length: 50 }, (_, i) => {
+      const num = String(i + 1).padStart(2, '0');
+      return `/assets/gifs/america-${num}.gif`;
+    });
     
     const gifsContainer = overlay.querySelector('.america-gifs-container');
     
@@ -1971,25 +1924,63 @@ function showUsernameRequiredOverlay(form) {
         { top: '18%', left: '5%' }
       ];
       
-      shuffledGifs.forEach((gifUrl, index) => {
+      // Concurrency control: limit simultaneous GIF loads
+      const MAX_CONCURRENT_LOADS = 6;
+      let activeLoads = 0;
+      const loadQueue = [];
+      
+      function loadGifWithConcurrency(gifUrl, img, gif) {
+        return new Promise((resolve) => {
+          function attemptLoad() {
+            if (activeLoads >= MAX_CONCURRENT_LOADS) {
+              loadQueue.push(attemptLoad);
+              return;
+            }
+            
+            activeLoads++;
+            
+            // Set up error handler first
+            img.onerror = function() {
+              console.warn('Failed to load GIF:', gifUrl, '- using fallback image');
+              // Use fallback image
+              img.src = '/assets/images/gif-fallback.svg';
+              // Still mark as loaded so it appears
+              gif.classList.add('loaded');
+              completeLoad();
+            };
+            
+            // Set up success handler
+            img.onload = function() {
+              gif.classList.add('loaded');
+              completeLoad();
+            };
+            
+            // Start loading
+            img.src = gifUrl;
+          }
+          
+          function completeLoad() {
+            activeLoads--;
+            resolve();
+            // Process next in queue
+            if (loadQueue.length > 0) {
+              const nextLoad = loadQueue.shift();
+              nextLoad();
+            }
+          }
+          
+          attemptLoad();
+        });
+      }
+      
+      // Create all GIF elements
+      const loadPromises = shuffledGifs.map((gifUrl, index) => {
         const gif = document.createElement('div');
         gif.className = 'america-gif-collage';
         
         const img = document.createElement('img');
-        img.src = gifUrl;
         img.alt = 'Team America GIF';
-        img.loading = 'eager'; // Load immediately for better UX
-        
-        // Handle failed image loads gracefully
-        img.onerror = function() {
-          console.warn('Failed to load GIF:', gifUrl);
-          gif.style.display = 'none';
-        };
-        
-        // Successful load - animate in
-        img.onload = function() {
-          gif.classList.add('loaded');
-        };
+        img.loading = 'lazy'; // Use lazy loading for better performance
         
         gif.appendChild(img);
         
@@ -2002,6 +1993,14 @@ function showUsernameRequiredOverlay(form) {
         gif.style.animationDelay = (index * 0.05) + 's';
         
         gifsContainer.appendChild(gif);
+        
+        // Start loading with concurrency control
+        return loadGifWithConcurrency(gifUrl, img, gif);
+      });
+      
+      // Log when all GIFs are loaded or failed
+      Promise.all(loadPromises).then(() => {
+        console.log('Konami code GIF collage loading complete');
       });
     }
     
