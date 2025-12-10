@@ -243,6 +243,8 @@
       document.addEventListener('DOMContentLoaded', init);
 
       function init() {
+        console.log('=== Admin Leaderboard Initialization ===');
+        
         // Log access attempt (for local auditing)
         logAdminAccess('Page loaded');
 
@@ -254,7 +256,7 @@
         
         // Listen for successful login events
         window.addEventListener('githubauth:login', function(event) {
-          console.log('Login event received, refreshing UI...');
+          console.log('Login event received, refreshing UI...', event);
           // Re-check access to show authenticated content
           checkAccess();
         });
@@ -272,6 +274,8 @@
       }
 
       async function checkAccess() {
+        console.log('checkAccess() called');
+        
         // Check if GitHub Auth is available
         if (!window.GitHubAuth) {
           console.error('GitHub Auth module not loaded');
@@ -279,19 +283,25 @@
           return;
         }
         
+        console.log('GitHub Auth module found');
+        
         // Require GitHub OAuth authentication only
         try {
+          console.log('Attempting to require auth...');
           var user = await GitHubAuth.requireAuth();
           // User is authenticated via GitHub OAuth
+          console.log('User authenticated:', user);
           currentUser = user;
           logAdminAccess('Authenticated via GitHub: ' + user.username);
           showUserInfo(user);
           grantAccess();
         } catch (err) {
           // Not authenticated - show login UI
+          console.log('Auth failed, showing login UI:', err);
           if (githubAuthSectionEl) {
             await GitHubAuth.showAuthUI('github-auth-section');
           } else {
+            console.error('github-auth-section element not found');
             accessDeniedEl.style.display = 'block';
           }
         }
@@ -362,9 +372,13 @@
       }
 
       async function grantAccess() {
+        console.log('grantAccess() called');
+        
         isAuthenticated = true;
         accessDeniedEl.style.display = 'none';
         adminContentEl.style.display = 'block';
+        
+        console.log('Admin content displayed');
         
         // Log admin access to Firestore
         logAdminAccessToFirestore('leaderboard_dashboard_view');
@@ -373,29 +387,37 @@
         await new Promise(resolve => setTimeout(resolve, 200));
         
         // Load admin data
+        console.log('Calling loadAdminData()...');
         loadAdminData();
       }
 
       async function loadAdminData() {
+        console.log('loadAdminData() called');
+        
         // Check if Firebase admin functions are available
         try {
           if (window.LeaderboardFirebase) {
+            console.log('LeaderboardFirebase module found, checking admin status...');
             const adminStatus = await window.LeaderboardFirebase.isAdmin();
             console.log('Admin status check result:', adminStatus);
             
             if (adminStatus) {
               // Load from Firebase
+              console.log('User is admin, loading Firebase data...');
               await loadFirebaseAdminData();
               return;
             } else {
               console.warn('User is not admin, loading sample data');
             }
+          } else {
+            console.warn('LeaderboardFirebase module not loaded');
           }
         } catch (error) {
           console.error('Error checking admin status:', error);
         }
         
         // Load sample data for demo
+        console.log('Loading sample data...');
         loadSampleAdminData();
       }
         // Load sample data for demo
@@ -442,20 +464,36 @@
         // Load sample data for demo/preview
         var basePath = getBasePath();
         
+        console.log('Loading sample data from:', basePath + 'assets/data/leaderboard-sample.json');
+        
         try {
           var response = await fetch(basePath + 'assets/data/leaderboard-sample.json');
+          
+          if (!response.ok) {
+            throw new Error('HTTP ' + response.status + ': ' + response.statusText);
+          }
+          
           var data = await response.json();
+          
+          console.log('Sample data loaded successfully:', data);
+          
+          if (!data.adminData || !data.adminData.userStats || !data.adminData.attemptHistory) {
+            throw new Error('Invalid sample data structure');
+          }
           
           document.getElementById('stat-source').textContent = 'Sample';
           renderAdminData(data.adminData.userStats, data.adminData.attemptHistory);
         } catch (error) {
           console.error('Failed to load sample data:', error);
-          usersTableBody.innerHTML = '<tr><td colspan="5">Failed to load data</td></tr>';
-          historyTableBody.innerHTML = '<tr><td colspan="5">Failed to load data</td></tr>';
+          alert('Failed to load leaderboard data: ' + error.message);
+          usersTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">Failed to load data: ' + error.message + '</td></tr>';
+          historyTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">Failed to load data: ' + error.message + '</td></tr>';
         }
       }
 
       function renderAdminData(userStats, attemptHistory) {
+        console.log('renderAdminData() called with:', { userStats, attemptHistory });
+        
         // Calculate summary stats
         var totalUsers = userStats.length;
         var totalExams = 0;
@@ -478,6 +516,8 @@
         document.getElementById('stat-avg-score').textContent = scoreCount > 0 
           ? Math.round(totalScore / scoreCount) + '%' 
           : '-';
+
+        console.log('Summary stats calculated:', { totalUsers, totalExams, avgScore: scoreCount > 0 ? Math.round(totalScore / scoreCount) : 0 });
 
         // Render users table
         renderUsersTable(userStats);
