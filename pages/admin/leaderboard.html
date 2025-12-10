@@ -758,17 +758,6 @@
           alert('❌ Error deleting test result: ' + error.message);
         }
       }
-          }
-          
-          // Reload data to refresh statistics
-          loadAdminData();
-          
-          alert('✅ Test result deleted successfully!');
-        } catch (error) {
-          console.error('Error deleting attempt:', error);
-          alert('❌ Error deleting test result: ' + error.message);
-        }
-      }
 
       function getBasePath() {
         var path = window.location.pathname;
