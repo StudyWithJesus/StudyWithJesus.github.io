@@ -7,8 +7,9 @@
 // - Last score per exam (ILM) for index pages
 // =====================================================
 
-// Timer duration in seconds (20 minutes)
-const EXAM_TIMER_DURATION = 20 * 60;
+// Timer duration in seconds (20 minutes by default)
+// Individual exam pages can override by setting window.EXAM_TIMER_DURATION BEFORE script.js loads
+const EXAM_TIMER_DURATION = window.EXAM_TIMER_DURATION || (20 * 60);
 
 // Run immediately on load (handles scripts at bottom of body)
 ;(function() {
@@ -162,7 +163,7 @@ function initExamPage() {
     timerDisplay.className = "exam-timer";
     // Explicitly set display style to ensure visibility
     timerDisplay.style.cssText = "display: flex !important; align-items: center !important; gap: var(--space-2) !important;";
-    timerDisplay.innerHTML = '<span class="timer-icon">⏱</span><span class="timer-text">20:00</span>';
+    timerDisplay.innerHTML = '<span class="timer-icon">⏱</span><span class="timer-text">' + formatTime(remainingSeconds) + '</span>';
     progressBar.appendChild(timerDisplay);
     console.log("Timer created and appended to progress bar");
   } else if (!progressBar) {
