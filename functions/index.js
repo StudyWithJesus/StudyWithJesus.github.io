@@ -323,6 +323,51 @@ exports.logFingerprint = onRequest({cors: true}, async (req, res) => {
   // Log fingerprint details (without creating GitHub issue)
   console.log(`Fingerprint logged: ${payload.fp.substring(0, 8)}... from ${ipInfo.display} - ${payload.name || 'Guest'}`);
 
+  // Save fingerprint to Firestore
+  try {
+    const db = admin.firestore();
+    const fingerprintRef = db.collection('fingerprints').doc(payload.fp);
+    
+    // Check if fingerprint already exists
+    const fpDoc = await fingerprintRef.get();
+    
+    if (fpDoc.exists) {
+      // Update existing fingerprint with new visit
+      await fingerprintRef.update({
+        lastSeen: admin.firestore.FieldValue.serverTimestamp(),
+        visitCount: admin.firestore.FieldValue.increment(1),
+        name: payload.name || 'Guest',
+        ip: ipInfo.display,
+        ipv4: ipInfo.ipv4,
+        ipv6: ipInfo.ipv6,
+        userAgent: payload.ua,
+        lastUrl: payload.url
+      });
+      console.log(`Updated existing fingerprint: ${payload.fp.substring(0, 8)}...`);
+    } else {
+      // Create new fingerprint entry
+      await fingerprintRef.set({
+        fingerprint: payload.fp,
+        name: payload.name || 'Guest',
+        ip: ipInfo.display,
+        ipv4: ipInfo.ipv4,
+        ipv6: ipInfo.ipv6,
+        userAgent: payload.ua,
+        language: payload.lang,
+        timezone: payload.tz,
+        firstSeen: admin.firestore.FieldValue.serverTimestamp(),
+        lastSeen: admin.firestore.FieldValue.serverTimestamp(),
+        visitCount: 1,
+        firstUrl: payload.url,
+        lastUrl: payload.url
+      });
+      console.log(`Created new fingerprint: ${payload.fp.substring(0, 8)}...`);
+    }
+  } catch (error) {
+    console.error('Failed to save fingerprint to Firestore:', error);
+    // Don't fail the request if Firestore write fails
+  }
+
   // Return success with IP info (no GitHub issue creation)
   res.status(201).json({
     success: true,
