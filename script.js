@@ -1108,9 +1108,6 @@ function restoreOrder(container, questions, orderKey) {
   }
   
   // Append any questions not in the saved order (shouldn't happen, but just in case)
-  if (questionsByName.size > 0) {
-    console.warn('restoreOrder: Some questions were not in saved order, appending at end');
-  }
   questionsByName.forEach(q => fragment.appendChild(q));
   
   container.appendChild(fragment);
@@ -1941,7 +1938,7 @@ function showUsernameRequiredOverlay(form) {
             
             // Set up error handler first
             img.onerror = function() {
-              console.warn('Failed to load GIF:', gifUrl, '- using fallback image');
+              // Failed to load GIF - using fallback image silently
               // Use fallback image
               img.src = '/assets/images/gif-fallback.svg';
               // Still mark as loaded so it appears
@@ -1998,10 +1995,8 @@ function showUsernameRequiredOverlay(form) {
         return loadGifWithConcurrency(gifUrl, img, gif);
       });
       
-      // Log when all GIFs are loaded or failed
-      Promise.all(loadPromises).then(() => {
-        console.log('Konami code GIF collage loading complete');
-      });
+      // Konami code GIF collage loading complete
+    });
     }
     
     // Create the collage
