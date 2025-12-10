@@ -9,6 +9,8 @@ package-lock.json
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
+service-account-key.json
+functions/service-account-key.json
 
 # OS files
 .DS_Store
