@@ -605,6 +605,75 @@
     }
   }
 
+  /**
+   * Get all attempts from Firestore (admin only)
+   * @returns {Promise<Array>} - All attempts
+   */
+  async function getAllAttempts() {
+    if (!await initialize()) {
+      throw new Error('Firebase not initialized');
+    }
+
+    if (!await isAdmin()) {
+      throw new Error('Unauthorized: Admin access required');
+    }
+
+    const { collection, query, orderBy, getDocs, limit } = firebaseModules;
+
+    try {
+      // Get all attempts ordered by timestamp descending
+      // Limit to 1000 to avoid excessive reads
+      var attemptsQuery = query(
+        collection(db, 'attempts'),
+        orderBy('timestamp', 'desc'),
+        limit(1000)
+      );
+      
+      var snapshot = await getDocs(attemptsQuery);
+      var attempts = [];
+      
+      snapshot.forEach(function(doc) {
+        attempts.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+      
+      console.log('Retrieved ' + attempts.length + ' attempts from Firestore');
+      return attempts;
+    } catch (error) {
+      console.error('Failed to get all attempts:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete an attempt by document ID (admin only)
+   * @param {string} docId - Firestore document ID
+   * @returns {Promise<boolean>} - Success status
+   */
+  async function deleteAttemptById(docId) {
+    if (!await initialize()) {
+      throw new Error('Firebase not initialized');
+    }
+
+    if (!await isAdmin()) {
+      throw new Error('Unauthorized: Admin access required');
+    }
+
+    const { doc, deleteDoc } = firebaseModules;
+
+    try {
+      console.log('Deleting attempt by ID:', docId);
+      await deleteDoc(doc(db, 'attempts', docId));
+      console.log('Successfully deleted attempt:', docId);
+      return true;
+    } catch (error) {
+      console.error('Failed to delete attempt by ID:', error);
+      return false;
+    }
+  }
+
   // Export public API
   window.LeaderboardFirebase = {
     initialize: initialize,
@@ -619,7 +688,9 @@
     onAuthStateChanged: onAuthStateChanged,
     getAdminUserStats: getAdminUserStats,
     getAdminAttemptHistory: getAdminAttemptHistory,
-    deleteAttempt: deleteAttempt
+    deleteAttempt: deleteAttempt,
+    getAllAttempts: getAllAttempts,
+    deleteAttemptById: deleteAttemptById
   };
 
 })();

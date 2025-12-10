@@ -431,21 +431,25 @@
           // Log data access attempt
           logAdminAccessToFirestore('leaderboard_data_read', { action: 'loading' });
           
-          var userStats = await window.LeaderboardFirebase.getAdminUserStats();
-          var historyResult = await window.LeaderboardFirebase.getAdminAttemptHistory({ limit: 20 });
+          // Load ALL attempts from Firestore (not just stats)
+          const attempts = await window.LeaderboardFirebase.getAllAttempts();
           
-          console.log('Loaded user stats:', userStats.length, 'users');
-          console.log('Loaded attempt history:', historyResult.attempts.length, 'attempts');
+          console.log('Loaded attempts:', attempts.length, 'total');
+          
+          // Aggregate user stats from attempts
+          const userStats = aggregateUserStats(attempts);
+          
+          console.log('Aggregated user stats:', userStats);
           
           // Log successful data access
           logAdminAccessToFirestore('leaderboard_data_read', { 
             action: 'success',
             userCount: userStats.length,
-            attemptCount: historyResult.attempts.length
+            attemptCount: attempts.length
           });
           
           document.getElementById('stat-source').textContent = 'Live';
-          renderAdminData(userStats, historyResult.attempts);
+          renderAdminData(userStats, attempts);
         } catch (error) {
           console.error('Failed to load admin data:', error);
           
@@ -458,6 +462,40 @@
           alert('Failed to load Firebase data: ' + error.message + '\n\nLoading sample data instead.');
           loadSampleAdminData();
         }
+      }
+      
+      function aggregateUserStats(attempts) {
+        const userMap = {};
+        
+        attempts.forEach(function(attempt) {
+          const username = attempt.username || 'Unknown';
+          
+          if (!userMap[username]) {
+            userMap[username] = {
+              username: username,
+              totalExams: 0,
+              moduleBreakdown: {}
+            };
+          }
+          
+          userMap[username].totalExams++;
+          
+          const moduleId = attempt.moduleId || 'unknown';
+          if (!userMap[username].moduleBreakdown[moduleId]) {
+            userMap[username].moduleBreakdown[moduleId] = {
+              attempts: 0,
+              totalScore: 0,
+              averageScore: 0
+            };
+          }
+          
+          const breakdown = userMap[username].moduleBreakdown[moduleId];
+          breakdown.attempts++;
+          breakdown.totalScore += attempt.score || 0;
+          breakdown.averageScore = Math.round(breakdown.totalScore / breakdown.attempts);
+        });
+        
+        return Object.values(userMap);
       }
 
       async function loadSampleAdminData() {
@@ -575,16 +613,16 @@
         var html = '';
         for (var i = 0; i < attemptHistory.length; i++) {
           var attempt = attemptHistory[i];
-          // Create a unique ID for this attempt based on its properties
-          var attemptId = attempt.username + '|' + attempt.moduleId + '|' + attempt.examId + '|' + attempt.timestamp;
+          // Use Firebase document ID if available, otherwise create composite ID
+          var attemptId = attempt.id || (attempt.username + '|' + attempt.moduleId + '|' + attempt.examId + '|' + attempt.timestamp);
           
-          html += '<tr data-attempt-id="' + escapeHtml(attemptId) + '">';
-          html += '<td>' + escapeHtml(attempt.username) + '</td>';
-          html += '<td>' + escapeHtml(attempt.moduleId) + '</td>';
-          html += '<td>' + escapeHtml(attempt.examId) + '</td>';
-          html += '<td>' + attempt.score + '%</td>';
+          html += '<tr data-attempt-id="' + escapeHtml(attemptId) + '" data-has-doc-id="' + (!!attempt.id) + '">';
+          html += '<td>' + escapeHtml(attempt.username || 'Unknown') + '</td>';
+          html += '<td>' + escapeHtml(attempt.moduleId || 'unknown') + '</td>';
+          html += '<td>' + escapeHtml(attempt.examId || 'unknown') + '</td>';
+          html += '<td>' + (attempt.score || 0) + '%</td>';
           html += '<td>' + formatTimestamp(attempt.timestamp) + '</td>';
-          html += '<td><button class="delete-btn" data-attempt-id="' + escapeHtml(attemptId) + '">Delete</button></td>';
+          html += '<td><button class="delete-btn" data-attempt-id="' + escapeHtml(attemptId) + '" data-has-doc-id="' + (!!attempt.id) + '">Delete</button></td>';
           html += '</tr>';
         }
         
@@ -637,49 +675,62 @@
           return;
         }
         
-        // Parse attemptId back to its components
-        var parts = attemptId.split('|');
-        if (parts.length !== 4) {
-          alert('Error: Invalid attempt ID');
-          return;
-        }
+        // Get the button that was clicked to check if it has a doc ID
+        var button = document.querySelector('.delete-btn[data-attempt-id="' + attemptId.replace(/"/g, '\\"') + '"]');
+        var hasDocId = button && button.getAttribute('data-has-doc-id') === 'true';
         
-        var username = parts[0];
-        var moduleId = parts[1];
-        var examId = parts[2];
-        var timestamp = parts[3];
+        console.log('Delete attempt:', attemptId, 'hasDocId:', hasDocId);
         
         try {
-          // Log the deletion attempt
-          logAdminAccess('Deleted test result: ' + username + ' - ' + moduleId + ' - ' + examId);
-          logAdminAccessToFirestore('leaderboard_delete_attempt', { 
-            username, 
-            moduleId, 
-            examId, 
-            timestamp 
-          });
-          
           // Check if using Firebase
           if (window.LeaderboardFirebase && await window.LeaderboardFirebase.isAdmin()) {
-            // Delete from Firebase
-            var success = await window.LeaderboardFirebase.deleteAttempt(username, moduleId, examId, timestamp);
+            var success;
+            
+            if (hasDocId) {
+              // Use document ID directly for deletion
+              console.log('Deleting by document ID:', attemptId);
+              success = await window.LeaderboardFirebase.deleteAttemptById(attemptId);
+            } else {
+              // Parse composite attemptId back to its components
+              var parts = attemptId.split('|');
+              if (parts.length !== 4) {
+                alert('Error: Invalid attempt ID');
+                return;
+              }
+              
+              var username = parts[0];
+              var moduleId = parts[1];
+              var examId = parts[2];
+              var timestamp = parts[3];
+              
+              console.log('Deleting by properties:', { username, moduleId, examId, timestamp });
+              success = await window.LeaderboardFirebase.deleteAttempt(username, moduleId, examId, timestamp);
+            }
+            
             if (!success) {
-              console.error('Delete failed for:', { username, moduleId, examId, timestamp });
+              console.error('Delete failed for:', attemptId);
               alert('❌ Failed to delete from Firebase.\n\nPossible reasons:\n• The record may not exist\n• Timestamp format mismatch\n• Database connectivity issue\n\nCheck browser console for details.');
               return;
             }
+            
+            // Log the deletion
+            logAdminAccess('Deleted test result: ' + attemptId);
+            logAdminAccessToFirestore('leaderboard_delete_attempt', { attemptId });
+            
+            // Remove the row from UI
+            var row = button.closest('tr');
+            if (row) {
+              row.remove();
+              alert('✅ Test result deleted successfully!');
+            }
           } else {
-            // Delete from localStorage (sample data)
-            // This is for demo purposes - in production, you'd only use Firebase
-            alert('⚠️ Demo Mode: This would delete from Firebase in production.\n\nFor now, this only works with live Firebase data.');
-            // We can still remove it from the UI
+            alert('⚠️ Admin access required or Firebase not initialized.');
           }
-          
-          // Remove the row from UI
-          var escapedId = attemptId.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g, '\\$&');
-          var row = document.querySelector('[data-attempt-id="' + escapedId + '"]');
-          if (row) {
-            row.remove();
+        } catch (error) {
+          console.error('Error deleting attempt:', error);
+          alert('❌ Error deleting test result: ' + error.message);
+        }
+      }
           }
           
           // Reload data to refresh statistics
