@@ -278,11 +278,37 @@
       
       // Restrict admin access to specific GitHub usernames
       const adminUsers = ['StudyWithJesus']; // Replace with your GitHub username
-      const username = auth.currentUser.reloadUserInfo?.screenName || 
-                       auth.currentUser.displayName ||
-                       auth.currentUser.email?.split('@')[0];
+      
+      // Try multiple ways to get the GitHub username
+      let username = null;
+      
+      // Method 1: Check providerData for GitHub username
+      if (auth.currentUser.providerData && auth.currentUser.providerData.length > 0) {
+        const githubProvider = auth.currentUser.providerData.find(p => p.providerId === 'github.com');
+        if (githubProvider) {
+          username = githubProvider.displayName || githubProvider.uid;
+        }
+      }
+      
+      // Method 2: Check reloadUserInfo
+      if (!username && auth.currentUser.reloadUserInfo) {
+        username = auth.currentUser.reloadUserInfo.screenName || auth.currentUser.reloadUserInfo.providerUserInfo?.[0]?.screenName;
+      }
+      
+      // Method 3: Check displayName
+      if (!username) {
+        username = auth.currentUser.displayName;
+      }
+      
+      // Method 4: Use email prefix as fallback
+      if (!username && auth.currentUser.email) {
+        username = auth.currentUser.email.split('@')[0];
+      }
       
       console.log('Checking admin access for user:', username);
+      console.log('Current user object:', auth.currentUser);
+      console.log('Provider data:', auth.currentUser.providerData);
+      
       const isAdminUser = adminUsers.includes(username);
       
       if (!isAdminUser) {

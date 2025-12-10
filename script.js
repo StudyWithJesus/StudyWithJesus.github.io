@@ -1288,8 +1288,17 @@ function initUsernameSetup() {
     }
   });
   
-  // Initialize display
+  // Initialize display on load and ensure it updates
   updateDisplay();
+  
+  // Also update when localStorage changes (e.g., from another tab)
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'leaderboard_username') {
+      updateDisplay();
+    }
+  });
+  
+  console.log('Username setup initialized successfully');
 }
 
 // ----------------------
