@@ -316,6 +316,10 @@
   </main>
 
   <script>
+    // Custom timer for this exam: 30 seconds per question
+    // 28 questions × 30 seconds = 840 seconds = 14 minutes
+    window.EXAM_TIMER_DURATION = 28 * 30;
+    
     window.ANSWERS = {
       "q1": "b",
       "q2": "d",
@@ -346,10 +350,6 @@
       "q27": "c",
       "q28": "c"
     };
-    
-    // Custom timer for this exam: 30 seconds per question
-    // 28 questions × 30 seconds = 840 seconds = 14 minutes
-    const EXAM_TIMER_DURATION = 28 * 30;
   </script>
   <script src="../script.js"></script>
 </body>
