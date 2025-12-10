@@ -5,7 +5,8 @@ service cloud.firestore {
     // Helper function to check admin claim or authenticated user
     function isAdmin() {
       return request.auth != null && 
-        (request.auth.token.admin == true || request.auth != null);
+        (request.auth.token.admin == true || 
+         request.auth.uid == 'kdWm2MNPK1eN8GqEt8AOgjWCw8P2'); // Your Firebase UID
     }
     
     // Attempts collection
@@ -23,8 +24,8 @@ service cloud.firestore {
       // Authenticated users can read attempts (admin access)
       allow read: if isAdmin();
       
-      // Only admins can update or delete
-      allow update, delete: if request.auth != null && request.auth.token.admin == true;
+      // Only admins can update or delete (check custom claim or specific UID)
+      allow update, delete: if isAdmin();
     }
     
     // Leaderboard collection (read-only, updated by Cloud Functions)
