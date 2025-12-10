@@ -260,7 +260,11 @@
       return false;
     }
 
+    // Give auth state time to settle
+    await new Promise(resolve => setTimeout(resolve, 100));
+
     if (!auth.currentUser) {
+      console.log('No Firebase auth user found for admin check');
       return false;
     }
 
@@ -268,19 +272,33 @@
       // Check for custom claims first (if configured via Cloud Functions)
       var tokenResult = await auth.currentUser.getIdTokenResult();
       if (tokenResult.claims.admin === true) {
+        console.log('Admin access granted via custom claims');
         return true;
       }
       
       // Restrict admin access to specific GitHub usernames
       const adminUsers = ['StudyWithJesus']; // Replace with your GitHub username
       const username = auth.currentUser.reloadUserInfo?.screenName || 
-                       auth.currentUser.displayName;
-      return adminUsers.includes(username);
+                       auth.currentUser.displayName ||
+                       auth.currentUser.email?.split('@')[0];
+      
+      console.log('Checking admin access for user:', username);
+      const isAdminUser = adminUsers.includes(username);
+      
+      if (!isAdminUser) {
+        console.log('User not in admin list. Current user:', username, 'Admin users:', adminUsers);
+      }
+      
+      return isAdminUser;
     } catch (error) {
       console.error('Failed to check admin status:', error);
       
       // If there's an error checking claims, treat authenticated users as admin
-      return auth.currentUser !== null;
+      if (auth.currentUser) {
+        console.log('Auth error, allowing authenticated user:', auth.currentUser.displayName);
+        return true;
+      }
+      return false;
     }
   }
 
@@ -493,37 +511,67 @@
     const { collection, query, where, getDocs, deleteDoc, doc } = firebaseModules;
 
     try {
-      // Find the attempt document that matches all criteria
+      // Convert timestamp to number if it's a string
+      var timestampNum = typeof timestamp === 'string' ? parseInt(timestamp, 10) : timestamp;
+      
+      console.log('Attempting to delete:', { username, moduleId, examId, timestamp, timestampNum });
+      
+      // Try multiple query strategies since timestamp format might vary
       var attemptsQuery = query(
         collection(db, 'attempts'),
         where('username', '==', username),
         where('moduleId', '==', moduleId),
-        where('examId', '==', examId),
-        where('timestamp', '==', timestamp)
+        where('examId', '==', examId)
       );
       
       var snapshot = await getDocs(attemptsQuery);
       
       if (snapshot.empty) {
-        console.warn('No matching attempt found to delete');
+        console.warn('No attempts found for user:', username, 'module:', moduleId, 'exam:', examId);
         return false;
       }
       
-      // Warn if multiple documents match (shouldn't happen normally)
-      if (snapshot.size > 1) {
-        console.warn('Multiple attempts match deletion criteria. Deleting all ' + snapshot.size + ' matching records.');
+      // Filter to find the exact timestamp match (handle both number and string)
+      var matchingDocs = [];
+      snapshot.forEach(function(docSnap) {
+        var data = docSnap.data();
+        var docTimestamp = data.timestamp;
+        
+        // Compare timestamps (handle both string and number formats)
+        var docTimestampNum = typeof docTimestamp === 'string' ? parseInt(docTimestamp, 10) : docTimestamp;
+        var timestampMatch = docTimestamp === timestamp || 
+                            docTimestamp === timestampNum || 
+                            docTimestampNum === timestampNum ||
+                            String(docTimestamp) === String(timestamp);
+        
+        if (timestampMatch) {
+          matchingDocs.push(docSnap);
+        }
+      });
+      
+      if (matchingDocs.length === 0) {
+        console.warn('Found attempts but no timestamp match. Looking for:', timestamp, 'Available:');
+        snapshot.forEach(function(docSnap) {
+          console.log(' -', docSnap.data().timestamp, typeof docSnap.data().timestamp);
+        });
+        return false;
+      }
+      
+      // Warn if multiple documents match
+      if (matchingDocs.length > 1) {
+        console.warn('Multiple attempts match deletion criteria. Deleting all ' + matchingDocs.length + ' matching records.');
       }
 
-      // Delete all matching documents (should typically be just one)
+      // Delete all matching documents
       var deletePromises = [];
-      snapshot.forEach(function(docSnap) {
+      matchingDocs.forEach(function(docSnap) {
         console.log('Deleting attempt document:', docSnap.id);
         deletePromises.push(deleteDoc(doc(db, 'attempts', docSnap.id)));
       });
       
       await Promise.all(deletePromises);
       
-      console.log('Successfully deleted attempt(s):', { username, moduleId, examId, timestamp });
+      console.log('Successfully deleted ' + matchingDocs.length + ' attempt(s)');
       return true;
     } catch (error) {
       console.error('Failed to delete attempt:', error);

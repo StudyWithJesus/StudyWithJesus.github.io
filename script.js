@@ -149,8 +149,15 @@ function initExamPage() {
     timerDisplay = document.createElement("div");
     timerDisplay.id = "exam-timer";
     timerDisplay.className = "exam-timer";
+    // Explicitly set display style to ensure visibility
+    timerDisplay.style.cssText = "display: flex !important; align-items: center !important; gap: var(--space-2) !important;";
     timerDisplay.innerHTML = '<span class="timer-icon">⏱</span><span class="timer-text">20:00</span>';
     progressBar.appendChild(timerDisplay);
+    console.log("Timer created and appended to progress bar");
+  } else if (!progressBar) {
+    console.warn("Progress bar not found - timer cannot be displayed");
+  } else if (timerDisplay) {
+    console.log("Timer already exists");
   }
 
   // Format seconds as MM:SS
@@ -1214,7 +1221,12 @@ function initUsernameSetup() {
   // Set username in localStorage
   function setUsername(name) {
     try {
-      const sanitized = name.trim().substring(0, 30).replace(/[<>'"&]/g, '');
+      // Remove HTML tags, dangerous characters, but preserve spaces
+      const sanitized = name
+        .replace(/<[^>]*>/g, '')  // Remove HTML tags
+        .replace(/[<>"'`&]/g, '') // Remove dangerous characters but keep spaces
+        .trim()
+        .substring(0, 30);
       if (sanitized) {
         localStorage.setItem('leaderboard_username', sanitized);
         return sanitized;
@@ -1626,26 +1638,7 @@ function showUsernameRequiredOverlay(form) {
       localStorage.setItem('konami_trigger_count', konamiTriggerCount.toString());
     } catch {}
     
-    // Play a triumphant beep sound using Web Audio API
-    try {
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      oscillator.frequency.value = 523.25; // C5 note
-      oscillator.type = 'square';
-      
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-      
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.5);
-    } catch (e) {
-      // Audio API not supported, silently fail
-    }
+    // No sound/noise
     
     // Pick a random quote
     const randomQuote = teamAmericaQuotes[Math.floor(Math.random() * teamAmericaQuotes.length)];
@@ -1654,13 +1647,13 @@ function showUsernameRequiredOverlay(form) {
     const overlay = document.createElement('div');
     overlay.id = 'konami-overlay';
     overlay.innerHTML = `
+      <div class="america-gifs-container"></div>
       <div class="konami-center-content">
         <img src="${getBasePath()}bftb.png" alt="Easter Egg" class="konami-center-image">
         <div class="konami-quote">${randomQuote}</div>
         <div class="konami-achievement">🏆 Triggered ${konamiTriggerCount} time${konamiTriggerCount !== 1 ? 's' : ''}!</div>
         <button class="konami-close" aria-label="Close">&times;</button>
       </div>
-      <div class="america-gifs-container"></div>
     `;
     
     // Add styles
@@ -1673,13 +1666,17 @@ function showUsernameRequiredOverlay(form) {
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.85);
+        background: rgba(0, 0, 0, 0.9);
         z-index: 10000;
         animation: konamiFadeIn 0.3s ease-out;
-        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
+      }
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 40px 20px;
       }
       
       @keyframes konamiFadeIn {
@@ -1758,30 +1755,38 @@ function showUsernameRequiredOverlay(form) {
         height: 100%;
         pointer-events: none;
         z-index: 9999;
-        overflow: hidden;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 15px;
+        padding: 30px;
       }
       
       .america-gif {
-        position: absolute;
-        animation: flyAcross linear infinite;
-        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
-        z-index: 9999;
+        width: 100%;
+        height: 100%;
+        animation: gifFadeIn 0.5s ease-out forwards;
+        opacity: 0;
+        overflow: hidden;
       }
       
-      .america-gif img {
-        width: auto;
-        height: auto;
-        max-width: 150px;
-        max-height: 150px;
-        object-fit: contain;
+      .america-gif img,
+      .america-gif video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
       }
       
-      @keyframes flyAcross {
-        0% {
-          transform: translate(var(--startX), var(--startY)) rotate(var(--rotation)) scale(var(--scale));
+      @keyframes gifFadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.8);
         }
-        100% {
-          transform: translate(var(--endX), var(--endY)) rotate(calc(var(--rotation) + 720deg)) scale(var(--scale));
+        to {
+          opacity: 1;
+          transform: scale(1);
         }
       }
       
@@ -1828,9 +1833,11 @@ function showUsernameRequiredOverlay(form) {
           margin-top: 12px;
         }
         
-        .america-gif img {
-          max-width: 100px;
-          max-height: 100px;
+        .america-gifs-container {
+          grid-template-columns: repeat(4, 1fr);
+          grid-template-rows: repeat(6, 1fr);
+          gap: 10px;
+          padding: 15px;
         }
         
         .konami-close {
@@ -1846,105 +1853,69 @@ function showUsernameRequiredOverlay(form) {
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     
-    // Team America: World Police GIFs - using direct Giphy CDN URLs
-    const americaGifs = [
-      'https://media0.giphy.com/media/3o7TKDMvVn8bW0lv9e/giphy.gif',
-      'https://media1.giphy.com/media/YJ5OlVLZ2QNl6/giphy.gif',
-      'https://media2.giphy.com/media/l0HlCBdbv6wTNxKvu/giphy.gif',
-      'https://media3.giphy.com/media/3oEjHKvjqt5pssL99C/giphy.gif',
-      'https://media0.giphy.com/media/l0HlEjnJQqKEWq6Hu/giphy.gif',
-      'https://media1.giphy.com/media/3o6Zt7y2O1r7qW4Pu0/giphy.gif',
-      'https://media2.giphy.com/media/xT0GqtHaCvCzFmz0D6/giphy.gif',
-      'https://media3.giphy.com/media/l0HlK4u4zLK1L4K9q/giphy.gif'
-    ];
+    // Load meme videos from external repository (711 MP4s)
+    const script = document.createElement('script');
+    script.src = getBasePath() + 'assets/meme-urls.js';
+    script.onload = function() {
+      if (typeof MEME_VIDEOS !== 'undefined') {
+        americaGifs = shuffleArray(MEME_VIDEOS);
+      } else {
+        // Fallback to empty array
+        americaGifs = [];
+      }
+      startGifAnimation();
+    };
+    script.onerror = function() {
+      // Fallback if script fails to load
+      americaGifs = [];
+      startGifAnimation();
+    };
+    document.head.appendChild(script);
+    
+    let americaGifs = [];
+    
+    // Shuffle the array to randomize on each load
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
     
     const gifsContainer = overlay.querySelector('.america-gifs-container');
-    let gifInterval;
     let activeGifCount = 0;
-    const maxConcurrentGifs = 20;
+    const maxGifs = 24; // Grid of memes around center image
     
-    function createFlyingGif() {
-      // Limit concurrent GIFs to prevent performance issues
-      if (activeGifCount >= maxConcurrentGifs) return;
-      
-      activeGifCount++;
+    function createCollageGif(index) {
       const gif = document.createElement('div');
       gif.className = 'america-gif';
+      gif.style.animationDelay = (index * 0.05) + 's';
       
-      const img = document.createElement('img');
-      const size = 80 + Math.floor(Math.random() * 100); // 80-180px
-      img.src = americaGifs[Math.floor(Math.random() * americaGifs.length)];
-      img.alt = 'Team America GIF';
-      img.style.width = size + 'px';
-      img.style.height = 'auto';
-      // Handle failed image loads gracefully
-      img.onerror = function() {
-        gif.remove();
-        activeGifCount--;
+      // Use video element for MP4s, completely muted
+      const video = document.createElement('video');
+      video.src = americaGifs[index % americaGifs.length];
+      video.muted = true; // Ensure video is muted
+      video.autoplay = true;
+      video.loop = true;
+      video.playsInline = true; // For mobile devices
+      video.volume = 0; // Extra ensure no sound
+      video.setAttribute('muted', ''); // Extra attribute
+      video.onerror = function() {
+        gif.style.visibility = 'hidden';
       };
-      gif.appendChild(img);
-      
-      // Random starting position (from edges)
-      const edge = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
-      let startX, startY, endX, endY;
-      
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      
-      switch(edge) {
-        case 0: // top
-          startX = Math.random() * vw;
-          startY = -150;
-          endX = Math.random() * vw;
-          endY = vh + 150;
-          break;
-        case 1: // right
-          startX = vw + 150;
-          startY = Math.random() * vh;
-          endX = -150;
-          endY = Math.random() * vh;
-          break;
-        case 2: // bottom
-          startX = Math.random() * vw;
-          startY = vh + 150;
-          endX = Math.random() * vw;
-          endY = -150;
-          break;
-        case 3: // left
-          startX = -150;
-          startY = Math.random() * vh;
-          endX = vw + 150;
-          endY = Math.random() * vh;
-          break;
-      }
-      
-      const duration = 2 + Math.random() * 3; // 2-5 seconds
-      const scale = 0.5 + Math.random() * 1.5; // 0.5-2x size
-      const rotation = Math.random() * 360;
-      
-      gif.style.setProperty('--startX', startX + 'px');
-      gif.style.setProperty('--startY', startY + 'px');
-      gif.style.setProperty('--endX', endX + 'px');
-      gif.style.setProperty('--endY', endY + 'px');
-      gif.style.setProperty('--scale', scale);
-      gif.style.setProperty('--rotation', rotation + 'deg');
-      gif.style.animationDuration = duration + 's';
+      gif.appendChild(video);
       
       gifsContainer.appendChild(gif);
-      
-      // Remove GIF after animation and decrement counter
-      setTimeout(() => {
-        gif.remove();
-        activeGifCount--;
-      }, duration * 1000);
     }
     
-    // Spawn initial burst of GIFs
-    for (let i = 0; i < 10; i++) {
-      setTimeout(() => createFlyingGif(), i * 150);
+    function startGifAnimation() {
+      // Create collage of GIFs
+      for (let i = 0; i < Math.min(maxGifs, americaGifs.length); i++) {
+        createCollageGif(i);
+      }
     }
-    // Continue spawning GIFs at a reasonable interval
-    gifInterval = setInterval(createFlyingGif, 350);
     
     // Close on button click
     overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);
@@ -1968,11 +1939,6 @@ function showUsernameRequiredOverlay(form) {
     });
     
     function closeEasterEgg() {
-      // Stop spawning GIFs
-      if (gifInterval) {
-        clearInterval(gifInterval);
-        gifInterval = null;
-      }
       overlay.style.animation = 'konamiFadeIn 0.3s ease-out reverse';
       setTimeout(function() {
         overlay.remove();

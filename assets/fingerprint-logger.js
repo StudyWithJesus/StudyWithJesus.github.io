@@ -73,10 +73,10 @@
     if (!name || typeof name !== 'string') {
       return 'Guest';
     }
-    // Remove HTML tags, limit length, trim whitespace
+    // Remove HTML tags and dangerous characters, but preserve spaces
     return name
       .replace(/<[^>]*>/g, '')  // Remove HTML tags
-      .replace(/[<>'"&]/g, '')  // Remove dangerous characters
+      .replace(/[<>"'`&]/g, '') // Remove dangerous characters but keep spaces
       .trim()
       .substring(0, 30) || 'Guest';
   }

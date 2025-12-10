@@ -7,6 +7,8 @@
   <title>Fingerprint Admin Dashboard</title>
   <link rel="stylesheet" href="../../assets/css/admin-responsive.css">
   <!-- Firebase Configuration (must load before github-auth.js) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="../../config/firebase.config.js"></script>
   <!-- GitHub OAuth Configuration -->
   <script src="../../config/github-oauth.config.js"></script>
@@ -416,13 +418,16 @@
     /**
      * Show dashboard
      */
-    function showDashboard(user) {
+    async function showDashboard(user) {
       currentUser = user;
       document.getElementById('auth-section').style.display = 'none';
       document.getElementById('main-content').style.display = 'block';
       
       // Show user info in header
       showUserInfo(user);
+      
+      // Log admin access to Firestore
+      await logAdminAccess(user, 'fingerprint_dashboard_view');
       
       loadData();
     }
@@ -480,6 +485,11 @@
         
         const db = firebase.firestore();
         
+        // Log admin data access
+        if (currentUser) {
+          await logAdminAccess(currentUser, 'fingerprint_data_read', { count: 'loading' });
+        }
+        
         // Fetch all fingerprints from Firestore
         const snapshot = await db.collection('fingerprints').get();
         
@@ -508,11 +518,27 @@
         // Sort by last seen (most recent first)
         data.sort((a, b) => new Date(b.lastSeen) - new Date(a.lastSeen));
         
+        // Log successful data access with count
+        if (currentUser) {
+          await logAdminAccess(currentUser, 'fingerprint_data_read', { 
+            count: data.length,
+            action: 'success'
+          });
+        }
+        
         console.log(`Loaded ${data.length} fingerprints from Firestore`);
         return data;
         
       } catch (error) {
         console.error('Failed to load from Firestore:', error);
+        
+        // Log failed access attempt
+        if (currentUser) {
+          await logAdminAccess(currentUser, 'fingerprint_data_read', { 
+            action: 'failed',
+            error: error.message
+          });
+        }
         
         // Fallback to localStorage
         const logs = localStorage.getItem(STORAGE_KEY_FINGERPRINTS);
@@ -520,6 +546,40 @@
         
         console.log(`Fallback: Loaded ${data.length} fingerprints from localStorage`);
         return data;
+      }
+    }
+    
+    /**
+     * Log admin access to Firestore for audit trail
+     * @param {Object} user - Current user object
+     * @param {string} action - Action being performed
+     * @param {Object} metadata - Additional metadata
+     */
+    async function logAdminAccess(user, action, metadata = {}) {
+      try {
+        if (!firebase.apps || firebase.apps.length === 0) {
+          if (!window.FIREBASE_CONFIG) return;
+          firebase.initializeApp(window.FIREBASE_CONFIG);
+        }
+        
+        const db = firebase.firestore();
+        
+        await db.collection('admin_logs').add({
+          userId: user.uid || 'unknown',
+          username: user.username || user.displayName || 'unknown',
+          email: user.email || null,
+          action: action,
+          page: 'fingerprint_admin',
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          metadata: metadata,
+          userAgent: navigator.userAgent,
+          url: window.location.href
+        });
+        
+        console.log(`Audit log: ${action} by ${user.username}`);
+      } catch (error) {
+        // Silent failure - don't disrupt admin functionality
+        console.warn('Failed to log admin access:', error);
       }
     }
 
@@ -629,11 +689,17 @@
     /**
      * Toggle block status
      */
-    function toggleBlock(fingerprint, ip) {
+    async function toggleBlock(fingerprint, ip) {
       if (blockedFingerprints.has(fingerprint)) {
         blockedFingerprints.delete(fingerprint);
+        if (currentUser) {
+          await logAdminAccess(currentUser, 'fingerprint_unblock', { fingerprint, ip });
+        }
       } else {
         blockedFingerprints.add(fingerprint);
+        if (currentUser) {
+          await logAdminAccess(currentUser, 'fingerprint_block', { fingerprint, ip });
+        }
       }
 
       // Save to localStorage (only fingerprints, not IPs)
@@ -713,10 +779,16 @@ ${blocked.join('\n')}
     /**
      * Clear all blocks
      */
-    function clearAllBlocks() {
+    async function clearAllBlocks() {
       if (confirm('Are you sure you want to allow all fingerprints?')) {
+        const count = blockedFingerprints.size;
         blockedFingerprints.clear();
         localStorage.setItem(STORAGE_KEY_BLOCKED, JSON.stringify([]));
+        
+        if (currentUser) {
+          await logAdminAccess(currentUser, 'fingerprint_clear_all_blocks', { count });
+        }
+        
         updateStats();
         renderFingerprints();
         alert('✅ All blocks cleared!');

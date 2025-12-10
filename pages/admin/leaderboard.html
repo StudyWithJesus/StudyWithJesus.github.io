@@ -15,6 +15,8 @@
   <script src="../../assets/js/github-auth.js"></script>
   
   <!-- Firebase Configuration and Integration -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="../../config/firebase.config.js"></script>
   <script src="../../assets/js/leaderboard-firebase.js"></script>
   
@@ -201,15 +203,14 @@
 
       <!-- Security notice -->
       <aside class="security-notice">
-        <h4>🔒 Security Guidance</h4>
+        <h4>🔒 Security & Audit Logging</h4>
         <p>
-          <strong>Audit Logging:</strong> To enable server-side audit logs for admin access,
-          configure Cloud Functions to log all reads from admin endpoints. See 
-          <code>docs/leaderboard-design.md</code> for implementation details.
+          <strong>✅ Audit Logging Active:</strong> All admin access and actions are automatically logged to 
+          Firestore (<code>admin_logs</code> collection) with timestamps, user information, and action metadata.
         </p>
         <p style="margin-top: var(--space-2);">
-          <strong>This Page:</strong> Admin access is logged locally in the browser console.
-          For production, implement server-side logging via Cloud Functions or your backend.
+          <strong>Logged Actions:</strong> Dashboard views, data reads, test result deletions, and fingerprint blocks 
+          are tracked for security and compliance purposes.
         </p>
       </aside>
     </div>
@@ -360,10 +361,16 @@
         }
       }
 
-      function grantAccess() {
+      async function grantAccess() {
         isAuthenticated = true;
         accessDeniedEl.style.display = 'none';
         adminContentEl.style.display = 'block';
+        
+        // Log admin access to Firestore
+        logAdminAccessToFirestore('leaderboard_dashboard_view');
+        
+        // Wait a moment for Firebase auth to fully initialize
+        await new Promise(resolve => setTimeout(resolve, 200));
         
         // Load admin data
         loadAdminData();
@@ -371,24 +378,62 @@
 
       async function loadAdminData() {
         // Check if Firebase admin functions are available
-        if (window.LeaderboardFirebase && await window.LeaderboardFirebase.isAdmin()) {
-          // Load from Firebase
-          loadFirebaseAdminData();
-        } else {
-          // Load sample data for demo
-          loadSampleAdminData();
+        try {
+          if (window.LeaderboardFirebase) {
+            const adminStatus = await window.LeaderboardFirebase.isAdmin();
+            console.log('Admin status check result:', adminStatus);
+            
+            if (adminStatus) {
+              // Load from Firebase
+              await loadFirebaseAdminData();
+              return;
+            } else {
+              console.warn('User is not admin, loading sample data');
+            }
+          }
+        } catch (error) {
+          console.error('Error checking admin status:', error);
         }
+        
+        // Load sample data for demo
+        loadSampleAdminData();
+      }
+        // Load sample data for demo
+        loadSampleAdminData();
       }
 
       async function loadFirebaseAdminData() {
         try {
+          console.log('Loading Firebase admin data...');
+          
+          // Log data access attempt
+          logAdminAccessToFirestore('leaderboard_data_read', { action: 'loading' });
+          
           var userStats = await window.LeaderboardFirebase.getAdminUserStats();
           var historyResult = await window.LeaderboardFirebase.getAdminAttemptHistory({ limit: 20 });
+          
+          console.log('Loaded user stats:', userStats.length, 'users');
+          console.log('Loaded attempt history:', historyResult.attempts.length, 'attempts');
+          
+          // Log successful data access
+          logAdminAccessToFirestore('leaderboard_data_read', { 
+            action: 'success',
+            userCount: userStats.length,
+            attemptCount: historyResult.attempts.length
+          });
           
           document.getElementById('stat-source').textContent = 'Live';
           renderAdminData(userStats, historyResult.attempts);
         } catch (error) {
           console.error('Failed to load admin data:', error);
+          
+          // Log failed access
+          logAdminAccessToFirestore('leaderboard_data_read', { 
+            action: 'failed',
+            error: error.message
+          });
+          
+          alert('Failed to load Firebase data: ' + error.message + '\n\nLoading sample data instead.');
           loadSampleAdminData();
         }
       }
@@ -565,15 +610,22 @@
         var timestamp = parts[3];
         
         try {
-          // Log the deletion
+          // Log the deletion attempt
           logAdminAccess('Deleted test result: ' + username + ' - ' + moduleId + ' - ' + examId);
+          logAdminAccessToFirestore('leaderboard_delete_attempt', { 
+            username, 
+            moduleId, 
+            examId, 
+            timestamp 
+          });
           
           // Check if using Firebase
           if (window.LeaderboardFirebase && await window.LeaderboardFirebase.isAdmin()) {
             // Delete from Firebase
             var success = await window.LeaderboardFirebase.deleteAttempt(username, moduleId, examId, timestamp);
             if (!success) {
-              alert('Failed to delete from Firebase. The record may not exist.');
+              console.error('Delete failed for:', { username, moduleId, examId, timestamp });
+              alert('❌ Failed to delete from Firebase.\n\nPossible reasons:\n• The record may not exist\n• Timestamp format mismatch\n• Database connectivity issue\n\nCheck browser console for details.');
               return;
             }
           } else {
@@ -629,6 +681,42 @@
           });
         } catch (e) {
           return 'Unknown';
+        }
+      }
+      
+      /**
+       * Log admin access to Firestore for audit trail
+       * @param {string} action - Action being performed
+       * @param {Object} metadata - Additional metadata
+       */
+      async function logAdminAccessToFirestore(action, metadata = {}) {
+        if (!currentUser) return;
+        
+        try {
+          // Initialize Firebase if needed
+          if (!firebase.apps || firebase.apps.length === 0) {
+            if (!window.FIREBASE_CONFIG) return;
+            firebase.initializeApp(window.FIREBASE_CONFIG);
+          }
+          
+          var db = firebase.firestore();
+          
+          await db.collection('admin_logs').add({
+            userId: currentUser.uid || 'unknown',
+            username: currentUser.username || currentUser.displayName || 'unknown',
+            email: currentUser.email || null,
+            action: action,
+            page: 'leaderboard_admin',
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            metadata: metadata,
+            userAgent: navigator.userAgent,
+            url: window.location.href
+          });
+          
+          console.log('Audit log: ' + action + ' by ' + currentUser.username);
+        } catch (error) {
+          // Silent failure - don't disrupt admin functionality
+          console.warn('Failed to log admin access:', error);
         }
       }
 

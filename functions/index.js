@@ -320,88 +320,15 @@ exports.logFingerprint = onRequest({cors: true}, async (req, res) => {
     display: ipv4Match ? ipv4Match[0] : clientIp  // Prefer IPv4 for display
   };
 
-  try {
-    // Create GitHub issue
-    const issue = await createGitHubIssue(githubToken, githubRepo, payload, clientIp);
-    
-    res.status(201).json({
-      success: true,
-      issueUrl: issue.html_url,
-      issueNumber: issue.number,
-      clientIp: ipInfo.display,  // Return preferred IP format
-      ipv4: ipInfo.ipv4,
-      ipv6: ipInfo.ipv6
-    });
-  } catch (error) {
-    console.error('Failed to create GitHub issue:', error);
-    res.status(500).json({
-      error: 'Failed to log fingerprint',
-      message: error.message
-    });
-  }
-});
+  // Log fingerprint details (without creating GitHub issue)
+  console.log(`Fingerprint logged: ${payload.fp.substring(0, 8)}... from ${ipInfo.display} - ${payload.name || 'Guest'}`);
 
-/**
- * Helper function to create a GitHub issue with fingerprint data
- */
-async function createGitHubIssue(token, repo, payload, clientIp) {
-  const [owner, repoName] = repo.split('/');
-  
-  const displayName = payload.name ? `**Display Name:** ${payload.name}\n` : '';
-  // Sanitize name for use in code comment - replace special chars
-  const safeName = (payload.name || 'User').replace(/[`'"\\]/g, '_');
-  
-  const issueBody = `## Fingerprint Log Entry
-
-**Timestamp:** ${payload.ts}
-**URL:** ${payload.url}
-**Client IP:** ${clientIp || 'unknown'} *(tracked for information only, not used for blocking)*
-${displayName}
-### Fingerprint Data
-- **Hash (SHA-256):** \`${payload.fp}\`
-- **User Agent:** ${payload.ua}
-- **Language:** ${payload.lang}
-- **Timezone Offset:** ${payload.tz} minutes
-- **Page URL:** ${payload.url}
-
-### Blacklist Instructions
-To blacklist this fingerprint (device/display name), use the Fingerprint Admin dashboard or manually add to \`assets/whitelist-fingerprint.js\`:
-
-\`\`\`javascript
-const manuallyBlockedFingerprints = [
-  '${payload.fp}', // ${safeName} - IP: ${clientIp} (info only)
-];
-\`\`\`
-
-**Note:** Only the fingerprint (device ID) is used for blocking. IP addresses are tracked for information purposes only and do NOT affect access control.
-
----
-*This issue was automatically created by the fingerprint logger. IP address is tracked for information only.*
-`;
-
-  const titleName = payload.name ? ` (${payload.name})` : '';
-  const issueData = {
-    title: `Fingerprint Log: ${payload.fp.substring(0, 8)}...${titleName} at ${new Date(payload.ts).toLocaleString()}`,
-    body: issueBody,
-    labels: ['fingerprint-log']
-  };
-
-  // Use native fetch API (available in Node.js 18+)
-  const response = await fetch(`https://api.github.com/repos/${owner}/${repoName}/issues`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'User-Agent': 'Firebase-Function-Fingerprint-Logger'
-    },
-    body: JSON.stringify(issueData)
+  // Return success with IP info (no GitHub issue creation)
+  res.status(201).json({
+    success: true,
+    clientIp: ipInfo.display,
+    ipv4: ipInfo.ipv4,
+    ipv6: ipInfo.ipv6,
+    message: 'Fingerprint logged successfully'
   });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`GitHub API error: ${response.status} - ${errorText}`);
-  }
-
-  return await response.json();
-}
+});

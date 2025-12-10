@@ -270,11 +270,12 @@
   function sanitizeUsername(name) {
     if (!name || typeof name !== 'string') return 'Anonymous';
     
-    // Trim and limit length
-    var sanitized = name.trim().substring(0, 30);
-    
-    // Remove potentially dangerous characters
-    sanitized = sanitized.replace(/[<>'"&]/g, '');
+    // Remove HTML tags and dangerous characters, but preserve spaces
+    var sanitized = name
+      .replace(/<[^>]*>/g, '')  // Remove HTML tags
+      .replace(/[<>"'`&]/g, '') // Remove dangerous characters but keep spaces
+      .trim()
+      .substring(0, 30);
     
     return sanitized || 'Anonymous';
   }
