@@ -1865,6 +1865,7 @@ function showUsernameRequiredOverlay(form) {
     
     // Team America: World Police GIFs - 50 GIFs from Giphy CDN
     // We select 24 random ones to display in a collage around the center image
+    // Total GIF count: 50 unique URLs
     const americaGifs = [
       'https://media0.giphy.com/media/3o7TKDMvVn8bW0lv9e/giphy.gif',
       'https://media1.giphy.com/media/YJ5OlVLZ2QNl6/giphy.gif',
@@ -1920,11 +1921,21 @@ function showUsernameRequiredOverlay(form) {
     
     const gifsContainer = overlay.querySelector('.america-gifs-container');
     
-    // Select 24 random GIFs from the pool of 50 for the collage
-    const shuffledGifs = [...americaGifs].sort(() => Math.random() - 0.5).slice(0, 24);
+    // Select 24 random GIFs from the pool of 50 for the collage using Fisher-Yates shuffle
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+    
+    const shuffledGifs = shuffleArray(americaGifs).slice(0, 24);
     
     // Create collage layout with 24 GIFs positioned around the center
-    // Positions: 6 on top, 6 on right, 6 on bottom, 6 on left
+    // Positions array has exactly 24 positions to match shuffledGifs.slice(0, 24)
+    // Layout: 6 on top, 6 on right, 6 on bottom, 6 on left
     function createCollageGifs() {
       const positions = [
         // Top row (6 GIFs)
@@ -1972,7 +1983,7 @@ function showUsernameRequiredOverlay(form) {
         // Handle failed image loads gracefully
         img.onerror = function() {
           console.warn('Failed to load GIF:', gifUrl);
-          gif.style.opacity = '0';
+          gif.style.display = 'none';
         };
         
         // Successful load - animate in
