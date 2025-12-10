@@ -1761,27 +1761,44 @@ function showUsernameRequiredOverlay(form) {
         overflow: hidden;
       }
       
-      .america-gif {
+      .america-gif-collage {
         position: absolute;
-        animation: flyAcross linear infinite;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        animation: gifFadeIn 0.5s ease-out forwards, gifFloat 3s ease-in-out infinite;
         filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
         z-index: 9999;
       }
       
-      .america-gif img {
-        width: auto;
-        height: auto;
-        max-width: 150px;
-        max-height: 150px;
-        object-fit: contain;
+      .america-gif-collage.loaded {
+        opacity: 1;
       }
       
-      @keyframes flyAcross {
+      .america-gif-collage img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid rgba(255, 215, 0, 0.6);
+      }
+      
+      @keyframes gifFadeIn {
         0% {
-          transform: translate(var(--startX), var(--startY)) rotate(var(--rotation)) scale(var(--scale));
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.5);
         }
         100% {
-          transform: translate(var(--endX), var(--endY)) rotate(calc(var(--rotation) + 720deg)) scale(var(--scale));
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+      
+      @keyframes gifFloat {
+        0%, 100% {
+          transform: translate(-50%, -50%) translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translate(-50%, -50%) translateY(-10px) rotate(2deg);
         }
       }
       
@@ -1828,9 +1845,9 @@ function showUsernameRequiredOverlay(form) {
           margin-top: 12px;
         }
         
-        .america-gif img {
-          max-width: 100px;
-          max-height: 100px;
+        .america-gif-collage img {
+          width: 80px;
+          height: 80px;
         }
         
         .konami-close {
@@ -1846,7 +1863,9 @@ function showUsernameRequiredOverlay(form) {
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     
-    // Team America: World Police GIFs - using direct Giphy CDN URLs
+    // Team America: World Police GIFs - 50 GIFs from Giphy CDN
+    // We select 24 random ones to display in a collage around the center image
+    // Total GIF count: 50 unique URLs
     const americaGifs = [
       'https://media0.giphy.com/media/3o7TKDMvVn8bW0lv9e/giphy.gif',
       'https://media1.giphy.com/media/YJ5OlVLZ2QNl6/giphy.gif',
@@ -1855,96 +1874,139 @@ function showUsernameRequiredOverlay(form) {
       'https://media0.giphy.com/media/l0HlEjnJQqKEWq6Hu/giphy.gif',
       'https://media1.giphy.com/media/3o6Zt7y2O1r7qW4Pu0/giphy.gif',
       'https://media2.giphy.com/media/xT0GqtHaCvCzFmz0D6/giphy.gif',
-      'https://media3.giphy.com/media/l0HlK4u4zLK1L4K9q/giphy.gif'
+      'https://media3.giphy.com/media/l0HlK4u4zLK1L4K9q/giphy.gif',
+      'https://media0.giphy.com/media/TbYgHMnICI1A4/giphy.gif',
+      'https://media1.giphy.com/media/3o6ZtdkPTnGfUvFBHW/giphy.gif',
+      'https://media2.giphy.com/media/26FPqAHtgCBzKG9Uc/giphy.gif',
+      'https://media3.giphy.com/media/d3mlE7uhX8KFgEmY/giphy.gif',
+      'https://media0.giphy.com/media/l0HlQQBwYXVUaGwJW/giphy.gif',
+      'https://media1.giphy.com/media/l0HlJWbeToTgdVHlC/giphy.gif',
+      'https://media2.giphy.com/media/3o6ZtpWDXbwcCxQxZm/giphy.gif',
+      'https://media3.giphy.com/media/xT0GqssRweIhlz209i/giphy.gif',
+      'https://media0.giphy.com/media/26FPxF3zvCaJAkJHO/giphy.gif',
+      'https://media1.giphy.com/media/3o6ZteJxYiWGrXCQtW/giphy.gif',
+      'https://media2.giphy.com/media/xT0GqCkrWBpBdSRTMs/giphy.gif',
+      'https://media3.giphy.com/media/26FPpSuhgHvYo3hu8/giphy.gif',
+      'https://media0.giphy.com/media/l0HlSK2VF5tV3PfOM/giphy.gif',
+      'https://media1.giphy.com/media/26FPCXdkvDbKBbgOI/giphy.gif',
+      'https://media2.giphy.com/media/3o6Zt7R02Q62fxgChq/giphy.gif',
+      'https://media3.giphy.com/media/xT0Gqn9yuw8hnPGn5K/giphy.gif',
+      'https://media0.giphy.com/media/l0HlGMn8SPCqPuNqM/giphy.gif',
+      'https://media1.giphy.com/media/26FPImXfDlv4AFqdO/giphy.gif',
+      'https://media2.giphy.com/media/xT0GqwQCwZ0CW9FMsM/giphy.gif',
+      'https://media3.giphy.com/media/l0HlRjBK4YUTrYcYE/giphy.gif',
+      'https://media0.giphy.com/media/26FPBWg1bD5MZWOMO/giphy.gif',
+      'https://media1.giphy.com/media/l0HlvD3f7bsQNHWPS/giphy.gif',
+      'https://media2.giphy.com/media/xT0GqGvXRF7F7TlbWM/giphy.gif',
+      'https://media3.giphy.com/media/l0HlAkKDQ0WKKxoJO/giphy.gif',
+      'https://media0.giphy.com/media/26FPOrBx1fDOBxTl6/giphy.gif',
+      'https://media1.giphy.com/media/xT0GquhXfNh4WnWW5O/giphy.gif',
+      'https://media2.giphy.com/media/l0HlBC9fBOgCWxMLC/giphy.gif',
+      'https://media3.giphy.com/media/xT0GqvEn9CgbpK3rTW/giphy.gif',
+      'https://media0.giphy.com/media/26FPDSIy4zPQCUahu/giphy.gif',
+      'https://media1.giphy.com/media/l0HlPH0ziPrQvXXTG/giphy.gif',
+      'https://media2.giphy.com/media/xT0Gqto7r5pFuP8gF2/giphy.gif',
+      'https://media3.giphy.com/media/l0HlRhYvDQCpBZ5hC/giphy.gif',
+      'https://media0.giphy.com/media/26FPJwxTkM94hgYMg/giphy.gif',
+      'https://media1.giphy.com/media/xT0Gqs40S8dCj0ZceY/giphy.gif',
+      'https://media2.giphy.com/media/l0HlIK3qZO3kGzNXq/giphy.gif',
+      'https://media3.giphy.com/media/26FPBKFvGpCziQQwM/giphy.gif',
+      'https://media0.giphy.com/media/xT0GqD7VWEKQKqo8zC/giphy.gif',
+      'https://media1.giphy.com/media/l0HlGpJVTxm4A6EWQ/giphy.gif',
+      'https://media2.giphy.com/media/xT0GqpYgSZ4vKR2FRS/giphy.gif',
+      'https://media3.giphy.com/media/l0HlvtIPDiQEYTGuY/giphy.gif',
+      'https://media0.giphy.com/media/26FPxyqaxWNrI5bwY/giphy.gif',
+      'https://media1.giphy.com/media/xT0GqEAnlKp1F8TM9q/giphy.gif'
     ];
     
     const gifsContainer = overlay.querySelector('.america-gifs-container');
-    let gifInterval;
-    let activeGifCount = 0;
-    const maxConcurrentGifs = 20;
     
-    function createFlyingGif() {
-      // Limit concurrent GIFs to prevent performance issues
-      if (activeGifCount >= maxConcurrentGifs) return;
-      
-      activeGifCount++;
-      const gif = document.createElement('div');
-      gif.className = 'america-gif';
-      
-      const img = document.createElement('img');
-      const size = 80 + Math.floor(Math.random() * 100); // 80-180px
-      img.src = americaGifs[Math.floor(Math.random() * americaGifs.length)];
-      img.alt = 'Team America GIF';
-      img.style.width = size + 'px';
-      img.style.height = 'auto';
-      // Handle failed image loads gracefully
-      img.onerror = function() {
-        gif.remove();
-        activeGifCount--;
-      };
-      gif.appendChild(img);
-      
-      // Random starting position (from edges)
-      const edge = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
-      let startX, startY, endX, endY;
-      
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      
-      switch(edge) {
-        case 0: // top
-          startX = Math.random() * vw;
-          startY = -150;
-          endX = Math.random() * vw;
-          endY = vh + 150;
-          break;
-        case 1: // right
-          startX = vw + 150;
-          startY = Math.random() * vh;
-          endX = -150;
-          endY = Math.random() * vh;
-          break;
-        case 2: // bottom
-          startX = Math.random() * vw;
-          startY = vh + 150;
-          endX = Math.random() * vw;
-          endY = -150;
-          break;
-        case 3: // left
-          startX = -150;
-          startY = Math.random() * vh;
-          endX = vw + 150;
-          endY = Math.random() * vh;
-          break;
+    // Select 24 random GIFs from the pool of 50 for the collage using Fisher-Yates shuffle
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
-      
-      const duration = 2 + Math.random() * 3; // 2-5 seconds
-      const scale = 0.5 + Math.random() * 1.5; // 0.5-2x size
-      const rotation = Math.random() * 360;
-      
-      gif.style.setProperty('--startX', startX + 'px');
-      gif.style.setProperty('--startY', startY + 'px');
-      gif.style.setProperty('--endX', endX + 'px');
-      gif.style.setProperty('--endY', endY + 'px');
-      gif.style.setProperty('--scale', scale);
-      gif.style.setProperty('--rotation', rotation + 'deg');
-      gif.style.animationDuration = duration + 's';
-      
-      gifsContainer.appendChild(gif);
-      
-      // Remove GIF after animation and decrement counter
-      setTimeout(() => {
-        gif.remove();
-        activeGifCount--;
-      }, duration * 1000);
+      return arr;
     }
     
-    // Spawn initial burst of GIFs
-    for (let i = 0; i < 10; i++) {
-      setTimeout(() => createFlyingGif(), i * 150);
+    const shuffledGifs = shuffleArray(americaGifs).slice(0, 24);
+    
+    // Create collage layout with 24 GIFs positioned around the center
+    // Positions array has exactly 24 positions to match shuffledGifs.slice(0, 24)
+    // Layout: 6 on top, 6 on right, 6 on bottom, 6 on left
+    function createCollageGifs() {
+      const positions = [
+        // Top row (6 GIFs)
+        { top: '5%', left: '15%' },
+        { top: '5%', left: '28%' },
+        { top: '5%', left: '41%' },
+        { top: '5%', left: '54%' },
+        { top: '5%', left: '67%' },
+        { top: '5%', left: '80%' },
+        
+        // Right side (6 GIFs)
+        { top: '18%', left: '88%' },
+        { top: '31%', left: '88%' },
+        { top: '44%', left: '88%' },
+        { top: '57%', left: '88%' },
+        { top: '70%', left: '88%' },
+        { top: '83%', left: '88%' },
+        
+        // Bottom row (6 GIFs)
+        { top: '90%', left: '80%' },
+        { top: '90%', left: '67%' },
+        { top: '90%', left: '54%' },
+        { top: '90%', left: '41%' },
+        { top: '90%', left: '28%' },
+        { top: '90%', left: '15%' },
+        
+        // Left side (6 GIFs)
+        { top: '83%', left: '5%' },
+        { top: '70%', left: '5%' },
+        { top: '57%', left: '5%' },
+        { top: '44%', left: '5%' },
+        { top: '31%', left: '5%' },
+        { top: '18%', left: '5%' }
+      ];
+      
+      shuffledGifs.forEach((gifUrl, index) => {
+        const gif = document.createElement('div');
+        gif.className = 'america-gif-collage';
+        
+        const img = document.createElement('img');
+        img.src = gifUrl;
+        img.alt = 'Team America GIF';
+        img.loading = 'eager'; // Load immediately for better UX
+        
+        // Handle failed image loads gracefully
+        img.onerror = function() {
+          console.warn('Failed to load GIF:', gifUrl);
+          gif.style.display = 'none';
+        };
+        
+        // Successful load - animate in
+        img.onload = function() {
+          gif.classList.add('loaded');
+        };
+        
+        gif.appendChild(img);
+        
+        // Position the GIF
+        const pos = positions[index];
+        gif.style.top = pos.top;
+        gif.style.left = pos.left;
+        
+        // Add staggered animation delay for cascade effect
+        gif.style.animationDelay = (index * 0.05) + 's';
+        
+        gifsContainer.appendChild(gif);
+      });
     }
-    // Continue spawning GIFs at a reasonable interval
-    gifInterval = setInterval(createFlyingGif, 350);
+    
+    // Create the collage
+    createCollageGifs();
     
     // Close on button click
     overlay.querySelector('.konami-close').addEventListener('click', closeEasterEgg);
@@ -1968,11 +2030,6 @@ function showUsernameRequiredOverlay(form) {
     });
     
     function closeEasterEgg() {
-      // Stop spawning GIFs
-      if (gifInterval) {
-        clearInterval(gifInterval);
-        gifInterval = null;
-      }
       overlay.style.animation = 'konamiFadeIn 0.3s ease-out reverse';
       setTimeout(function() {
         overlay.remove();
