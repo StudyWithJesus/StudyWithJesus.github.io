@@ -90,6 +90,7 @@ function initExamPage() {
     retakeBtn.id = "retake-btn";
     retakeBtn.className = "exam-button secondary";
     retakeBtn.innerHTML = '<span class="dot"></span><span>Retake &amp; Scramble</span>';
+    retakeBtn.style.display = "none"; // Hidden until after submission
     actions.appendChild(retakeBtn);
   }
 
@@ -121,6 +122,7 @@ function initExamPage() {
   topRetakeBtn.id = "retake-btn-top";
   topRetakeBtn.className = "exam-button secondary";
   topRetakeBtn.innerHTML = '<span class="dot"></span><span>Retake &amp; Scramble</span>';
+  topRetakeBtn.style.display = "none"; // Hidden until after submission
   topActions.appendChild(topRetakeBtn);
 
   const topRetryBtn = document.createElement("button");
@@ -144,6 +146,13 @@ function initExamPage() {
 
   // Create timer display element in the progress bar area
   const progressBar = document.querySelector(".exam-progress");
+  
+  // Ensure progress bar is visible
+  if (progressBar) {
+    progressBar.style.display = "flex";
+    console.log("Progress bar found and made visible");
+  }
+  
   let timerDisplay = document.getElementById("exam-timer");
   if (!timerDisplay && progressBar) {
     timerDisplay = document.createElement("div");
@@ -627,6 +636,12 @@ function initExamPage() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    // Show retake buttons after submission
+    const retakeButton = form.querySelector("#retake-btn");
+    const topRetakeButton = form.querySelector("#retake-btn-top");
+    if (retakeButton) retakeButton.style.display = "inline-block";
+    if (topRetakeButton) topRetakeButton.style.display = "inline-block";
+    
     // Show retry button if there are incorrect answers
     const retryBtn = form.querySelector("#retry-btn");
     const topRetryBtn = form.querySelector("#retry-btn-top");
@@ -771,7 +786,12 @@ function initExamPage() {
     // Update submit button state (will be disabled since no answers selected)
     updateSubmitButtonState();
     
-    // Hide retry buttons
+    // Hide retake and retry buttons
+    const retakeButton = form.querySelector("#retake-btn");
+    const topRetakeButton = form.querySelector("#retake-btn-top");
+    if (retakeButton) retakeButton.style.display = "none";
+    if (topRetakeButton) topRetakeButton.style.display = "none";
+    
     const retryBtn = form.querySelector("#retry-btn");
     const topRetryBtn = form.querySelector("#retry-btn-top");
     if (retryBtn) retryBtn.style.display = "none";
