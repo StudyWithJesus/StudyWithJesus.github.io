@@ -7,7 +7,8 @@
 // - Last score per exam (ILM) for index pages
 // =====================================================
 
-// Timer duration in seconds (20 minutes by default, can be overridden by individual exam pages)
+// Timer duration in seconds (20 minutes by default)
+// Individual exam pages can override by setting window.EXAM_TIMER_DURATION BEFORE script.js loads
 const EXAM_TIMER_DURATION = window.EXAM_TIMER_DURATION || (20 * 60);
 
 // Run immediately on load (handles scripts at bottom of body)
