@@ -1771,7 +1771,8 @@ function showUsernameRequiredOverlay(form) {
         opacity: 1;
       }
       
-      .america-gif-collage img {
+      .america-gif-collage img,
+      .america-gif-collage video {
         width: 120px;
         height: 120px;
         object-fit: cover;
@@ -1842,7 +1843,8 @@ function showUsernameRequiredOverlay(form) {
           margin-top: 12px;
         }
         
-        .america-gif-collage img {
+        .america-gif-collage img,
+        .america-gif-collage video {
           width: 80px;
           height: 80px;
         }
@@ -1860,13 +1862,14 @@ function showUsernameRequiredOverlay(form) {
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     
-    // Team America: World Police GIFs - 50 local GIF files
+    // Meme videos/GIFs - 712 local media files from Dominicentek/my-meme-folder
     // We select 24 random ones to display in a collage around the center image
-    // Total GIF count: 50 unique local files
-    // Files should be located in /assets/gifs/ as america-01.gif through america-50.gif
-    const americaGifs = Array.from({ length: 50 }, (_, i) => {
-      const num = String(i + 1).padStart(2, '0');
-      return `/assets/gifs/america-${num}.gif`;
+    // Total media count: 712 unique local files
+    // Files are located in /assets/gifs/ as america-001.mp4 through america-712.mp4 (mostly MP4, some GIFs)
+    const americaGifs = Array.from({ length: 712 }, (_, i) => {
+      const num = String(i + 1).padStart(3, '0');
+      // Most files are MP4, but we'll try to load them and fall back if needed
+      return `/assets/gifs/america-${num}.mp4`;
     });
     
     const gifsContainer = overlay.querySelector('.america-gifs-container');
@@ -1926,7 +1929,7 @@ function showUsernameRequiredOverlay(form) {
       let activeLoads = 0;
       const loadQueue = [];
       
-      function loadGifWithConcurrency(gifUrl, img, gif) {
+      function loadGifWithConcurrency(mediaUrl, mediaElement, container, isVideo) {
         return new Promise((resolve) => {
           function attemptLoad() {
             if (activeLoads >= MAX_CONCURRENT_LOADS) {
@@ -1936,24 +1939,61 @@ function showUsernameRequiredOverlay(form) {
             
             activeLoads++;
             
-            // Set up error handler first
-            img.onerror = function() {
-              // Failed to load GIF - using fallback image silently
-              // Use fallback image
-              img.src = '/assets/images/gif-fallback.svg';
-              // Still mark as loaded so it appears
-              gif.classList.add('loaded');
-              completeLoad();
-            };
-            
-            // Set up success handler
-            img.onload = function() {
-              gif.classList.add('loaded');
-              completeLoad();
-            };
-            
-            // Start loading
-            img.src = gifUrl;
+            if (isVideo) {
+              // Set up error handler for video
+              mediaElement.onerror = function() {
+                // Failed to load video - try with .gif extension as fallback
+                const gifUrl = mediaUrl.replace('.mp4', '.gif').replace('.webm', '.gif');
+                
+                // Replace video with img element
+                const img = document.createElement('img');
+                img.alt = 'Meme';
+                img.src = gifUrl;
+                img.onerror = function() {
+                  // If GIF also fails, use fallback
+                  img.src = '/assets/images/gif-fallback.svg';
+                  container.classList.add('loaded');
+                  completeLoad();
+                };
+                img.onload = function() {
+                  container.classList.add('loaded');
+                  completeLoad();
+                };
+                
+                // Replace video with image
+                container.replaceChild(img, mediaElement);
+              };
+              
+              // Set up success handler for video
+              mediaElement.onloadeddata = function() {
+                container.classList.add('loaded');
+                mediaElement.play().catch(() => {
+                  // Auto-play might be blocked, that's okay
+                });
+                completeLoad();
+              };
+              
+              // Start loading video
+              mediaElement.src = mediaUrl;
+            } else {
+              // Set up error handler for image
+              mediaElement.onerror = function() {
+                // Failed to load image - using fallback image silently
+                mediaElement.src = '/assets/images/gif-fallback.svg';
+                // Still mark as loaded so it appears
+                container.classList.add('loaded');
+                completeLoad();
+              };
+              
+              // Set up success handler for image
+              mediaElement.onload = function() {
+                container.classList.add('loaded');
+                completeLoad();
+              };
+              
+              // Start loading image
+              mediaElement.src = mediaUrl;
+            }
           }
           
           function completeLoad() {
@@ -1970,29 +2010,43 @@ function showUsernameRequiredOverlay(form) {
         });
       }
       
-      // Create all GIF elements
-      const loadPromises = shuffledGifs.map((gifUrl, index) => {
-        const gif = document.createElement('div');
-        gif.className = 'america-gif-collage';
+      // Create all media elements (videos or GIFs)
+      const loadPromises = shuffledGifs.map((mediaUrl, index) => {
+        const mediaContainer = document.createElement('div');
+        mediaContainer.className = 'america-gif-collage';
         
-        const img = document.createElement('img');
-        img.alt = 'Team America GIF';
-        img.loading = 'eager'; // Load immediately for better Easter egg UX
+        // Determine if it's a video or image based on file extension
+        const isVideo = mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm');
         
-        gif.appendChild(img);
+        let mediaElement;
+        if (isVideo) {
+          mediaElement = document.createElement('video');
+          mediaElement.autoplay = true;
+          mediaElement.loop = true;
+          mediaElement.muted = true;
+          mediaElement.playsInline = true;
+          mediaElement.setAttribute('playsinline', ''); // iOS compatibility
+        } else {
+          mediaElement = document.createElement('img');
+          mediaElement.alt = 'Meme';
+        }
         
-        // Position the GIF
+        mediaElement.loading = 'eager'; // Load immediately for better Easter egg UX
+        
+        mediaContainer.appendChild(mediaElement);
+        
+        // Position the media
         const pos = positions[index];
-        gif.style.top = pos.top;
-        gif.style.left = pos.left;
+        mediaContainer.style.top = pos.top;
+        mediaContainer.style.left = pos.left;
         
         // Add staggered animation delay for cascade effect
-        gif.style.animationDelay = (index * 0.05) + 's';
+        mediaContainer.style.animationDelay = (index * 0.05) + 's';
         
-        gifsContainer.appendChild(gif);
+        gifsContainer.appendChild(mediaContainer);
         
         // Start loading with concurrency control
-        return loadGifWithConcurrency(gifUrl, img, gif);
+        return loadGifWithConcurrency(mediaUrl, mediaElement, mediaContainer, isVideo);
       });
       
       // Konami code GIF collage loading complete
