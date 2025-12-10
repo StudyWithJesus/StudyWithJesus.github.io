@@ -483,9 +483,27 @@
           firebase.initializeApp(window.FIREBASE_CONFIG);
         }
         
+        // Wait for auth to be ready
+        const auth = firebase.auth();
+        if (!auth.currentUser) {
+          // Wait up to 3 seconds for auth to initialize
+          await new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => reject(new Error('Auth timeout')), 3000);
+            const unsubscribe = auth.onAuthStateChanged(user => {
+              clearTimeout(timeout);
+              unsubscribe();
+              if (user) {
+                resolve(user);
+              } else {
+                reject(new Error('Not authenticated'));
+              }
+            });
+          });
+        }
+        
         const db = firebase.firestore();
         
-        // Log admin data access
+        // Log access attempt
         if (currentUser) {
           await logAdminAccess(currentUser, 'fingerprint_data_read', { count: 'loading' });
         }
