@@ -570,9 +570,10 @@
    * Render leaderboard HTML for individual exams within a module
    * @param {string} moduleId - Module ID
    * @param {Object} examLeaderboards - Object with examId keys and leaderboard arrays
+   * @param {boolean} excludePracticeExam - If true, don't add practice exam placeholder
    * @returns {string} - HTML string
    */
-  function renderLeaderboardByExam(moduleId, examLeaderboards) {
+  function renderLeaderboardByExam(moduleId, examLeaderboards, excludePracticeExam) {
     var config = getConfig();
     var html = '<div class="leaderboard-module-group" data-module="' + moduleId + '">';
     html += '<h3 class="leaderboard-module-title">' + getModuleName(moduleId) + '</h3>';
@@ -580,8 +581,8 @@
     // Initialize examLeaderboards if empty
     examLeaderboards = examLeaderboards || {};
     
-    // Ensure practice exam is always included for 6-digit module IDs
-    if (/^\d{6}$/.test(moduleId) && !examLeaderboards[moduleId]) {
+    // Only add practice exam placeholder if not excluded
+    if (!excludePracticeExam && /^\d{6}$/.test(moduleId) && !examLeaderboards[moduleId]) {
       examLeaderboards[moduleId] = []; // Empty array = no scores yet
     }
     
