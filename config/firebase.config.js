@@ -29,13 +29,7 @@ window.LEADERBOARD_CONFIG = {
   topN: 10,
   
   // Available modules (update if modules change)
-  modules: ['270201', '270202', '270203', '270204'],
+  modules: ['270201', '270202', '270203', '270204']
   
-  // Module display names
-  moduleNames: {
-    '270201': 'Engine Systems',
-    '270202': 'Driveline & Drivetrain',
-    '270203': 'Hydraulics & Air Brakes',
-    '270204': 'Electrical, Auto Body & Mobile Equipment'
-  }
+  // moduleNames is defined in leaderboard.js DEFAULT_CONFIG with all exam details
 };
