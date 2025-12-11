@@ -20,15 +20,22 @@
   <script src="../../assets/fingerprint-logger.js"></script>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="back-link">
-        <a href="index.html">← Back to Admin Hub</a>
-        <a href="../../index.html">← Back to Main Site</a>
-      </div>
+  <!-- Header with background image and effects -->
+  <header class="site-header" role="banner">
+    <div class="header-fog" aria-hidden="true"></div>
+    <div class="header-particles" aria-hidden="true"></div>
+    <div class="header-content">
+      <p class="header-subtitle">Admin Panel</p>
       <h1>🔒 Fingerprint Admin Dashboard</h1>
       <p>Manage and control access via fingerprint whitelist</p>
-      <button class="logout-btn" onclick="logout()" style="display: none;" id="logout-btn">Logout</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Back link -->
+    <div class="back-link">
+      <a href="index.html">← Back to Admin Hub</a>
+      <a href="../../index.html">← Back to Main Site</a>
     </div>
 
     <!-- Authentication Section -->

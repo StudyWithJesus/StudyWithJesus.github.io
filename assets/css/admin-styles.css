@@ -10,48 +10,6 @@
   overflow: hidden;
 }
 
-/* Hero Header */
-.header {
-  position: relative;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 60px 40px;
-  text-align: center;
-  overflow: hidden;
-}
-
-/* Add fog effect to header */
-.header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
-  opacity: 0.45;
-  pointer-events: none;
-}
-
-.header h1 {
-  position: relative;
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: white;
-  z-index: 1;
-}
-
-.header p {
-  position: relative;
-  opacity: 0.9;
-  font-size: 1.1rem;
-  color: white;
-  z-index: 1;
-}
-
 /* Main Content */
 .content {
   padding: 40px;
@@ -392,15 +350,6 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .header {
-    padding: 40px 20px;
-    padding-top: 70px;
-  }
-
-  .header h1 {
-    font-size: 2rem;
-  }
-
   .content {
     padding: 25px;
   }
@@ -441,14 +390,6 @@
 }
 
 @media (max-width: 480px) {
-  .header {
-    padding-top: 80px;
-  }
-
-  .header h1 {
-    font-size: 1.75rem;
-  }
-
   .back-link {
     flex-direction: column;
     gap: 10px;
