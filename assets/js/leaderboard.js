@@ -33,10 +33,10 @@
     
     // Module display names
     moduleNames: {
-      '270201': 'Practice Exam 1 – Engines (100 Questions)',
-      '270202': 'Practice Exam 2 – Power Train (100 Questions)',
-      '270203': 'Practice Exam 3 – Hydraulics & Air Brakes (100 Questions)',
-      '270204': 'Practice Exam 4 – Electrical & Equipment (100 Questions)',
+      '270201': 'Practice Exam 1 – Engines',
+      '270202': 'Practice Exam 2 – Power Train',
+      '270203': 'Practice Exam 3 – Hydraulics & Air Brakes',
+      '270204': 'Practice Exam 4 – Electrical & Equipment',
       'PTP2E1': 'Practice Exam 1 (270201 Engines)',
       'PTP2E2': 'Practice Exam 2 (270202 Power Train)',
       'PTP2E3': 'Practice Exam 3 (270203 Hydraulics & Air Brakes)',
