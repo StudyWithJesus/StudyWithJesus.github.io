@@ -1073,6 +1073,9 @@ body::after {
 @media (max-width: 640px) {
   .site-header {
     padding: var(--space-10) var(--space-4) var(--space-8);
+    width: 100%;
+    margin: 0;
+    background-size: cover; /* Ensure background covers full width */
   }
 
   .site-header--hero {

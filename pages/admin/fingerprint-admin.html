@@ -194,7 +194,22 @@
       transition: all 0.2s;
     }
     
+    @media (max-width: 768px) {
+      .header > div:not(.back-link) {
+        padding: 20px;
+        padding-top: 70px; /* Make room for logout button */
+      }
+      
+      .header h1 {
+        font-size: 1.75rem;
+      }
+    }
+
     @media (max-width: 640px) {
+      .header > div:not(.back-link) {
+        padding-top: 80px;
+      }
+
       .fingerprint-item {
         grid-template-columns: auto 1fr;
         gap: 12px;
@@ -336,6 +351,10 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 14px;
+      max-width: calc(100% - 40px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .logout-btn:hover {
