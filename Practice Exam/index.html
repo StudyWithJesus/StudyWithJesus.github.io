@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PTP2SG - Study Guide Exam</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Comprehensive Practice Exams - 100 questions each with 50-minute timer. Select a module to start practicing.">
+  <title>Practice Exams – Parts Technician Preparation</title>
   <link rel="stylesheet" href="../style.css">
+  <script src="../script.js" defer></script>
   <!-- Load Firebase config and leaderboard for score submission -->
   <script src="../config/firebase.config.js"></script>
   <script src="../assets/js/leaderboard-firebase.js"></script>
@@ -15,42 +17,29 @@
   <script src="../assets/fingerprint-logger.js"></script>
 </head>
 <body>
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
 
-  <div id="loading-overlay">
-    <div class="spinner"></div>
-  </div>
-
-  <header class="site-header site-header--hero">
-    <div class="header-fog"></div>
-    <div class="header-particles"></div>
+  <header class="site-header site-header--hero" role="banner">
+    <div class="header-fog" aria-hidden="true"></div>
+    <div class="header-particles" aria-hidden="true"></div>
     <div class="header-content">
-      <h1>PTP2 Study Guide Exam</h1>
-      <p>Comprehensive Practice Test</p>
+      <h1>Practice Exams</h1>
+      <p>Comprehensive 100-question exams for each module – 50-minute timer</p>
     </div>
   </header>
 
-  <div class="exam-progress">
-    <div class="exam-progress-bar">
-      <div id="exam-progress-fill" class="exam-progress-fill"></div>
-    </div>
-    <div id="exam-progress-text" class="exam-progress-text">
-      0 / 0 answered
-    </div>
-  </div>
-
-  <main class="page-content">
+  <main id="main-content" class="exam-index-wrapper">
     <div class="back-link">
-      <a href="../index.html">&larr; Back to main menu</a>
+      <a href="../index.html">← Back to main menu</a>
     </div>
 
-    <section class="quiz-page-header">
-      <h2>PTP2 Study Guide Exam</h2>
-      <p>
-        Comprehensive practice test covering all modules. Timer: 30 seconds per question.
-      </p>
-    </section>
+    <header class="exam-index-header" aria-labelledby="exam-select-heading">
+      <h2 id="exam-select-heading">Select a Practice Exam</h2>
+      <p>Each exam contains 100 questions covering all topics in the module. Timer: 50 minutes (30 seconds per question).</p>
+    </header>
 
-    <form id="quiz-form" class="exam-form">
+    <section class="exam-grid" aria-label="Available practice exams">
 
       <!-- Engine Block Casting -->
       <div class="question">
@@ -308,49 +297,43 @@
         <button type="button" id="submit-btn" class="exam-button">
           <span class="dot"></span>
           <span>Submit Answers</span>
-        </button>
-      </div>
 
-      <div id="result-banner" class="result-banner"></div>
-    </form>
+      <a class="exam-card" href="PTP2_Exam1_270201_Engines.html" data-exam-id="270201">
+        <h3>270201 – Engines and Related Systems</h3>
+        <p class="module-description">100 questions covering all engine topics</p>
+        <p class="module-last-score">Last score: <span data-exam-score>No attempts yet</span></p>
+      </a>
+
+      <a class="exam-card" href="PTP2_Exam2_270202_PowerTrain.html" data-exam-id="270202">
+        <h3>270202 – Power Train</h3>
+        <p class="module-description">100 questions covering drivetrain and transmission topics</p>
+        <p class="module-last-score">Last score: <span data-exam-score>No attempts yet</span></p>
+      </a>
+
+      <a class="exam-card" href="PTP2_Exam3_270203_Hydraulics_AirBrakes.html" data-exam-id="270203">
+        <h3>270203 – Hydraulics, Steering, Suspension and Air Brakes</h3>
+        <p class="module-description">100 questions covering hydraulic and brake systems</p>
+        <p class="module-last-score">Last score: <span data-exam-score>No attempts yet</span></p>
+      </a>
+
+      <a class="exam-card" href="PTP2_Exam4_270204_Electrical_Autobody_Ag_Industrial.html" data-exam-id="270204">
+        <h3>270204 – Electrical, Autobody, Agricultural and Mobile Industrial Equipment</h3>
+        <p class="module-description">100 questions covering electrical and equipment topics</p>
+        <p class="module-last-score">Last score: <span data-exam-score>No attempts yet</span></p>
+      </a>
+    </section>
+
+    <aside class="tip-callout">
+      <p>
+        <strong>💡 Tip:</strong> These comprehensive practice exams include 100 questions each with a 50-minute timer. 
+        Questions are automatically scrambled on your first attempt. Your progress is saved automatically.
+      </p>
+    </aside>
   </main>
 
-  <script>
-    // Custom timer for this exam: 30 seconds per question
-    // 28 questions × 30 seconds = 840 seconds = 14 minutes
-    window.EXAM_TIMER_DURATION = 28 * 30;
-    
-    window.ANSWERS = {
-      "q1": "b",
-      "q2": "d",
-      "q3": "b",
-      "q4": "c",
-      "q5": "a",
-      "q6": "b",
-      "q7": "d",
-      "q8": "a",
-      "q9": "a",
-      "q10": "a",
-      "q11": "d",
-      "q12": "c",
-      "q13": "d",
-      "q14": "d",
-      "q15": "a",
-      "q16": "b",
-      "q17": "c",
-      "q18": "a",
-      "q19": "d",
-      "q20": "d",
-      "q21": "a",
-      "q22": "a",
-      "q23": "b",
-      "q24": "c",
-      "q25": "d",
-      "q26": "a",
-      "q27": "c",
-      "q28": "c"
-    };
-  </script>
-  <script src="../script.js"></script>
+  <footer class="site-footer" role="contentinfo">
+    <span>Built for Parts Technician • Wolf Pack Training</span>
+    <span>Practice exams feature scrambled questions and 50-minute timers</span>
+  </footer>
 </body>
 </html>
