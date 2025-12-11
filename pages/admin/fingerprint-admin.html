@@ -122,7 +122,7 @@
      * Show user info in header
      */
     function showUserInfo(user) {
-      const header = document.querySelector('.header');
+      const header = document.querySelector('.site-header .header-content');
       const logoutBtn = document.getElementById('logout-btn');
       if (logoutBtn) logoutBtn.remove();
       
@@ -130,14 +130,17 @@
       userInfo.id = 'logout-btn';
       userInfo.className = 'logout-btn';
       userInfo.onclick = () => GitHubAuth.logout();
-      userInfo.style.display = 'flex';
-      userInfo.style.alignItems = 'center';
-      userInfo.style.gap = '8px';
+      userInfo.style.cssText = 'position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; z-index: 10;';
       userInfo.innerHTML = `
         <img src="${user.avatar}" alt="${user.username}" style="width: 24px; height: 24px; border-radius: 50%;">
         <span>${user.username}</span>
       `;
-      header.appendChild(userInfo);
+      
+      // Make header-content relative positioned to contain the absolute logout button
+      if (header) {
+        header.style.position = 'relative';
+        header.appendChild(userInfo);
+      }
     }
 
     /**

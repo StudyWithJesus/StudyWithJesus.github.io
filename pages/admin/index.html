@@ -86,9 +86,11 @@
     }
     
     function showUserInfo(user) {
-      const header = document.querySelector('.header');
+      const header = document.querySelector('.site-header .header-content');
+      if (!header) return;
+      
       const userInfo = document.createElement('div');
-      userInfo.style.cssText = 'position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; max-width: calc(100% - 40px); flex-wrap: wrap;';
+      userInfo.style.cssText = 'position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; max-width: calc(100% - 40px); flex-wrap: wrap; z-index: 10;';
       
       // Safely handle avatar URL
       const avatarUrl = user.avatar || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22><circle cx=%2216%22 cy=%2216%22 r=%2216%22 fill=%22%23ccc%22/></svg>';
