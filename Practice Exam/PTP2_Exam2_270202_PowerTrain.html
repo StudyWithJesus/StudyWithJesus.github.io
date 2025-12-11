@@ -2,1184 +2,987 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PTP2 AIT Practice Exam 2 – 270202 Power Train</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 1.5rem;
-      max-width: 1100px;
-      margin-inline: auto;
-      background: #020617;
-      color: #e5e7eb;
-    }
-    h1 {
-      text-align: center;
-      color: #facc15;
-      margin-bottom: 0.25rem;
-    }
-    .subtitle {
-      text-align: center;
-      margin-bottom: 1.5rem;
-      color: #9ca3af;
-    }
-    .section-header {
-      margin-top: 2rem;
-      padding: 0.75rem 1rem;
-      border-radius: 0.5rem;
-      background: #0b1120;
-      border: 1px solid #1f2937;
-      font-weight: 600;
-    }
-    .question {
-      margin-top: 1rem;
-      padding: 0.75rem 1rem;
-      border-radius: 0.5rem;
-      background: #020617;
-      border: 1px solid #111827;
-    }
-    .question p {
-      margin: 0.25rem 0;
-    }
-    ol {
-      margin: 0.25rem 0 0.25rem 1.5rem;
-    }
-    details summary {
-      cursor: pointer;
-      color: #22c55e;
-      margin-top: 0.25rem;
-    }
-  </style>
+  <title>PTP2 AIT Practice Exam 2 – Power Train</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Load Firebase config and leaderboard for score submission -->
+  <script src="../config/firebase.config.js"></script>
+  <script src="../assets/js/leaderboard-firebase.js"></script>
+  <script src="../assets/js/leaderboard.js"></script>
+  <script src="../assets/whitelist-fingerprint.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="../assets/fingerprint-logger.js"></script>
 </head>
 <body>
-  <h1>PTP2 AIT Practice Exam 2</h1>
-  <p class="subtitle">270202 – Power Train (100 Questions, AIT-style Multiple Choice)</p>
-
-  <div class="section-header">A – Chains, Sprockets, Belts and Pulleys (4 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q1.</strong> Chain pitch is defined as the distance between:</p>
-    <ol type="a">
-      <li>The inside and outside plates of the chain</li>
-      <li>Adjacent roller centres or link pins</li>
-      <li>The chain and the sprocket hub</li>
-      <li>The smallest and largest sprocket in the drive</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Adjacent roller centres or link pins</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q2.</strong> When supplying a replacement sprocket, which information is the <em>least</em> important?</p>
-    <ol type="a">
-      <li>Number of teeth</li>
-      <li>Shaft size and shape it mounts on</li>
-      <li>Retaining method used</li>
-      <li>Colour of the original sprocket</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> d) Colour of the original sprocket</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q3.</strong> The letter designation (A, B, C, D, E) for classical V-belts identifies mainly the belt's:</p>
-    <ol type="a">
-      <li>Length</li>
-      <li>Temperature rating</li>
-      <li>Width and overall cross-section size</li>
-      <li>Intended speed range</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Width and overall cross-section size</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q4.</strong> Notched (cogged) V-belts provide an advantage over smooth belts because they:</p>
-    <ol type="a">
-      <li>Are quieter but run hotter</li>
-      <li>Offer greater flexibility and improved cooling</li>
-      <li>Can be run with lower tension due to metal cords</li>
-      <li>Do not require alignment of the pulleys</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Offer greater flexibility and improved cooling</p></details>
-  </div>
-
-  <div class="section-header">B – Gearing Principles (6 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q5.</strong> For a given input power, when gear ratio is changed to increase torque at the output, the output speed will:</p>
-    <ol type="a">
-      <li>Also increase</li>
-      <li>Stay the same</li>
-      <li>Decrease</li>
-      <li>Be unaffected by torque</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Decrease</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q6.</strong> In a simple gear train, an even number of gears between input and output will cause the output gear to rotate:</p>
-    <ol type="a">
-      <li>In the same direction as the input gear</li>
-      <li>In the opposite direction to the input gear</li>
-      <li>Only when the shafts are parallel</li>
-      <li>At exactly half input speed</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) In the opposite direction to the input gear</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q7.</strong> Adding idler gears to a gear train primarily changes:</p>
-    <ol type="a">
-      <li>The overall gear ratio</li>
-      <li>The direction of rotation and shaft spacing</li>
-      <li>Tooth contact ratio only</li>
-      <li>Backlash within a gear pair</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) The direction of rotation and shaft spacing</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q8.</strong> Planetary gear sets are commonly used in automatic transmissions because they:</p>
-    <ol type="a">
-      <li>Are weaker than spur gear sets but cheaper</li>
-      <li>Provide multiple ratios, compact size and smooth ratio changes</li>
-      <li>Can only be used for reverse gear</li>
-      <li>Do not require lubrication</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Provide multiple ratios, compact size and smooth ratio changes</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q9.</strong> In a simple planetary gear set, the three main components are the sun gear, planetary carrier and:</p>
-    <ol type="a">
-      <li>Spur gear</li>
-      <li>Helical pinion</li>
-      <li>Internal (ring) gear</li>
-      <li>Rack gear</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Internal (ring) gear</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q10.</strong> Backlash between meshing gears is required so that:</p>
-    <ol type="a">
-      <li>Gear teeth always remain in heavy interference contact</li>
-      <li>There is space for lubrication film and thermal expansion</li>
-      <li>Noise is eliminated completely</li>
-      <li>The gear ratio can be adjusted during operation</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) There is space for lubrication film and thermal expansion</p></details>
-  </div>
-
-  <div class="section-header">C – Clutches (7 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q11.</strong> The primary purpose of a vehicle clutch is to:</p>
-    <ol type="a">
-      <li>Lock the drive wheels during braking</li>
-      <li>Provide a means to smoothly connect and disconnect engine power to the transmission</li>
-      <li>Change axle ratios automatically</li>
-      <li>Control engine cooling fan speed</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Provide a means to smoothly connect and disconnect engine power to the transmission</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q12.</strong> A typical double-disc, dry clutch assembly used in heavy-duty trucks includes:</p>
-    <ol type="a">
-      <li>Flywheel, one driven disc, pressure plate and pilot bearing</li>
-      <li>Flywheel, two driven discs, intermediate plate, pressure plate and release bearing</li>
-      <li>Torque converter, front pump and stator</li>
-      <li>Only one friction disc and a band brake</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Flywheel, two driven discs, intermediate plate, pressure plate and release bearing</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q13.</strong> Torsional damper springs in a clutch disc are designed to:</p>
-    <ol type="a">
-      <li>Increase pedal effort at engagement</li>
-      <li>Absorb driveline shock and smooth torque transfer</li>
-      <li>Hold the disc away from the flywheel</li>
-      <li>Eliminate the need for a release bearing</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Absorb driveline shock and smooth torque transfer</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q14.</strong> The clutch release (throw-out) bearing operates under what type of load?</p>
-    <ol type="a">
-      <li>Radial only</li>
-      <li>Thrust/axial load while rotating</li>
-      <li>Pure bending load</li>
-      <li>No load – it is freewheeling at all times</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Thrust/axial load while rotating</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q15.</strong> When supplying a replacement clutch for a truck, the best practice is to:</p>
-    <ol type="a">
-      <li>Sell only the worn disc</li>
-      <li>Sell a matched set including disc(s), pressure plate, release bearing and alignment tool</li>
-      <li>Reuse the old pressure plate and release bearing as long as they move</li>
-      <li>Always change the transmission as well</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Sell a matched set including disc(s), pressure plate, release bearing and alignment tool</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q16.</strong> Clutch size is normally specified by:</p>
-    <ol type="a">
-      <li>Number of flywheel bolts only</li>
-      <li>Disc outside diameter and hub spline size</li>
-      <li>Overall transmission length</li>
-      <li>Gear ratio of first gear</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Disc outside diameter and hub spline size</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q17.</strong> A worn pilot bearing/bushing is most likely to cause:</p>
-    <ol type="a">
-      <li>Clutch slip under load</li>
-      <li>Difficulty shifting gears due to input shaft misalignment</li>
-      <li>Low engine oil pressure</li>
-      <li>High charging system voltage</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Difficulty shifting gears due to input shaft misalignment</p></details>
-  </div>
-
-  <div class="section-header">D – Light-Duty Manual Transmissions (7 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q18.</strong> Torque is best described as:</p>
-    <ol type="a">
-      <li>Power divided by time</li>
-      <li>A twisting force that tends to cause rotation</li>
-      <li>Linear motion in one direction</li>
-      <li>Speed multiplied by distance</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) A twisting force that tends to cause rotation</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q19.</strong> In a constant-mesh light-duty manual transmission, gear engagement is achieved by:</p>
-    <ol type="a">
-      <li>Sliding the gears themselves into mesh</li>
-      <li>Dog clutches or synchronizer sleeves locking selected gears to their shafts</li>
-      <li>Using bands and servos</li>
-      <li>Fluid coupling only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Dog clutches or synchronizer sleeves locking selected gears to their shafts</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q20.</strong> Synchronizer assemblies are used to:</p>
-    <ol type="a">
-      <li>Lubricate the gears</li>
-      <li>Match gear and shaft speeds for smooth, quiet engagement</li>
-      <li>Prevent the clutch from slipping</li>
-      <li>Change the final drive ratio</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Match gear and shaft speeds for smooth, quiet engagement</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q21.</strong> In many manual transmissions, thrust washers may be colour coded to indicate:</p>
-    <ol type="a">
-      <li>Material type only</li>
-      <li>Selective thickness for end float adjustment</li>
-      <li>Direction of rotation</li>
-      <li>Oil flow path</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Selective thickness for end float adjustment</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q22.</strong> The speedometer drive gear on many rear-wheel-drive light-duty transmissions is commonly mounted on the:</p>
-    <ol type="a">
-      <li>Input shaft</li>
-      <li>Countershaft</li>
-      <li>Mainshaft (output shaft)</li>
-      <li>Clutch hub</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Mainshaft (output shaft)</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q23.</strong> Splines on transmission shafts are used so that gears or clutches can:</p>
-    <ol type="a">
-      <li>Be welded permanently in place</li>
-      <li>Slide while still transmitting torque</li>
-      <li>Rotate freely without turning the shaft</li>
-      <li>Be balanced dynamically</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Slide while still transmitting torque</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q24.</strong> Excessive end play on a transmission shaft is most likely caused by:</p>
-    <ol type="a">
-      <li>Overfilled transmission oil</li>
-      <li>Worn or incorrect thickness thrust washers/shims</li>
-      <li>Incorrect clutch pedal free play</li>
-      <li>Worn final drive ring gear teeth</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Worn or incorrect thickness thrust washers/shims</p></details>
-  </div>
-
-  <div class="section-header">E – Heavy-Duty Manual Transmissions and PTOs (9 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q25.</strong> A compound heavy-duty transmission consists of:</p>
-    <ol type="a">
-      <li>A main transmission and a separate auxiliary section</li>
-      <li>Two identical main transmissions in series</li>
-      <li>An automatic front section with a manual rear section</li>
-      <li>A transmission and transfer case combined</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) A main transmission and a separate auxiliary section</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q26.</strong> In a typical heavy-duty transmission shift cover, the detent system is used to:</p>
-    <ol type="a">
-      <li>Lubricate the shift rails</li>
-      <li>Hold shift rails in the selected gear position</li>
-      <li>Reduce engine speed during shifting</li>
-      <li>Control PTO engagement</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Hold shift rails in the selected gear position</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q27.</strong> The interlock system in a manual transmission shift cover:</p>
-    <ol type="a">
-      <li>Prevents gear oil from leaking out the top cover</li>
-      <li>Prevents more than one shift rail from moving into gear at the same time</li>
-      <li>Controls input shaft speed</li>
-      <li>Adjusts maximum torque rating</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Prevents more than one shift rail from moving into gear at the same time</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q28.</strong> Information such as model number, torque rating and number of speeds for a heavy-duty transmission is usually found on:</p>
-    <ol type="a">
-      <li>The clutch housing bolt heads</li>
-      <li>An identification tag or nameplate on the case</li>
-      <li>The speedometer gear</li>
-      <li>The shift knob only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) An identification tag or nameplate on the case</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q29.</strong> Most gears, bearings and shafts in heavy-duty manual transmissions are retained by:</p>
-    <ol type="a">
-      <li>Welds and rivets</li>
-      <li>Snap rings and retaining plates</li>
-      <li>Adhesive compounds only</li>
-      <li>Roll pins in shear</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Snap rings and retaining plates</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q30.</strong> A power take-off (PTO) unit mounted to a transmission is used primarily to:</p>
-    <ol type="a">
-      <li>Increase rear axle gear ratio</li>
-      <li>Provide mechanical power for auxiliary equipment such as pumps</li>
-      <li>Control engine cooling fan speed</li>
-      <li>Drive the speedometer cable only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Provide mechanical power for auxiliary equipment such as pumps</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q31.</strong> On many heavy-duty transmissions, range-shift and splitter functions are controlled by:</p>
-    <ol type="a">
-      <li>Electric shift motors only</li>
-      <li>Air-operated valves controlled from the shift knob</li>
-      <li>Separate hydraulic pumps</li>
-      <li>Manual levers on the transmission case only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Air-operated valves controlled from the shift knob</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q32.</strong> When ordering parts for a PTO, the most accurate way to identify the correct unit is to:</p>
-    <ol type="a">
-      <li>Measure the output shaft length</li>
-      <li>Use the PTO identification tag information</li>
-      <li>Estimate based on vehicle make and year</li>
-      <li>Count the number of transmission speeds</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Use the PTO identification tag information</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q33.</strong> A driver complains of difficulty engaging the auxiliary section ranges in a compound transmission. A likely cause is:</p>
-    <ol type="a">
-      <li>Low coolant level</li>
-      <li>Air supply problem to the range-shift valve or actuator</li>
-      <li>Faulty headlight switch</li>
-      <li>Incorrect engine oil viscosity</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Air supply problem to the range-shift valve or actuator</p></details>
-  </div>
-
-  <div class="section-header">F – Drivelines (7 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q34.</strong> A typical two-piece Hotchkiss drive shaft assembly uses which type of universal joint?</p>
-    <ol type="a">
-      <li>Ball-and-trunnion joint</li>
-      <li>Double-offset constant velocity joint</li>
-      <li>Cross-and-roller (cross and bearing) joint</li>
-      <li>Rzeppa tripod joint</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Cross-and-roller (cross and bearing) joint</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q35.</strong> On a rear-wheel-drive vehicle, drive shaft length changes caused by suspension movement are accommodated by the:</p>
-    <ol type="a">
-      <li>Slip yoke or sliding spline</li>
-      <li>Ring gear backlash</li>
-      <li>Clutch release bearing</li>
-      <li>Transmission mainshaft bearing</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Slip yoke or sliding spline</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q36.</strong> On a front-wheel-drive (FWD) half shaft, plunge joints are used primarily to:</p>
-    <ol type="a">
-      <li>Provide steering articulation only</li>
-      <li>Compensate for length changes as the suspension moves</li>
-      <li>Increase gear ratio in the transaxle</li>
-      <li>Prevent wheel lock-up under braking</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Compensate for length changes as the suspension moves</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q37.</strong> A viscous coupling in an all-wheel-drive system operates by:</p>
-    <ol type="a">
-      <li>Engaging dog clutches using compressed air</li>
-      <li>Using silicone-based fluid that thickens as relative speed between plates increases</li>
-      <li>Using dry friction plates controlled by the brake pedal</li>
-      <li>Locking solid at all times</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Using silicone-based fluid that thickens as relative speed between plates increases</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q38.</strong> The main purpose of a constant velocity (CV) joint is to:</p>
-    <ol type="a">
-      <li>Change torque direction by 90 degrees</li>
-      <li>Transmit power at a constant speed through a range of operating angles</li>
-      <li>Provide a flexible mount for the differential</li>
-      <li>Lock the axle shafts together permanently</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Transmit power at a constant speed through a range of operating angles</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q39.</strong> Incorrect driveshaft phasing is most likely to cause:</p>
-    <ol type="a">
-      <li>Uniform torque delivery with no vibration</li>
-      <li>Driveline vibration and cyclic speed variation</li>
-      <li>Increased tire tread life</li>
-      <li>Lower differential temperatures</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Driveline vibration and cyclic speed variation</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q40.</strong> A failed centre support bearing on a two-piece driveshaft will usually produce:</p>
-    <ol type="a">
-      <li>High fuel pressure</li>
-      <li>Noise and vibration, especially under acceleration</li>
-      <li>Locked steering wheel</li>
-      <li>Low engine oil pressure</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Noise and vibration, especially under acceleration</p></details>
-  </div>
-
-  <div class="section-header">G – Light-Duty Drive Axle Assemblies (7 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q41.</strong> A hypoid rear axle gear set is characterized by the pinion gear:</p>
-    <ol type="a">
-      <li>In line with the centre of the ring gear</li>
-      <li>Above the ring gear centreline only</li>
-      <li>Below the ring gear centreline at a right angle to the ring gear</li>
-      <li>Parallel to the ring gear</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Below the ring gear centreline at a right angle to the ring gear</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q42.</strong> The side gears in a differential are splined to the:</p>
-    <ol type="a">
-      <li>Ring gear</li>
-      <li>Pinion bearings</li>
-      <li>Axle shafts</li>
-      <li>Driveshaft yoke</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Axle shafts</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q43.</strong> The main purpose of a limited slip (posi-traction) differential is to:</p>
-    <ol type="a">
-      <li>Increase fuel economy</li>
-      <li>Allow only one wheel to drive under all conditions</li>
-      <li>Help maintain drive to both wheels and reduce loss of traction</li>
-      <li>Eliminate the need for differential gears</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Help maintain drive to both wheels and reduce loss of traction</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q44.</strong> A crush sleeve on a pinion gear is used to:</p>
-    <ol type="a">
-      <li>Provide lubrication to the bearings</li>
-      <li>Maintain correct pinion bearing preload after final adjustment</li>
-      <li>Stop axle shaft end float</li>
-      <li>Seal the differential from water entry</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Maintain correct pinion bearing preload after final adjustment</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q45.</strong> Traction-enhancing differentials often require a special gear lubricant that includes:</p>
-    <ol type="a">
-      <li>Friction modifier additives</li>
-      <li>Only water-based coolant</li>
-      <li>Engine oil detergents</li>
-      <li>ATF exclusively</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Friction modifier additives</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q46.</strong> Excessive backlash between ring and pinion gears in a drive axle will typically cause:</p>
-    <ol type="a">
-      <li>Quiet operation and long life</li>
-      <li>Gear clunk and noise on acceleration and deceleration</li>
-      <li>Improved fuel economy</li>
-      <li>Reduced operating temperature</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Gear clunk and noise on acceleration and deceleration</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q47.</strong> A worn wheel bearing in a drive axle assembly will most likely be indicated by:</p>
-    <ol type="a">
-      <li>Reduced steering effort</li>
-      <li>Growling noise that changes with vehicle speed</li>
-      <li>Higher alternator output</li>
-      <li>Lower engine compression</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Growling noise that changes with vehicle speed</p></details>
-  </div>
-
-  <div class="section-header">H – Heavy-Duty Drive Axle Assemblies (7 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q48.</strong> An Eaton two-speed axle obtains its low range by:</p>
-    <ol type="a">
-      <li>Changing ring gear diameter</li>
-      <li>Using a planetary gear set in the differential assembly</li>
-      <li>Shifting the transmission into a lower gear</li>
-      <li>Applying a brake to one axle shaft</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Using a planetary gear set in the differential assembly</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q49.</strong> A power divider in a tandem drive axle set is used to:</p>
-    <ol type="a">
-      <li>Split torque equally between front and rear drive axles</li>
-      <li>Provide parking brake capability</li>
-      <li>Lock out differential action between wheels on the same axle</li>
-      <li>Increase steering angle</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Split torque equally between front and rear drive axles</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q50.</strong> The inter-axle differential lock in a tandem drive axle is used so that:</p>
-    <ol type="a">
-      <li>Both axles can turn at different speeds at all times</li>
-      <li>Both axles are forced to rotate together when traction is poor</li>
-      <li>Front axle is disconnected under load</li>
-      <li>Only one axle carries vehicle weight</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Both axles are forced to rotate together when traction is poor</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q51.</strong> Components typically used to lock out inter-axle differential action include:</p>
-    <ol type="a">
-      <li>Shift fork, sliding clutch and lockout unit</li>
-      <li>Wheel cylinders and brake shoes</li>
-      <li>Air springs and torque rods</li>
-      <li>Shock absorbers and leaf springs</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Shift fork, sliding clutch and lockout unit</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q52.</strong> A rear, rear axle assembly in a tandem set that does not receive driving torque but only supports weight is often called a:</p>
-    <ol type="a">
-      <li>Dead axle or tag axle</li>
-      <li>Steering axle</li>
-      <li>Power divider</li>
-      <li>Drop box</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Dead axle or tag axle</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q53.</strong> In heavy-duty hub reduction axles, the wheel hub is attached to the axle housing so that:</p>
-    <ol type="a">
-      <li>The wheel falls off if the axle shaft breaks, relieving load</li>
-      <li>The wheel and tire assembly remain supported even if the axle shaft fails</li>
-      <li>The axle housing can rotate inside the wheel</li>
-      <li>No lubrication is required for the wheel bearings</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) The wheel and tire assembly remain supported even if the axle shaft fails</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q54.</strong> An inter-axle differential is similar in function to a conventional differential except it:</p>
-    <ol type="a">
-      <li>Distributes torque between two axles instead of two wheels</li>
-      <li>Only operates in reverse</li>
-      <li>Is used only on steering axles</li>
-      <li>Eliminates the need for universal joints</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Distributes torque between two axles instead of two wheels</p></details>
-  </div>
-
-  <div class="section-header">I – All-Wheel Drive (7 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q55.</strong> A transfer case that contains a centre differential and can be used on dry pavement is generally classed as:</p>
-    <ol type="a">
-      <li>Part-time four-wheel drive</li>
-      <li>Full-time all-wheel drive</li>
-      <li>Two-wheel drive only</li>
-      <li>Front-wheel drive only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Full-time all-wheel drive</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q56.</strong> Manual locking hubs on the front axle of a 4x4 are used to:</p>
-    <ol type="a">
-      <li>Change final drive ratio</li>
-      <li>Engage or disengage the front wheels from the axle shafts</li>
-      <li>Lock the steering wheel during towing</li>
-      <li>Control anti-lock brake function</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Engage or disengage the front wheels from the axle shafts</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q57.</strong> In an all-wheel-drive system using a viscous coupling in the transfer case, differences in front and rear axle speeds cause the coupling to:</p>
-    <ol type="a">
-      <li>Freewheel and disconnect drive</li>
-      <li>Lock progressively as fluid shears and thickens</li>
-      <li>Release hydraulic pressure to the brakes</li>
-      <li>Open the throttle to reduce engine load</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Lock progressively as fluid shears and thickens</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q58.</strong> The usual shift positions of a part-time transfer case include:</p>
-    <ol type="a">
-      <li>2HI, 4HI, N and 4L</li>
-      <li>P, R, N and D</li>
-      <li>Low, Direct and Overdrive</li>
-      <li>F, N and R</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) 2HI, 4HI, N and 4L</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q59.</strong> A vehicle speed sensor used in some AWD systems typically monitors:</p>
-    <ol type="a">
-      <li>Battery voltage</li>
-      <li>Transmission or drive axle output shaft speed</li>
-      <li>Radiator fan speed</li>
-      <li>Fuel pump speed</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Transmission or drive axle output shaft speed</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q60.</strong> Driving a part-time 4WD vehicle in 4HI on a dry, hard surface may cause:</p>
-    <ol type="a">
-      <li>Normal operation with reduced tire wear</li>
-      <li>Driveline wind-up and difficulty shifting out of 4WD</li>
-      <li>Improved fuel economy</li>
-      <li>Automatic engagement of ABS</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Driveline wind-up and difficulty shifting out of 4WD</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q61.</strong> An electronically controlled AWD coupling may be commanded to transfer more torque to the rear axle when:</p>
-    <ol type="a">
-      <li>Rear wheel speed exceeds front wheel speed</li>
-      <li>Front wheels are slipping relative to the rear wheels</li>
-      <li>The vehicle is in Park</li>
-      <li>The engine is off</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Front wheels are slipping relative to the rear wheels</p></details>
-  </div>
-
-  <div class="section-header">J – Automatic Transmission Fundamentals (13 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q62.</strong> Different types of automatic transmission fluids (ATF) are specified by manufacturers mainly because:</p>
-    <ol type="a">
-      <li>Colour is critical for styling</li>
-      <li>Friction characteristics, viscosity and additive packages must match design requirements</li>
-      <li>All ATFs are interchangeable but naming varies</li>
-      <li>They are based solely on vehicle weight</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Friction characteristics, viscosity and additive packages must match design requirements</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q63.</strong> The torque converter connects the engine to the automatic transmission and primarily:</p>
-    <ol type="a">
-      <li>Uses gears to change ratio</li>
-      <li>Uses fluid to transmit and multiply torque between impeller and turbine</li>
-      <li>Acts only as a mechanical clutch</li>
-      <li>Controls hydraulic line pressure</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Uses fluid to transmit and multiply torque between impeller and turbine</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q64.</strong> The stator in a torque converter is used to:</p>
-    <ol type="a">
-      <li>Support the turbine shaft only</li>
-      <li>Redirect oil flow between turbine and impeller to improve torque multiplication</li>
-      <li>Control clutch application</li>
-      <li>Vent the converter to atmosphere</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Redirect oil flow between turbine and impeller to improve torque multiplication</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q65.</strong> A one-way (sprag) clutch used in an automatic transmission allows:</p>
-    <ol type="a">
-      <li>Free rotation in both directions</li>
-      <li>Rotation in one direction and locks in the opposite direction</li>
-      <li>Only linear motion</li>
-      <li>No movement in any direction</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Rotation in one direction and locks in the opposite direction</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q66.</strong> Common types of ATF pumps used in automatic transmissions include:</p>
-    <ol type="a">
-      <li>Diaphragm and plunger pumps</li>
-      <li>Internal/external gear, rotor and vane pumps</li>
-      <li>Centrifugal and jet pumps only</li>
-      <li>Piston-based high-pressure pumps only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Internal/external gear, rotor and vane pumps</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q67.</strong> An auxiliary transmission oil cooler is often recommended when a vehicle is used for:</p>
-    <ol type="a">
-      <li>Short trips in cold climates only</li>
-      <li>Towing heavy trailers or operating in severe service</li>
-      <li>Parking indoors</li>
-      <li>Operating with low engine rpm</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Towing heavy trailers or operating in severe service</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q68.</strong> To select an appropriate aftermarket transmission cooler, it is important to know:</p>
-    <ol type="a">
-      <li>Colour of the vehicle</li>
-      <li>Combined gross vehicle weight rating (GVWR) of tow vehicle and trailer</li>
-      <li>Engine firing order</li>
-      <li>Number of forward gears in the transmission</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Combined gross vehicle weight rating (GVWR) of tow vehicle and trailer</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q69.</strong> Lock-up torque converters are used to:</p>
-    <ol type="a">
-      <li>Prevent any mechanical connection between engine and transmission</li>
-      <li>Eliminate all hydraulic pressure</li>
-      <li>Reduce slippage and improve fuel economy at cruise</li>
-      <li>Provide reverse gear</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Reduce slippage and improve fuel economy at cruise</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q70.</strong> A planetary gear set is preferred in automatic transmissions because it can:</p>
-    <ol type="a">
-      <li>Provide only one forward speed</li>
-      <li>Offer multiple ratios while keeping components stationary on a compact axis</li>
-      <li>Operate without lubrication</li>
-      <li>Replace the need for hydraulic control</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Offer multiple ratios while keeping components stationary on a compact axis</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q71.</strong> Excessive transmission fluid temperature will most likely cause:</p>
-    <ol type="a">
-      <li>Improved clutch life</li>
-      <li>Rapid deterioration of fluid and clutch materials</li>
-      <li>Lower line pressure</li>
-      <li>Reduced torque capacity of the torque converter only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Rapid deterioration of fluid and clutch materials</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q72.</strong> When checking automatic transmission fluid level, the manufacturer often specifies that the:</p>
-    <ol type="a">
-      <li>Engine be off and transmission cold</li>
-      <li>Engine be running, transmission at operating temperature and in Park or Neutral</li>
-      <li>Vehicle be lifted with all wheels off the ground</li>
-      <li>Fluid be drained first</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Engine be running, transmission at operating temperature and in Park or Neutral</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q73.</strong> A vehicle that hesitates to move off from a stop in all ranges may have a:</p>
-    <ol type="a">
-      <li>Slipping torque converter or low fluid level</li>
-      <li>Stuck open thermostat</li>
-      <li>Faulty headlight switch</li>
-      <li>Plugged fuel filter only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Slipping torque converter or low fluid level</p></details>
-  </div>
-
-  <div class="section-header">K – Automatic Transmission Internal Operations (13 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q74.</strong> A typical clutch pack in an automatic transmission contains alternating:</p>
-    <ol type="a">
-      <li>Springs and seals</li>
-      <li>Friction plates and steel plates</li>
-      <li>Bearings and bushings</li>
-      <li>Bands and drums</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Friction plates and steel plates</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q75.</strong> A double-wrap (self-energizing) band requires:</p>
-    <ol type="a">
-      <li>More hydraulic pressure to hold than a single band</li>
-      <li>Less hydraulic pressure for the same holding torque</li>
-      <li>No hydraulic pressure at all</li>
-      <li>Constant manual adjustment during operation</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Less hydraulic pressure for the same holding torque</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q76.</strong> Thrust washers inside an automatic transmission may be colour coded to indicate:</p>
-    <ol type="a">
-      <li>Material composition only</li>
-      <li>Selective thickness used to control end play</li>
-      <li>Direction of rotation</li>
-      <li>Maximum torque rating</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Selective thickness used to control end play</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q77.</strong> Excessive end play in a planetary gear set may result in:</p>
-    <ol type="a">
-      <li>Improved lubrication</li>
-      <li>Harsh gear engagement and gear noise</li>
-      <li>Lower fluid temperature</li>
-      <li>Reduced clutch wear</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Harsh gear engagement and gear noise</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q78.</strong> A one-way clutch in a planetary gear train is often used to:</p>
-    <ol type="a">
-      <li>Hold a member stationary during certain gear ranges</li>
-      <li>Vent the transmission case</li>
-      <li>Control cooling system pressure</li>
-      <li>Adjust line pressure in the valve body</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Hold a member stationary during certain gear ranges</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q79.</strong> A sprag or roller clutch that has failed in the freewheeling position will often cause:</p>
-    <ol type="a">
-      <li>No drive in the ranges that rely on that clutch for holding</li>
-      <li>Harsh reverse engagement only</li>
-      <li>Excessive oil consumption</li>
-      <li>Charging system overvoltage</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) No drive in the ranges that rely on that clutch for holding</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q80.</strong> Overrunning clutches in automatic transmissions are used so that during deceleration:</p>
-    <ol type="a">
-      <li>The engine is always forced to brake the vehicle</li>
-      <li>Certain gear members can freewheel to prevent harsh downshifts</li>
-      <li>The torque converter is locked</li>
-      <li>The pump stops turning</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Certain gear members can freewheel to prevent harsh downshifts</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q81.</strong> A burnt clutch pack is most likely caused by:</p>
-    <ol type="a">
-      <li>Excessive apply pressure</li>
-      <li>Insufficient apply pressure and slippage</li>
-      <li>Too much cooling</li>
-      <li>Use of correct fluid type</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Insufficient apply pressure and slippage</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q82.</strong> When assembling an automatic transmission, clutch pack clearance is usually checked with:</p>
-    <ol type="a">
-      <li>Feeler gauges or dial indicators</li>
-      <li>Compression testers</li>
-      <li>Tire pressure gauges</li>
-      <li>Vacuum pumps</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Feeler gauges or dial indicators</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q83.</strong> A drum that shows heat checking and blue discoloration around the band surface indicates:</p>
-    <ol type="a">
-      <li>Normal operation</li>
-      <li>Overheating due to slipping band</li>
-      <li>Lack of lubrication in the differential</li>
-      <li>Faulty torque converter</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Overheating due to slipping band</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q84.</strong> A worn bushing supporting a rotating shaft in an automatic transmission will likely cause:</p>
-    <ol type="a">
-      <li>Low pump output pressure only</li>
-      <li>Shaft misalignment, seal leaks and possible gear noise</li>
-      <li>Improved durability of seals</li>
-      <li>Better torque converter efficiency</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Shaft misalignment, seal leaks and possible gear noise</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q85.</strong> Steel clutch plates are used in a clutch pack to:</p>
-    <ol type="a">
-      <li>Provide friction against the drum</li>
-      <li>Act as reaction surfaces between friction plates and drums</li>
-      <li>Seal hydraulic passages</li>
-      <li>Support the valve body</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Act as reaction surfaces between friction plates and drums</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q86.</strong> During assembly, clutch pack steels are sometimes waved (have a slight bend) to:</p>
-    <ol type="a">
-      <li>Increase harshness of engagement</li>
-      <li>Soften initial engagement and reduce shock</li>
-      <li>Increase holding capacity at all times</li>
-      <li>Eliminate the need for accumulators</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Soften initial engagement and reduce shock</p></details>
-  </div>
-
-  <div class="section-header">L – Automatic Transmission Hydraulic Components (13 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q87.</strong> The valve body in an automatic transmission contains mainly:</p>
-    <ol type="a">
-      <li>Planetary gear sets and bearings</li>
-      <li>Spool valves, passages and check balls that control fluid flow</li>
-      <li>The torque converter components</li>
-      <li>Axle shafts and spiders</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Spool valves, passages and check balls that control fluid flow</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q88.</strong> The manual valve inside the valve body is moved directly by the:</p>
-    <ol type="a">
-      <li>Governor pressure</li>
-      <li>Driver through the shift linkage or cable</li>
-      <li>Transmission oil pump</li>
-      <li>Torque converter clutch</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Driver through the shift linkage or cable</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q89.</strong> A vacuum or electronic modulator valve on some older transmissions was used to:</p>
-    <ol type="a">
-      <li>Control converter lockup only</li>
-      <li>Modify line pressure according to engine load or throttle opening</li>
-      <li>Engage reverse gear mechanically</li>
-      <li>Vent the case to atmosphere</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Modify line pressure according to engine load or throttle opening</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q90.</strong> A hydraulic governor mounted on the output shaft develops a pressure signal that varies with:</p>
-    <ol type="a">
-      <li>Engine coolant temperature</li>
-      <li>Vehicle speed</li>
-      <li>Battery voltage</li>
-      <li>Engine oil pressure</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Vehicle speed</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q91.</strong> An electronically controlled automatic transmission replaces the traditional governor and modulator with:</p>
-    <ol type="a">
-      <li>Mechanical rods and levers</li>
-      <li>Shift solenoids controlled by signals from sensors such as TPS and VSS</li>
-      <li>Vacuum lines only</li>
-      <li>Manual cables to each clutch pack</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Shift solenoids controlled by signals from sensors such as TPS and VSS</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q92.</strong> A shift solenoid in an electronic transmission usually controls:</p>
-    <ol type="a">
-      <li>Mechanical gear engagement directly</li>
-      <li>Hydraulic fluid flow to clutches and bands</li>
-      <li>Fuel injector timing</li>
-      <li>Valve lash adjustment</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Hydraulic fluid flow to clutches and bands</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q93.</strong> Pulse-width modulated (PWM) solenoids are used in transmissions to:</p>
-    <ol type="a">
-      <li>Provide simple on/off fluid control only</li>
-      <li>Provide variable control of pressure or flow by rapidly cycling on and off</li>
-      <li>Adjust spark timing</li>
-      <li>Control brake lights</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Provide variable control of pressure or flow by rapidly cycling on and off</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q94.</strong> Electronic pressure control (EPC) solenoids are primarily used to:</p>
-    <ol type="a">
-      <li>Vent the torque converter</li>
-      <li>Regulate main line pressure based on load and operating conditions</li>
-      <li>Control coolant temperature</li>
-      <li>Operate windshield wipers</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Regulate main line pressure based on load and operating conditions</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q95.</strong> A pressure regulator valve in the valve body maintains:</p>
-    <ol type="a">
-      <li>Constant fuel pressure</li>
-      <li>Controlled transmission line pressure while dumping excess flow back to the sump</li>
-      <li>Constant coolant flow</li>
-      <li>Brake system pressure</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Controlled transmission line pressure while dumping excess flow back to the sump</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q96.</strong> Accumulators in hydraulic circuits are used primarily to:</p>
-    <ol type="a">
-      <li>Store ATF for emergency use</li>
-      <li>Soften clutch and band application to reduce shift shock</li>
-      <li>Raise line pressure above relief setting</li>
-      <li>Filter the transmission fluid</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Soften clutch and band application to reduce shift shock</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q97.</strong> A stuck-open shift solenoid may result in:</p>
-    <ol type="a">
-      <li>Normal shifts at all times</li>
-      <li>Missing or harsh gear changes depending on which circuit is affected</li>
-      <li>Low engine oil pressure</li>
-      <li>Inoperative headlights</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Missing or harsh gear changes depending on which circuit is affected</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q98.</strong> When diagnosing hydraulic problems, pressure tests are usually performed at:</p>
-    <ol type="a">
-      <li>Engine oil gallery ports</li>
-      <li>Transmission line pressure and clutch/band apply ports</li>
-      <li>Coolant drain cocks</li>
-      <li>Brake bleeder screws</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Transmission line pressure and clutch/band apply ports</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q99.</strong> A dirty or partially plugged transmission filter is most likely to cause:</p>
-    <ol type="a">
-      <li>High, stable line pressure</li>
-      <li>Reduced line pressure, delayed engagement and clutch slip</li>
-      <li>Improved shift quality</li>
-      <li>Higher fuel economy</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Reduced line pressure, delayed engagement and clutch slip</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q100.</strong> An electronic transmission that defaults to a single "limp-home" gear with the MIL illuminated likely has:</p>
-    <ol type="a">
-      <li>Mechanical clutch pedal misadjustment</li>
-      <li>A detected electrical or sensor fault causing the TCM to use a fail-safe strategy</li>
-      <li>Low coolant level only</li>
-      <li>A faulty horn relay</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) A detected electrical or sensor fault causing the TCM to use a fail-safe strategy</p></details>
-  </div>
 
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>PTP2 AIT Practice Exam 2 – Power Train</h1>
+      <p>270202 Power Train</p>
+    </div>
+  </header>
+
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
+    </div>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
+    </div>
+  </div>
+
+  <main class="page-content">
+    <div class="back-link">
+      <a href="../Practice Exam/index.html">&larr; Back to Practice Exam index</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>PTP2 AIT Practice Exam 2 – Power Train</h2>
+      <p>
+        270202 Power Train
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form" data-timer-duration="3000">
+
+      <div class="question">
+        <p><strong>Chain pitch is defined as the distance between:</strong></p>
+        <label><input type="radio" name="q1" value="a"> The inside and outside plates of the chain</label>
+        <label><input type="radio" name="q1" value="b"> Adjacent roller centres or link pins</label>
+        <label><input type="radio" name="q1" value="c"> The chain and the sprocket hub</label>
+        <label><input type="radio" name="q1" value="d"> The smallest and largest sprocket in the drive</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When supplying a replacement sprocket, which information is the <em>least</em> important?</strong></p>
+        <label><input type="radio" name="q2" value="a"> Number of teeth</label>
+        <label><input type="radio" name="q2" value="b"> Shaft size and shape it mounts on</label>
+        <label><input type="radio" name="q2" value="c"> Retaining method used</label>
+        <label><input type="radio" name="q2" value="d"> Colour of the original sprocket</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The letter designation (A, B, C, D, E) for classical V-belts identifies mainly the belt's:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Length</label>
+        <label><input type="radio" name="q3" value="b"> Temperature rating</label>
+        <label><input type="radio" name="q3" value="c"> Width and overall cross-section size</label>
+        <label><input type="radio" name="q3" value="d"> Intended speed range</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Notched (cogged) V-belts provide an advantage over smooth belts because they:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Are quieter but run hotter</label>
+        <label><input type="radio" name="q4" value="b"> Offer greater flexibility and improved cooling</label>
+        <label><input type="radio" name="q4" value="c"> Can be run with lower tension due to metal cords</label>
+        <label><input type="radio" name="q4" value="d"> Do not require alignment of the pulleys</label>
+      </div>
+
+      <div class="question">
+        <p><strong>For a given input power, when gear ratio is changed to increase torque at the output, the output speed will:</strong></p>
+        <label><input type="radio" name="q5" value="a"> Also increase</label>
+        <label><input type="radio" name="q5" value="b"> Stay the same</label>
+        <label><input type="radio" name="q5" value="c"> Decrease</label>
+        <label><input type="radio" name="q5" value="d"> Be unaffected by torque</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a simple gear train, an even number of gears between input and output will cause the output gear to rotate:</strong></p>
+        <label><input type="radio" name="q6" value="a"> In the same direction as the input gear</label>
+        <label><input type="radio" name="q6" value="b"> In the opposite direction to the input gear</label>
+        <label><input type="radio" name="q6" value="c"> Only when the shafts are parallel</label>
+        <label><input type="radio" name="q6" value="d"> At exactly half input speed</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Adding idler gears to a gear train primarily changes:</strong></p>
+        <label><input type="radio" name="q7" value="a"> The overall gear ratio</label>
+        <label><input type="radio" name="q7" value="b"> The direction of rotation and shaft spacing</label>
+        <label><input type="radio" name="q7" value="c"> Tooth contact ratio only</label>
+        <label><input type="radio" name="q7" value="d"> Backlash within a gear pair</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Planetary gear sets are commonly used in automatic transmissions because they:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Are weaker than spur gear sets but cheaper</label>
+        <label><input type="radio" name="q8" value="b"> Provide multiple ratios, compact size and smooth ratio changes</label>
+        <label><input type="radio" name="q8" value="c"> Can only be used for reverse gear</label>
+        <label><input type="radio" name="q8" value="d"> Do not require lubrication</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a simple planetary gear set, the three main components are the sun gear, planetary carrier and:</strong></p>
+        <label><input type="radio" name="q9" value="a"> Spur gear</label>
+        <label><input type="radio" name="q9" value="b"> Helical pinion</label>
+        <label><input type="radio" name="q9" value="c"> Internal (ring) gear</label>
+        <label><input type="radio" name="q9" value="d"> Rack gear</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Backlash between meshing gears is required so that:</strong></p>
+        <label><input type="radio" name="q10" value="a"> Gear teeth always remain in heavy interference contact</label>
+        <label><input type="radio" name="q10" value="b"> There is space for lubrication film and thermal expansion</label>
+        <label><input type="radio" name="q10" value="c"> Noise is eliminated completely</label>
+        <label><input type="radio" name="q10" value="d"> The gear ratio can be adjusted during operation</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The primary purpose of a vehicle clutch is to:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Lock the drive wheels during braking</label>
+        <label><input type="radio" name="q11" value="b"> Provide a means to smoothly connect and disconnect engine power to the transmission</label>
+        <label><input type="radio" name="q11" value="c"> Change axle ratios automatically</label>
+        <label><input type="radio" name="q11" value="d"> Control engine cooling fan speed</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A typical double-disc, dry clutch assembly used in heavy-duty trucks includes:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Flywheel, one driven disc, pressure plate and pilot bearing</label>
+        <label><input type="radio" name="q12" value="b"> Flywheel, two driven discs, intermediate plate, pressure plate and release bearing</label>
+        <label><input type="radio" name="q12" value="c"> Torque converter, front pump and stator</label>
+        <label><input type="radio" name="q12" value="d"> Only one friction disc and a band brake</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Torsional damper springs in a clutch disc are designed to:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Increase pedal effort at engagement</label>
+        <label><input type="radio" name="q13" value="b"> Absorb driveline shock and smooth torque transfer</label>
+        <label><input type="radio" name="q13" value="c"> Hold the disc away from the flywheel</label>
+        <label><input type="radio" name="q13" value="d"> Eliminate the need for a release bearing</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The clutch release (throw-out) bearing operates under what type of load?</strong></p>
+        <label><input type="radio" name="q14" value="a"> Radial only</label>
+        <label><input type="radio" name="q14" value="b"> Thrust/axial load while rotating</label>
+        <label><input type="radio" name="q14" value="c"> Pure bending load</label>
+        <label><input type="radio" name="q14" value="d"> No load – it is freewheeling at all times</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When supplying a replacement clutch for a truck, the best practice is to:</strong></p>
+        <label><input type="radio" name="q15" value="a"> Sell only the worn disc</label>
+        <label><input type="radio" name="q15" value="b"> Sell a matched set including disc(s), pressure plate, release bearing and alignment tool</label>
+        <label><input type="radio" name="q15" value="c"> Reuse the old pressure plate and release bearing as long as they move</label>
+        <label><input type="radio" name="q15" value="d"> Always change the transmission as well</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Clutch size is normally specified by:</strong></p>
+        <label><input type="radio" name="q16" value="a"> Number of flywheel bolts only</label>
+        <label><input type="radio" name="q16" value="b"> Disc outside diameter and hub spline size</label>
+        <label><input type="radio" name="q16" value="c"> Overall transmission length</label>
+        <label><input type="radio" name="q16" value="d"> Gear ratio of first gear</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A worn pilot bearing/bushing is most likely to cause:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Clutch slip under load</label>
+        <label><input type="radio" name="q17" value="b"> Difficulty shifting gears due to input shaft misalignment</label>
+        <label><input type="radio" name="q17" value="c"> Low engine oil pressure</label>
+        <label><input type="radio" name="q17" value="d"> High charging system voltage</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Torque is best described as:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Power divided by time</label>
+        <label><input type="radio" name="q18" value="b"> A twisting force that tends to cause rotation</label>
+        <label><input type="radio" name="q18" value="c"> Linear motion in one direction</label>
+        <label><input type="radio" name="q18" value="d"> Speed multiplied by distance</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a constant-mesh light-duty manual transmission, gear engagement is achieved by:</strong></p>
+        <label><input type="radio" name="q19" value="a"> Sliding the gears themselves into mesh</label>
+        <label><input type="radio" name="q19" value="b"> Dog clutches or synchronizer sleeves locking selected gears to their shafts</label>
+        <label><input type="radio" name="q19" value="c"> Using bands and servos</label>
+        <label><input type="radio" name="q19" value="d"> Fluid coupling only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Synchronizer assemblies are used to:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Lubricate the gears</label>
+        <label><input type="radio" name="q20" value="b"> Match gear and shaft speeds for smooth, quiet engagement</label>
+        <label><input type="radio" name="q20" value="c"> Prevent the clutch from slipping</label>
+        <label><input type="radio" name="q20" value="d"> Change the final drive ratio</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In many manual transmissions, thrust washers may be colour coded to indicate:</strong></p>
+        <label><input type="radio" name="q21" value="a"> Material type only</label>
+        <label><input type="radio" name="q21" value="b"> Selective thickness for end float adjustment</label>
+        <label><input type="radio" name="q21" value="c"> Direction of rotation</label>
+        <label><input type="radio" name="q21" value="d"> Oil flow path</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The speedometer drive gear on many rear-wheel-drive light-duty transmissions is commonly mounted on the:</strong></p>
+        <label><input type="radio" name="q22" value="a"> Input shaft</label>
+        <label><input type="radio" name="q22" value="b"> Countershaft</label>
+        <label><input type="radio" name="q22" value="c"> Mainshaft (output shaft)</label>
+        <label><input type="radio" name="q22" value="d"> Clutch hub</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Splines on transmission shafts are used so that gears or clutches can:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Be welded permanently in place</label>
+        <label><input type="radio" name="q23" value="b"> Slide while still transmitting torque</label>
+        <label><input type="radio" name="q23" value="c"> Rotate freely without turning the shaft</label>
+        <label><input type="radio" name="q23" value="d"> Be balanced dynamically</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive end play on a transmission shaft is most likely caused by:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Overfilled transmission oil</label>
+        <label><input type="radio" name="q24" value="b"> Worn or incorrect thickness thrust washers/shims</label>
+        <label><input type="radio" name="q24" value="c"> Incorrect clutch pedal free play</label>
+        <label><input type="radio" name="q24" value="d"> Worn final drive ring gear teeth</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A compound heavy-duty transmission consists of:</strong></p>
+        <label><input type="radio" name="q25" value="a"> A main transmission and a separate auxiliary section</label>
+        <label><input type="radio" name="q25" value="b"> Two identical main transmissions in series</label>
+        <label><input type="radio" name="q25" value="c"> An automatic front section with a manual rear section</label>
+        <label><input type="radio" name="q25" value="d"> A transmission and transfer case combined</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a typical heavy-duty transmission shift cover, the detent system is used to:</strong></p>
+        <label><input type="radio" name="q26" value="a"> Lubricate the shift rails</label>
+        <label><input type="radio" name="q26" value="b"> Hold shift rails in the selected gear position</label>
+        <label><input type="radio" name="q26" value="c"> Reduce engine speed during shifting</label>
+        <label><input type="radio" name="q26" value="d"> Control PTO engagement</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The interlock system in a manual transmission shift cover:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Prevents gear oil from leaking out the top cover</label>
+        <label><input type="radio" name="q27" value="b"> Prevents more than one shift rail from moving into gear at the same time</label>
+        <label><input type="radio" name="q27" value="c"> Controls input shaft speed</label>
+        <label><input type="radio" name="q27" value="d"> Adjusts maximum torque rating</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Information such as model number, torque rating and number of speeds for a heavy-duty transmission is usually found on:</strong></p>
+        <label><input type="radio" name="q28" value="a"> The clutch housing bolt heads</label>
+        <label><input type="radio" name="q28" value="b"> An identification tag or nameplate on the case</label>
+        <label><input type="radio" name="q28" value="c"> The speedometer gear</label>
+        <label><input type="radio" name="q28" value="d"> The shift knob only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Most gears, bearings and shafts in heavy-duty manual transmissions are retained by:</strong></p>
+        <label><input type="radio" name="q29" value="a"> Welds and rivets</label>
+        <label><input type="radio" name="q29" value="b"> Snap rings and retaining plates</label>
+        <label><input type="radio" name="q29" value="c"> Adhesive compounds only</label>
+        <label><input type="radio" name="q29" value="d"> Roll pins in shear</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A power take-off (PTO) unit mounted to a transmission is used primarily to:</strong></p>
+        <label><input type="radio" name="q30" value="a"> Increase rear axle gear ratio</label>
+        <label><input type="radio" name="q30" value="b"> Provide mechanical power for auxiliary equipment such as pumps</label>
+        <label><input type="radio" name="q30" value="c"> Control engine cooling fan speed</label>
+        <label><input type="radio" name="q30" value="d"> Drive the speedometer cable only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On many heavy-duty transmissions, range-shift and splitter functions are controlled by:</strong></p>
+        <label><input type="radio" name="q31" value="a"> Electric shift motors only</label>
+        <label><input type="radio" name="q31" value="b"> Air-operated valves controlled from the shift knob</label>
+        <label><input type="radio" name="q31" value="c"> Separate hydraulic pumps</label>
+        <label><input type="radio" name="q31" value="d"> Manual levers on the transmission case only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When ordering parts for a PTO, the most accurate way to identify the correct unit is to:</strong></p>
+        <label><input type="radio" name="q32" value="a"> Measure the output shaft length</label>
+        <label><input type="radio" name="q32" value="b"> Use the PTO identification tag information</label>
+        <label><input type="radio" name="q32" value="c"> Estimate based on vehicle make and year</label>
+        <label><input type="radio" name="q32" value="d"> Count the number of transmission speeds</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A driver complains of difficulty engaging the auxiliary section ranges in a compound transmission. A likely cause is:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Low coolant level</label>
+        <label><input type="radio" name="q33" value="b"> Air supply problem to the range-shift valve or actuator</label>
+        <label><input type="radio" name="q33" value="c"> Faulty headlight switch</label>
+        <label><input type="radio" name="q33" value="d"> Incorrect engine oil viscosity</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A typical two-piece Hotchkiss drive shaft assembly uses which type of universal joint?</strong></p>
+        <label><input type="radio" name="q34" value="a"> Ball-and-trunnion joint</label>
+        <label><input type="radio" name="q34" value="b"> Double-offset constant velocity joint</label>
+        <label><input type="radio" name="q34" value="c"> Cross-and-roller (cross and bearing) joint</label>
+        <label><input type="radio" name="q34" value="d"> Rzeppa tripod joint</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On a rear-wheel-drive vehicle, drive shaft length changes caused by suspension movement are accommodated by the:</strong></p>
+        <label><input type="radio" name="q35" value="a"> Slip yoke or sliding spline</label>
+        <label><input type="radio" name="q35" value="b"> Ring gear backlash</label>
+        <label><input type="radio" name="q35" value="c"> Clutch release bearing</label>
+        <label><input type="radio" name="q35" value="d"> Transmission mainshaft bearing</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On a front-wheel-drive (FWD) half shaft, plunge joints are used primarily to:</strong></p>
+        <label><input type="radio" name="q36" value="a"> Provide steering articulation only</label>
+        <label><input type="radio" name="q36" value="b"> Compensate for length changes as the suspension moves</label>
+        <label><input type="radio" name="q36" value="c"> Increase gear ratio in the transaxle</label>
+        <label><input type="radio" name="q36" value="d"> Prevent wheel lock-up under braking</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A viscous coupling in an all-wheel-drive system operates by:</strong></p>
+        <label><input type="radio" name="q37" value="a"> Engaging dog clutches using compressed air</label>
+        <label><input type="radio" name="q37" value="b"> Using silicone-based fluid that thickens as relative speed between plates increases</label>
+        <label><input type="radio" name="q37" value="c"> Using dry friction plates controlled by the brake pedal</label>
+        <label><input type="radio" name="q37" value="d"> Locking solid at all times</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The main purpose of a constant velocity (CV) joint is to:</strong></p>
+        <label><input type="radio" name="q38" value="a"> Change torque direction by 90 degrees</label>
+        <label><input type="radio" name="q38" value="b"> Transmit power at a constant speed through a range of operating angles</label>
+        <label><input type="radio" name="q38" value="c"> Provide a flexible mount for the differential</label>
+        <label><input type="radio" name="q38" value="d"> Lock the axle shafts together permanently</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Incorrect driveshaft phasing is most likely to cause:</strong></p>
+        <label><input type="radio" name="q39" value="a"> Uniform torque delivery with no vibration</label>
+        <label><input type="radio" name="q39" value="b"> Driveline vibration and cyclic speed variation</label>
+        <label><input type="radio" name="q39" value="c"> Increased tire tread life</label>
+        <label><input type="radio" name="q39" value="d"> Lower differential temperatures</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A failed centre support bearing on a two-piece driveshaft will usually produce:</strong></p>
+        <label><input type="radio" name="q40" value="a"> High fuel pressure</label>
+        <label><input type="radio" name="q40" value="b"> Noise and vibration, especially under acceleration</label>
+        <label><input type="radio" name="q40" value="c"> Locked steering wheel</label>
+        <label><input type="radio" name="q40" value="d"> Low engine oil pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A hypoid rear axle gear set is characterized by the pinion gear:</strong></p>
+        <label><input type="radio" name="q41" value="a"> In line with the centre of the ring gear</label>
+        <label><input type="radio" name="q41" value="b"> Above the ring gear centreline only</label>
+        <label><input type="radio" name="q41" value="c"> Below the ring gear centreline at a right angle to the ring gear</label>
+        <label><input type="radio" name="q41" value="d"> Parallel to the ring gear</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The side gears in a differential are splined to the:</strong></p>
+        <label><input type="radio" name="q42" value="a"> Ring gear</label>
+        <label><input type="radio" name="q42" value="b"> Pinion bearings</label>
+        <label><input type="radio" name="q42" value="c"> Axle shafts</label>
+        <label><input type="radio" name="q42" value="d"> Driveshaft yoke</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The main purpose of a limited slip (posi-traction) differential is to:</strong></p>
+        <label><input type="radio" name="q43" value="a"> Increase fuel economy</label>
+        <label><input type="radio" name="q43" value="b"> Allow only one wheel to drive under all conditions</label>
+        <label><input type="radio" name="q43" value="c"> Help maintain drive to both wheels and reduce loss of traction</label>
+        <label><input type="radio" name="q43" value="d"> Eliminate the need for differential gears</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A crush sleeve on a pinion gear is used to:</strong></p>
+        <label><input type="radio" name="q44" value="a"> Provide lubrication to the bearings</label>
+        <label><input type="radio" name="q44" value="b"> Maintain correct pinion bearing preload after final adjustment</label>
+        <label><input type="radio" name="q44" value="c"> Stop axle shaft end float</label>
+        <label><input type="radio" name="q44" value="d"> Seal the differential from water entry</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Traction-enhancing differentials often require a special gear lubricant that includes:</strong></p>
+        <label><input type="radio" name="q45" value="a"> Friction modifier additives</label>
+        <label><input type="radio" name="q45" value="b"> Only water-based coolant</label>
+        <label><input type="radio" name="q45" value="c"> Engine oil detergents</label>
+        <label><input type="radio" name="q45" value="d"> ATF exclusively</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive backlash between ring and pinion gears in a drive axle will typically cause:</strong></p>
+        <label><input type="radio" name="q46" value="a"> Quiet operation and long life</label>
+        <label><input type="radio" name="q46" value="b"> Gear clunk and noise on acceleration and deceleration</label>
+        <label><input type="radio" name="q46" value="c"> Improved fuel economy</label>
+        <label><input type="radio" name="q46" value="d"> Reduced operating temperature</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A worn wheel bearing in a drive axle assembly will most likely be indicated by:</strong></p>
+        <label><input type="radio" name="q47" value="a"> Reduced steering effort</label>
+        <label><input type="radio" name="q47" value="b"> Growling noise that changes with vehicle speed</label>
+        <label><input type="radio" name="q47" value="c"> Higher alternator output</label>
+        <label><input type="radio" name="q47" value="d"> Lower engine compression</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An Eaton two-speed axle obtains its low range by:</strong></p>
+        <label><input type="radio" name="q48" value="a"> Changing ring gear diameter</label>
+        <label><input type="radio" name="q48" value="b"> Using a planetary gear set in the differential assembly</label>
+        <label><input type="radio" name="q48" value="c"> Shifting the transmission into a lower gear</label>
+        <label><input type="radio" name="q48" value="d"> Applying a brake to one axle shaft</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A power divider in a tandem drive axle set is used to:</strong></p>
+        <label><input type="radio" name="q49" value="a"> Split torque equally between front and rear drive axles</label>
+        <label><input type="radio" name="q49" value="b"> Provide parking brake capability</label>
+        <label><input type="radio" name="q49" value="c"> Lock out differential action between wheels on the same axle</label>
+        <label><input type="radio" name="q49" value="d"> Increase steering angle</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The inter-axle differential lock in a tandem drive axle is used so that:</strong></p>
+        <label><input type="radio" name="q50" value="a"> Both axles can turn at different speeds at all times</label>
+        <label><input type="radio" name="q50" value="b"> Both axles are forced to rotate together when traction is poor</label>
+        <label><input type="radio" name="q50" value="c"> Front axle is disconnected under load</label>
+        <label><input type="radio" name="q50" value="d"> Only one axle carries vehicle weight</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Components typically used to lock out inter-axle differential action include:</strong></p>
+        <label><input type="radio" name="q51" value="a"> Shift fork, sliding clutch and lockout unit</label>
+        <label><input type="radio" name="q51" value="b"> Wheel cylinders and brake shoes</label>
+        <label><input type="radio" name="q51" value="c"> Air springs and torque rods</label>
+        <label><input type="radio" name="q51" value="d"> Shock absorbers and leaf springs</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A rear, rear axle assembly in a tandem set that does not receive driving torque but only supports weight is often called a:</strong></p>
+        <label><input type="radio" name="q52" value="a"> Dead axle or tag axle</label>
+        <label><input type="radio" name="q52" value="b"> Steering axle</label>
+        <label><input type="radio" name="q52" value="c"> Power divider</label>
+        <label><input type="radio" name="q52" value="d"> Drop box</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In heavy-duty hub reduction axles, the wheel hub is attached to the axle housing so that:</strong></p>
+        <label><input type="radio" name="q53" value="a"> The wheel falls off if the axle shaft breaks, relieving load</label>
+        <label><input type="radio" name="q53" value="b"> The wheel and tire assembly remain supported even if the axle shaft fails</label>
+        <label><input type="radio" name="q53" value="c"> The axle housing can rotate inside the wheel</label>
+        <label><input type="radio" name="q53" value="d"> No lubrication is required for the wheel bearings</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An inter-axle differential is similar in function to a conventional differential except it:</strong></p>
+        <label><input type="radio" name="q54" value="a"> Distributes torque between two axles instead of two wheels</label>
+        <label><input type="radio" name="q54" value="b"> Only operates in reverse</label>
+        <label><input type="radio" name="q54" value="c"> Is used only on steering axles</label>
+        <label><input type="radio" name="q54" value="d"> Eliminates the need for universal joints</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A transfer case that contains a centre differential and can be used on dry pavement is generally classed as:</strong></p>
+        <label><input type="radio" name="q55" value="a"> Part-time four-wheel drive</label>
+        <label><input type="radio" name="q55" value="b"> Full-time all-wheel drive</label>
+        <label><input type="radio" name="q55" value="c"> Two-wheel drive only</label>
+        <label><input type="radio" name="q55" value="d"> Front-wheel drive only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Manual locking hubs on the front axle of a 4x4 are used to:</strong></p>
+        <label><input type="radio" name="q56" value="a"> Change final drive ratio</label>
+        <label><input type="radio" name="q56" value="b"> Engage or disengage the front wheels from the axle shafts</label>
+        <label><input type="radio" name="q56" value="c"> Lock the steering wheel during towing</label>
+        <label><input type="radio" name="q56" value="d"> Control anti-lock brake function</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In an all-wheel-drive system using a viscous coupling in the transfer case, differences in front and rear axle speeds cause the coupling to:</strong></p>
+        <label><input type="radio" name="q57" value="a"> Freewheel and disconnect drive</label>
+        <label><input type="radio" name="q57" value="b"> Lock progressively as fluid shears and thickens</label>
+        <label><input type="radio" name="q57" value="c"> Release hydraulic pressure to the brakes</label>
+        <label><input type="radio" name="q57" value="d"> Open the throttle to reduce engine load</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The usual shift positions of a part-time transfer case include:</strong></p>
+        <label><input type="radio" name="q58" value="a"> 2HI, 4HI, N and 4L</label>
+        <label><input type="radio" name="q58" value="b"> P, R, N and D</label>
+        <label><input type="radio" name="q58" value="c"> Low, Direct and Overdrive</label>
+        <label><input type="radio" name="q58" value="d"> F, N and R</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A vehicle speed sensor used in some AWD systems typically monitors:</strong></p>
+        <label><input type="radio" name="q59" value="a"> Battery voltage</label>
+        <label><input type="radio" name="q59" value="b"> Transmission or drive axle output shaft speed</label>
+        <label><input type="radio" name="q59" value="c"> Radiator fan speed</label>
+        <label><input type="radio" name="q59" value="d"> Fuel pump speed</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Driving a part-time 4WD vehicle in 4HI on a dry, hard surface may cause:</strong></p>
+        <label><input type="radio" name="q60" value="a"> Normal operation with reduced tire wear</label>
+        <label><input type="radio" name="q60" value="b"> Driveline wind-up and difficulty shifting out of 4WD</label>
+        <label><input type="radio" name="q60" value="c"> Improved fuel economy</label>
+        <label><input type="radio" name="q60" value="d"> Automatic engagement of ABS</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An electronically controlled AWD coupling may be commanded to transfer more torque to the rear axle when:</strong></p>
+        <label><input type="radio" name="q61" value="a"> Rear wheel speed exceeds front wheel speed</label>
+        <label><input type="radio" name="q61" value="b"> Front wheels are slipping relative to the rear wheels</label>
+        <label><input type="radio" name="q61" value="c"> The vehicle is in Park</label>
+        <label><input type="radio" name="q61" value="d"> The engine is off</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Different types of automatic transmission fluids (ATF) are specified by manufacturers mainly because:</strong></p>
+        <label><input type="radio" name="q62" value="a"> Colour is critical for styling</label>
+        <label><input type="radio" name="q62" value="b"> Friction characteristics, viscosity and additive packages must match design requirements</label>
+        <label><input type="radio" name="q62" value="c"> All ATFs are interchangeable but naming varies</label>
+        <label><input type="radio" name="q62" value="d"> They are based solely on vehicle weight</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The torque converter connects the engine to the automatic transmission and primarily:</strong></p>
+        <label><input type="radio" name="q63" value="a"> Uses gears to change ratio</label>
+        <label><input type="radio" name="q63" value="b"> Uses fluid to transmit and multiply torque between impeller and turbine</label>
+        <label><input type="radio" name="q63" value="c"> Acts only as a mechanical clutch</label>
+        <label><input type="radio" name="q63" value="d"> Controls hydraulic line pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The stator in a torque converter is used to:</strong></p>
+        <label><input type="radio" name="q64" value="a"> Support the turbine shaft only</label>
+        <label><input type="radio" name="q64" value="b"> Redirect oil flow between turbine and impeller to improve torque multiplication</label>
+        <label><input type="radio" name="q64" value="c"> Control clutch application</label>
+        <label><input type="radio" name="q64" value="d"> Vent the converter to atmosphere</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A one-way (sprag) clutch used in an automatic transmission allows:</strong></p>
+        <label><input type="radio" name="q65" value="a"> Free rotation in both directions</label>
+        <label><input type="radio" name="q65" value="b"> Rotation in one direction and locks in the opposite direction</label>
+        <label><input type="radio" name="q65" value="c"> Only linear motion</label>
+        <label><input type="radio" name="q65" value="d"> No movement in any direction</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Common types of ATF pumps used in automatic transmissions include:</strong></p>
+        <label><input type="radio" name="q66" value="a"> Diaphragm and plunger pumps</label>
+        <label><input type="radio" name="q66" value="b"> Internal/external gear, rotor and vane pumps</label>
+        <label><input type="radio" name="q66" value="c"> Centrifugal and jet pumps only</label>
+        <label><input type="radio" name="q66" value="d"> Piston-based high-pressure pumps only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An auxiliary transmission oil cooler is often recommended when a vehicle is used for:</strong></p>
+        <label><input type="radio" name="q67" value="a"> Short trips in cold climates only</label>
+        <label><input type="radio" name="q67" value="b"> Towing heavy trailers or operating in severe service</label>
+        <label><input type="radio" name="q67" value="c"> Parking indoors</label>
+        <label><input type="radio" name="q67" value="d"> Operating with low engine rpm</label>
+      </div>
+
+      <div class="question">
+        <p><strong>To select an appropriate aftermarket transmission cooler, it is important to know:</strong></p>
+        <label><input type="radio" name="q68" value="a"> Colour of the vehicle</label>
+        <label><input type="radio" name="q68" value="b"> Combined gross vehicle weight rating (GVWR) of tow vehicle and trailer</label>
+        <label><input type="radio" name="q68" value="c"> Engine firing order</label>
+        <label><input type="radio" name="q68" value="d"> Number of forward gears in the transmission</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Lock-up torque converters are used to:</strong></p>
+        <label><input type="radio" name="q69" value="a"> Prevent any mechanical connection between engine and transmission</label>
+        <label><input type="radio" name="q69" value="b"> Eliminate all hydraulic pressure</label>
+        <label><input type="radio" name="q69" value="c"> Reduce slippage and improve fuel economy at cruise</label>
+        <label><input type="radio" name="q69" value="d"> Provide reverse gear</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A planetary gear set is preferred in automatic transmissions because it can:</strong></p>
+        <label><input type="radio" name="q70" value="a"> Provide only one forward speed</label>
+        <label><input type="radio" name="q70" value="b"> Offer multiple ratios while keeping components stationary on a compact axis</label>
+        <label><input type="radio" name="q70" value="c"> Operate without lubrication</label>
+        <label><input type="radio" name="q70" value="d"> Replace the need for hydraulic control</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive transmission fluid temperature will most likely cause:</strong></p>
+        <label><input type="radio" name="q71" value="a"> Improved clutch life</label>
+        <label><input type="radio" name="q71" value="b"> Rapid deterioration of fluid and clutch materials</label>
+        <label><input type="radio" name="q71" value="c"> Lower line pressure</label>
+        <label><input type="radio" name="q71" value="d"> Reduced torque capacity of the torque converter only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When checking automatic transmission fluid level, the manufacturer often specifies that the:</strong></p>
+        <label><input type="radio" name="q72" value="a"> Engine be off and transmission cold</label>
+        <label><input type="radio" name="q72" value="b"> Engine be running, transmission at operating temperature and in Park or Neutral</label>
+        <label><input type="radio" name="q72" value="c"> Vehicle be lifted with all wheels off the ground</label>
+        <label><input type="radio" name="q72" value="d"> Fluid be drained first</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A vehicle that hesitates to move off from a stop in all ranges may have a:</strong></p>
+        <label><input type="radio" name="q73" value="a"> Slipping torque converter or low fluid level</label>
+        <label><input type="radio" name="q73" value="b"> Stuck open thermostat</label>
+        <label><input type="radio" name="q73" value="c"> Faulty headlight switch</label>
+        <label><input type="radio" name="q73" value="d"> Plugged fuel filter only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A typical clutch pack in an automatic transmission contains alternating:</strong></p>
+        <label><input type="radio" name="q74" value="a"> Springs and seals</label>
+        <label><input type="radio" name="q74" value="b"> Friction plates and steel plates</label>
+        <label><input type="radio" name="q74" value="c"> Bearings and bushings</label>
+        <label><input type="radio" name="q74" value="d"> Bands and drums</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A double-wrap (self-energizing) band requires:</strong></p>
+        <label><input type="radio" name="q75" value="a"> More hydraulic pressure to hold than a single band</label>
+        <label><input type="radio" name="q75" value="b"> Less hydraulic pressure for the same holding torque</label>
+        <label><input type="radio" name="q75" value="c"> No hydraulic pressure at all</label>
+        <label><input type="radio" name="q75" value="d"> Constant manual adjustment during operation</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Thrust washers inside an automatic transmission may be colour coded to indicate:</strong></p>
+        <label><input type="radio" name="q76" value="a"> Material composition only</label>
+        <label><input type="radio" name="q76" value="b"> Selective thickness used to control end play</label>
+        <label><input type="radio" name="q76" value="c"> Direction of rotation</label>
+        <label><input type="radio" name="q76" value="d"> Maximum torque rating</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive end play in a planetary gear set may result in:</strong></p>
+        <label><input type="radio" name="q77" value="a"> Improved lubrication</label>
+        <label><input type="radio" name="q77" value="b"> Harsh gear engagement and gear noise</label>
+        <label><input type="radio" name="q77" value="c"> Lower fluid temperature</label>
+        <label><input type="radio" name="q77" value="d"> Reduced clutch wear</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A one-way clutch in a planetary gear train is often used to:</strong></p>
+        <label><input type="radio" name="q78" value="a"> Hold a member stationary during certain gear ranges</label>
+        <label><input type="radio" name="q78" value="b"> Vent the transmission case</label>
+        <label><input type="radio" name="q78" value="c"> Control cooling system pressure</label>
+        <label><input type="radio" name="q78" value="d"> Adjust line pressure in the valve body</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A sprag or roller clutch that has failed in the freewheeling position will often cause:</strong></p>
+        <label><input type="radio" name="q79" value="a"> No drive in the ranges that rely on that clutch for holding</label>
+        <label><input type="radio" name="q79" value="b"> Harsh reverse engagement only</label>
+        <label><input type="radio" name="q79" value="c"> Excessive oil consumption</label>
+        <label><input type="radio" name="q79" value="d"> Charging system overvoltage</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Overrunning clutches in automatic transmissions are used so that during deceleration:</strong></p>
+        <label><input type="radio" name="q80" value="a"> The engine is always forced to brake the vehicle</label>
+        <label><input type="radio" name="q80" value="b"> Certain gear members can freewheel to prevent harsh downshifts</label>
+        <label><input type="radio" name="q80" value="c"> The torque converter is locked</label>
+        <label><input type="radio" name="q80" value="d"> The pump stops turning</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A burnt clutch pack is most likely caused by:</strong></p>
+        <label><input type="radio" name="q81" value="a"> Excessive apply pressure</label>
+        <label><input type="radio" name="q81" value="b"> Insufficient apply pressure and slippage</label>
+        <label><input type="radio" name="q81" value="c"> Too much cooling</label>
+        <label><input type="radio" name="q81" value="d"> Use of correct fluid type</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When assembling an automatic transmission, clutch pack clearance is usually checked with:</strong></p>
+        <label><input type="radio" name="q82" value="a"> Feeler gauges or dial indicators</label>
+        <label><input type="radio" name="q82" value="b"> Compression testers</label>
+        <label><input type="radio" name="q82" value="c"> Tire pressure gauges</label>
+        <label><input type="radio" name="q82" value="d"> Vacuum pumps</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A drum that shows heat checking and blue discoloration around the band surface indicates:</strong></p>
+        <label><input type="radio" name="q83" value="a"> Normal operation</label>
+        <label><input type="radio" name="q83" value="b"> Overheating due to slipping band</label>
+        <label><input type="radio" name="q83" value="c"> Lack of lubrication in the differential</label>
+        <label><input type="radio" name="q83" value="d"> Faulty torque converter</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A worn bushing supporting a rotating shaft in an automatic transmission will likely cause:</strong></p>
+        <label><input type="radio" name="q84" value="a"> Low pump output pressure only</label>
+        <label><input type="radio" name="q84" value="b"> Shaft misalignment, seal leaks and possible gear noise</label>
+        <label><input type="radio" name="q84" value="c"> Improved durability of seals</label>
+        <label><input type="radio" name="q84" value="d"> Better torque converter efficiency</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Steel clutch plates are used in a clutch pack to:</strong></p>
+        <label><input type="radio" name="q85" value="a"> Provide friction against the drum</label>
+        <label><input type="radio" name="q85" value="b"> Act as reaction surfaces between friction plates and drums</label>
+        <label><input type="radio" name="q85" value="c"> Seal hydraulic passages</label>
+        <label><input type="radio" name="q85" value="d"> Support the valve body</label>
+      </div>
+
+      <div class="question">
+        <p><strong>During assembly, clutch pack steels are sometimes waved (have a slight bend) to:</strong></p>
+        <label><input type="radio" name="q86" value="a"> Increase harshness of engagement</label>
+        <label><input type="radio" name="q86" value="b"> Soften initial engagement and reduce shock</label>
+        <label><input type="radio" name="q86" value="c"> Increase holding capacity at all times</label>
+        <label><input type="radio" name="q86" value="d"> Eliminate the need for accumulators</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The valve body in an automatic transmission contains mainly:</strong></p>
+        <label><input type="radio" name="q87" value="a"> Planetary gear sets and bearings</label>
+        <label><input type="radio" name="q87" value="b"> Spool valves, passages and check balls that control fluid flow</label>
+        <label><input type="radio" name="q87" value="c"> The torque converter components</label>
+        <label><input type="radio" name="q87" value="d"> Axle shafts and spiders</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The manual valve inside the valve body is moved directly by the:</strong></p>
+        <label><input type="radio" name="q88" value="a"> Governor pressure</label>
+        <label><input type="radio" name="q88" value="b"> Driver through the shift linkage or cable</label>
+        <label><input type="radio" name="q88" value="c"> Transmission oil pump</label>
+        <label><input type="radio" name="q88" value="d"> Torque converter clutch</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A vacuum or electronic modulator valve on some older transmissions was used to:</strong></p>
+        <label><input type="radio" name="q89" value="a"> Control converter lockup only</label>
+        <label><input type="radio" name="q89" value="b"> Modify line pressure according to engine load or throttle opening</label>
+        <label><input type="radio" name="q89" value="c"> Engage reverse gear mechanically</label>
+        <label><input type="radio" name="q89" value="d"> Vent the case to atmosphere</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A hydraulic governor mounted on the output shaft develops a pressure signal that varies with:</strong></p>
+        <label><input type="radio" name="q90" value="a"> Engine coolant temperature</label>
+        <label><input type="radio" name="q90" value="b"> Vehicle speed</label>
+        <label><input type="radio" name="q90" value="c"> Battery voltage</label>
+        <label><input type="radio" name="q90" value="d"> Engine oil pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An electronically controlled automatic transmission replaces the traditional governor and modulator with:</strong></p>
+        <label><input type="radio" name="q91" value="a"> Mechanical rods and levers</label>
+        <label><input type="radio" name="q91" value="b"> Shift solenoids controlled by signals from sensors such as TPS and VSS</label>
+        <label><input type="radio" name="q91" value="c"> Vacuum lines only</label>
+        <label><input type="radio" name="q91" value="d"> Manual cables to each clutch pack</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A shift solenoid in an electronic transmission usually controls:</strong></p>
+        <label><input type="radio" name="q92" value="a"> Mechanical gear engagement directly</label>
+        <label><input type="radio" name="q92" value="b"> Hydraulic fluid flow to clutches and bands</label>
+        <label><input type="radio" name="q92" value="c"> Fuel injector timing</label>
+        <label><input type="radio" name="q92" value="d"> Valve lash adjustment</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pulse-width modulated (PWM) solenoids are used in transmissions to:</strong></p>
+        <label><input type="radio" name="q93" value="a"> Provide simple on/off fluid control only</label>
+        <label><input type="radio" name="q93" value="b"> Provide variable control of pressure or flow by rapidly cycling on and off</label>
+        <label><input type="radio" name="q93" value="c"> Adjust spark timing</label>
+        <label><input type="radio" name="q93" value="d"> Control brake lights</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Electronic pressure control (EPC) solenoids are primarily used to:</strong></p>
+        <label><input type="radio" name="q94" value="a"> Vent the torque converter</label>
+        <label><input type="radio" name="q94" value="b"> Regulate main line pressure based on load and operating conditions</label>
+        <label><input type="radio" name="q94" value="c"> Control coolant temperature</label>
+        <label><input type="radio" name="q94" value="d"> Operate windshield wipers</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A pressure regulator valve in the valve body maintains:</strong></p>
+        <label><input type="radio" name="q95" value="a"> Constant fuel pressure</label>
+        <label><input type="radio" name="q95" value="b"> Controlled transmission line pressure while dumping excess flow back to the sump</label>
+        <label><input type="radio" name="q95" value="c"> Constant coolant flow</label>
+        <label><input type="radio" name="q95" value="d"> Brake system pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Accumulators in hydraulic circuits are used primarily to:</strong></p>
+        <label><input type="radio" name="q96" value="a"> Store ATF for emergency use</label>
+        <label><input type="radio" name="q96" value="b"> Soften clutch and band application to reduce shift shock</label>
+        <label><input type="radio" name="q96" value="c"> Raise line pressure above relief setting</label>
+        <label><input type="radio" name="q96" value="d"> Filter the transmission fluid</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A stuck-open shift solenoid may result in:</strong></p>
+        <label><input type="radio" name="q97" value="a"> Normal shifts at all times</label>
+        <label><input type="radio" name="q97" value="b"> Missing or harsh gear changes depending on which circuit is affected</label>
+        <label><input type="radio" name="q97" value="c"> Low engine oil pressure</label>
+        <label><input type="radio" name="q97" value="d"> Inoperative headlights</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When diagnosing hydraulic problems, pressure tests are usually performed at:</strong></p>
+        <label><input type="radio" name="q98" value="a"> Engine oil gallery ports</label>
+        <label><input type="radio" name="q98" value="b"> Transmission line pressure and clutch/band apply ports</label>
+        <label><input type="radio" name="q98" value="c"> Coolant drain cocks</label>
+        <label><input type="radio" name="q98" value="d"> Brake bleeder screws</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A dirty or partially plugged transmission filter is most likely to cause:</strong></p>
+        <label><input type="radio" name="q99" value="a"> High, stable line pressure</label>
+        <label><input type="radio" name="q99" value="b"> Reduced line pressure, delayed engagement and clutch slip</label>
+        <label><input type="radio" name="q99" value="c"> Improved shift quality</label>
+        <label><input type="radio" name="q99" value="d"> Higher fuel economy</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An electronic transmission that defaults to a single "limp-home" gear with the MIL illuminated likely has:</strong></p>
+        <label><input type="radio" name="q100" value="a"> Mechanical clutch pedal misadjustment</label>
+        <label><input type="radio" name="q100" value="b"> A detected electrical or sensor fault causing the TCM to use a fail-safe strategy</label>
+        <label><input type="radio" name="q100" value="c"> Low coolant level only</label>
+        <label><input type="radio" name="q100" value="d"> A faulty horn relay</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
+
+  <div id="timer-display" class="timer-display">
+    <div class="timer-icon">⏱️</div>
+    <div id="timer-text" class="timer-text">50:00</div>
+  </div>
+
+  <div id="results-modal" class="modal">
+    <div class="modal-content">
+      <h2 id="modal-title">Quiz Results</h2>
+      <div id="modal-body"></div>
+      <div class="modal-actions">
+        <button id="review-btn" class="exam-button">Review Answers</button>
+        <button id="retake-btn" class="exam-button">Retake Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.ANSWERS = {
+      "q1": "b",
+      "q2": "d",
+      "q3": "c",
+      "q4": "b",
+      "q5": "c",
+      "q6": "b",
+      "q7": "b",
+      "q8": "b",
+      "q9": "c",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "b",
+      "q20": "b",
+      "q21": "b",
+      "q22": "c",
+      "q23": "b",
+      "q24": "b",
+      "q25": "a",
+      "q26": "b",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "b",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b",
+      "q34": "c",
+      "q35": "a",
+      "q36": "b",
+      "q37": "b",
+      "q38": "b",
+      "q39": "b",
+      "q40": "b",
+      "q41": "c",
+      "q42": "c",
+      "q43": "c",
+      "q44": "b",
+      "q45": "a",
+      "q46": "b",
+      "q47": "b",
+      "q48": "b",
+      "q49": "a",
+      "q50": "b",
+      "q51": "a",
+      "q52": "a",
+      "q53": "b",
+      "q54": "a",
+      "q55": "b",
+      "q56": "b",
+      "q57": "b",
+      "q58": "a",
+      "q59": "b",
+      "q60": "b",
+      "q61": "b",
+      "q62": "b",
+      "q63": "b",
+      "q64": "b",
+      "q65": "b",
+      "q66": "b",
+      "q67": "b",
+      "q68": "b",
+      "q69": "c",
+      "q70": "b",
+      "q71": "b",
+      "q72": "b",
+      "q73": "a",
+      "q74": "b",
+      "q75": "b",
+      "q76": "b",
+      "q77": "b",
+      "q78": "a",
+      "q79": "a",
+      "q80": "b",
+      "q81": "b",
+      "q82": "a",
+      "q83": "b",
+      "q84": "b",
+      "q85": "b",
+      "q86": "b",
+      "q87": "b",
+      "q88": "b",
+      "q89": "b",
+      "q90": "b",
+      "q91": "b",
+      "q92": "b",
+      "q93": "b",
+      "q94": "b",
+      "q95": "b",
+      "q96": "b",
+      "q97": "b",
+      "q98": "b",
+      "q99": "b",
+      "q100": "b"
+    };
+  </script>
+  <script src="../script.js"></script>
 </body>
 </html>

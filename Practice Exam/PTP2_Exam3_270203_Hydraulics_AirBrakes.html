@@ -2,1178 +2,987 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PTP2 AIT Practice Exam 3 – 270203 Hydraulics, Suspension, Steering & Air Brakes</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 1.5rem;
-      max-width: 1100px;
-      margin-inline: auto;
-      background: #020617;
-      color: #e5e7eb;
-    }
-    h1 {
-      text-align: center;
-      color: #facc15;
-      margin-bottom: 0.25rem;
-    }
-    .subtitle {
-      text-align: center;
-      margin-bottom: 1.5rem;
-      color: #9ca3af;
-    }
-    .section-header {
-      margin-top: 2rem;
-      padding: 0.75rem 1rem;
-      border-radius: 0.5rem;
-      background: #0b1120;
-      border: 1px solid #1f2937;
-      font-weight: 600;
-    }
-    .question {
-      margin-top: 1rem;
-      padding: 0.75rem 1rem;
-      border-radius: 0.5rem;
-      background: #020617;
-      border: 1px solid #111827;
-    }
-    .question p {
-      margin: 0.25rem 0;
-    }
-    ol {
-      margin: 0.25rem 0 0.25rem 1.5rem;
-    }
-    details summary {
-      cursor: pointer;
-      color: #22c55e;
-      margin-top: 0.25rem;
-    }
-  </style>
+  <title>PTP2 AIT Practice Exam 3 – Hydraulics & Air Brakes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Load Firebase config and leaderboard for score submission -->
+  <script src="../config/firebase.config.js"></script>
+  <script src="../assets/js/leaderboard-firebase.js"></script>
+  <script src="../assets/js/leaderboard.js"></script>
+  <script src="../assets/whitelist-fingerprint.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="../assets/fingerprint-logger.js"></script>
 </head>
 <body>
-  <h1>PTP2 AIT Practice Exam 3</h1>
-  <p class="subtitle">270203 – Hydraulics, Steering, Suspension & Air Brakes (100 Questions, AIT-style Multiple Choice)</p>
-
-  <div class="section-header">A – Hydraulic Fundamentals (9 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q1.</strong> Hydrodynamics in a hydraulic system is best described as:</p>
-    <ol type="a">
-      <li>Transmission of force using confined but stationary liquid</li>
-      <li>Transmission of force or motion through the flow of liquids</li>
-      <li>Transmission of force through a solid lever system</li>
-      <li>Transmission of force using compressed air only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Transmission of force or motion through the flow of liquids</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q2.</strong> Hydrostatics refers to:</p>
-    <ol type="a">
-      <li>Force transmission using rapidly moving liquid</li>
-      <li>Force transmission using confined liquids that may be stationary</li>
-      <li>Force transmission using compressed gases</li>
-      <li>Force transmission using mechanical linkages only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Force transmission using confined liquids that may be stationary</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q3.</strong> An example of a primarily hydrostatic application would be a:</p>
-    <ol type="a">
-      <li>Hydraulic motor driving a conveyor</li>
-      <li>Hydraulic steering system using continuous flow through an orbitrol</li>
-      <li>Bottle jack supporting a lifted vehicle with the pump stopped</li>
-      <li>Hydraulic cooling fan that runs at variable speed</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Bottle jack supporting a lifted vehicle with the pump stopped</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q4.</strong> Pascal’s law states that pressure applied to a confined fluid:</p>
-    <ol type="a">
-      <li>Is greatest at the pump outlet and lowest at the actuator</li>
-      <li>Acts only in the direction of flow</li>
-      <li>Is transmitted equally in all directions throughout the fluid</li>
-      <li>Is cancelled by gravity at the reservoir</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Is transmitted equally in all directions throughout the fluid</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q5.</strong> A hydraulic press uses a 2 cm² input piston and a 20 cm² output piston. Ignoring losses, the mechanical advantage in force is approximately:</p>
-    <ol type="a">
-      <li>1:1</li>
-      <li>2:1</li>
-      <li>10:1</li>
-      <li>20:1</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) 10:1</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q6.</strong> To increase mechanical advantage in a basic hydraulic jack without changing pressure, you would:</p>
-    <ol type="a">
-      <li>Decrease the area of the load piston</li>
-      <li>Increase the area of the load piston</li>
-      <li>Increase reservoir size only</li>
-      <li>Decrease oil viscosity only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Increase the area of the load piston</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q7.</strong> When storing hydraulic fluid, a key precaution is to:</p>
-    <ol type="a">
-      <li>Store open drums outdoors to allow moisture to vent</li>
-      <li>Leave containers unsealed to equalize pressure</li>
-      <li>Protect fluids from contamination, separation, oxidation and freezing</li>
-      <li>Mix different grades to reduce inventory</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Protect fluids from contamination, separation, oxidation and freezing</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q8.</strong> A hydraulic system relying on fast oil flow through a motor to create rotation is using:</p>
-    <ol type="a">
-      <li>Mainly hydrostatic principles</li>
-      <li>Mainly hydrodynamic principles</li>
-      <li>Only mechanical principles</li>
-      <li>Pneumatic principles</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Mainly hydrodynamic principles</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q9.</strong> Which condition is most likely to reduce the effectiveness of a hydraulic system based on Pascal’s law?</p>
-    <ol type="a">
-      <li>Trapped air compressibility in the circuit</li>
-      <li>Use of liquid with higher viscosity</li>
-      <li>Increasing fluid temperature to normal range</li>
-      <li>Using steel instead of aluminum for lines</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Trapped air compressibility in the circuit</p></details>
-  </div>
-
-  <div class="section-header">B – Hydraulic System Components: Reservoir, Filters, Hoses and Coolers (12 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q10.</strong> Some hydraulic reservoirs are slightly pressurized primarily to:</p>
-    <ol type="a">
-      <li>Increase fluid temperature</li>
-      <li>Prevent cavitation at the pump inlet</li>
-      <li>Reduce system pressure</li>
-      <li>Improve electrical grounding</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Prevent cavitation at the pump inlet</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q11.</strong> The main contaminants removed by hydraulic filters are:</p>
-    <ol type="a">
-      <li>Water vapour only</li>
-      <li>Solid particles measured in microns</li>
-      <li>Air bubbles only</li>
-      <li>Fuel additives</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Solid particles measured in microns</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q12.</strong> A filter rated at 10 microns is best described as:</p>
-    <ol type="a">
-      <li>Capable of removing all water from the fluid</li>
-      <li>Capable of removing particles roughly 10 micrometres and larger</li>
-      <li>Only suitable for air systems</li>
-      <li>Too coarse for any hydraulic use</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Capable of removing particles roughly 10 micrometres and larger</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q13.</strong> High-pressure hydraulic hose is reinforced with:</p>
-    <ol type="a">
-      <li>Plastic braid only</li>
-      <li>Spiral wire braid or multiple steel wire layers</li>
-      <li>Woven cotton threads</li>
-      <li>Copper tubing strands</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Spiral wire braid or multiple steel wire layers</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q14.</strong> Hydraulic tubing size is normally specified by:</p>
-    <ol type="a">
-      <li>Inside diameter only</li>
-      <li>Outside diameter and wall thickness</li>
-      <li>Length only</li>
-      <li>Thread size only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Outside diameter and wall thickness</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q15.</strong> Overheating of hydraulic oil is undesirable mainly because it:</p>
-    <ol type="a">
-      <li>Reduces oil flow in cold conditions</li>
-      <li>Causes oxidation and breakdown of the fluid</li>
-      <li>Improves seal compatibility</li>
-      <li>Increases filtration efficiency</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Causes oxidation and breakdown of the fluid</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q16.</strong> A return-line filter is normally installed:</p>
-    <ol type="a">
-      <li>Between reservoir and pump inlet</li>
-      <li>Between actuator outlet and reservoir</li>
-      <li>Directly in the case drain line only</li>
-      <li>Inside the accumulator shell</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Between actuator outlet and reservoir</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q17.</strong> A suction strainer in the reservoir is primarily intended to:</p>
-    <ol type="a">
-      <li>Control system pressure</li>
-      <li>Protect the pump from large debris at low pressure</li>
-      <li>Cool the hydraulic oil</li>
-      <li>Vent the system to atmosphere</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Protect the pump from large debris at low pressure</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q18.</strong> A hydraulic oil cooler is often placed in the:</p>
-    <ol type="a">
-      <li>Suction line to the pump</li>
-      <li>Return line from the system to the reservoir</li>
-      <li>Case drain line of the pump only</li>
-      <li>Air brake supply line</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Return line from the system to the reservoir</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q19.</strong> When replacing a high-pressure hose on mobile equipment, you should also verify:</p>
-    <ol type="a">
-      <li>That the hose has the correct pressure rating and reinforcement type</li>
-      <li>Only that the colour of the hose matches the original</li>
-      <li>That the hose is longer than the original to reduce strain</li>
-      <li>That a smaller inside diameter is used to increase pressure</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) That the hose has the correct pressure rating and reinforcement type</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q20.</strong> A clogged hydraulic filter bypass valve opening frequently indicates:</p>
-    <ol type="a">
-      <li>Fluid too cold</li>
-      <li>Filter element is restricted and needs service</li>
-      <li>Relief valve stuck open</li>
-      <li>Accumulator pre-charge too high</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Filter element is restricted and needs service</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q21.</strong> Which reservoir design feature helps remove entrained air from hydraulic oil?</p>
-    <ol type="a">
-      <li>Very small surface area</li>
-      <li>Baffles and adequate residence time before oil re-enters the pump suction</li>
-      <li>High-speed stirrer inside the tank</li>
-      <li>Mounting the tank upside down</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Baffles and adequate residence time before oil re-enters the pump suction</p></details>
-  </div>
-
-  <div class="section-header">C – Hydraulic System Components: Pumps and Valves (12 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q22.</strong> The primary purpose of any hydraulic pump is to:</p>
-    <ol type="a">
-      <li>Create system pressure directly</li>
-      <li>Create fluid flow that can be converted to pressure by resistance</li>
-      <li>Store hydraulic energy</li>
-      <li>Cool the hydraulic fluid</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Create fluid flow that can be converted to pressure by resistance</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q23.</strong> An axial piston pump with a fixed swashplate angle will:</p>
-    <ol type="a">
-      <li>Provide variable displacement with speed</li>
-      <li>Provide constant displacement per revolution</li>
-      <li>Not move any oil at all</li>
-      <li>Only work in closed-loop hydrostatic drives</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Provide constant displacement per revolution</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q24.</strong> A variable-displacement axial piston pump changes flow output by:</p>
-    <ol type="a">
-      <li>Changing oil viscosity</li>
-      <li>Varying the swashplate angle</li>
-      <li>Changing reservoir size</li>
-      <li>Adjusting return line backpressure only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Varying the swashplate angle</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q25.</strong> In a system using a fixed-displacement pump and relief valve, system pressure is limited by the:</p>
-    <ol type="a">
-      <li>Pump displacement only</li>
-      <li>Reservoir size</li>
-      <li>Relief valve cracking pressure</li>
-      <li>Hose diameter only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> c) Relief valve cracking pressure</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q26.</strong> A pressure-compensated variable-displacement pump reduces flow output when:</p>
-    <ol type="a">
-      <li>System pressure reaches the compensator setting</li>
-      <li>Reservoir level drops slightly</li>
-      <li>Fluid temperature is low</li>
-      <li>Filter condition is clean</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) System pressure reaches the compensator setting</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q27.</strong> A directional control valve in a hydraulic system is used to:</p>
-    <ol type="a">
-      <li>Limit maximum pressure</li>
-      <li>Change the path of flow to various actuators</li>
-      <li>Remove contaminants from the fluid</li>
-      <li>Measure pump displacement</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Change the path of flow to various actuators</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q28.</strong> A flow control valve is primarily used to:</p>
-    <ol type="a">
-      <li>Change direction of flow</li>
-      <li>Regulate the rate of flow to control actuator speed</li>
-      <li>Vent air from the reservoir</li>
-      <li>Provide emergency stop</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Regulate the rate of flow to control actuator speed</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q29.</strong> When a cylinder reaches the end of its stroke and the pump continues to supply flow, system pressure rises until:</p>
-    <ol type="a">
-      <li>The reservoir vents</li>
-      <li>The relief valve opens</li>
-      <li>The pump stops instantly</li>
-      <li>The oil cooler switches off</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) The relief valve opens</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q30.</strong> A check valve in a hydraulic circuit will:</p>
-    <ol type="a">
-      <li>Allow free flow in one direction and block flow in the opposite direction</li>
-      <li>Relieve pressure at a preset level</li>
-      <li>Mix air into the oil</li>
-      <li>Act as a pressure gauge</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Allow free flow in one direction and block flow in the opposite direction</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q31.</strong> If a fixed-displacement gear pump is dead-headed with no relief valve in the circuit, the most likely result is:</p>
-    <ol type="a">
-      <li>Normal operation at lower temperature</li>
-      <li>Rapid rise in pressure and mechanical failure of a component</li>
-      <li>System automatically converts to variable displacement</li>
-      <li>Flow simply stops with no pressure increase</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Rapid rise in pressure and mechanical failure of a component</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q32.</strong> In a load-sensing hydraulic system, the pump output pressure is controlled so that it:</p>
-    <ol type="a">
-      <li>Is always at maximum relief pressure</li>
-      <li>Matches load pressure plus a small margin</li>
-      <li>Is controlled only by engine speed</li>
-      <li>Is unaffected by actuator load</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Matches load pressure plus a small margin</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q33.</strong> The basic functions of valves in hydraulic circuits are to:</p>
-    <ol type="a">
-      <li>Create mechanical motion</li>
-      <li>Regulate pressure and flow and determine path of flow</li>
-      <li>Cool the oil and store energy</li>
-      <li>Increase engine power</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Regulate pressure and flow and determine path of flow</p></details>
-  </div>
-
-  <div class="section-header">D – Hydraulic System Components: Cylinders, Motors and Accumulators (19 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q34.</strong> In a single-acting hydraulic cylinder, hydraulic pressure is used to:</p>
-    <ol type="a">
-      <li>Extend and retract the rod</li>
-      <li>Extend the rod only, with gravity or a spring providing retraction</li>
-      <li>Retract the rod only</li>
-      <li>Rotate the rod continuously</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Extend the rod only, with gravity or a spring providing retraction</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q35.</strong> A double-acting cylinder differs from a single-acting cylinder because it:</p>
-    <ol type="a">
-      <li>Has no piston seals</li>
-      <li>Uses hydraulic pressure to extend and retract the rod</li>
-      <li>Cannot be used in vertical applications</li>
-      <li>Must be mounted upside down</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Uses hydraulic pressure to extend and retract the rod</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q36.</strong> A hydraulic motor converts:</p>
-    <ol type="a">
-      <li>Electrical energy into heat</li>
-      <li>Hydraulic energy into rotary mechanical energy</li>
-      <li>Mechanical energy into electrical energy</li>
-      <li>Air pressure into hydraulic pressure</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Hydraulic energy into rotary mechanical energy</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q37.</strong> Many axial-piston hydraulic motors use what type of swashplate arrangement?</p>
-    <ol type="a">
-      <li>Only variable swashplates</li>
-      <li>Fixed or moveable swashplates depending on design</li>
-      <li>No swashplate at all</li>
-      <li>Chain-driven swashplates only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Fixed or moveable swashplates depending on design</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q38.</strong> A hydraulic accumulator can be used to:</p>
-    <ol type="a">
-      <li>Store hydraulic energy in the form of pressurized fluid</li>
-      <li>Replace the pump entirely</li>
-      <li>Vent air from the fuel system</li>
-      <li>Measure oil temperature only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Store hydraulic energy in the form of pressurized fluid</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q39.</strong> An accumulator also helps the system by:</p>
-    <ol type="a">
-      <li>Increasing pump noise</li>
-      <li>Absorbing pressure spikes and shock loads</li>
-      <li>Eliminating the need for filtration</li>
-      <li>Reducing reservoir size to zero</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Absorbing pressure spikes and shock loads</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q40.</strong> Common accumulator types include:</p>
-    <ol type="a">
-      <li>Weighted, spring-loaded and gas-charged</li>
-      <li>Pistonless, friction and magnetic</li>
-      <li>Rotary, vane and gerotor</li>
-      <li>Axial, radial and transverse</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Weighted, spring-loaded and gas-charged</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q41.</strong> A gas-charged accumulator typically uses which gas?</p>
-    <ol type="a">
-      <li>Oxygen</li>
-      <li>Nitrogen</li>
-      <li>Carbon monoxide</li>
-      <li>Chlorine</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Nitrogen</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q42.</strong> A cylinder with a larger piston area on the cap end than on the rod end will:</p>
-    <ol type="a">
-      <li>Produce greater force on extension than retraction at the same pressure</li>
-      <li>Produce equal force in both directions</li>
-      <li>Produce greater force on retraction</li>
-      <li>Not move under hydraulic pressure</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Produce greater force on extension than retraction at the same pressure</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q43.</strong> Cushioning at the end of cylinder stroke is used to:</p>
-    <ol type="a">
-      <li>Speed up piston impact at the end of stroke</li>
-      <li>Reduce shock by restricting flow as the piston approaches the end of travel</li>
-      <li>Increase system pressure at all times</li>
-      <li>Replace the need for accumulators</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Reduce shock by restricting flow as the piston approaches the end of travel</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q44.</strong> A rod-less hydraulic cylinder is most often used to:</p>
-    <ol type="a">
-      <li>Provide rotary motion</li>
-      <li>Provide linear motion without an external rod projecting from the barrel</li>
-      <li>Store hydraulic energy</li>
-      <li>Filter hydraulic oil</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Provide linear motion without an external rod projecting from the barrel</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q45.</strong> When a hydraulic motor is used in closed-loop hydrostatic drive, it is often paired with:</p>
-    <ol type="a">
-      <li>A pneumatic compressor</li>
-      <li>A variable-displacement pump to control speed and direction</li>
-      <li>A fixed-displacement water pump</li>
-      <li>An electric starter motor</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) A variable-displacement pump to control speed and direction</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q46.</strong> A tell-tale sign of internal leakage in a hydraulic cylinder is:</p>
-    <ol type="a">
-      <li>External oil on the rod surface</li>
-      <li>Load slowly drifting down with no external leaks visible</li>
-      <li>High pump noise at all times</li>
-      <li>Oil temperature dropping below ambient</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Load slowly drifting down with no external leaks visible</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q47.</strong> A weighted accumulator stores energy by:</p>
-    <ol type="a">
-      <li>Using compressed gas</li>
-      <li>Using a heavy weight acting on a piston</li>
-      <li>Using a coil spring only</li>
-      <li>Using a flywheel</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Using a heavy weight acting on a piston</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q48.</strong> During system start-up, a properly pre-charged accumulator can:</p>
-    <ol type="a">
-      <li>Prevent pump from building pressure</li>
-      <li>Allow gradual pressure build-up and reduce shock when valves are shifted</li>
-      <li>Increase flow demand suddenly</li>
-      <li>Eliminate need for relief valves</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Allow gradual pressure build-up and reduce shock when valves are shifted</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q49.</strong> A spring-loaded accumulator stores energy by:</p>
-    <ol type="a">
-      <li>Compressing a spring as fluid enters the chamber</li>
-      <li>Heating the fluid</li>
-      <li>Cooling the fluid</li>
-      <li>Using centrifugal force only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Compressing a spring as fluid enters the chamber</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q50.</strong> When servicing an accumulator, a critical safety step is to:</p>
-    <ol type="a">
-      <li>Loosen fittings while system is still pressurized</li>
-      <li>Ensure all hydraulic and gas pressure is safely relieved before disassembly</li>
-      <li>Heat the shell to expand it</li>
-      <li>Store it with maximum pressure inside</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Ensure all hydraulic and gas pressure is safely relieved before disassembly</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q51.</strong> A hydraulic motor used as a brake when flow is reversed is acting as a:</p>
-    <ol type="a">
-      <li>Compressor</li>
-      <li>Pump, converting mechanical energy back into hydraulic energy</li>
-      <li>Heat exchanger</li>
-      <li>Filter</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Pump, converting mechanical energy back into hydraulic energy</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q52.</strong> A key advantage of hydraulic motors compared with cylinders is:</p>
-    <ol type="a">
-      <li>They cannot stall under load</li>
-      <li>They provide continuous rotary motion suitable for conveyors and drives</li>
-      <li>They require no filtration</li>
-      <li>They do not require hydraulic oil</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) They provide continuous rotary motion suitable for conveyors and drives</p></details>
-  </div>
-
-  <div class="section-header">E – Heavy-Duty Suspension Systems (11 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q53.</strong> The primary function of a heavy-duty suspension system is to:</p>
-    <ol type="a">
-      <li>Increase engine horsepower</li>
-      <li>Support the weight of the vehicle and cargo, cushion shocks and maintain axle alignment</li>
-      <li>Reduce tire wear by eliminating axle movement</li>
-      <li>Provide steering assistance only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Support the weight of the vehicle and cargo, cushion shocks and maintain axle alignment</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q54.</strong> Longitudinal torque rods in a suspension are primarily used to:</p>
-    <ol type="a">
-      <li>Control vertical axle movement only</li>
-      <li>Stabilize the axle against acceleration and braking forces</li>
-      <li>Support the frame</li>
-      <li>Carry spring load</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Stabilize the axle against acceleration and braking forces</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q55.</strong> Transverse rods in heavy-duty suspension systems are used to:</p>
-    <ol type="a">
-      <li>Increase engine torque</li>
-      <li>Improve lateral stability by controlling side-to-side axle movement</li>
-      <li>Increase wheelbase</li>
-      <li>Reduce ride height</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Improve lateral stability by controlling side-to-side axle movement</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q56.</strong> An auxiliary spring assembly (helper spring) is designed to:</p>
-    <ol type="a">
-      <li>Provide a softer ride when fully loaded</li>
-      <li>Absorb part of the load when the vehicle occasionally carries heavier loads than normal</li>
-      <li>Replace the main spring entirely</li>
-      <li>Reduce frame height under light load</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Absorb part of the load when the vehicle occasionally carries heavier loads than normal</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q57.</strong> A key advantage of auxiliary spring assemblies is that they:</p>
-    <ol type="a">
-      <li>Increase load capacity without significantly decreasing unloaded ride quality</li>
-      <li>Eliminate need for shock absorbers</li>
-      <li>Reduce tire contact with the road</li>
-      <li>Remove weight from the frame</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Increase load capacity without significantly decreasing unloaded ride quality</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q58.</strong> Ride height control valves on an air spring suspension system work by:</p>
-    <ol type="a">
-      <li>Manually locking the axle to the frame</li>
-      <li>Maintaining a specified distance between frame and axle by admitting or exhausting air</li>
-      <li>Regulating hydraulic fluid in the shocks</li>
-      <li>Changing differential gear ratio</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Maintaining a specified distance between frame and axle by admitting or exhausting air</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q59.</strong> When supplying a replacement leaf spring for a heavy truck, related parts that should be considered include:</p>
-    <ol type="a">
-      <li>Centre bolt, U-bolts, spring pins, bushings, bolts, nuts and washers</li>
-      <li>Only shock absorbers</li>
-      <li>Only wheel bearings</li>
-      <li>Only air lines and valves</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Centre bolt, U-bolts, spring pins, bushings, bolts, nuts and washers</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q60.</strong> Excessive axle walk or side shift on a heavy truck is most likely caused by:</p>
-    <ol type="a">
-      <li>Loose or worn transverse torque rods or bushings</li>
-      <li>Incorrect tire inflation only</li>
-      <li>High oil pressure</li>
-      <li>Overcharged air conditioning system</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Loose or worn transverse torque rods or bushings</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q61.</strong> On an air spring suspension, a leaking ride-height control linkage connection will likely cause:</p>
-    <ol type="a">
-      <li>Overheated hydraulic fluid</li>
-      <li>Incorrect suspension height and uneven air spring pressures</li>
-      <li>Loss of engine oil pressure</li>
-      <li>Improved fuel economy</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Incorrect suspension height and uneven air spring pressures</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q62.</strong> A broken centre bolt in a multi-leaf spring pack can lead to:</p>
-    <ol type="a">
-      <li>Improved ride quality</li>
-      <li>Leaf misalignment and axle shift on the spring seat</li>
-      <li>Reduced suspension travel only</li>
-      <li>Increased air pressure in the air springs</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Leaf misalignment and axle shift on the spring seat</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q63.</strong> When replacing U-bolts on a suspension, best practice is to:</p>
-    <ol type="a">
-      <li>Reuse old U-bolts if threads are clean</li>
-      <li>Install new U-bolts and torque them to the manufacturer’s specification</li>
-      <li>Lubricate the spring leaves with oil</li>
-      <li>Overtighten U-bolts until the spring leaves flatten</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Install new U-bolts and torque them to the manufacturer’s specification</p></details>
-  </div>
-
-  <div class="section-header">F – Heavy-Duty Steering Systems (12 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q64.</strong> Crab steering on mobile equipment allows the machine to:</p>
-    <ol type="a">
-      <li>Turn only in a tight circle</li>
-      <li>Move sideways with minimal forward movement by steering all wheels in the same direction</li>
-      <li>Lock the front axle and steer with the rear axle only</li>
-      <li>Operate without any steering linkage</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Move sideways with minimal forward movement by steering all wheels in the same direction</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q65.</strong> On a king-pin type steer axle, thrust bearings are located:</p>
-    <ol type="a">
-      <li>Inside the differential case</li>
-      <li>Either above and below the steering knuckle or below the axle to support vertical load</li>
-      <li>Between the wheel studs and nuts</li>
-      <li>Only in the steering gear box</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Either above and below the steering knuckle or below the axle to support vertical load</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q66.</strong> The steering knuckle is connected to the axle beam by the:</p>
-    <ol type="a">
-      <li>Drag link</li>
-      <li>King pin</li>
-      <li>Track bar</li>
-      <li>Shock absorber</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) King pin</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q67.</strong> The drag link connects which two steering components?</p>
-    <ol type="a">
-      <li>Steering wheel and steering column</li>
-      <li>Steering box pitman arm and left-hand steering arm</li>
-      <li>Steering gear and differential case</li>
-      <li>Idler arm and frame crossmember</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Steering box pitman arm and left-hand steering arm</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q68.</strong> The steering axle wheel hub mounts to the spindle using:</p>
-    <ol type="a">
-      <li>Tapered roller bearings and an adjusting/lock nut</li>
-      <li>Plain bushings only</li>
-      <li>Ball bearings only</li>
-      <li>Friction washers only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Tapered roller bearings and an adjusting/lock nut</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q69.</strong> Excessive free play at the steering wheel on a heavy truck could be caused by:</p>
-    <ol type="a">
-      <li>Improper tire inflation only</li>
-      <li>Worn drag link ends, tie rod ends or steering gear wear</li>
-      <li>Low engine oil pressure</li>
-      <li>Overfilled power steering reservoir</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Worn drag link ends, tie rod ends or steering gear wear</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q70.</strong> A power steering pump on heavy-duty equipment is usually driven by:</p>
-    <ol type="a">
-      <li>A separate electric motor only</li>
-      <li>Engine accessory drive using belts or gear drive</li>
-      <li>The trailer wheels</li>
-      <li>The air compressor discharge line</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Engine accessory drive using belts or gear drive</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q71.</strong> If thrust bearings at the top or bottom of a king pin fail, the driver may notice:</p>
-    <ol type="a">
-      <li>Improved steering effort</li>
-      <li>Heavy steering and wander due to improper king pin loading</li>
-      <li>Higher engine RPM</li>
-      <li>Overcharging of the air system</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Heavy steering and wander due to improper king pin loading</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q72.</strong> Toe-out on turns in heavy-duty steering geometry is designed to:</p>
-    <ol type="a">
-      <li>Increase steering effort</li>
-      <li>Allow inner and outer wheels to follow correct turning radii</li>
-      <li>Reduce turning radius to zero</li>
-      <li>Eliminate the need for steering stops</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Allow inner and outer wheels to follow correct turning radii</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q73.</strong> A steering axle with worn king pin bushings will most likely show:</p>
-    <ol type="a">
-      <li>Excessive vertical and lateral movement at the steering knuckle</li>
-      <li>Increased air brake pressure</li>
-      <li>Reduced engine oil temperature</li>
-      <li>Improved tire life</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Excessive vertical and lateral movement at the steering knuckle</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q74.</strong> After servicing steering linkage components, it is important to:</p>
-    <ol type="a">
-      <li>Increase tire pressure beyond specification</li>
-      <li>Check and adjust front-end alignment as required</li>
-      <li>Remove wheel balancing weights</li>
-      <li>Drain the power steering reservoir</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Check and adjust front-end alignment as required</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q75.</strong> Steering system components such as drag links and tie rods commonly use which type of serviceable joint?</p>
-    <ol type="a">
-      <li>Plain bushings only</li>
-      <li>Ball-and-socket joints with tapered studs</li>
-      <li>Splined couplings only</li>
-      <li>Roller clutches</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Ball-and-socket joints with tapered studs</p></details>
-  </div>
-
-  <div class="section-header">G – Air Brakes: Fundamentals (9 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q76.</strong> The coefficient of friction is best described as:</p>
-    <ol type="a">
-      <li>The temperature difference between two surfaces</li>
-      <li>The degree of friction between two surfaces when one moves over the other</li>
-      <li>The pressure in the air tanks</li>
-      <li>The size of the brake chamber</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) The degree of friction between two surfaces when one moves over the other</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q77.</strong> Total stopping distance for a heavy vehicle includes:</p>
-    <ol type="a">
-      <li>Brake lag time only</li>
-      <li>Driver reaction time, brake system lag and actual brake application time</li>
-      <li>Tire wear rate only</li>
-      <li>Engine horsepower rating</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Driver reaction time, brake system lag and actual brake application time</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q78.</strong> The effective size of an air brake chamber is based on its:</p>
-    <ol type="a">
-      <li>External diameter only</li>
-      <li>Effective diaphragm area</li>
-      <li>Spring length</li>
-      <li>Thread size on push rod</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Effective diaphragm area</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q79.</strong> Components making up an S-cam foundation brake include:</p>
-    <ol type="a">
-      <li>Brake drum, brake shoes with linings, spider, return springs, S-camshaft, slack adjuster and dust shield</li>
-      <li>Master cylinder and disc rotors only</li>
-      <li>Wedge actuator and caliper only</li>
-      <li>Hydraulic cylinder and drum only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Brake drum, brake shoes with linings, spider, return springs, S-camshaft, slack adjuster and dust shield</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q80.</strong> The main purpose of the slack adjuster is to:</p>
-    <ol type="a">
-      <li>Convert rotary motion into linear motion</li>
-      <li>Convert push-rod linear motion into camshaft rotation and provide adjustment for shoe-to-drum clearance</li>
-      <li>Store compressed air</li>
-      <li>Measure lining thickness</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Convert push-rod linear motion into camshaft rotation and provide adjustment for shoe-to-drum clearance</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q81.</strong> Automatic slack adjusters must be:</p>
-    <ol type="a">
-      <li>Adjusted manually every trip</li>
-      <li>Installed correctly and inspected; they self-adjust when brakes are applied through full stroke</li>
-      <li>Greased only once at installation</li>
-      <li>Used only on trailers</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Installed correctly and inspected; they self-adjust when brakes are applied through full stroke</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q82.</strong> A low coefficient of friction between tire and road surface (for example, ice) will:</p>
-    <ol type="a">
-      <li>Shorten stopping distance</li>
-      <li>Increase stopping distance even with properly adjusted brakes</li>
-      <li>Have no effect on stopping distance</li>
-      <li>Increase brake temperature during normal stops</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Increase stopping distance even with properly adjusted brakes</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q83.</strong> Excessive brake drum diameter from wear or machining will:</p>
-    <ol type="a">
-      <li>Improve braking because of larger surface area</li>
-      <li>Reduce braking effectiveness and may require drum replacement</li>
-      <li>Have no effect on braking</li>
-      <li>Automatically adjust slack adjusters</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Reduce braking effectiveness and may require drum replacement</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q84.</strong> Heat cracks in brake linings are most likely caused by:</p>
-    <ol type="a">
-      <li>Low air pressure in the tanks</li>
-      <li>Overheating due to excessive or continuous braking</li>
-      <li>Cold ambient temperatures</li>
-      <li>Correctly adjusted brakes</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Overheating due to excessive or continuous braking</p></details>
-  </div>
-
-  <div class="section-header">H – Air Brakes: Truck and Tractor (9 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q85.</strong> The components that make up the supply circuit on a truck air brake system include:</p>
-    <ol type="a">
-      <li>Only service chambers and rotors</li>
-      <li>Compressor, governor, moisture/contamination control, reservoirs, check valves, safety valves, gauges, tubing and hoses</li>
-      <li>Battery, alternator and starter</li>
-      <li>Slack adjusters and drums only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Compressor, governor, moisture/contamination control, reservoirs, check valves, safety valves, gauges, tubing and hoses</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q86.</strong> The primary service brake circuit on a typical tractor supplies air to the:</p>
-    <ol type="a">
-      <li>Steer axle service brakes</li>
-      <li>Drive axle service brakes</li>
-      <li>Trailer service brakes only</li>
-      <li>Parking brake chambers only</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Drive axle service brakes</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q87.</strong> A relay valve in an air brake system is used to:</p>
-    <ol type="a">
-      <li>Slow brake application</li>
-      <li>Speed up application and release of the drive axle brakes, reducing lag</li>
-      <li>Store compressed air</li>
-      <li>Act as a foot valve</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Speed up application and release of the drive axle brakes, reducing lag</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q88.</strong> Spring (park) brakes are applied:</p>
-    <ol type="a">
-      <li>By air pressure only</li>
-      <li>Mechanically by heavy springs when air pressure is released</li>
-      <li>Only by the service foot valve</li>
-      <li>Through hydraulic pressure</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Mechanically by heavy springs when air pressure is released</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q89.</strong> The tractor protection valve knob in the cab is usually:</p>
-    <ol type="a">
-      <li>Red and octagonal</li>
-      <li>Yellow and diamond-shaped</li>
-      <li>Blue and round</li>
-      <li>Green and square</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Yellow and diamond-shaped</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q90.</strong> The function of the tractor protection valve is to:</p>
-    <ol type="a">
-      <li>Protect the tractor’s air supply if the trailer loses air</li>
-      <li>Increase engine power</li>
-      <li>Control cab temperature</li>
-      <li>Adjust wheel alignment</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Protect the tractor’s air supply if the trailer loses air</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q91.</strong> Moisture and oil in the air brake system are usually controlled by:</p>
-    <ol type="a">
-      <li>Air dryer or reservoirs drained periodically</li>
-      <li>Brake drums only</li>
-      <li>Engine oil filter</li>
-      <li>Power steering pump</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Air dryer or reservoirs drained periodically</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q92.</strong> A governor in an air brake system is responsible for:</p>
-    <ol type="a">
-      <li>Adjusting slack adjusters</li>
-      <li>Controlling when the compressor loads and unloads</li>
-      <li>Operating ABS valves</li>
-      <li>Regulating tire pressure</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Controlling when the compressor loads and unloads</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q93.</strong> A safety (pop-off) valve mounted on the air tank is used to:</p>
-    <ol type="a">
-      <li>Bleed air to prevent over-pressurization</li>
-      <li>Adjust spring brake force</li>
-      <li>Control foundation brake wear</li>
-      <li>Balance the service brake circuits</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Bleed air to prevent over-pressurization</p></details>
-  </div>
-
-  <div class="section-header">I – Air Brakes: Trailers (7 Questions)</div>
-
-  <div class="question">
-    <p><strong>Q94.</strong> The trailer supply (emergency) line is used to:</p>
-    <ol type="a">
-      <li>Carry service application air to the trailer chambers</li>
-      <li>Charge and supply the trailer reservoirs</li>
-      <li>Control ABS sensors</li>
-      <li>Vent air from tires</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Charge and supply the trailer reservoirs</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q95.</strong> The trailer service line is used to:</p>
-    <ol type="a">
-      <li>Provide air for parking brakes only</li>
-      <li>Carry modulated service air to operate trailer brakes during foot valve application</li>
-      <li>Feed the air dryer</li>
-      <li>Control cab suspension</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Carry modulated service air to operate trailer brakes during foot valve application</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q96.</strong> The trailer air supply valve knob in the cab is usually:</p>
-    <ol type="a">
-      <li>Yellow and diamond-shaped</li>
-      <li>Red and octagonal (stop-sign shaped)</li>
-      <li>Blue and round</li>
-      <li>Green and square</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Red and octagonal (stop-sign shaped)</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q97.</strong> If the trailer supply line ruptures, the tractor protection valve will:</p>
-    <ol type="a">
-      <li>Open and exhaust air from the tractor system</li>
-      <li>Close to protect tractor air supply and cause trailer spring brakes to apply</li>
-      <li>Increase compressor cut-in pressure</li>
-      <li>Disable the foot valve</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Close to protect tractor air supply and cause trailer spring brakes to apply</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q98.</strong> The order in which axles apply their braking in a multi-axle combination vehicle is influenced mainly by:</p>
-    <ol type="a">
-      <li>Colour of the brake chambers</li>
-      <li>Relay valve locations and cracking pressures in the circuits</li>
-      <li>Tire brand</li>
-      <li>Engine horsepower</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Relay valve locations and cracking pressures in the circuits</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q99.</strong> An anti-lock brake system (ABS) on a trailer typically includes:</p>
-    <ol type="a">
-      <li>Sensor and tooth wheel, electronic control unit (ECU) and modulator valve</li>
-      <li>Only a mechanical governor</li>
-      <li>Power steering pump and orbitrol</li>
-      <li>Engine control module and injectors</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> a) Sensor and tooth wheel, electronic control unit (ECU) and modulator valve</p></details>
-  </div>
-
-  <div class="question">
-    <p><strong>Q100.</strong> When the trailer ABS system is active during a hard stop, the driver will generally notice:</p>
-    <ol type="a">
-      <li>Complete loss of braking</li>
-      <li>Pulsing of brake application at the wheels to prevent lock-up</li>
-      <li>Constant application of maximum braking force with wheel lock</li>
-      <li>Engine stalling</li>
-    </ol>
-    <details><summary>Show answer</summary><p><strong>Correct answer:</strong> b) Pulsing of brake application at the wheels to prevent lock-up</p></details>
-  </div>
 
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>PTP2 AIT Practice Exam 3 – Hydraulics & Air Brakes</h1>
+      <p>270203 Hydraulics, Steering, Suspension & Air Brakes</p>
+    </div>
+  </header>
+
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
+    </div>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 0 answered
+    </div>
+  </div>
+
+  <main class="page-content">
+    <div class="back-link">
+      <a href="../Practice Exam/index.html">&larr; Back to Practice Exam index</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>PTP2 AIT Practice Exam 3 – Hydraulics & Air Brakes</h2>
+      <p>
+        270203 Hydraulics, Steering, Suspension & Air Brakes
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form" data-timer-duration="3000">
+
+      <div class="question">
+        <p><strong>Hydrodynamics in a hydraulic system is best described as:</strong></p>
+        <label><input type="radio" name="q1" value="a"> Transmission of force using confined but stationary liquid</label>
+        <label><input type="radio" name="q1" value="b"> Transmission of force or motion through the flow of liquids</label>
+        <label><input type="radio" name="q1" value="c"> Transmission of force through a solid lever system</label>
+        <label><input type="radio" name="q1" value="d"> Transmission of force using compressed air only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Hydrostatics refers to:</strong></p>
+        <label><input type="radio" name="q2" value="a"> Force transmission using rapidly moving liquid</label>
+        <label><input type="radio" name="q2" value="b"> Force transmission using confined liquids that may be stationary</label>
+        <label><input type="radio" name="q2" value="c"> Force transmission using compressed gases</label>
+        <label><input type="radio" name="q2" value="d"> Force transmission using mechanical linkages only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An example of a primarily hydrostatic application would be a:</strong></p>
+        <label><input type="radio" name="q3" value="a"> Hydraulic motor driving a conveyor</label>
+        <label><input type="radio" name="q3" value="b"> Hydraulic steering system using continuous flow through an orbitrol</label>
+        <label><input type="radio" name="q3" value="c"> Bottle jack supporting a lifted vehicle with the pump stopped</label>
+        <label><input type="radio" name="q3" value="d"> Hydraulic cooling fan that runs at variable speed</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Pascal’s law states that pressure applied to a confined fluid:</strong></p>
+        <label><input type="radio" name="q4" value="a"> Is greatest at the pump outlet and lowest at the actuator</label>
+        <label><input type="radio" name="q4" value="b"> Acts only in the direction of flow</label>
+        <label><input type="radio" name="q4" value="c"> Is transmitted equally in all directions throughout the fluid</label>
+        <label><input type="radio" name="q4" value="d"> Is cancelled by gravity at the reservoir</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A hydraulic press uses a 2 cm² input piston and a 20 cm² output piston. Ignoring losses, the mechanical advantage in force is approximately:</strong></p>
+        <label><input type="radio" name="q5" value="a"> 1:1</label>
+        <label><input type="radio" name="q5" value="b"> 2:1</label>
+        <label><input type="radio" name="q5" value="c"> 10:1</label>
+        <label><input type="radio" name="q5" value="d"> 20:1</label>
+      </div>
+
+      <div class="question">
+        <p><strong>To increase mechanical advantage in a basic hydraulic jack without changing pressure, you would:</strong></p>
+        <label><input type="radio" name="q6" value="a"> Decrease the area of the load piston</label>
+        <label><input type="radio" name="q6" value="b"> Increase the area of the load piston</label>
+        <label><input type="radio" name="q6" value="c"> Increase reservoir size only</label>
+        <label><input type="radio" name="q6" value="d"> Decrease oil viscosity only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When storing hydraulic fluid, a key precaution is to:</strong></p>
+        <label><input type="radio" name="q7" value="a"> Store open drums outdoors to allow moisture to vent</label>
+        <label><input type="radio" name="q7" value="b"> Leave containers unsealed to equalize pressure</label>
+        <label><input type="radio" name="q7" value="c"> Protect fluids from contamination, separation, oxidation and freezing</label>
+        <label><input type="radio" name="q7" value="d"> Mix different grades to reduce inventory</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A hydraulic system relying on fast oil flow through a motor to create rotation is using:</strong></p>
+        <label><input type="radio" name="q8" value="a"> Mainly hydrostatic principles</label>
+        <label><input type="radio" name="q8" value="b"> Mainly hydrodynamic principles</label>
+        <label><input type="radio" name="q8" value="c"> Only mechanical principles</label>
+        <label><input type="radio" name="q8" value="d"> Pneumatic principles</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Which condition is most likely to reduce the effectiveness of a hydraulic system based on Pascal’s law?</strong></p>
+        <label><input type="radio" name="q9" value="a"> Trapped air compressibility in the circuit</label>
+        <label><input type="radio" name="q9" value="b"> Use of liquid with higher viscosity</label>
+        <label><input type="radio" name="q9" value="c"> Increasing fluid temperature to normal range</label>
+        <label><input type="radio" name="q9" value="d"> Using steel instead of aluminum for lines</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Some hydraulic reservoirs are slightly pressurized primarily to:</strong></p>
+        <label><input type="radio" name="q10" value="a"> Increase fluid temperature</label>
+        <label><input type="radio" name="q10" value="b"> Prevent cavitation at the pump inlet</label>
+        <label><input type="radio" name="q10" value="c"> Reduce system pressure</label>
+        <label><input type="radio" name="q10" value="d"> Improve electrical grounding</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The main contaminants removed by hydraulic filters are:</strong></p>
+        <label><input type="radio" name="q11" value="a"> Water vapour only</label>
+        <label><input type="radio" name="q11" value="b"> Solid particles measured in microns</label>
+        <label><input type="radio" name="q11" value="c"> Air bubbles only</label>
+        <label><input type="radio" name="q11" value="d"> Fuel additives</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A filter rated at 10 microns is best described as:</strong></p>
+        <label><input type="radio" name="q12" value="a"> Capable of removing all water from the fluid</label>
+        <label><input type="radio" name="q12" value="b"> Capable of removing particles roughly 10 micrometres and larger</label>
+        <label><input type="radio" name="q12" value="c"> Only suitable for air systems</label>
+        <label><input type="radio" name="q12" value="d"> Too coarse for any hydraulic use</label>
+      </div>
+
+      <div class="question">
+        <p><strong>High-pressure hydraulic hose is reinforced with:</strong></p>
+        <label><input type="radio" name="q13" value="a"> Plastic braid only</label>
+        <label><input type="radio" name="q13" value="b"> Spiral wire braid or multiple steel wire layers</label>
+        <label><input type="radio" name="q13" value="c"> Woven cotton threads</label>
+        <label><input type="radio" name="q13" value="d"> Copper tubing strands</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Hydraulic tubing size is normally specified by:</strong></p>
+        <label><input type="radio" name="q14" value="a"> Inside diameter only</label>
+        <label><input type="radio" name="q14" value="b"> Outside diameter and wall thickness</label>
+        <label><input type="radio" name="q14" value="c"> Length only</label>
+        <label><input type="radio" name="q14" value="d"> Thread size only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Overheating of hydraulic oil is undesirable mainly because it:</strong></p>
+        <label><input type="radio" name="q15" value="a"> Reduces oil flow in cold conditions</label>
+        <label><input type="radio" name="q15" value="b"> Causes oxidation and breakdown of the fluid</label>
+        <label><input type="radio" name="q15" value="c"> Improves seal compatibility</label>
+        <label><input type="radio" name="q15" value="d"> Increases filtration efficiency</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A return-line filter is normally installed:</strong></p>
+        <label><input type="radio" name="q16" value="a"> Between reservoir and pump inlet</label>
+        <label><input type="radio" name="q16" value="b"> Between actuator outlet and reservoir</label>
+        <label><input type="radio" name="q16" value="c"> Directly in the case drain line only</label>
+        <label><input type="radio" name="q16" value="d"> Inside the accumulator shell</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A suction strainer in the reservoir is primarily intended to:</strong></p>
+        <label><input type="radio" name="q17" value="a"> Control system pressure</label>
+        <label><input type="radio" name="q17" value="b"> Protect the pump from large debris at low pressure</label>
+        <label><input type="radio" name="q17" value="c"> Cool the hydraulic oil</label>
+        <label><input type="radio" name="q17" value="d"> Vent the system to atmosphere</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A hydraulic oil cooler is often placed in the:</strong></p>
+        <label><input type="radio" name="q18" value="a"> Suction line to the pump</label>
+        <label><input type="radio" name="q18" value="b"> Return line from the system to the reservoir</label>
+        <label><input type="radio" name="q18" value="c"> Case drain line of the pump only</label>
+        <label><input type="radio" name="q18" value="d"> Air brake supply line</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When replacing a high-pressure hose on mobile equipment, you should also verify:</strong></p>
+        <label><input type="radio" name="q19" value="a"> That the hose has the correct pressure rating and reinforcement type</label>
+        <label><input type="radio" name="q19" value="b"> Only that the colour of the hose matches the original</label>
+        <label><input type="radio" name="q19" value="c"> That the hose is longer than the original to reduce strain</label>
+        <label><input type="radio" name="q19" value="d"> That a smaller inside diameter is used to increase pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A clogged hydraulic filter bypass valve opening frequently indicates:</strong></p>
+        <label><input type="radio" name="q20" value="a"> Fluid too cold</label>
+        <label><input type="radio" name="q20" value="b"> Filter element is restricted and needs service</label>
+        <label><input type="radio" name="q20" value="c"> Relief valve stuck open</label>
+        <label><input type="radio" name="q20" value="d"> Accumulator pre-charge too high</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Which reservoir design feature helps remove entrained air from hydraulic oil?</strong></p>
+        <label><input type="radio" name="q21" value="a"> Very small surface area</label>
+        <label><input type="radio" name="q21" value="b"> Baffles and adequate residence time before oil re-enters the pump suction</label>
+        <label><input type="radio" name="q21" value="c"> High-speed stirrer inside the tank</label>
+        <label><input type="radio" name="q21" value="d"> Mounting the tank upside down</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The primary purpose of any hydraulic pump is to:</strong></p>
+        <label><input type="radio" name="q22" value="a"> Create system pressure directly</label>
+        <label><input type="radio" name="q22" value="b"> Create fluid flow that can be converted to pressure by resistance</label>
+        <label><input type="radio" name="q22" value="c"> Store hydraulic energy</label>
+        <label><input type="radio" name="q22" value="d"> Cool the hydraulic fluid</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An axial piston pump with a fixed swashplate angle will:</strong></p>
+        <label><input type="radio" name="q23" value="a"> Provide variable displacement with speed</label>
+        <label><input type="radio" name="q23" value="b"> Provide constant displacement per revolution</label>
+        <label><input type="radio" name="q23" value="c"> Not move any oil at all</label>
+        <label><input type="radio" name="q23" value="d"> Only work in closed-loop hydrostatic drives</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A variable-displacement axial piston pump changes flow output by:</strong></p>
+        <label><input type="radio" name="q24" value="a"> Changing oil viscosity</label>
+        <label><input type="radio" name="q24" value="b"> Varying the swashplate angle</label>
+        <label><input type="radio" name="q24" value="c"> Changing reservoir size</label>
+        <label><input type="radio" name="q24" value="d"> Adjusting return line backpressure only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a system using a fixed-displacement pump and relief valve, system pressure is limited by the:</strong></p>
+        <label><input type="radio" name="q25" value="a"> Pump displacement only</label>
+        <label><input type="radio" name="q25" value="b"> Reservoir size</label>
+        <label><input type="radio" name="q25" value="c"> Relief valve cracking pressure</label>
+        <label><input type="radio" name="q25" value="d"> Hose diameter only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A pressure-compensated variable-displacement pump reduces flow output when:</strong></p>
+        <label><input type="radio" name="q26" value="a"> System pressure reaches the compensator setting</label>
+        <label><input type="radio" name="q26" value="b"> Reservoir level drops slightly</label>
+        <label><input type="radio" name="q26" value="c"> Fluid temperature is low</label>
+        <label><input type="radio" name="q26" value="d"> Filter condition is clean</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A directional control valve in a hydraulic system is used to:</strong></p>
+        <label><input type="radio" name="q27" value="a"> Limit maximum pressure</label>
+        <label><input type="radio" name="q27" value="b"> Change the path of flow to various actuators</label>
+        <label><input type="radio" name="q27" value="c"> Remove contaminants from the fluid</label>
+        <label><input type="radio" name="q27" value="d"> Measure pump displacement</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A flow control valve is primarily used to:</strong></p>
+        <label><input type="radio" name="q28" value="a"> Change direction of flow</label>
+        <label><input type="radio" name="q28" value="b"> Regulate the rate of flow to control actuator speed</label>
+        <label><input type="radio" name="q28" value="c"> Vent air from the reservoir</label>
+        <label><input type="radio" name="q28" value="d"> Provide emergency stop</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When a cylinder reaches the end of its stroke and the pump continues to supply flow, system pressure rises until:</strong></p>
+        <label><input type="radio" name="q29" value="a"> The reservoir vents</label>
+        <label><input type="radio" name="q29" value="b"> The relief valve opens</label>
+        <label><input type="radio" name="q29" value="c"> The pump stops instantly</label>
+        <label><input type="radio" name="q29" value="d"> The oil cooler switches off</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A check valve in a hydraulic circuit will:</strong></p>
+        <label><input type="radio" name="q30" value="a"> Allow free flow in one direction and block flow in the opposite direction</label>
+        <label><input type="radio" name="q30" value="b"> Relieve pressure at a preset level</label>
+        <label><input type="radio" name="q30" value="c"> Mix air into the oil</label>
+        <label><input type="radio" name="q30" value="d"> Act as a pressure gauge</label>
+      </div>
+
+      <div class="question">
+        <p><strong>If a fixed-displacement gear pump is dead-headed with no relief valve in the circuit, the most likely result is:</strong></p>
+        <label><input type="radio" name="q31" value="a"> Normal operation at lower temperature</label>
+        <label><input type="radio" name="q31" value="b"> Rapid rise in pressure and mechanical failure of a component</label>
+        <label><input type="radio" name="q31" value="c"> System automatically converts to variable displacement</label>
+        <label><input type="radio" name="q31" value="d"> Flow simply stops with no pressure increase</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a load-sensing hydraulic system, the pump output pressure is controlled so that it:</strong></p>
+        <label><input type="radio" name="q32" value="a"> Is always at maximum relief pressure</label>
+        <label><input type="radio" name="q32" value="b"> Matches load pressure plus a small margin</label>
+        <label><input type="radio" name="q32" value="c"> Is controlled only by engine speed</label>
+        <label><input type="radio" name="q32" value="d"> Is unaffected by actuator load</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The basic functions of valves in hydraulic circuits are to:</strong></p>
+        <label><input type="radio" name="q33" value="a"> Create mechanical motion</label>
+        <label><input type="radio" name="q33" value="b"> Regulate pressure and flow and determine path of flow</label>
+        <label><input type="radio" name="q33" value="c"> Cool the oil and store energy</label>
+        <label><input type="radio" name="q33" value="d"> Increase engine power</label>
+      </div>
+
+      <div class="question">
+        <p><strong>In a single-acting hydraulic cylinder, hydraulic pressure is used to:</strong></p>
+        <label><input type="radio" name="q34" value="a"> Extend and retract the rod</label>
+        <label><input type="radio" name="q34" value="b"> Extend the rod only, with gravity or a spring providing retraction</label>
+        <label><input type="radio" name="q34" value="c"> Retract the rod only</label>
+        <label><input type="radio" name="q34" value="d"> Rotate the rod continuously</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A double-acting cylinder differs from a single-acting cylinder because it:</strong></p>
+        <label><input type="radio" name="q35" value="a"> Has no piston seals</label>
+        <label><input type="radio" name="q35" value="b"> Uses hydraulic pressure to extend and retract the rod</label>
+        <label><input type="radio" name="q35" value="c"> Cannot be used in vertical applications</label>
+        <label><input type="radio" name="q35" value="d"> Must be mounted upside down</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A hydraulic motor converts:</strong></p>
+        <label><input type="radio" name="q36" value="a"> Electrical energy into heat</label>
+        <label><input type="radio" name="q36" value="b"> Hydraulic energy into rotary mechanical energy</label>
+        <label><input type="radio" name="q36" value="c"> Mechanical energy into electrical energy</label>
+        <label><input type="radio" name="q36" value="d"> Air pressure into hydraulic pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Many axial-piston hydraulic motors use what type of swashplate arrangement?</strong></p>
+        <label><input type="radio" name="q37" value="a"> Only variable swashplates</label>
+        <label><input type="radio" name="q37" value="b"> Fixed or moveable swashplates depending on design</label>
+        <label><input type="radio" name="q37" value="c"> No swashplate at all</label>
+        <label><input type="radio" name="q37" value="d"> Chain-driven swashplates only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A hydraulic accumulator can be used to:</strong></p>
+        <label><input type="radio" name="q38" value="a"> Store hydraulic energy in the form of pressurized fluid</label>
+        <label><input type="radio" name="q38" value="b"> Replace the pump entirely</label>
+        <label><input type="radio" name="q38" value="c"> Vent air from the fuel system</label>
+        <label><input type="radio" name="q38" value="d"> Measure oil temperature only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An accumulator also helps the system by:</strong></p>
+        <label><input type="radio" name="q39" value="a"> Increasing pump noise</label>
+        <label><input type="radio" name="q39" value="b"> Absorbing pressure spikes and shock loads</label>
+        <label><input type="radio" name="q39" value="c"> Eliminating the need for filtration</label>
+        <label><input type="radio" name="q39" value="d"> Reducing reservoir size to zero</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Common accumulator types include:</strong></p>
+        <label><input type="radio" name="q40" value="a"> Weighted, spring-loaded and gas-charged</label>
+        <label><input type="radio" name="q40" value="b"> Pistonless, friction and magnetic</label>
+        <label><input type="radio" name="q40" value="c"> Rotary, vane and gerotor</label>
+        <label><input type="radio" name="q40" value="d"> Axial, radial and transverse</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A gas-charged accumulator typically uses which gas?</strong></p>
+        <label><input type="radio" name="q41" value="a"> Oxygen</label>
+        <label><input type="radio" name="q41" value="b"> Nitrogen</label>
+        <label><input type="radio" name="q41" value="c"> Carbon monoxide</label>
+        <label><input type="radio" name="q41" value="d"> Chlorine</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A cylinder with a larger piston area on the cap end than on the rod end will:</strong></p>
+        <label><input type="radio" name="q42" value="a"> Produce greater force on extension than retraction at the same pressure</label>
+        <label><input type="radio" name="q42" value="b"> Produce equal force in both directions</label>
+        <label><input type="radio" name="q42" value="c"> Produce greater force on retraction</label>
+        <label><input type="radio" name="q42" value="d"> Not move under hydraulic pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Cushioning at the end of cylinder stroke is used to:</strong></p>
+        <label><input type="radio" name="q43" value="a"> Speed up piston impact at the end of stroke</label>
+        <label><input type="radio" name="q43" value="b"> Reduce shock by restricting flow as the piston approaches the end of travel</label>
+        <label><input type="radio" name="q43" value="c"> Increase system pressure at all times</label>
+        <label><input type="radio" name="q43" value="d"> Replace the need for accumulators</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A rod-less hydraulic cylinder is most often used to:</strong></p>
+        <label><input type="radio" name="q44" value="a"> Provide rotary motion</label>
+        <label><input type="radio" name="q44" value="b"> Provide linear motion without an external rod projecting from the barrel</label>
+        <label><input type="radio" name="q44" value="c"> Store hydraulic energy</label>
+        <label><input type="radio" name="q44" value="d"> Filter hydraulic oil</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When a hydraulic motor is used in closed-loop hydrostatic drive, it is often paired with:</strong></p>
+        <label><input type="radio" name="q45" value="a"> A pneumatic compressor</label>
+        <label><input type="radio" name="q45" value="b"> A variable-displacement pump to control speed and direction</label>
+        <label><input type="radio" name="q45" value="c"> A fixed-displacement water pump</label>
+        <label><input type="radio" name="q45" value="d"> An electric starter motor</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A tell-tale sign of internal leakage in a hydraulic cylinder is:</strong></p>
+        <label><input type="radio" name="q46" value="a"> External oil on the rod surface</label>
+        <label><input type="radio" name="q46" value="b"> Load slowly drifting down with no external leaks visible</label>
+        <label><input type="radio" name="q46" value="c"> High pump noise at all times</label>
+        <label><input type="radio" name="q46" value="d"> Oil temperature dropping below ambient</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A weighted accumulator stores energy by:</strong></p>
+        <label><input type="radio" name="q47" value="a"> Using compressed gas</label>
+        <label><input type="radio" name="q47" value="b"> Using a heavy weight acting on a piston</label>
+        <label><input type="radio" name="q47" value="c"> Using a coil spring only</label>
+        <label><input type="radio" name="q47" value="d"> Using a flywheel</label>
+      </div>
+
+      <div class="question">
+        <p><strong>During system start-up, a properly pre-charged accumulator can:</strong></p>
+        <label><input type="radio" name="q48" value="a"> Prevent pump from building pressure</label>
+        <label><input type="radio" name="q48" value="b"> Allow gradual pressure build-up and reduce shock when valves are shifted</label>
+        <label><input type="radio" name="q48" value="c"> Increase flow demand suddenly</label>
+        <label><input type="radio" name="q48" value="d"> Eliminate need for relief valves</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A spring-loaded accumulator stores energy by:</strong></p>
+        <label><input type="radio" name="q49" value="a"> Compressing a spring as fluid enters the chamber</label>
+        <label><input type="radio" name="q49" value="b"> Heating the fluid</label>
+        <label><input type="radio" name="q49" value="c"> Cooling the fluid</label>
+        <label><input type="radio" name="q49" value="d"> Using centrifugal force only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When servicing an accumulator, a critical safety step is to:</strong></p>
+        <label><input type="radio" name="q50" value="a"> Loosen fittings while system is still pressurized</label>
+        <label><input type="radio" name="q50" value="b"> Ensure all hydraulic and gas pressure is safely relieved before disassembly</label>
+        <label><input type="radio" name="q50" value="c"> Heat the shell to expand it</label>
+        <label><input type="radio" name="q50" value="d"> Store it with maximum pressure inside</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A hydraulic motor used as a brake when flow is reversed is acting as a:</strong></p>
+        <label><input type="radio" name="q51" value="a"> Compressor</label>
+        <label><input type="radio" name="q51" value="b"> Pump, converting mechanical energy back into hydraulic energy</label>
+        <label><input type="radio" name="q51" value="c"> Heat exchanger</label>
+        <label><input type="radio" name="q51" value="d"> Filter</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A key advantage of hydraulic motors compared with cylinders is:</strong></p>
+        <label><input type="radio" name="q52" value="a"> They cannot stall under load</label>
+        <label><input type="radio" name="q52" value="b"> They provide continuous rotary motion suitable for conveyors and drives</label>
+        <label><input type="radio" name="q52" value="c"> They require no filtration</label>
+        <label><input type="radio" name="q52" value="d"> They do not require hydraulic oil</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The primary function of a heavy-duty suspension system is to:</strong></p>
+        <label><input type="radio" name="q53" value="a"> Increase engine horsepower</label>
+        <label><input type="radio" name="q53" value="b"> Support the weight of the vehicle and cargo, cushion shocks and maintain axle alignment</label>
+        <label><input type="radio" name="q53" value="c"> Reduce tire wear by eliminating axle movement</label>
+        <label><input type="radio" name="q53" value="d"> Provide steering assistance only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Longitudinal torque rods in a suspension are primarily used to:</strong></p>
+        <label><input type="radio" name="q54" value="a"> Control vertical axle movement only</label>
+        <label><input type="radio" name="q54" value="b"> Stabilize the axle against acceleration and braking forces</label>
+        <label><input type="radio" name="q54" value="c"> Support the frame</label>
+        <label><input type="radio" name="q54" value="d"> Carry spring load</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Transverse rods in heavy-duty suspension systems are used to:</strong></p>
+        <label><input type="radio" name="q55" value="a"> Increase engine torque</label>
+        <label><input type="radio" name="q55" value="b"> Improve lateral stability by controlling side-to-side axle movement</label>
+        <label><input type="radio" name="q55" value="c"> Increase wheelbase</label>
+        <label><input type="radio" name="q55" value="d"> Reduce ride height</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An auxiliary spring assembly (helper spring) is designed to:</strong></p>
+        <label><input type="radio" name="q56" value="a"> Provide a softer ride when fully loaded</label>
+        <label><input type="radio" name="q56" value="b"> Absorb part of the load when the vehicle occasionally carries heavier loads than normal</label>
+        <label><input type="radio" name="q56" value="c"> Replace the main spring entirely</label>
+        <label><input type="radio" name="q56" value="d"> Reduce frame height under light load</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A key advantage of auxiliary spring assemblies is that they:</strong></p>
+        <label><input type="radio" name="q57" value="a"> Increase load capacity without significantly decreasing unloaded ride quality</label>
+        <label><input type="radio" name="q57" value="b"> Eliminate need for shock absorbers</label>
+        <label><input type="radio" name="q57" value="c"> Reduce tire contact with the road</label>
+        <label><input type="radio" name="q57" value="d"> Remove weight from the frame</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Ride height control valves on an air spring suspension system work by:</strong></p>
+        <label><input type="radio" name="q58" value="a"> Manually locking the axle to the frame</label>
+        <label><input type="radio" name="q58" value="b"> Maintaining a specified distance between frame and axle by admitting or exhausting air</label>
+        <label><input type="radio" name="q58" value="c"> Regulating hydraulic fluid in the shocks</label>
+        <label><input type="radio" name="q58" value="d"> Changing differential gear ratio</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When supplying a replacement leaf spring for a heavy truck, related parts that should be considered include:</strong></p>
+        <label><input type="radio" name="q59" value="a"> Centre bolt, U-bolts, spring pins, bushings, bolts, nuts and washers</label>
+        <label><input type="radio" name="q59" value="b"> Only shock absorbers</label>
+        <label><input type="radio" name="q59" value="c"> Only wheel bearings</label>
+        <label><input type="radio" name="q59" value="d"> Only air lines and valves</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive axle walk or side shift on a heavy truck is most likely caused by:</strong></p>
+        <label><input type="radio" name="q60" value="a"> Loose or worn transverse torque rods or bushings</label>
+        <label><input type="radio" name="q60" value="b"> Incorrect tire inflation only</label>
+        <label><input type="radio" name="q60" value="c"> High oil pressure</label>
+        <label><input type="radio" name="q60" value="d"> Overcharged air conditioning system</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On an air spring suspension, a leaking ride-height control linkage connection will likely cause:</strong></p>
+        <label><input type="radio" name="q61" value="a"> Overheated hydraulic fluid</label>
+        <label><input type="radio" name="q61" value="b"> Incorrect suspension height and uneven air spring pressures</label>
+        <label><input type="radio" name="q61" value="c"> Loss of engine oil pressure</label>
+        <label><input type="radio" name="q61" value="d"> Improved fuel economy</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A broken centre bolt in a multi-leaf spring pack can lead to:</strong></p>
+        <label><input type="radio" name="q62" value="a"> Improved ride quality</label>
+        <label><input type="radio" name="q62" value="b"> Leaf misalignment and axle shift on the spring seat</label>
+        <label><input type="radio" name="q62" value="c"> Reduced suspension travel only</label>
+        <label><input type="radio" name="q62" value="d"> Increased air pressure in the air springs</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When replacing U-bolts on a suspension, best practice is to:</strong></p>
+        <label><input type="radio" name="q63" value="a"> Reuse old U-bolts if threads are clean</label>
+        <label><input type="radio" name="q63" value="b"> Install new U-bolts and torque them to the manufacturer’s specification</label>
+        <label><input type="radio" name="q63" value="c"> Lubricate the spring leaves with oil</label>
+        <label><input type="radio" name="q63" value="d"> Overtighten U-bolts until the spring leaves flatten</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Crab steering on mobile equipment allows the machine to:</strong></p>
+        <label><input type="radio" name="q64" value="a"> Turn only in a tight circle</label>
+        <label><input type="radio" name="q64" value="b"> Move sideways with minimal forward movement by steering all wheels in the same direction</label>
+        <label><input type="radio" name="q64" value="c"> Lock the front axle and steer with the rear axle only</label>
+        <label><input type="radio" name="q64" value="d"> Operate without any steering linkage</label>
+      </div>
+
+      <div class="question">
+        <p><strong>On a king-pin type steer axle, thrust bearings are located:</strong></p>
+        <label><input type="radio" name="q65" value="a"> Inside the differential case</label>
+        <label><input type="radio" name="q65" value="b"> Either above and below the steering knuckle or below the axle to support vertical load</label>
+        <label><input type="radio" name="q65" value="c"> Between the wheel studs and nuts</label>
+        <label><input type="radio" name="q65" value="d"> Only in the steering gear box</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The steering knuckle is connected to the axle beam by the:</strong></p>
+        <label><input type="radio" name="q66" value="a"> Drag link</label>
+        <label><input type="radio" name="q66" value="b"> King pin</label>
+        <label><input type="radio" name="q66" value="c"> Track bar</label>
+        <label><input type="radio" name="q66" value="d"> Shock absorber</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The drag link connects which two steering components?</strong></p>
+        <label><input type="radio" name="q67" value="a"> Steering wheel and steering column</label>
+        <label><input type="radio" name="q67" value="b"> Steering box pitman arm and left-hand steering arm</label>
+        <label><input type="radio" name="q67" value="c"> Steering gear and differential case</label>
+        <label><input type="radio" name="q67" value="d"> Idler arm and frame crossmember</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The steering axle wheel hub mounts to the spindle using:</strong></p>
+        <label><input type="radio" name="q68" value="a"> Tapered roller bearings and an adjusting/lock nut</label>
+        <label><input type="radio" name="q68" value="b"> Plain bushings only</label>
+        <label><input type="radio" name="q68" value="c"> Ball bearings only</label>
+        <label><input type="radio" name="q68" value="d"> Friction washers only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive free play at the steering wheel on a heavy truck could be caused by:</strong></p>
+        <label><input type="radio" name="q69" value="a"> Improper tire inflation only</label>
+        <label><input type="radio" name="q69" value="b"> Worn drag link ends, tie rod ends or steering gear wear</label>
+        <label><input type="radio" name="q69" value="c"> Low engine oil pressure</label>
+        <label><input type="radio" name="q69" value="d"> Overfilled power steering reservoir</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A power steering pump on heavy-duty equipment is usually driven by:</strong></p>
+        <label><input type="radio" name="q70" value="a"> A separate electric motor only</label>
+        <label><input type="radio" name="q70" value="b"> Engine accessory drive using belts or gear drive</label>
+        <label><input type="radio" name="q70" value="c"> The trailer wheels</label>
+        <label><input type="radio" name="q70" value="d"> The air compressor discharge line</label>
+      </div>
+
+      <div class="question">
+        <p><strong>If thrust bearings at the top or bottom of a king pin fail, the driver may notice:</strong></p>
+        <label><input type="radio" name="q71" value="a"> Improved steering effort</label>
+        <label><input type="radio" name="q71" value="b"> Heavy steering and wander due to improper king pin loading</label>
+        <label><input type="radio" name="q71" value="c"> Higher engine RPM</label>
+        <label><input type="radio" name="q71" value="d"> Overcharging of the air system</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Toe-out on turns in heavy-duty steering geometry is designed to:</strong></p>
+        <label><input type="radio" name="q72" value="a"> Increase steering effort</label>
+        <label><input type="radio" name="q72" value="b"> Allow inner and outer wheels to follow correct turning radii</label>
+        <label><input type="radio" name="q72" value="c"> Reduce turning radius to zero</label>
+        <label><input type="radio" name="q72" value="d"> Eliminate the need for steering stops</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A steering axle with worn king pin bushings will most likely show:</strong></p>
+        <label><input type="radio" name="q73" value="a"> Excessive vertical and lateral movement at the steering knuckle</label>
+        <label><input type="radio" name="q73" value="b"> Increased air brake pressure</label>
+        <label><input type="radio" name="q73" value="c"> Reduced engine oil temperature</label>
+        <label><input type="radio" name="q73" value="d"> Improved tire life</label>
+      </div>
+
+      <div class="question">
+        <p><strong>After servicing steering linkage components, it is important to:</strong></p>
+        <label><input type="radio" name="q74" value="a"> Increase tire pressure beyond specification</label>
+        <label><input type="radio" name="q74" value="b"> Check and adjust front-end alignment as required</label>
+        <label><input type="radio" name="q74" value="c"> Remove wheel balancing weights</label>
+        <label><input type="radio" name="q74" value="d"> Drain the power steering reservoir</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Steering system components such as drag links and tie rods commonly use which type of serviceable joint?</strong></p>
+        <label><input type="radio" name="q75" value="a"> Plain bushings only</label>
+        <label><input type="radio" name="q75" value="b"> Ball-and-socket joints with tapered studs</label>
+        <label><input type="radio" name="q75" value="c"> Splined couplings only</label>
+        <label><input type="radio" name="q75" value="d"> Roller clutches</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The coefficient of friction is best described as:</strong></p>
+        <label><input type="radio" name="q76" value="a"> The temperature difference between two surfaces</label>
+        <label><input type="radio" name="q76" value="b"> The degree of friction between two surfaces when one moves over the other</label>
+        <label><input type="radio" name="q76" value="c"> The pressure in the air tanks</label>
+        <label><input type="radio" name="q76" value="d"> The size of the brake chamber</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Total stopping distance for a heavy vehicle includes:</strong></p>
+        <label><input type="radio" name="q77" value="a"> Brake lag time only</label>
+        <label><input type="radio" name="q77" value="b"> Driver reaction time, brake system lag and actual brake application time</label>
+        <label><input type="radio" name="q77" value="c"> Tire wear rate only</label>
+        <label><input type="radio" name="q77" value="d"> Engine horsepower rating</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The effective size of an air brake chamber is based on its:</strong></p>
+        <label><input type="radio" name="q78" value="a"> External diameter only</label>
+        <label><input type="radio" name="q78" value="b"> Effective diaphragm area</label>
+        <label><input type="radio" name="q78" value="c"> Spring length</label>
+        <label><input type="radio" name="q78" value="d"> Thread size on push rod</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Components making up an S-cam foundation brake include:</strong></p>
+        <label><input type="radio" name="q79" value="a"> Brake drum, brake shoes with linings, spider, return springs, S-camshaft, slack adjuster and dust shield</label>
+        <label><input type="radio" name="q79" value="b"> Master cylinder and disc rotors only</label>
+        <label><input type="radio" name="q79" value="c"> Wedge actuator and caliper only</label>
+        <label><input type="radio" name="q79" value="d"> Hydraulic cylinder and drum only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The main purpose of the slack adjuster is to:</strong></p>
+        <label><input type="radio" name="q80" value="a"> Convert rotary motion into linear motion</label>
+        <label><input type="radio" name="q80" value="b"> Convert push-rod linear motion into camshaft rotation and provide adjustment for shoe-to-drum clearance</label>
+        <label><input type="radio" name="q80" value="c"> Store compressed air</label>
+        <label><input type="radio" name="q80" value="d"> Measure lining thickness</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Automatic slack adjusters must be:</strong></p>
+        <label><input type="radio" name="q81" value="a"> Adjusted manually every trip</label>
+        <label><input type="radio" name="q81" value="b"> Installed correctly and inspected; they self-adjust when brakes are applied through full stroke</label>
+        <label><input type="radio" name="q81" value="c"> Greased only once at installation</label>
+        <label><input type="radio" name="q81" value="d"> Used only on trailers</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A low coefficient of friction between tire and road surface (for example, ice) will:</strong></p>
+        <label><input type="radio" name="q82" value="a"> Shorten stopping distance</label>
+        <label><input type="radio" name="q82" value="b"> Increase stopping distance even with properly adjusted brakes</label>
+        <label><input type="radio" name="q82" value="c"> Have no effect on stopping distance</label>
+        <label><input type="radio" name="q82" value="d"> Increase brake temperature during normal stops</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Excessive brake drum diameter from wear or machining will:</strong></p>
+        <label><input type="radio" name="q83" value="a"> Improve braking because of larger surface area</label>
+        <label><input type="radio" name="q83" value="b"> Reduce braking effectiveness and may require drum replacement</label>
+        <label><input type="radio" name="q83" value="c"> Have no effect on braking</label>
+        <label><input type="radio" name="q83" value="d"> Automatically adjust slack adjusters</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Heat cracks in brake linings are most likely caused by:</strong></p>
+        <label><input type="radio" name="q84" value="a"> Low air pressure in the tanks</label>
+        <label><input type="radio" name="q84" value="b"> Overheating due to excessive or continuous braking</label>
+        <label><input type="radio" name="q84" value="c"> Cold ambient temperatures</label>
+        <label><input type="radio" name="q84" value="d"> Correctly adjusted brakes</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The components that make up the supply circuit on a truck air brake system include:</strong></p>
+        <label><input type="radio" name="q85" value="a"> Only service chambers and rotors</label>
+        <label><input type="radio" name="q85" value="b"> Compressor, governor, moisture/contamination control, reservoirs, check valves, safety valves, gauges, tubing and hoses</label>
+        <label><input type="radio" name="q85" value="c"> Battery, alternator and starter</label>
+        <label><input type="radio" name="q85" value="d"> Slack adjusters and drums only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The primary service brake circuit on a typical tractor supplies air to the:</strong></p>
+        <label><input type="radio" name="q86" value="a"> Steer axle service brakes</label>
+        <label><input type="radio" name="q86" value="b"> Drive axle service brakes</label>
+        <label><input type="radio" name="q86" value="c"> Trailer service brakes only</label>
+        <label><input type="radio" name="q86" value="d"> Parking brake chambers only</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A relay valve in an air brake system is used to:</strong></p>
+        <label><input type="radio" name="q87" value="a"> Slow brake application</label>
+        <label><input type="radio" name="q87" value="b"> Speed up application and release of the drive axle brakes, reducing lag</label>
+        <label><input type="radio" name="q87" value="c"> Store compressed air</label>
+        <label><input type="radio" name="q87" value="d"> Act as a foot valve</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Spring (park) brakes are applied:</strong></p>
+        <label><input type="radio" name="q88" value="a"> By air pressure only</label>
+        <label><input type="radio" name="q88" value="b"> Mechanically by heavy springs when air pressure is released</label>
+        <label><input type="radio" name="q88" value="c"> Only by the service foot valve</label>
+        <label><input type="radio" name="q88" value="d"> Through hydraulic pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The tractor protection valve knob in the cab is usually:</strong></p>
+        <label><input type="radio" name="q89" value="a"> Red and octagonal</label>
+        <label><input type="radio" name="q89" value="b"> Yellow and diamond-shaped</label>
+        <label><input type="radio" name="q89" value="c"> Blue and round</label>
+        <label><input type="radio" name="q89" value="d"> Green and square</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The function of the tractor protection valve is to:</strong></p>
+        <label><input type="radio" name="q90" value="a"> Protect the tractor’s air supply if the trailer loses air</label>
+        <label><input type="radio" name="q90" value="b"> Increase engine power</label>
+        <label><input type="radio" name="q90" value="c"> Control cab temperature</label>
+        <label><input type="radio" name="q90" value="d"> Adjust wheel alignment</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Moisture and oil in the air brake system are usually controlled by:</strong></p>
+        <label><input type="radio" name="q91" value="a"> Air dryer or reservoirs drained periodically</label>
+        <label><input type="radio" name="q91" value="b"> Brake drums only</label>
+        <label><input type="radio" name="q91" value="c"> Engine oil filter</label>
+        <label><input type="radio" name="q91" value="d"> Power steering pump</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A governor in an air brake system is responsible for:</strong></p>
+        <label><input type="radio" name="q92" value="a"> Adjusting slack adjusters</label>
+        <label><input type="radio" name="q92" value="b"> Controlling when the compressor loads and unloads</label>
+        <label><input type="radio" name="q92" value="c"> Operating ABS valves</label>
+        <label><input type="radio" name="q92" value="d"> Regulating tire pressure</label>
+      </div>
+
+      <div class="question">
+        <p><strong>A safety (pop-off) valve mounted on the air tank is used to:</strong></p>
+        <label><input type="radio" name="q93" value="a"> Bleed air to prevent over-pressurization</label>
+        <label><input type="radio" name="q93" value="b"> Adjust spring brake force</label>
+        <label><input type="radio" name="q93" value="c"> Control foundation brake wear</label>
+        <label><input type="radio" name="q93" value="d"> Balance the service brake circuits</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The trailer supply (emergency) line is used to:</strong></p>
+        <label><input type="radio" name="q94" value="a"> Carry service application air to the trailer chambers</label>
+        <label><input type="radio" name="q94" value="b"> Charge and supply the trailer reservoirs</label>
+        <label><input type="radio" name="q94" value="c"> Control ABS sensors</label>
+        <label><input type="radio" name="q94" value="d"> Vent air from tires</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The trailer service line is used to:</strong></p>
+        <label><input type="radio" name="q95" value="a"> Provide air for parking brakes only</label>
+        <label><input type="radio" name="q95" value="b"> Carry modulated service air to operate trailer brakes during foot valve application</label>
+        <label><input type="radio" name="q95" value="c"> Feed the air dryer</label>
+        <label><input type="radio" name="q95" value="d"> Control cab suspension</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The trailer air supply valve knob in the cab is usually:</strong></p>
+        <label><input type="radio" name="q96" value="a"> Yellow and diamond-shaped</label>
+        <label><input type="radio" name="q96" value="b"> Red and octagonal (stop-sign shaped)</label>
+        <label><input type="radio" name="q96" value="c"> Blue and round</label>
+        <label><input type="radio" name="q96" value="d"> Green and square</label>
+      </div>
+
+      <div class="question">
+        <p><strong>If the trailer supply line ruptures, the tractor protection valve will:</strong></p>
+        <label><input type="radio" name="q97" value="a"> Open and exhaust air from the tractor system</label>
+        <label><input type="radio" name="q97" value="b"> Close to protect tractor air supply and cause trailer spring brakes to apply</label>
+        <label><input type="radio" name="q97" value="c"> Increase compressor cut-in pressure</label>
+        <label><input type="radio" name="q97" value="d"> Disable the foot valve</label>
+      </div>
+
+      <div class="question">
+        <p><strong>The order in which axles apply their braking in a multi-axle combination vehicle is influenced mainly by:</strong></p>
+        <label><input type="radio" name="q98" value="a"> Colour of the brake chambers</label>
+        <label><input type="radio" name="q98" value="b"> Relay valve locations and cracking pressures in the circuits</label>
+        <label><input type="radio" name="q98" value="c"> Tire brand</label>
+        <label><input type="radio" name="q98" value="d"> Engine horsepower</label>
+      </div>
+
+      <div class="question">
+        <p><strong>An anti-lock brake system (ABS) on a trailer typically includes:</strong></p>
+        <label><input type="radio" name="q99" value="a"> Sensor and tooth wheel, electronic control unit (ECU) and modulator valve</label>
+        <label><input type="radio" name="q99" value="b"> Only a mechanical governor</label>
+        <label><input type="radio" name="q99" value="c"> Power steering pump and orbitrol</label>
+        <label><input type="radio" name="q99" value="d"> Engine control module and injectors</label>
+      </div>
+
+      <div class="question">
+        <p><strong>When the trailer ABS system is active during a hard stop, the driver will generally notice:</strong></p>
+        <label><input type="radio" name="q100" value="a"> Complete loss of braking</label>
+        <label><input type="radio" name="q100" value="b"> Pulsing of brake application at the wheels to prevent lock-up</label>
+        <label><input type="radio" name="q100" value="c"> Constant application of maximum braking force with wheel lock</label>
+        <label><input type="radio" name="q100" value="d"> Engine stalling</label>
+      </div>
+
+      <div class="exam-actions">
+        <button type="button" id="submit-btn" class="exam-button">
+          <span class="dot"></span>
+          <span>Submit Answers</span>
+        </button>
+      </div>
+
+      <div id="result-banner" class="result-banner"></div>
+    </form>
+  </main>
+
+  <div id="timer-display" class="timer-display">
+    <div class="timer-icon">⏱️</div>
+    <div id="timer-text" class="timer-text">50:00</div>
+  </div>
+
+  <div id="results-modal" class="modal">
+    <div class="modal-content">
+      <h2 id="modal-title">Quiz Results</h2>
+      <div id="modal-body"></div>
+      <div class="modal-actions">
+        <button id="review-btn" class="exam-button">Review Answers</button>
+        <button id="retake-btn" class="exam-button">Retake Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.ANSWERS = {
+      "q1": "b",
+      "q2": "b",
+      "q3": "c",
+      "q4": "c",
+      "q5": "c",
+      "q6": "b",
+      "q7": "c",
+      "q8": "b",
+      "q9": "a",
+      "q10": "b",
+      "q11": "b",
+      "q12": "b",
+      "q13": "b",
+      "q14": "b",
+      "q15": "b",
+      "q16": "b",
+      "q17": "b",
+      "q18": "b",
+      "q19": "a",
+      "q20": "b",
+      "q21": "b",
+      "q22": "b",
+      "q23": "b",
+      "q24": "b",
+      "q25": "c",
+      "q26": "a",
+      "q27": "b",
+      "q28": "b",
+      "q29": "b",
+      "q30": "a",
+      "q31": "b",
+      "q32": "b",
+      "q33": "b",
+      "q34": "b",
+      "q35": "b",
+      "q36": "b",
+      "q37": "b",
+      "q38": "a",
+      "q39": "b",
+      "q40": "a",
+      "q41": "b",
+      "q42": "a",
+      "q43": "b",
+      "q44": "b",
+      "q45": "b",
+      "q46": "b",
+      "q47": "b",
+      "q48": "b",
+      "q49": "a",
+      "q50": "b",
+      "q51": "b",
+      "q52": "b",
+      "q53": "b",
+      "q54": "b",
+      "q55": "b",
+      "q56": "b",
+      "q57": "a",
+      "q58": "b",
+      "q59": "a",
+      "q60": "a",
+      "q61": "b",
+      "q62": "b",
+      "q63": "b",
+      "q64": "b",
+      "q65": "b",
+      "q66": "b",
+      "q67": "b",
+      "q68": "a",
+      "q69": "b",
+      "q70": "b",
+      "q71": "b",
+      "q72": "b",
+      "q73": "a",
+      "q74": "b",
+      "q75": "b",
+      "q76": "b",
+      "q77": "b",
+      "q78": "b",
+      "q79": "a",
+      "q80": "b",
+      "q81": "b",
+      "q82": "b",
+      "q83": "b",
+      "q84": "b",
+      "q85": "b",
+      "q86": "b",
+      "q87": "b",
+      "q88": "b",
+      "q89": "b",
+      "q90": "a",
+      "q91": "a",
+      "q92": "b",
+      "q93": "a",
+      "q94": "b",
+      "q95": "b",
+      "q96": "b",
+      "q97": "b",
+      "q98": "b",
+      "q99": "a",
+      "q100": "b"
+    };
+  </script>
+  <script src="../script.js"></script>
 </body>
 </html>
