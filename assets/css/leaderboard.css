@@ -572,9 +572,20 @@
   box-sizing: border-box;
 }
 
+/* On mobile, use auto layout to prevent text truncation */
+@media (max-width: 640px) {
+  .leaderboard-table {
+    table-layout: auto;
+    min-width: 100%;
+  }
+}
+
 .leaderboard-table th,
 .leaderboard-table td {
   box-sizing: border-box;
+}
+
+.leaderboard-table td {
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -622,5 +633,22 @@
   /* Date column is already hidden on mobile by existing rule */
   .leaderboard-table .col-date {
     width: 0;
+  }
+  
+  /* Override base styles - prevent text truncation in headers on mobile */
+  .leaderboard-table th {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    word-wrap: break-word;
+    font-size: 0.7rem;
+    padding: var(--space-2);
+    line-height: 1.2;
+  }
+  
+  /* Ensure table cells don't truncate on small screens */
+  .leaderboard-table td {
+    overflow: visible;
+    text-overflow: clip;
   }
 }
