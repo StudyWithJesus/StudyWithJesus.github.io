@@ -472,8 +472,8 @@
     var match = examId.match(/^(27\d{4})([a-zA-Z]+)?$/);
     if (match) {
       if (!match[2]) {
-        // No letter suffix = practice exam (100 questions)
-        return 'Practice Exam (100 Questions)';
+        // No letter suffix = practice exam
+        return 'Practice Exam';
       } else {
         // Has letter suffix = section test
         var suffix = match[2].toUpperCase();
