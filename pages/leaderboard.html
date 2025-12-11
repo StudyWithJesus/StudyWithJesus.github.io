@@ -73,6 +73,33 @@
       </p>
     </section>
 
+    <!-- User Statistics Section -->
+    <section class="user-stats-section" aria-labelledby="user-stats-heading">
+      <h3 id="user-stats-heading">User Statistics</h3>
+      <div class="user-stats-table-container">
+        <table class="user-stats-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Username</th>
+              <th>Total Exams</th>
+              <th>Modules</th>
+              <th>Sections</th>
+              <th>Best Score</th>
+              <th>Avg Score</th>
+            </tr>
+          </thead>
+          <tbody id="user-stats-body">
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 2rem;">
+                Loading user statistics...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- Module tabs for filtering -->
     <nav class="leaderboard-tabs" aria-label="Module filter" id="module-tabs">
       <button class="leaderboard-tab active" data-module="all">All Modules</button>
@@ -122,6 +149,7 @@
       var statusEl = document.getElementById('leaderboard-status');
       var statusTextEl = document.getElementById('status-text');
       var tabsEl = document.getElementById('module-tabs');
+      var userStatsBody = document.getElementById('user-stats-body');
 
       // Initialize on page load
       document.addEventListener('DOMContentLoaded', init);
@@ -132,6 +160,9 @@
         
         // Update backend status
         updateBackendStatus();
+        
+        // Load user statistics
+        loadUserStats();
         
         // Load leaderboard data
         loadLeaderboard();
@@ -188,6 +219,49 @@
           statusEl.classList.remove('status-live');
           statusTextEl.textContent = 'Using sample data (demo mode)';
         }
+      }
+
+      async function loadUserStats() {
+        try {
+          if (window.LeaderboardFirebase && window.LeaderboardFirebase.getPublicUserStats) {
+            var userStats = await window.LeaderboardFirebase.getPublicUserStats();
+            renderUserStats(userStats);
+          } else {
+            userStatsBody.innerHTML = '<tr><td colspan="7" style="text-align: center;">User statistics unavailable</td></tr>';
+          }
+        } catch (error) {
+          console.error('Failed to load user stats:', error);
+          userStatsBody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Failed to load user statistics</td></tr>';
+        }
+      }
+
+      function renderUserStats(stats) {
+        if (!stats || stats.length === 0) {
+          userStatsBody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No user data available</td></tr>';
+          return;
+        }
+
+        var html = '';
+        for (var i = 0; i < stats.length; i++) {
+          var user = stats[i];
+          var rankClass = i < 3 ? 'rank-' + (i + 1) : '';
+          html += '<tr class="' + rankClass + '">';
+          html += '<td>' + (i + 1) + '</td>';
+          html += '<td>' + escapeHtml(user.username) + '</td>';
+          html += '<td>' + user.totalExams + '</td>';
+          html += '<td>' + user.modulesAttempted + '</td>';
+          html += '<td>' + user.sectionsAttempted + '</td>';
+          html += '<td>' + user.bestScore + '%</td>';
+          html += '<td>' + user.avgScore + '%</td>';
+          html += '</tr>';
+        }
+        userStatsBody.innerHTML = html;
+      }
+
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
       }
 
       async function loadLeaderboard() {

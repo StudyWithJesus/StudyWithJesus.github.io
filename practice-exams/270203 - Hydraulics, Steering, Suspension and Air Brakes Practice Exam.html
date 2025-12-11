@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>270203 - Hydraulics, Steering, Suspension and Air Brakes Practice Exam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../config/firebase.config.js"></script>
+  <script src="../assets/js/leaderboard-firebase.js"></script>
+  <script src="../assets/js/leaderboard.js"></script>
+  <script src="../assets/whitelist-fingerprint.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="../assets/fingerprint-logger.js"></script>
+</head>
+<body>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <header class="site-header site-header--hero">
+    <div class="header-fog"></div>
+    <div class="header-particles"></div>
+    <div class="header-content">
+      <h1>Hydraulics, Steering, Suspension and Air Brakes</h1>
+      <p>270203 Practice Exam - 100 Questions</p>
+    </div>
+  </header>
+
+  <div class="exam-progress">
+    <div class="exam-progress-bar">
+      <div id="exam-progress-fill" class="exam-progress-fill"></div>
+    </div>
+    <div id="exam-progress-text" class="exam-progress-text">
+      0 / 100 answered
+    </div>
+  </div>
+
+  <main class="page-content">
+    <div class="back-link">
+      <a href="../index.html">&larr; Back to home</a>
+    </div>
+
+    <section class="quiz-page-header">
+      <h2>Module 270203 Practice Exam &mdash; Hydraulics, Steering, Suspension and Air Brakes</h2>
+      <p>
+        100-question practice exam covering all topics in Hydraulics, Steering, Suspension and Air Brakes. Timer: 50 minutes (30 seconds per question).
+      </p>
+    </section>
+
+    <form id="quiz-form" class="exam-form" data-module="270203" data-exam="practice" data-timer-duration="3000">
+QUESTIONS_PLACEHOLDER
+      <div class="exam-actions" id="exam-actions-top">
+        <button type="button" id="submit-btn-top" class="btn-submit disabled" disabled>Submit Answers</button>
+      </div>
+    </form>
+  </main>
+
+  <script src="../script.js"></script>
+</body>
+</html>

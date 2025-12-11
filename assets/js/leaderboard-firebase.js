@@ -423,34 +423,54 @@
         var attempt = docSnap.data();
         var username = attempt.username;
         
+        // Extract module (first 6 digits) and use full examId for sections
+        var examId = attempt.examId || 'unknown';
+        var moduleMatch = examId.match(/^(\d{6})/);
+        var module = moduleMatch ? moduleMatch[1] : 'unknown';
+        
+        // Log attempt data for debugging
+        console.log('Processing attempt:', {
+          username: username,
+          module: module,
+          examId: examId,
+          score: attempt.score
+        });
+        
         if (!userStats[username]) {
           userStats[username] = {
             username: username,
             totalExams: 0,
-            moduleBreakdown: {}
-          };
-        }
-        
-        userStats[username].totalExams++;
-        
-        if (!userStats[username].moduleBreakdown[attempt.moduleId]) {
-          userStats[username].moduleBreakdown[attempt.moduleId] = {
-            attempts: 0,
+            modules: new Set(),
+            sections: new Set(),
             bestScore: 0,
             totalScore: 0
           };
         }
         
-        var moduleStats = userStats[username].moduleBreakdown[attempt.moduleId];
-        moduleStats.attempts++;
-        moduleStats.totalScore += attempt.score;
-        if (attempt.score > moduleStats.bestScore) {
-          moduleStats.bestScore = attempt.score;
+        userStats[username].totalExams++;
+        userStats[username].modules.add(module);
+        userStats[username].sections.add(examId);
+        userStats[username].totalScore += attempt.score;
+        
+        if (attempt.score > userStats[username].bestScore) {
+          userStats[username].bestScore = attempt.score;
         }
-        moduleStats.averageScore = Math.round(moduleStats.totalScore / moduleStats.attempts);
       });
 
-      return Object.values(userStats);
+      // Convert Sets to counts and calculate averages
+      var result = Object.values(userStats).map(function(user) {
+        return {
+          username: user.username,
+          totalExams: user.totalExams,
+          modulesAttempted: user.modules.size,
+          sectionsAttempted: user.sections.size,
+          bestScore: user.bestScore,
+          avgScore: Math.round(user.totalScore / user.totalExams)
+        };
+      });
+
+      console.log('Final userStats:', result);
+      return result;
     } catch (error) {
       console.error('Failed to fetch admin user stats:', error);
       return [];
@@ -674,6 +694,73 @@
     }
   }
 
+  /**
+   * Get public user statistics (no auth required)
+   * @returns {Promise<Array>} - Array of user statistics
+   */
+  async function getPublicUserStats() {
+    if (!await initialize()) {
+      return [];
+    }
+
+    const { collection, getDocs } = firebaseModules;
+
+    try {
+      var snapshot = await getDocs(collection(db, 'attempts'));
+
+      var userStats = {};
+      snapshot.forEach(function(docSnap) {
+        var attempt = docSnap.data();
+        var username = attempt.username;
+        
+        // Extract module (first 6 digits) and use full examId for sections
+        var examId = attempt.examId || 'unknown';
+        var moduleMatch = examId.match(/^(\d{6})/);
+        var module = moduleMatch ? moduleMatch[1] : 'unknown';
+        
+        if (!userStats[username]) {
+          userStats[username] = {
+            username: username,
+            totalExams: 0,
+            modules: new Set(),
+            sections: new Set(),
+            bestScore: 0,
+            totalScore: 0
+          };
+        }
+        
+        userStats[username].totalExams++;
+        userStats[username].modules.add(module);
+        userStats[username].sections.add(examId);
+        userStats[username].totalScore += attempt.score;
+        
+        if (attempt.score > userStats[username].bestScore) {
+          userStats[username].bestScore = attempt.score;
+        }
+      });
+
+      // Convert Sets to counts and calculate averages
+      var result = Object.values(userStats).map(function(user) {
+        return {
+          username: user.username,
+          totalExams: user.totalExams,
+          modulesAttempted: user.modules.size,
+          sectionsAttempted: user.sections.size,
+          bestScore: user.bestScore,
+          avgScore: Math.round(user.totalScore / user.totalExams)
+        };
+      });
+
+      // Sort by best score descending
+      result.sort(function(a, b) { return b.bestScore - a.bestScore; });
+
+      return result;
+    } catch (error) {
+      console.error('Failed to fetch public user stats:', error);
+      return [];
+    }
+  }
+
   // Export public API
   window.LeaderboardFirebase = {
     initialize: initialize,
@@ -690,7 +777,8 @@
     getAdminAttemptHistory: getAdminAttemptHistory,
     deleteAttempt: deleteAttempt,
     getAllAttempts: getAllAttempts,
-    deleteAttemptById: deleteAttemptById
+    deleteAttemptById: deleteAttemptById,
+    getPublicUserStats: getPublicUserStats
   };
 
 })();

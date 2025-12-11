@@ -156,13 +156,14 @@
                 <th>Username</th>
                 <th>Total Exams</th>
                 <th>Modules Attempted</th>
+                <th>Sections Attempted</th>
                 <th>Best Score</th>
                 <th>Avg Score</th>
               </tr>
             </thead>
             <tbody id="users-table-body">
               <tr>
-                <td colspan="5" style="text-align: center; padding: var(--space-6);">
+                <td colspan="6" style="text-align: center; padding: var(--space-6);">
                   Loading user data...
                 </td>
               </tr>
@@ -593,38 +594,23 @@
 
       function renderUsersTable(userStats) {
         if (!userStats || userStats.length === 0) {
-          usersTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No user data available</td></tr>';
+          usersTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No user data available</td></tr>';
           return;
         }
 
         var html = '';
         for (var i = 0; i < userStats.length; i++) {
           var user = userStats[i];
-          var breakdown = user.moduleBreakdown;
-          var moduleCount = Object.keys(breakdown).length;
           
-          var bestScore = 0;
-          var totalScore = 0;
-          var attemptCount = 0;
-          
-          for (var moduleId in breakdown) {
-            if (breakdown.hasOwnProperty(moduleId)) {
-              if (breakdown[moduleId].bestScore > bestScore) {
-                bestScore = breakdown[moduleId].bestScore;
-              }
-              totalScore += breakdown[moduleId].averageScore;
-              attemptCount++;
-            }
-          }
-          
-          var avgScore = attemptCount > 0 ? Math.round(totalScore / attemptCount) : 0;
+          console.log('Rendering user:', user);
           
           html += '<tr>';
           html += '<td>' + escapeHtml(user.username) + '</td>';
           html += '<td>' + user.totalExams + '</td>';
-          html += '<td>' + moduleCount + '</td>';
-          html += '<td>' + bestScore + '%</td>';
-          html += '<td>' + avgScore + '%</td>';
+          html += '<td>' + user.modulesAttempted + '</td>';
+          html += '<td>' + user.sectionsAttempted + '</td>';
+          html += '<td>' + user.bestScore + '%</td>';
+          html += '<td>' + user.avgScore + '%</td>';
           html += '</tr>';
         }
         
