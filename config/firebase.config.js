@@ -12,8 +12,8 @@ window.FIREBASE_CONFIG = {
   projectId: "studywithjesus",
   storageBucket: "studywithjesus.firebasestorage.app",
   messagingSenderId: "337617037196",
-  appId: "1:337617037196:web:0dbee62021320cffecd8a9",
-  measurementId: "G-62F4FFHGS8"
+  appId: "1:337617037196:web:0dbee62021320cffecd8a9"
+  // measurementId removed - Analytics not configured on server
 };
 
 // Leaderboard configuration

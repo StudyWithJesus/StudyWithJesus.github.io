@@ -64,11 +64,15 @@
       db = getFirestore(app);
       auth = getAuth(app);
       
-      // Initialize Analytics (optional, may fail in some environments)
-      try {
-        analytics = getAnalytics(app);
-      } catch (e) {
-        console.info('Analytics not available:', e.message);
+      // Initialize Analytics only if measurementId is configured
+      if (config.measurementId) {
+        try {
+          analytics = getAnalytics(app);
+        } catch (e) {
+          console.info('Analytics not available:', e.message);
+        }
+      } else {
+        console.info('Analytics not configured (no measurementId)');
       }
 
       initialized = true;

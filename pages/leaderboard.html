@@ -300,14 +300,14 @@
 
         // Render based on current filter
         if (currentFilter === 'all') {
-          // Show all regular modules
+          // Show all regular modules (section tests)
           for (var i = 0; i < regularModules.length; i++) {
             var moduleId = regularModules[i];
             var examLeaderboards = leaderboardData[moduleId] || {};
             html += Leaderboard.renderLeaderboardByExam(moduleId, examLeaderboards);
           }
           
-          // Show practice exams section
+          // Show practice exams section (legacy PTP2E IDs)
           if (practiceExams.length > 0) {
             html += '<div class="leaderboard-section-divider"></div>';
             html += '<h2 class="leaderboard-section-title">Practice Exams (100 Questions)</h2>';
@@ -318,7 +318,7 @@
             }
           }
         } else if (currentFilter === 'practice') {
-          // Show only practice exams
+          // Show only practice exams (legacy PTP2E IDs)
           html += '<h2 class="leaderboard-section-title">Practice Exams (100 Questions)</h2>';
           for (var k = 0; k < practiceExams.length; k++) {
             var practiceId = practiceExams[k];
@@ -326,7 +326,7 @@
             html += Leaderboard.renderLeaderboardByExam(practiceId, practiceLeaderboards);
           }
         } else {
-          // Show specific module
+          // Show specific module (includes both section tests and practice exam for that module)
           var examLeaderboards = leaderboardData[currentFilter] || {};
           html += Leaderboard.renderLeaderboardByExam(currentFilter, examLeaderboards);
         }

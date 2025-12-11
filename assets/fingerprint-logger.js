@@ -257,12 +257,17 @@
               return response.json();
             }
             if (response.status === 429) {
-              // Rate limited - don't retry
-              throw new Error('Rate limited');
+              // Rate limited - silently fail, don't log error
+              console.warn('Fingerprint logging rate limited - skipping');
+              return null;
             }
             throw new Error('Server error: ' + response.status);
           })
           .then(function(data) {
+            if (!data) {
+              // Rate limited or no data - skip storing
+              return;
+            }
             // Store fingerprint log with IP info from server response
             const serverIp = data.clientIp || 'unknown';
             const ipv4 = data.ipv4 || null;
@@ -270,12 +275,8 @@
             storeFingerprintLog(fp, displayName, serverIp, ipv4, ipv6);
           })
           .catch(function(err) {
-            if (err.message === 'Rate limited') {
-              // Rate limited - store without IP
-              storeFingerprintLog(fp, displayName, 'Rate limited', null, null);
-              // Rate limited - silent fail
-              throw err; // Don't retry
-            }
+            // Rate limiting is handled in the response handler above
+            // This catch only handles network errors
             
             // Retry on network errors
             if (retryCount < maxRetries) {

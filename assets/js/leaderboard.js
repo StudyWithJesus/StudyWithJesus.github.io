@@ -65,8 +65,8 @@
       '270202b': '270202b – Gearing Principles',
       '270202c': '270202c – Clutches',
       '270202d': '270202d – Light-Duty Manual Transmissions',
-      '270202ea': '270202ea – Heavy-Duty Manual Transmissions and PTOs Part A',
-      '270202eb': '270202eb – Heavy-Duty Manual Transmissions and PTOs Part B',
+      '270202eA': '270202eA – Heavy-Duty Manual Transmissions and PTOs Part A',
+      '270202eB': '270202eB – Heavy-Duty Manual Transmissions and PTOs Part B',
       '270202f': '270202f – Drivelines',
       '270202g': '270202g – Light-Duty Drive Axle Assemblies',
       '270202h': '270202h – Heavy-Duty Drive Axle Assemblies',
@@ -444,17 +444,30 @@
   function getExamName(examId) {
     if (!examId) return 'Unknown Exam';
     
-    // Extract the letter suffix if it exists
-    var match = examId.match(/([a-zA-Z]+)$/);
-    if (match) {
-      var suffix = match[1].toUpperCase();
-      return 'Section ' + suffix;
+    var config = getConfig();
+    
+    // First check if we have a full name in moduleNames dictionary
+    if (config.moduleNames[examId]) {
+      return config.moduleNames[examId];
     }
     
-    // If it's a practice exam like PTP2E1
+    // If it's a legacy practice exam like PTP2E1
     if (examId.startsWith('PTP2E')) {
       var examNum = examId.replace('PTP2E', '');
       return 'Practice Exam ' + examNum;
+    }
+    
+    // Check if it's a 6-digit only ID (practice exam) vs section test with letter suffix
+    var match = examId.match(/^(27\d{4})([a-zA-Z]+)?$/);
+    if (match) {
+      if (!match[2]) {
+        // No letter suffix = practice exam (100 questions)
+        return 'Practice Exam (100 Questions)';
+      } else {
+        // Has letter suffix = section test
+        var suffix = match[2].toUpperCase();
+        return 'Section ' + suffix;
+      }
     }
     
     return examId;
