@@ -746,9 +746,9 @@ function initExamPage() {
 
     // Determine moduleId from examId
     // For module tests: "270201b" -> "270201"
-    // For practice exams: "PTP2E1" -> "PTP2E1" (moduleId is same as examId)
+    // For practice exams: "270201PE" -> "270201PE" (moduleId is same as examId)
     let moduleId;
-    if (examId.startsWith('PTP2E')) {
+    if (examId.endsWith('PE')) {
       moduleId = examId; // Practice exams use examId as moduleId
     } else {
       const moduleIdMatch = examId.match(/^(\d{6})/);
@@ -756,7 +756,7 @@ function initExamPage() {
     }
     
     if (!moduleId) {
-      console.warn('Could not determine module ID from exam ID:', examId, '- Expected format: 6 digits (e.g., 270201) or PTP2E# for practice exams');
+      console.warn('Could not determine module ID from exam ID:', examId, '- Expected format: 6 digits (e.g., 270201) or ######PE for practice exams');
       return;
     }
 
@@ -1262,8 +1262,8 @@ function restoreOrder(container, questions, orderKey) {
 // Try to derive exam id like "270202a" or "270202eA" from the page title
 function getExamIdFromTitle() {
   const title = document.title || "";
-  // Match either module tests (270201a) or practice exams (PTP2E1)
-  const match = title.match(/^(27\d{3}[0-9A-Za-z]*|PTP2E\d+)\s*-/);
+  // Match either module tests (270201a) or practice exams (270201PE)
+  const match = title.match(/^(27\d{3}[0-9A-Za-z]*|27\d{4}PE)\s*-/);
   return match ? match[1] : null;
 }
 
