@@ -768,12 +768,16 @@ function initExamPage() {
       return;
     }
 
+    // Calculate time taken (in seconds)
+    const timeTaken = EXAM_TIMER_DURATION - remainingSeconds;
+    
     // Prepare attempt data
     const attempt = {
       username: username,
       moduleId: moduleId,
       examId: examId,
       score: score,
+      timeTaken: timeTaken, // Time taken in seconds
       timestamp: new Date().toISOString()
     };
 

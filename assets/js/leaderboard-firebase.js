@@ -193,6 +193,7 @@
       moduleId: String(attempt.moduleId),
       examId: String(attempt.examId),
       score: Math.max(0, Math.min(100, Math.round(attempt.score))),
+      timeTaken: attempt.timeTaken ? Math.round(attempt.timeTaken) : null, // Time in seconds
       timestamp: attempt.timestamp || new Date().toISOString(),
       createdAt: serverTimestamp()
     };
