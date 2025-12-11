@@ -745,18 +745,20 @@ function initExamPage() {
     }
 
     // Determine moduleId from examId
-    // For module tests: "270201b" -> "270201"
-    // For practice exams: "270201p" -> "270201p" (moduleId is same as examId)
+    // For module section tests: "270201a" -> "270201"
+    // For practice exams: "270201" -> "270201" (moduleId is same as examId)
     let moduleId;
-    if (examId.endsWith('p') && examId.length === 7) {
-      moduleId = examId; // Practice exams use examId as moduleId
+    if (/^\d{6}$/.test(examId)) {
+      // Practice exam - exactly 6 digits, no suffix
+      moduleId = examId;
     } else {
+      // Section test - extract first 6 digits
       const moduleIdMatch = examId.match(/^(\d{6})/);
       moduleId = moduleIdMatch ? moduleIdMatch[1] : null;
     }
     
     if (!moduleId) {
-      console.warn('Could not determine module ID from exam ID:', examId, '- Expected format: 6 digits (e.g., 270201) or ######p for practice exams');
+      console.warn('Could not determine module ID from exam ID:', examId, '- Expected format: 6 digits (e.g., 270201) or 6 digits + letter (e.g., 270201a)');
       return;
     }
 
