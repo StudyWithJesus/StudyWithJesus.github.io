@@ -7,9 +7,9 @@
 // - Last score per exam (ILM) for index pages
 // =====================================================
 
-// Timer duration in seconds (20 minutes by default)
-// Individual exam pages can override by setting window.EXAM_TIMER_DURATION BEFORE script.js loads
-const EXAM_TIMER_DURATION = window.EXAM_TIMER_DURATION || (20 * 60);
+// Default timer duration in seconds (20 minutes)
+// Can be overridden per exam via data-timer-duration attribute on the form element
+const DEFAULT_EXAM_TIMER_DURATION = 20 * 60; // 1200 seconds
 
 // Run immediately on load (handles scripts at bottom of body)
 ;(function() {
@@ -138,8 +138,14 @@ function initExamPage() {
   questionContainer.parentElement.insertBefore(topActions, questionContainer);
 
   // ----------------------
-  // 20-minute Timer Setup
+  // Timer Setup with configurable duration
   // ----------------------
+  // Read timer duration from form's data-timer-duration attribute, or use default
+  const formTimerDuration = form.getAttribute('data-timer-duration');
+  const EXAM_TIMER_DURATION = formTimerDuration ? parseInt(formTimerDuration, 10) : DEFAULT_EXAM_TIMER_DURATION;
+  
+  console.log('Timer duration configured:', EXAM_TIMER_DURATION, 'seconds (', Math.floor(EXAM_TIMER_DURATION / 60), 'minutes )');
+  
   const timerKey = "examTimer:" + window.location.pathname;
   let timerInterval = null;
   let remainingSeconds = EXAM_TIMER_DURATION;
