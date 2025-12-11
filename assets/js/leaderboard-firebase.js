@@ -819,7 +819,13 @@
       var result = {};
       for (var examId in examStats) {
         if (examStats.hasOwnProperty(examId)) {
-          var entries = Object.values(examStats[examId]);
+          // Convert object to array (compatible with older browsers)
+          var entries = [];
+          for (var username in examStats[examId]) {
+            if (examStats[examId].hasOwnProperty(username)) {
+              entries.push(examStats[examId][username]);
+            }
+          }
           entries.sort(function(a, b) { return b.bestScore - a.bestScore; });
           result[examId] = entries.slice(0, limitNum);
         }

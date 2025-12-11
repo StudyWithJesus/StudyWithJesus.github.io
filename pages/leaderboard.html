@@ -311,19 +311,19 @@
           if (practiceExams.length > 0) {
             html += '<div class="leaderboard-section-divider"></div>';
             html += '<h2 class="leaderboard-section-title">Practice Exams (100 Questions)</h2>';
-            for (var i = 0; i < practiceExams.length; i++) {
-              var moduleId = practiceExams[i];
-              var examLeaderboards = leaderboardData[moduleId] || {};
-              html += Leaderboard.renderLeaderboardByExam(moduleId, examLeaderboards);
+            for (var j = 0; j < practiceExams.length; j++) {
+              var practiceId = practiceExams[j];
+              var practiceLeaderboards = leaderboardData[practiceId] || {};
+              html += Leaderboard.renderLeaderboardByExam(practiceId, practiceLeaderboards);
             }
           }
         } else if (currentFilter === 'practice') {
           // Show only practice exams
           html += '<h2 class="leaderboard-section-title">Practice Exams (100 Questions)</h2>';
-          for (var i = 0; i < practiceExams.length; i++) {
-            var moduleId = practiceExams[i];
-            var examLeaderboards = leaderboardData[moduleId] || {};
-            html += Leaderboard.renderLeaderboardByExam(moduleId, examLeaderboards);
+          for (var k = 0; k < practiceExams.length; k++) {
+            var practiceId = practiceExams[k];
+            var practiceLeaderboards = leaderboardData[practiceId] || {};
+            html += Leaderboard.renderLeaderboardByExam(practiceId, practiceLeaderboards);
           }
         } else {
           // Show specific module
