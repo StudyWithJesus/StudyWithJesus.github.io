@@ -29,14 +29,18 @@
     topN: 10,
     
     // Available modules
-    modules: ['270201', '270202', '270203', '270204'],
+    modules: ['270201', '270202', '270203', '270204', 'PTP2E1', 'PTP2E2', 'PTP2E3', 'PTP2E4'],
     
     // Module display names
     moduleNames: {
       '270201': 'Engine Systems',
       '270202': 'Driveline & Drivetrain',
       '270203': 'Hydraulics & Air Brakes',
-      '270204': 'Electrical, Auto Body & Mobile Equipment'
+      '270204': 'Electrical, Auto Body & Mobile Equipment',
+      'PTP2E1': 'Practice Exam 1 (270201 Engines)',
+      'PTP2E2': 'Practice Exam 2 (270202 Power Train)',
+      'PTP2E3': 'Practice Exam 3 (270203 Hydraulics & Air Brakes)',
+      'PTP2E4': 'Practice Exam 4 (270204 Electrical & Equipment)'
     },
     
     // Local storage keys
