@@ -577,60 +577,80 @@
     var html = '<div class="leaderboard-module-group" data-module="' + moduleId + '">';
     html += '<h3 class="leaderboard-module-title">' + getModuleName(moduleId) + '</h3>';
     
-    if (!examLeaderboards || Object.keys(examLeaderboards).length === 0) {
+    // Initialize examLeaderboards if empty
+    examLeaderboards = examLeaderboards || {};
+    
+    // Ensure practice exam is always included for 6-digit module IDs
+    if (/^\d{6}$/.test(moduleId) && !examLeaderboards[moduleId]) {
+      examLeaderboards[moduleId] = []; // Empty array = no scores yet
+    }
+    
+    if (Object.keys(examLeaderboards).length === 0) {
       html += '<p class="leaderboard-empty">No scores recorded yet. Be the first!</p>';
       html += '</div>';
       return html;
     }
     
-    // Sort exam IDs alphabetically
-    var examIds = Object.keys(examLeaderboards).sort();
+    // Sort exam IDs - practice exam (same as moduleId) first, then sections alphabetically
+    var examIds = Object.keys(examLeaderboards).sort(function(a, b) {
+      // Practice exam (6 digits only) comes first
+      var aIsPractice = a === moduleId;
+      var bIsPractice = b === moduleId;
+      if (aIsPractice && !bIsPractice) return -1;
+      if (!aIsPractice && bIsPractice) return 1;
+      return a.localeCompare(b);
+    });
     
     for (var j = 0; j < examIds.length; j++) {
       var examId = examIds[j];
       var entries = examLeaderboards[examId];
       
-      if (!entries || entries.length === 0) continue;
-      
       html += '<div class="leaderboard-exam" data-exam="' + examId + '">';
       html += '<h4 class="leaderboard-exam-title">' + getExamName(examId) + '</h4>';
-      html += '<table class="leaderboard-table">';
-      html += '<colgroup>';
-      html += '<col class="col-rank">';
-      html += '<col class="col-name">';
-      html += '<col class="col-score">';
-      html += '<col class="col-attempts">';
-      html += '<col class="col-date">';
-      html += '</colgroup>';
-      html += '<thead><tr>';
-      html += '<th class="leaderboard-rank">#</th>';
-      html += '<th class="leaderboard-name">Name</th>';
-      html += '<th class="leaderboard-score">Best Score</th>';
-      html += '<th class="leaderboard-attempts">Attempts</th>';
-      html += '<th class="leaderboard-date">Last Attempt</th>';
-      html += '</tr></thead>';
-      html += '<tbody>';
       
-      for (var i = 0; i < Math.min(entries.length, config.topN); i++) {
-        var entry = entries[i];
+      if (!entries || entries.length === 0) {
+        html += '<p class="leaderboard-empty">No scores recorded yet. Be the first!</p>';
+      } else {
+        html += '<table class="leaderboard-table">';
+        html += '<colgroup>';
+        html += '<col class="col-rank">';
+        html += '<col class="col-name">';
+        html += '<col class="col-score">';
+        html += '<col class="col-attempts">';
+        html += '<col class="col-date">';
+        html += '</colgroup>';
+        html += '<thead><tr>';
+        html += '<th class="leaderboard-rank">#</th>';
+        html += '<th class="leaderboard-name">Name</th>';
+        html += '<th class="leaderboard-score">Best Score</th>';
+        html += '<th class="leaderboard-attempts">Attempts</th>';
+        html += '<th class="leaderboard-date">Last Attempt</th>';
+        html += '</tr></thead>';
+        html += '<tbody>';
         
-        // Validate entry has required properties
-        if (!entry || typeof entry.username === 'undefined' || typeof entry.bestScore === 'undefined') {
-          console.warn('Skipping invalid leaderboard entry:', entry);
-          continue;
+        for (var i = 0; i < Math.min(entries.length, config.topN); i++) {
+          var entry = entries[i];
+          
+          // Validate entry has required properties
+          if (!entry || typeof entry.username === 'undefined' || typeof entry.bestScore === 'undefined') {
+            console.warn('Skipping invalid leaderboard entry:', entry);
+            continue;
+          }
+          
+          var rankClass = i < 3 ? 'rank-' + (i + 1) : '';
+          html += '<tr class="leaderboard-row ' + rankClass + '">';
+          html += '<td class="leaderboard-rank">' + (i + 1) + '</td>';
+          html += '<td class="leaderboard-name">' + escapeHtml(entry.username) + '</td>';
+          html += '<td class="leaderboard-score">' + entry.bestScore + '%</td>';
+          html += '<td class="leaderboard-attempts">' + (entry.attemptsCount || 0) + '</td>';
+          html += '<td class="leaderboard-date">' + formatTimestamp(entry.lastAttempt) + '</td>';
+          html += '</tr>';
         }
         
-        var rankClass = i < 3 ? 'rank-' + (i + 1) : '';
-        html += '<tr class="leaderboard-row ' + rankClass + '">';
-        html += '<td class="leaderboard-rank">' + (i + 1) + '</td>';
-        html += '<td class="leaderboard-name">' + escapeHtml(entry.username) + '</td>';
-        html += '<td class="leaderboard-score">' + entry.bestScore + '%</td>';
-        html += '<td class="leaderboard-attempts">' + (entry.attemptsCount || 0) + '</td>';
-        html += '<td class="leaderboard-date">' + formatTimestamp(entry.lastAttempt) + '</td>';
-        html += '</tr>';
+        html += '</tbody></table>';
       }
       
-      html += '</tbody></table></div>';
+      html += '</div>';
     }
     
     html += '</div>';
