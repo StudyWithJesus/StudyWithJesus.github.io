@@ -300,35 +300,74 @@
 
         // Render based on current filter
         if (currentFilter === 'all') {
-          // Show all regular modules (section tests)
+          // Show all 4 module sections (section tests only, no practice exams)
           for (var i = 0; i < regularModules.length; i++) {
             var moduleId = regularModules[i];
             var examLeaderboards = leaderboardData[moduleId] || {};
-            html += Leaderboard.renderLeaderboardByExam(moduleId, examLeaderboards);
+            // Filter out practice exam (same ID as module)
+            var sectionTestsOnly = {};
+            for (var examId in examLeaderboards) {
+              if (examId !== moduleId) {
+                sectionTestsOnly[examId] = examLeaderboards[examId];
+              }
+            }
+            html += Leaderboard.renderLeaderboardByExam(moduleId, sectionTestsOnly, true);
           }
           
-          // Show practice exams section (legacy PTP2E IDs)
-          if (practiceExams.length > 0) {
-            html += '<div class="leaderboard-section-divider"></div>';
-            html += '<h2 class="leaderboard-section-title">Practice Exams (100 Questions)</h2>';
-            for (var j = 0; j < practiceExams.length; j++) {
-              var practiceId = practiceExams[j];
-              var practiceLeaderboards = leaderboardData[practiceId] || {};
-              html += Leaderboard.renderLeaderboardByExam(practiceId, practiceLeaderboards);
+          // Show separate practice exams section
+          html += '<div class="leaderboard-section-divider"></div>';
+          html += '<h2 class="leaderboard-section-title">Practice Exams (100 Questions)</h2>';
+          html += '<div class="leaderboard-module-group" data-module="practice-exams">';
+          
+          // Show all 4 practice exams (270201, 270202, 270203, 270204)
+          for (var j = 0; j < regularModules.length; j++) {
+            var moduleId = regularModules[j];
+            var examLeaderboards = leaderboardData[moduleId] || {};
+            var practiceExamData = examLeaderboards[moduleId] || [];
+            
+            html += '<div class="leaderboard-exam" data-exam="' + moduleId + '">';
+            html += '<h4 class="leaderboard-exam-title">' + Leaderboard.getExamName(moduleId) + '</h4>';
+            
+            if (!practiceExamData || practiceExamData.length === 0) {
+              html += '<p class="leaderboard-empty">No scores recorded yet. Be the first!</p>';
+            } else {
+              html += renderPracticeExamTable(practiceExamData, config.topN);
+            }
+            html += '</div>';
+          }
+          html += '</div>';
+        } else if (currentFilter === 'practice') {
+          // Show only practice exams section
+          html += '<h2 class="leaderboard-section-title">Practice Exams (100 Questions)</h2>';
+          html += '<div class="leaderboard-module-group" data-module="practice-exams">';
+          
+          // Show all 4 practice exams
+          for (var j = 0; j < regularModules.length; j++) {
+            var moduleId = regularModules[j];
+            var examLeaderboards = leaderboardData[moduleId] || {};
+            var practiceExamData = examLeaderboards[moduleId] || [];
+            
+            html += '<div class="leaderboard-exam" data-exam="' + moduleId + '">';
+            html += '<h4 class="leaderboard-exam-title">' + Leaderboard.getExamName(moduleId) + '</h4>';
+            
+            if (!practiceExamData || practiceExamData.length === 0) {
+              html += '<p class="leaderboard-empty">No scores recorded yet. Be the first!</p>';
+            } else {
+              html += renderPracticeExamTable(practiceExamData, config.topN);
+            }
+            html += '</div>';
+          }
+          html += '</div>';
+        } else {
+          // Show specific module (section tests only, no practice exam)
+          var examLeaderboards = leaderboardData[currentFilter] || {};
+          var sectionTestsOnly = {};
+          for (var examId in examLeaderboards) {
+            if (examId !== currentFilter) {
+              sectionTestsOnly[examId] = examLeaderboards[examId];
             }
           }
-        } else if (currentFilter === 'practice') {
-          // Show only practice exams (legacy PTP2E IDs)
-          html += '<h2 class="leaderboard-section-title">Practice Exams (100 Questions)</h2>';
-          for (var k = 0; k < practiceExams.length; k++) {
-            var practiceId = practiceExams[k];
-            var practiceLeaderboards = leaderboardData[practiceId] || {};
-            html += Leaderboard.renderLeaderboardByExam(practiceId, practiceLeaderboards);
-          }
-        } else {
-          // Show specific module (includes both section tests and practice exam for that module)
-          var examLeaderboards = leaderboardData[currentFilter] || {};
-          html += Leaderboard.renderLeaderboardByExam(currentFilter, examLeaderboards);
+          html += Leaderboard.renderLeaderboardByExam(currentFilter, sectionTestsOnly, true);
         }
 
         if (!html) {
@@ -336,6 +375,43 @@
         }
 
         contentEl.innerHTML = html;
+      }
+      
+      function renderPracticeExamTable(entries, topN) {
+        var html = '<table class="leaderboard-table">';
+        html += '<colgroup>';
+        html += '<col class="col-rank">';
+        html += '<col class="col-name">';
+        html += '<col class="col-score">';
+        html += '<col class="col-attempts">';
+        html += '<col class="col-date">';
+        html += '</colgroup>';
+        html += '<thead><tr>';
+        html += '<th class="leaderboard-rank">#</th>';
+        html += '<th class="leaderboard-name">Name</th>';
+        html += '<th class="leaderboard-score">Best Score</th>';
+        html += '<th class="leaderboard-attempts">Attempts</th>';
+        html += '<th class="leaderboard-date">Last Attempt</th>';
+        html += '</tr></thead>';
+        html += '<tbody>';
+        
+        for (var i = 0; i < Math.min(entries.length, topN); i++) {
+          var entry = entries[i];
+          if (!entry || typeof entry.username === 'undefined' || typeof entry.bestScore === 'undefined') {
+            continue;
+          }
+          var rankClass = i < 3 ? 'rank-' + (i + 1) : '';
+          html += '<tr class="leaderboard-row ' + rankClass + '">';
+          html += '<td class="leaderboard-rank">' + (i + 1) + '</td>';
+          html += '<td class="leaderboard-name">' + escapeHtml(entry.username) + '</td>';
+          html += '<td class="leaderboard-score">' + entry.bestScore + '%</td>';
+          html += '<td class="leaderboard-attempts">' + (entry.attemptsCount || 0) + '</td>';
+          html += '<td class="leaderboard-date">' + Leaderboard.formatTimestamp(entry.lastAttempt) + '</td>';
+          html += '</tr>';
+        }
+        
+        html += '</tbody></table>';
+        return html;
       }
 
     })();
