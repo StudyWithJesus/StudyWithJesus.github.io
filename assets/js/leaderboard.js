@@ -129,6 +129,72 @@
   }
 
   /**
+   * Fetch leaderboard data grouped by individual exams for a specific module
+   * @param {string} moduleId - Module ID (e.g., '270201')
+   * @returns {Promise<Object>} - Object with examId keys and leaderboard arrays
+   */
+  async function fetchLeaderboardByExam(moduleId) {
+    const config = getConfig();
+    
+    // If Firebase is enabled, try Firebase integration with fallback
+    if (config.firebaseEnabled && window.LeaderboardFirebase && window.LeaderboardFirebase.getLeaderboardByExam) {
+      try {
+        return await window.LeaderboardFirebase.getLeaderboardByExam(moduleId, config.topN);
+      } catch (error) {
+        console.warn('Firebase fetch by exam failed, falling back to sample data:', error);
+        return fetchSampleDataByExam(moduleId);
+      }
+    }
+    
+    // Default: fetch sample data by exam
+    return fetchSampleDataByExam(moduleId);
+  }
+
+  /**
+   * Fetch all leaderboards grouped by exam for all modules
+   * @returns {Promise<Object>} - Object with moduleId keys, each containing examId keys with leaderboard arrays
+   */
+  async function fetchAllLeaderboardsByExam() {
+    const config = getConfig();
+    const results = {};
+    
+    // Fetch all modules concurrently for better performance
+    const promises = config.modules.map(function(moduleId) {
+      return fetchLeaderboardByExam(moduleId)
+        .then(function(data) {
+          return { moduleId: moduleId, data: data };
+        })
+        .catch(function(error) {
+          console.warn('Failed to fetch leaderboard by exam for ' + moduleId + ':', error);
+          return { moduleId: moduleId, data: {} };
+        });
+    });
+    
+    const responses = await Promise.all(promises);
+    
+    for (var i = 0; i < responses.length; i++) {
+      results[responses[i].moduleId] = responses[i].data;
+    }
+    
+    return results;
+  }
+
+  /**
+   * Fetch sample data by exam from JSON file
+   * @param {string} moduleId - Module ID
+   * @returns {Promise<Object>} - Object with examId keys and leaderboard arrays
+   */
+  async function fetchSampleDataByExam(moduleId) {
+    // For now, aggregate from the existing sample data
+    // In production, you would have a separate endpoint for this
+    const moduleData = await fetchSampleData(moduleId);
+    
+    // If the sample data doesn't have exam breakdown, return empty
+    // You could enhance the sample data file to include per-exam data
+    return {};
+  }
+
+  /**
    * Fetch sample data from JSON file
    * @param {string} moduleId - Module ID
    * @returns {Promise<Array>} - Array of leaderboard entries
@@ -315,6 +381,30 @@
   }
 
   /**
+   * Get exam display name from exam ID
+   * @param {string} examId - Exam ID (e.g., '270201a')
+   * @returns {string} - Display name
+   */
+  function getExamName(examId) {
+    if (!examId) return 'Unknown Exam';
+    
+    // Extract the letter suffix if it exists
+    var match = examId.match(/([a-zA-Z]+)$/);
+    if (match) {
+      var suffix = match[1].toUpperCase();
+      return 'Section ' + suffix;
+    }
+    
+    // If it's a practice exam like PTP2E1
+    if (examId.startsWith('PTP2E')) {
+      var examNum = examId.replace('PTP2E', '');
+      return 'Practice Exam ' + examNum;
+    }
+    
+    return examId;
+  }
+
+  /**
    * Check if a backend is configured and working
    * @returns {Promise<boolean>} - True if backend is available
    */
@@ -397,6 +487,77 @@
   }
 
   /**
+   * Render leaderboard HTML for individual exams within a module
+   * @param {string} moduleId - Module ID
+   * @param {Object} examLeaderboards - Object with examId keys and leaderboard arrays
+   * @returns {string} - HTML string
+   */
+  function renderLeaderboardByExam(moduleId, examLeaderboards) {
+    var config = getConfig();
+    var html = '<div class="leaderboard-module-group" data-module="' + moduleId + '">';
+    html += '<h3 class="leaderboard-module-title">' + getModuleName(moduleId) + '</h3>';
+    
+    if (!examLeaderboards || Object.keys(examLeaderboards).length === 0) {
+      html += '<p class="leaderboard-empty">No scores recorded yet. Be the first!</p>';
+      html += '</div>';
+      return html;
+    }
+    
+    // Sort exam IDs alphabetically
+    var examIds = Object.keys(examLeaderboards).sort();
+    
+    for (var j = 0; j < examIds.length; j++) {
+      var examId = examIds[j];
+      var entries = examLeaderboards[examId];
+      
+      if (!entries || entries.length === 0) continue;
+      
+      html += '<div class="leaderboard-exam" data-exam="' + examId + '">';
+      html += '<h4 class="leaderboard-exam-title">' + getExamName(examId) + '</h4>';
+      html += '<table class="leaderboard-table">';
+      html += '<colgroup>';
+      html += '<col class="col-rank">';
+      html += '<col class="col-name">';
+      html += '<col class="col-score">';
+      html += '<col class="col-attempts">';
+      html += '<col class="col-date">';
+      html += '</colgroup>';
+      html += '<thead><tr>';
+      html += '<th class="leaderboard-rank">#</th>';
+      html += '<th class="leaderboard-name">Name</th>';
+      html += '<th class="leaderboard-score">Best Score</th>';
+      html += '<th class="leaderboard-attempts">Attempts</th>';
+      html += '<th class="leaderboard-date">Last Attempt</th>';
+      html += '</tr></thead>';
+      html += '<tbody>';
+      
+      for (var i = 0; i < Math.min(entries.length, config.topN); i++) {
+        var entry = entries[i];
+        
+        // Validate entry has required properties
+        if (!entry || typeof entry.username === 'undefined' || typeof entry.bestScore === 'undefined') {
+          console.warn('Skipping invalid leaderboard entry:', entry);
+          continue;
+        }
+        
+        var rankClass = i < 3 ? 'rank-' + (i + 1) : '';
+        html += '<tr class="leaderboard-row ' + rankClass + '">';
+        html += '<td class="leaderboard-rank">' + (i + 1) + '</td>';
+        html += '<td class="leaderboard-name">' + escapeHtml(entry.username) + '</td>';
+        html += '<td class="leaderboard-score">' + entry.bestScore + '%</td>';
+        html += '<td class="leaderboard-attempts">' + (entry.attemptsCount || 0) + '</td>';
+        html += '<td class="leaderboard-date">' + formatTimestamp(entry.lastAttempt) + '</td>';
+        html += '</tr>';
+      }
+      
+      html += '</tbody></table></div>';
+    }
+    
+    html += '</div>';
+    return html;
+  }
+
+  /**
    * Escape HTML special characters
    * @param {string} str - Input string
    * @returns {string} - Escaped string
@@ -411,17 +572,43 @@
       .replace(/'/g, '&#039;');
   }
 
+  /**
+   * Format time duration in seconds to human-readable format
+   * @param {number} seconds - Time in seconds
+   * @returns {string} - Formatted time string
+   */
+  function formatDuration(seconds) {
+    if (!seconds || seconds <= 0) return '-';
+    
+    var hours = Math.floor(seconds / 3600);
+    var minutes = Math.floor((seconds % 3600) / 60);
+    var secs = seconds % 60;
+    
+    if (hours > 0) {
+      return hours + 'h ' + minutes + 'm ' + secs + 's';
+    } else if (minutes > 0) {
+      return minutes + 'm ' + secs + 's';
+    } else {
+      return secs + 's';
+    }
+  }
+
   // Export public API
   window.Leaderboard = {
     fetchLeaderboard: fetchLeaderboard,
     fetchAllLeaderboards: fetchAllLeaderboards,
+    fetchLeaderboardByExam: fetchLeaderboardByExam,
+    fetchAllLeaderboardsByExam: fetchAllLeaderboardsByExam,
     submitAttempt: submitAttempt,
     username: username,
     sanitizeUsername: sanitizeUsername,
     formatTimestamp: formatTimestamp,
+    formatDuration: formatDuration,
     getModuleName: getModuleName,
+    getExamName: getExamName,
     isBackendConfigured: isBackendConfigured,
     renderLeaderboardTable: renderLeaderboardTable,
+    renderLeaderboardByExam: renderLeaderboardByExam,
     getLocalAttempts: getLocalAttempts,
     getConfig: getConfig,
     escapeHtml: escapeHtml

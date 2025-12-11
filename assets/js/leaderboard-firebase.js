@@ -762,11 +762,82 @@
     }
   }
 
+  /**
+   * Get leaderboard grouped by individual exams within a module
+   * Returns an object with examId keys and leaderboard arrays
+   * @param {string} moduleId - Module ID (e.g., '270201')
+   * @param {number} limitNum - Maximum entries per exam
+   * @returns {Promise<Object>} - Object with examId keys and leaderboard entries
+   */
+  async function getLeaderboardByExam(moduleId, limitNum) {
+    if (!await initialize()) {
+      throw new Error('Firebase not initialized - falling back to sample data');
+    }
+
+    limitNum = limitNum || 10;
+    const { collection, query, where, getDocs } = firebaseModules;
+
+    try {
+      // Get all attempts for this module
+      var attemptsQuery = query(
+        collection(db, 'attempts'),
+        where('moduleId', '==', moduleId)
+      );
+      var attemptsSnapshot = await getDocs(attemptsQuery);
+
+      // Aggregate by exam and user
+      var examStats = {};
+      attemptsSnapshot.forEach(function(docSnap) {
+        var attempt = docSnap.data();
+        var examId = attempt.examId || 'unknown';
+        var username = attempt.username;
+        
+        if (!examStats[examId]) {
+          examStats[examId] = {};
+        }
+        
+        if (!examStats[examId][username]) {
+          examStats[examId][username] = {
+            username: username,
+            examId: examId,
+            bestScore: attempt.score,
+            attemptsCount: 0,
+            lastAttempt: attempt.timestamp
+          };
+        }
+        
+        examStats[examId][username].attemptsCount++;
+        if (attempt.score > examStats[examId][username].bestScore) {
+          examStats[examId][username].bestScore = attempt.score;
+        }
+        if (attempt.timestamp > examStats[examId][username].lastAttempt) {
+          examStats[examId][username].lastAttempt = attempt.timestamp;
+        }
+      });
+
+      // Convert to result format and sort each exam's leaderboard
+      var result = {};
+      for (var examId in examStats) {
+        if (examStats.hasOwnProperty(examId)) {
+          var entries = Object.values(examStats[examId]);
+          entries.sort(function(a, b) { return b.bestScore - a.bestScore; });
+          result[examId] = entries.slice(0, limitNum);
+        }
+      }
+
+      return result;
+    } catch (error) {
+      console.error('Failed to aggregate leaderboard by exam:', error);
+      return {};
+    }
+  }
+
   // Export public API
   window.LeaderboardFirebase = {
     initialize: initialize,
     isInitialized: function() { return initialized; },
     getLeaderboard: getLeaderboard,
+    getLeaderboardByExam: getLeaderboardByExam,
     submitAttempt: submitAttempt,
     getUserAttempts: getUserAttempts,
     isAdmin: isAdmin,
