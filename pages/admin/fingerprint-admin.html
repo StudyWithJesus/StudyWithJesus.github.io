@@ -193,6 +193,31 @@
       align-items: center;
       transition: all 0.2s;
     }
+    
+    @media (max-width: 640px) {
+      .fingerprint-item {
+        grid-template-columns: auto 1fr;
+        gap: 12px;
+        padding: 15px;
+      }
+      
+      .fingerprint-item .toggle-label {
+        grid-column: 1;
+        grid-row: 2;
+        min-width: 70px;
+        font-size: 0.85rem;
+      }
+      
+      .fingerprint-item .toggle-switch {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      
+      .fingerprint-item .fingerprint-info {
+        grid-column: 2;
+        grid-row: 1 / 3;
+      }
+    }
 
     .fingerprint-item:hover {
       background: #f8f9fa;
@@ -261,6 +286,8 @@
       color: #666;
       min-width: 80px;
       text-align: center;
+      white-space: nowrap;
+      overflow: visible;
     }
 
     .toggle-label.blocked {

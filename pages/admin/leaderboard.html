@@ -604,13 +604,39 @@
           
           console.log('Rendering user:', user);
           
+          // Calculate modules and sections from moduleBreakdown
+          var modulesAttempted = user.modulesAttempted || (user.moduleBreakdown ? Object.keys(user.moduleBreakdown).length : 0);
+          var sectionsAttempted = user.sectionsAttempted || 0;
+          
+          // Calculate best and average scores from moduleBreakdown
+          var bestScore = user.bestScore || 0;
+          var avgScore = user.avgScore || 0;
+          
+          if (user.moduleBreakdown && !user.bestScore) {
+            var scores = [];
+            var totalScoreSum = 0;
+            var totalAttempts = 0;
+            
+            for (var moduleId in user.moduleBreakdown) {
+              if (user.moduleBreakdown.hasOwnProperty(moduleId)) {
+                var breakdown = user.moduleBreakdown[moduleId];
+                scores.push(breakdown.averageScore);
+                totalScoreSum += breakdown.totalScore;
+                totalAttempts += breakdown.attempts;
+              }
+            }
+            
+            bestScore = scores.length > 0 ? Math.max.apply(null, scores) : 0;
+            avgScore = totalAttempts > 0 ? Math.round(totalScoreSum / totalAttempts) : 0;
+          }
+          
           html += '<tr>';
           html += '<td>' + escapeHtml(user.username) + '</td>';
-          html += '<td>' + user.totalExams + '</td>';
-          html += '<td>' + user.modulesAttempted + '</td>';
-          html += '<td>' + user.sectionsAttempted + '</td>';
-          html += '<td>' + user.bestScore + '%</td>';
-          html += '<td>' + user.avgScore + '%</td>';
+          html += '<td>' + (user.totalExams || 0) + '</td>';
+          html += '<td>' + modulesAttempted + '</td>';
+          html += '<td>' + sectionsAttempted + '</td>';
+          html += '<td>' + bestScore + '%</td>';
+          html += '<td>' + avgScore + '%</td>';
           html += '</tr>';
         }
         

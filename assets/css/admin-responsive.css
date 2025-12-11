@@ -5,6 +5,37 @@
   box-sizing: border-box;
 }
 
+/* Fix back-link button wrapping and overlap on mobile */
+.back-link {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 15px 20px;
+  box-sizing: border-box;
+}
+
+.back-link a {
+  flex: 1 1 auto;
+  min-width: 140px;
+  white-space: nowrap;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Mobile adjustments for back links */
+@media (max-width: 480px) {
+  .back-link {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 15px;
+  }
+  
+  .back-link a {
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
 /* Container that holds "Back to Admin Hub", "Back to Main Site" and avatar */
 .admin-controls {
   display: flex;
