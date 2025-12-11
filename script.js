@@ -746,9 +746,9 @@ function initExamPage() {
 
     // Determine moduleId from examId
     // For module tests: "270201b" -> "270201"
-    // For practice exams: "270201PE" -> "270201PE" (moduleId is same as examId)
+    // For practice exams: "270201p" -> "270201p" (moduleId is same as examId)
     let moduleId;
-    if (examId.endsWith('PE')) {
+    if (examId.endsWith('p') && examId.length === 7) {
       moduleId = examId; // Practice exams use examId as moduleId
     } else {
       const moduleIdMatch = examId.match(/^(\d{6})/);
@@ -756,7 +756,7 @@ function initExamPage() {
     }
     
     if (!moduleId) {
-      console.warn('Could not determine module ID from exam ID:', examId, '- Expected format: 6 digits (e.g., 270201) or ######PE for practice exams');
+      console.warn('Could not determine module ID from exam ID:', examId, '- Expected format: 6 digits (e.g., 270201) or ######p for practice exams');
       return;
     }
 
