@@ -609,10 +609,10 @@
           var sectionsAttempted = user.sectionsAttempted || 0;
           
           // Calculate best and average scores from moduleBreakdown
-          var bestScore = user.bestScore || 0;
-          var avgScore = user.avgScore || 0;
+          var bestScore = user.bestScore;
+          var avgScore = user.avgScore;
           
-          if (user.moduleBreakdown && !user.bestScore) {
+          if (user.moduleBreakdown && (bestScore === undefined || bestScore === null)) {
             var scores = [];
             var totalScoreSum = 0;
             var totalAttempts = 0;
@@ -629,6 +629,10 @@
             bestScore = scores.length > 0 ? Math.max.apply(null, scores) : 0;
             avgScore = totalAttempts > 0 ? Math.round(totalScoreSum / totalAttempts) : 0;
           }
+          
+          // Ensure we have default values
+          bestScore = bestScore !== undefined && bestScore !== null ? bestScore : 0;
+          avgScore = avgScore !== undefined && avgScore !== null ? avgScore : 0;
           
           html += '<tr>';
           html += '<td>' + escapeHtml(user.username) + '</td>';

@@ -585,11 +585,6 @@
   box-sizing: border-box;
 }
 
-/* Prevent text truncation by default */
-.leaderboard-table th {
-  overflow: visible;
-}
-
 .leaderboard-table td {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -640,7 +635,7 @@
     width: 0;
   }
   
-  /* Prevent text truncation in headers on mobile */
+  /* Override base styles - prevent text truncation in headers on mobile */
   .leaderboard-table th {
     overflow: visible;
     text-overflow: clip;
