@@ -183,13 +183,14 @@
                 <th>Module</th>
                 <th>Exam</th>
                 <th>Score</th>
+                <th>Time Taken</th>
                 <th>Timestamp</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody id="history-table-body">
               <tr>
-                <td colspan="6" style="text-align: center; padding: var(--space-6);">
+                <td colspan="7" style="text-align: center; padding: var(--space-6);">
                   Loading attempt history...
                 </td>
               </tr>
@@ -649,7 +650,7 @@
 
       function renderHistoryTable(attemptHistory) {
         if (!attemptHistory || attemptHistory.length === 0) {
-          historyTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No attempt history available</td></tr>';
+          historyTableBody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No attempt history available</td></tr>';
           return;
         }
 
@@ -659,11 +660,18 @@
           // Use Firebase document ID if available, otherwise create composite ID
           var attemptId = attempt.id || (attempt.username + '|' + attempt.moduleId + '|' + attempt.examId + '|' + attempt.timestamp);
           
+          // Format time taken
+          var timeTaken = '-';
+          if (attempt.timeTaken) {
+            timeTaken = formatDuration(attempt.timeTaken);
+          }
+          
           html += '<tr data-attempt-id="' + escapeHtml(attemptId) + '" data-has-doc-id="' + (!!attempt.id) + '">';
           html += '<td>' + escapeHtml(attempt.username || 'Unknown') + '</td>';
           html += '<td>' + escapeHtml(attempt.moduleId || 'unknown') + '</td>';
           html += '<td>' + escapeHtml(attempt.examId || 'unknown') + '</td>';
           html += '<td>' + (attempt.score || 0) + '%</td>';
+          html += '<td>' + timeTaken + '</td>';
           html += '<td>' + formatTimestamp(attempt.timestamp) + '</td>';
           html += '<td><button class="delete-btn" data-attempt-id="' + escapeHtml(attemptId) + '" data-has-doc-id="' + (!!attempt.id) + '">Delete</button></td>';
           html += '</tr>';
@@ -804,6 +812,22 @@
           });
         } catch (e) {
           return 'Unknown';
+        }
+      }
+      
+      function formatDuration(seconds) {
+        if (!seconds || seconds <= 0) return '-';
+        
+        var hours = Math.floor(seconds / 3600);
+        var minutes = Math.floor((seconds % 3600) / 60);
+        var secs = seconds % 60;
+        
+        if (hours > 0) {
+          return hours + 'h ' + minutes + 'm ' + secs + 's';
+        } else if (minutes > 0) {
+          return minutes + 'm ' + secs + 's';
+        } else {
+          return secs + 's';
         }
       }
       

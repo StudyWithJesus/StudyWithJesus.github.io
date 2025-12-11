@@ -107,6 +107,7 @@
       <button class="leaderboard-tab" data-module="270202">270202</button>
       <button class="leaderboard-tab" data-module="270203">270203</button>
       <button class="leaderboard-tab" data-module="270204">270204</button>
+      <button class="leaderboard-tab" data-module="practice">Practice Exams</button>
     </nav>
 
     <!-- Leaderboard content -->
@@ -268,7 +269,8 @@
         loadingEl.style.display = 'flex';
 
         try {
-          leaderboardData = await Leaderboard.fetchAllLeaderboards();
+          // Fetch leaderboards grouped by individual exams
+          leaderboardData = await Leaderboard.fetchAllLeaderboardsByExam();
           renderLeaderboard();
         } catch (error) {
           console.error('Failed to load leaderboard:', error);
@@ -284,16 +286,49 @@
         var config = Leaderboard.getConfig();
         var modules = config.modules;
 
+        // Separate regular modules from practice exams
+        var regularModules = [];
+        var practiceExams = [];
+        
         for (var i = 0; i < modules.length; i++) {
-          var moduleId = modules[i];
-          
-          // Skip if filtering by specific module and this isn't it
-          if (currentFilter !== 'all' && currentFilter !== moduleId) {
-            continue;
+          if (modules[i].startsWith('PTP2E')) {
+            practiceExams.push(modules[i]);
+          } else {
+            regularModules.push(modules[i]);
           }
+        }
 
-          var entries = leaderboardData[moduleId] || [];
-          html += Leaderboard.renderLeaderboardTable(moduleId, entries);
+        // Render based on current filter
+        if (currentFilter === 'all') {
+          // Show all regular modules
+          for (var i = 0; i < regularModules.length; i++) {
+            var moduleId = regularModules[i];
+            var examLeaderboards = leaderboardData[moduleId] || {};
+            html += Leaderboard.renderLeaderboardByExam(moduleId, examLeaderboards);
+          }
+          
+          // Show practice exams section
+          if (practiceExams.length > 0) {
+            html += '<div class="leaderboard-section-divider"></div>';
+            html += '<h2 class="leaderboard-section-title">Practice Exams (100 Questions)</h2>';
+            for (var j = 0; j < practiceExams.length; j++) {
+              var practiceId = practiceExams[j];
+              var practiceLeaderboards = leaderboardData[practiceId] || {};
+              html += Leaderboard.renderLeaderboardByExam(practiceId, practiceLeaderboards);
+            }
+          }
+        } else if (currentFilter === 'practice') {
+          // Show only practice exams
+          html += '<h2 class="leaderboard-section-title">Practice Exams (100 Questions)</h2>';
+          for (var k = 0; k < practiceExams.length; k++) {
+            var practiceId = practiceExams[k];
+            var practiceLeaderboards = leaderboardData[practiceId] || {};
+            html += Leaderboard.renderLeaderboardByExam(practiceId, practiceLeaderboards);
+          }
+        } else {
+          // Show specific module
+          var examLeaderboards = leaderboardData[currentFilter] || {};
+          html += Leaderboard.renderLeaderboardByExam(currentFilter, examLeaderboards);
         }
 
         if (!html) {

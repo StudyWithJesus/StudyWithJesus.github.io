@@ -139,6 +139,11 @@
     }
 
     @media (max-width: 768px) {
+      .header {
+        padding: 20px;
+        padding-top: 70px; /* Make room for username button */
+      }
+
       .header h1 {
         font-size: 2rem;
       }
@@ -149,6 +154,17 @@
 
       .content {
         padding: 25px;
+      }
+    }
+
+    /* Mobile-specific: Ensure username button doesn't overlap */
+    @media (max-width: 480px) {
+      .header {
+        padding-top: 80px;
+      }
+
+      .header h1 {
+        font-size: 1.75rem;
       }
     }
   </style>
@@ -225,15 +241,15 @@
     function showUserInfo(user) {
       const header = document.querySelector('.header');
       const userInfo = document.createElement('div');
-      userInfo.style.cssText = 'position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px;';
+      userInfo.style.cssText = 'position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; max-width: calc(100% - 40px); flex-wrap: wrap;';
       
       // Safely handle avatar URL
       const avatarUrl = user.avatar || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22><circle cx=%2216%22 cy=%2216%22 r=%2216%22 fill=%22%23ccc%22/></svg>';
       
       userInfo.innerHTML = `
         <img src="${avatarUrl}" alt="${user.username}" style="width: 32px; height: 32px; border-radius: 50%;">
-        <span style="color: white; font-weight: 500;">${user.username}</span>
-        <button onclick="GitHubAuth.logout()" style="background: rgba(255,255,255,0.3); color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; margin-left: 8px;">Logout</button>
+        <span style="color: white; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px;">${user.username}</span>
+        <button onclick="GitHubAuth.logout()" style="background: rgba(255,255,255,0.3); color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; margin-left: 8px; white-space: nowrap;">Logout</button>
       `;
       header.style.position = 'relative';
       header.appendChild(userInfo);
