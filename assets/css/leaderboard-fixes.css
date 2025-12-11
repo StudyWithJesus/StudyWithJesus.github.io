@@ -73,7 +73,7 @@
   }
 }
 
-/* User Statistics Table Styling */
+/* User Statistics Table Styling - Dark Mode */
 .user-stats-section {
   margin: 2rem 0 3rem;
 }
@@ -87,15 +87,16 @@
 .user-stats-table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: rgba(17, 24, 39, 0.95);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(59, 158, 206, 0.2);
 }
 
 .user-stats-table thead {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, rgba(59, 158, 206, 0.3) 0%, rgba(42, 125, 168, 0.3) 100%);
+  border-bottom: 2px solid rgba(59, 158, 206, 0.4);
 }
 
 .user-stats-table th {
@@ -105,28 +106,37 @@
   font-size: 0.9rem;
   letter-spacing: 0.3px;
   white-space: nowrap;
+  color: #f1f5f9;
 }
 
 .user-stats-table td {
   padding: 1rem 0.75rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   font-size: 0.95rem;
+  color: #cbd5e1;
+}
+
+.user-stats-table tbody tr {
+  transition: background 0.2s ease;
 }
 
 .user-stats-table tbody tr:hover {
-  background: #f9fafb;
+  background: rgba(59, 158, 206, 0.08);
 }
 
 .user-stats-table tbody tr.rank-1 {
   background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, transparent 100%);
+  border-left: 3px solid #ffd700;
 }
 
 .user-stats-table tbody tr.rank-2 {
   background: linear-gradient(90deg, rgba(192, 192, 192, 0.15) 0%, transparent 100%);
+  border-left: 3px solid #c0c0c0;
 }
 
 .user-stats-table tbody tr.rank-3 {
   background: linear-gradient(90deg, rgba(205, 127, 50, 0.15) 0%, transparent 100%);
+  border-left: 3px solid #cd7f32;
 }
 
 /* Center numeric columns */
@@ -150,6 +160,7 @@
 .user-stats-table td:nth-child(2) {
   text-align: left;
   font-weight: 500;
+  color: #7fd4ff;
 }
 
 /* Tablet and smaller */

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Fingerprint Admin Dashboard</title>
-  <link rel="stylesheet" href="../../assets/css/admin-responsive.css">
+  <link rel="stylesheet" href="../../assets/css/admin-dark-mode.css">
   <!-- Firebase Configuration (must load before github-auth.js) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -342,8 +342,8 @@
 
     .logout-btn {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 25px;
+      right: 25px;
       padding: 8px 16px;
       background: rgba(255, 255, 255, 0.2);
       color: white;
@@ -351,10 +351,11 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 14px;
-      max-width: calc(100% - 40px);
+      max-width: 200px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      z-index: 10;
     }
 
     .logout-btn:hover {
@@ -364,6 +365,7 @@
     .back-link {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       padding: 20px;
+      padding-right: 240px; /* Make room for logout button */
       display: flex;
       gap: 15px;
       flex-wrap: wrap;
@@ -380,10 +382,43 @@
       border-radius: 6px;
       transition: background 0.3s;
       font-size: 0.95rem;
+      white-space: nowrap;
     }
 
     .back-link a:hover {
       background: rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Responsive adjustments for logout button and back links */
+    @media (max-width: 768px) {
+      .logout-btn {
+        position: static;
+        display: block;
+        margin: 20px auto 0;
+        max-width: 90%;
+      }
+      
+      .back-link {
+        padding-right: 20px;
+        justify-content: center;
+      }
+      
+      .back-link a {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .back-link {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .back-link a {
+        width: 100%;
+        justify-content: center;
+      }
     }
   </style>
 </head>
