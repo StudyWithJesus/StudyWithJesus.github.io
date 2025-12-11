@@ -72,3 +72,130 @@
     word-break: break-word;
   }
 }
+
+/* User Statistics Table Styling */
+.user-stats-section {
+  margin: 2rem 0 3rem;
+}
+
+.user-stats-table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 1rem;
+}
+
+.user-stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.user-stats-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.user-stats-table th {
+  padding: 1rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.user-stats-table td {
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.95rem;
+}
+
+.user-stats-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.user-stats-table tbody tr.rank-1 {
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, transparent 100%);
+}
+
+.user-stats-table tbody tr.rank-2 {
+  background: linear-gradient(90deg, rgba(192, 192, 192, 0.15) 0%, transparent 100%);
+}
+
+.user-stats-table tbody tr.rank-3 {
+  background: linear-gradient(90deg, rgba(205, 127, 50, 0.15) 0%, transparent 100%);
+}
+
+/* Center numeric columns */
+.user-stats-table th:first-child,
+.user-stats-table td:first-child,
+.user-stats-table th:nth-child(3),
+.user-stats-table td:nth-child(3),
+.user-stats-table th:nth-child(4),
+.user-stats-table td:nth-child(4),
+.user-stats-table th:nth-child(5),
+.user-stats-table td:nth-child(5),
+.user-stats-table th:nth-child(6),
+.user-stats-table td:nth-child(6),
+.user-stats-table th:nth-child(7),
+.user-stats-table td:nth-child(7) {
+  text-align: center;
+}
+
+/* Username column stays left-aligned */
+.user-stats-table th:nth-child(2),
+.user-stats-table td:nth-child(2) {
+  text-align: left;
+  font-weight: 500;
+}
+
+/* Tablet and smaller */
+@media (max-width: 900px) {
+  .user-stats-table th,
+  .user-stats-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .user-stats-table th {
+    font-size: 0.8rem;
+  }
+}
+
+/* Mobile - hide less important columns */
+@media (max-width: 640px) {
+  .user-stats-table th:nth-child(4),
+  .user-stats-table td:nth-child(4),
+  .user-stats-table th:nth-child(5),
+  .user-stats-table td:nth-child(5) {
+    display: none; /* Hide Modules and Sections columns on mobile */
+  }
+  
+  .user-stats-table th,
+  .user-stats-table td {
+    padding: 0.65rem 0.4rem;
+    font-size: 0.8rem;
+  }
+  
+  .user-stats-table th {
+    font-size: 0.75rem;
+    padding: 0.75rem 0.4rem;
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 420px) {
+  .user-stats-table th:nth-child(3),
+  .user-stats-table td:nth-child(3) {
+    display: none; /* Also hide Total Exams on very small screens */
+  }
+  
+  .user-stats-table th,
+  .user-stats-table td {
+    padding: 0.6rem 0.3rem;
+    font-size: 0.75rem;
+  }
+}
