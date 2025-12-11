@@ -21,6 +21,11 @@ const DEFAULT_EXAM_TIMER_DURATION = 20 * 60; // 1200 seconds
 })();
 
 function initAll() {
+  // Check username FIRST before allowing any site interaction
+  if (!checkUsernameBeforeAccess()) {
+    return; // Block everything until username is set
+  }
+  
   initExamPage();
   initExamIndexScores();
   initUsernameSetup();
@@ -1403,6 +1408,249 @@ function initUsernameSetup() {
 // ----------------------
 // Username check helper functions for exam pages
 // ----------------------
+
+// Check username before allowing any site access
+function checkUsernameBeforeAccess() {
+  const username = getStoredUsername();
+  
+  // If username exists, allow access
+  if (username) {
+    return true;
+  }
+  
+  // Check if we're on admin pages - don't block those
+  if (window.location.pathname.includes('/pages/admin/')) {
+    return true;
+  }
+  
+  // No username - show fullscreen blocking overlay
+  showFullscreenUsernameOverlay();
+  return false;
+}
+
+// Show fullscreen overlay requiring username before site access
+function showFullscreenUsernameOverlay() {
+  // Create fullscreen overlay that blocks everything
+  const overlay = document.createElement('div');
+  overlay.id = 'fullscreen-username-overlay';
+  overlay.className = 'fullscreen-username-overlay';
+  
+  overlay.innerHTML = `
+    <div class="fullscreen-username-card">
+      <div class="fullscreen-username-header">
+        <h1>👋 Welcome to StudyWithJesus</h1>
+        <p class="subtitle">Parts Technician Practice Tests</p>
+      </div>
+      
+      <div class="fullscreen-username-body">
+        <p class="welcome-message">Please set your display name to get started. Your name will be used to track your scores on the leaderboard.</p>
+        
+        <form class="fullscreen-username-form" id="fullscreen-username-form">
+          <input 
+            type="text" 
+            id="fullscreen-username-input" 
+            class="fullscreen-username-input" 
+            placeholder="Enter your display name"
+            maxlength="30"
+            autocomplete="off"
+            required
+            autofocus
+          >
+          <button type="submit" class="fullscreen-username-btn">Continue to Site</button>
+        </form>
+        
+        <p class="privacy-note">🔒 Your name is stored locally on your device only.</p>
+      </div>
+    </div>
+  `;
+  
+  // Add styles for the fullscreen overlay
+  const style = document.createElement('style');
+  style.id = 'fullscreen-username-styles';
+  style.textContent = `
+    .fullscreen-username-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0d14 0%, #1a1f2e 100%);
+      z-index: 99999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space-4, 1rem);
+      overflow-y: auto;
+    }
+    
+    .fullscreen-username-card {
+      background: var(--color-surface-card, rgba(17, 24, 39, 0.95));
+      border: 2px solid var(--color-primary, #3b9ece);
+      border-radius: var(--radius-2xl, 1.25rem);
+      padding: var(--space-10, 2.5rem) var(--space-8, 2rem);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(59, 158, 206, 0.3), 0 0 80px rgba(59, 158, 206, 0.1);
+      animation: fadeInScale 0.4s ease-out;
+    }
+    
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    .fullscreen-username-header h1 {
+      color: var(--color-text-primary, #f1f5f9);
+      font-size: var(--font-size-3xl, 1.875rem);
+      font-weight: var(--font-weight-bold, 700);
+      margin-bottom: var(--space-2, 0.5rem);
+    }
+    
+    .fullscreen-username-header .subtitle {
+      color: var(--color-primary-light, #7fd4ff);
+      font-size: var(--font-size-lg, 1.125rem);
+      font-weight: var(--font-weight-medium, 500);
+      margin-bottom: var(--space-8, 2rem);
+    }
+    
+    .fullscreen-username-body {
+      margin-top: var(--space-6, 1.5rem);
+    }
+    
+    .welcome-message {
+      color: var(--color-text-secondary, #cbd5e1);
+      font-size: var(--font-size-base, 1rem);
+      line-height: var(--line-height-relaxed, 1.625);
+      margin-bottom: var(--space-6, 1.5rem);
+    }
+    
+    .fullscreen-username-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4, 1rem);
+      margin-bottom: var(--space-4, 1rem);
+    }
+    
+    .fullscreen-username-input {
+      width: 100%;
+      padding: var(--space-4, 1rem) var(--space-5, 1.25rem);
+      font-size: var(--font-size-lg, 1.125rem);
+      color: var(--color-text-primary, #f1f5f9);
+      background: var(--color-surface-elevated, #111827);
+      border: 2px solid var(--color-gray-700, #334155);
+      border-radius: var(--radius-lg, 0.75rem);
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    
+    .fullscreen-username-input:focus {
+      border-color: var(--color-primary, #3b9ece);
+      box-shadow: 0 0 0 3px rgba(59, 158, 206, 0.2);
+    }
+    
+    .fullscreen-username-input::placeholder {
+      color: var(--color-text-muted, #94a3b8);
+    }
+    
+    .fullscreen-username-btn {
+      width: 100%;
+      padding: var(--space-4, 1rem) var(--space-6, 1.5rem);
+      font-size: var(--font-size-lg, 1.125rem);
+      font-weight: var(--font-weight-semibold, 600);
+      color: white;
+      background: linear-gradient(135deg, var(--color-primary, #3b9ece), var(--color-primary-dark, #2a7da8));
+      border: none;
+      border-radius: var(--radius-lg, 0.75rem);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .fullscreen-username-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(59, 158, 206, 0.4);
+    }
+    
+    .fullscreen-username-btn:active {
+      transform: translateY(0);
+    }
+    
+    .privacy-note {
+      color: var(--color-text-muted, #94a3b8);
+      font-size: var(--font-size-sm, 0.875rem);
+      margin-top: var(--space-4, 1rem);
+    }
+    
+    @media (max-width: 480px) {
+      .fullscreen-username-card {
+        padding: var(--space-8, 2rem) var(--space-6, 1.5rem);
+      }
+      
+      .fullscreen-username-header h1 {
+        font-size: var(--font-size-2xl, 1.5rem);
+      }
+      
+      .fullscreen-username-header .subtitle {
+        font-size: var(--font-size-base, 1rem);
+      }
+    }
+  `;
+  
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+  
+  // Handle form submission
+  const form = document.getElementById('fullscreen-username-form');
+  const input = document.getElementById('fullscreen-username-input');
+  
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = input.value.trim();
+    
+    if (name) {
+      // Save username
+      const sanitized = name.substring(0, 30).replace(/[<>'"&]/g, '');
+      try {
+        localStorage.setItem('leaderboard_username', sanitized);
+        
+        // Remove overlay with fade out animation
+        overlay.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(function() {
+          overlay.remove();
+          style.remove();
+          
+          // Reinitialize the page now that username is set
+          initAll();
+        }, 300);
+      } catch (err) {
+        console.error('Failed to save username:', err);
+        alert('Failed to save username. Please try again.');
+      }
+    }
+  });
+  
+  // Add fade out animation
+  const fadeOutStyle = document.createElement('style');
+  fadeOutStyle.textContent = `
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+    }
+  `;
+  document.head.appendChild(fadeOutStyle);
+}
 
 // Get stored username from localStorage
 function getStoredUsername() {
