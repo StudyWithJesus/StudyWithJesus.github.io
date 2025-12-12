@@ -18,53 +18,66 @@
     /**
      * Initialize Firebase for chat
      */
-    initialize: async function() {
+    initialize: function() {
       if (this.isInitialized) {
-        return true;
+        console.log('Chat: Already initialized');
+        return Promise.resolve(true);
       }
+
+      console.log('Chat: Starting initialization...');
 
       // Check if Firebase is configured
-      if (typeof window.FirebaseConfig === 'undefined' || !window.FirebaseConfig.enabled) {
-        console.warn('Chat: Firebase not configured');
-        return false;
+      if (typeof window.FirebaseConfig === 'undefined') {
+        console.error('Chat: FirebaseConfig not found');
+        return Promise.resolve(false);
       }
 
+      if (!window.FirebaseConfig.enabled) {
+        console.warn('Chat: Firebase not enabled in config');
+        return Promise.resolve(false);
+      }
+
+      // Check if Firebase SDK is loaded
+      if (typeof firebase === 'undefined') {
+        console.error('Chat: Firebase SDK not loaded. Make sure firebase scripts are included before chat.js');
+        return Promise.resolve(false);
+      }
+
+      console.log('Chat: Firebase SDK found, apps.length =', firebase.apps.length);
+
       try {
-        // Wait for Firebase to be loaded
-        if (typeof firebase === 'undefined') {
-          console.error('Chat: Firebase SDK not loaded');
-          return false;
+        // Get or initialize Firebase app
+        var app;
+        if (firebase.apps.length) {
+          app = firebase.app();
+          console.log('Chat: Using existing Firebase app');
+        } else {
+          console.log('Chat: Initializing new Firebase app with config:', window.FirebaseConfig);
+          app = firebase.initializeApp(window.FirebaseConfig);
         }
 
-        // Initialize Firebase if not already done
-        if (!firebase.apps.length) {
-          firebase.initializeApp(window.FirebaseConfig);
-        }
-
+        // Get Firestore instance
         this.db = firebase.firestore();
-        this.firebaseModules = {
-          collection: firebase.firestore.collection,
-          addDoc: firebase.firestore.addDoc,
-          query: firebase.firestore.query,
-          orderBy: firebase.firestore.orderBy,
-          limit: firebase.firestore.limit,
-          onSnapshot: firebase.firestore.onSnapshot,
-          serverTimestamp: firebase.firestore.FieldValue.serverTimestamp
-        };
+        console.log('Chat: Firestore instance obtained');
 
         this.isInitialized = true;
 
         // Load last read timestamp from localStorage
-        var stored = localStorage.getItem('chat_last_read');
-        if (stored) {
-          this.lastReadTimestamp = new Date(stored);
+        try {
+          var stored = localStorage.getItem('chat_last_read');
+          if (stored) {
+            this.lastReadTimestamp = new Date(stored);
+          }
+        } catch (e) {
+          console.warn('Chat: Could not load last read timestamp');
         }
 
         console.log('Chat: Firebase initialized successfully');
-        return true;
+        return Promise.resolve(true);
       } catch (error) {
         console.error('Chat: Failed to initialize Firebase:', error);
-        return false;
+        console.error('Chat: Error details:', error.message, error.stack);
+        return Promise.resolve(false);
       }
     },
 
@@ -82,40 +95,47 @@
     /**
      * Send a chat message
      */
-    sendMessage: async function(messageText) {
-      if (!await this.initialize()) {
-        throw new Error('Chat not initialized');
-      }
+    sendMessage: function(messageText) {
+      var self = this;
 
-      if (!messageText || typeof messageText !== 'string') {
-        throw new Error('Invalid message');
-      }
+      // First ensure we're initialized
+      return this.initialize().then(function(initialized) {
+        if (!initialized) {
+          console.error('Chat: Cannot send message - initialization failed');
+          throw new Error('Chat not initialized. Please refresh the page and try again.');
+        }
 
-      messageText = messageText.trim();
-      if (messageText.length === 0) {
-        throw new Error('Message cannot be empty');
-      }
+        if (!messageText || typeof messageText !== 'string') {
+          throw new Error('Invalid message');
+        }
 
-      if (messageText.length > 500) {
-        throw new Error('Message too long (max 500 characters)');
-      }
+        messageText = messageText.trim();
+        if (messageText.length === 0) {
+          throw new Error('Message cannot be empty');
+        }
 
-      var username = this.getUsername();
+        if (messageText.length > 500) {
+          throw new Error('Message too long (max 500 characters)');
+        }
 
-      try {
+        var username = self.getUsername();
+
+        console.log('Chat: Sending message from', username);
+
         // Add message to Firestore
-        await this.db.collection('messages').add({
+        return self.db.collection('messages').add({
           username: username,
           message: messageText,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           createdAt: new Date().toISOString()
+        }).then(function() {
+          console.log('Chat: Message sent successfully');
+          return true;
         });
-
-        return true;
-      } catch (error) {
+      }).catch(function(error) {
         console.error('Chat: Failed to send message:', error);
         throw error;
-      }
+      });
     },
 
     /**
@@ -296,12 +316,29 @@
 
         var timeStr = this.formatTimestamp(msg.timestamp);
 
+        // Get avatar URL (uses AvatarUtil if available)
+        var avatarUrl;
+        if (typeof window.AvatarUtil !== 'undefined') {
+          avatarUrl = window.AvatarUtil.getAvatarUrl(msg.username);
+        } else {
+          // Fallback: generate simple data URL
+          avatarUrl = 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="32" fill="#667eea"/><text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-family="Arial" font-size="14" font-weight="bold">' + msg.username.charAt(0).toUpperCase() + '</text></svg>');
+        }
+
         html += '<div class="chat-message ' + messageClass + '">';
+
+        // Avatar
+        html += '<img src="' + avatarUrl + '" alt="' + this.escapeHtml(msg.username) + '" class="chat-message-avatar" onerror="this.style.display=\'none\'">';
+
+        // Message content
+        html += '<div class="chat-message-content">';
         html += '<div class="chat-message-header">';
         html += '<span class="chat-message-username">' + this.escapeHtml(msg.username) + '</span>';
         html += '<span class="chat-message-time">' + timeStr + '</span>';
         html += '</div>';
         html += '<div class="chat-message-text">' + this.escapeHtml(msg.message) + '</div>';
+        html += '</div>';
+
         html += '</div>';
       }
 
@@ -501,15 +538,43 @@
     }
   };
 
-  // Initialize chat when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('Chat: DOM loaded, initializing...');
+  // Helper function to wait for Firebase to load
+  function waitForFirebase(callback, attempts) {
+    attempts = attempts || 0;
+    var maxAttempts = 20; // Try for up to 2 seconds (20 * 100ms)
+
+    if (typeof firebase !== 'undefined') {
+      console.log('Chat: Firebase SDK is ready');
+      callback();
+    } else if (attempts < maxAttempts) {
+      console.log('Chat: Waiting for Firebase SDK... attempt', attempts + 1);
+      setTimeout(function() {
+        waitForFirebase(callback, attempts + 1);
+      }, 100);
+    } else {
+      console.error('Chat: Firebase SDK did not load after', maxAttempts, 'attempts');
+      // Still initialize UI so the bubble appears, even if Firebase isn't available
+      callback();
+    }
+  }
+
+  // Initialize chat when DOM is ready and Firebase is loaded
+  function initializeChat() {
+    console.log('Chat: Starting initialization sequence...');
+    waitForFirebase(function() {
       Chat.initUI();
     });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Chat: DOM loaded, waiting for Firebase...');
+      initializeChat();
+    });
   } else {
-    console.log('Chat: DOM already loaded, initializing...');
-    Chat.initUI();
+    console.log('Chat: DOM already loaded, waiting for Firebase...');
+    // Add a small delay to ensure all scripts have had time to execute
+    setTimeout(initializeChat, 100);
   }
 
   // Expose to window

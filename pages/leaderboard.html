@@ -19,6 +19,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="../assets/fingerprint-logger.js"></script>
+  <script src="../assets/js/avatar-util.js"></script>
   <script src="../assets/js/chat.js"></script>
 </head>
 <body>
@@ -57,22 +58,68 @@
 
     <!-- Username section -->
     <section class="username-section" aria-labelledby="username-heading">
-      <h3 id="username-heading">Your Display Name</h3>
-      <form class="username-form" id="username-form">
-        <input 
-          type="text" 
-          id="username-input" 
-          class="username-input" 
-          placeholder="Enter your display name"
-          maxlength="30"
-          autocomplete="off"
-          aria-describedby="username-help"
-        >
-        <button type="submit" class="username-btn">Save Name</button>
-      </form>
-      <p class="username-current" id="username-current" aria-live="polite"></p>
+      <h3 id="username-heading">Your Profile</h3>
+
+      <!-- Display Name -->
+      <div style="margin-bottom: 1.5rem;">
+        <label for="username-input" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Display Name</label>
+        <form class="username-form" id="username-form">
+          <input
+            type="text"
+            id="username-input"
+            class="username-input"
+            placeholder="Enter your display name"
+            maxlength="30"
+            autocomplete="off"
+            aria-describedby="username-help"
+          >
+          <button type="submit" class="username-btn">Save Name</button>
+        </form>
+        <p class="username-current" id="username-current" aria-live="polite"></p>
+      </div>
+
+      <!-- Profile Picture -->
+      <div style="margin-bottom: 1.5rem;">
+        <label for="profile-picture-input" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Profile Picture</label>
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+          <img id="profile-picture-preview" src="" alt="Profile preview" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-gray-600);">
+          <div style="flex: 1;">
+            <!-- File Upload Option -->
+            <div style="margin-bottom: 0.5rem;">
+              <label for="profile-picture-file" class="username-btn" style="display: inline-block; margin: 0; cursor: pointer; text-align: center; padding: var(--space-3) var(--space-4);">
+                📁 Upload Image
+              </label>
+              <input
+                type="file"
+                id="profile-picture-file"
+                accept="image/jpeg,image/png,image/gif,image/webp"
+                style="display: none;"
+                aria-describedby="profile-picture-help"
+              >
+              <span id="file-name-display" style="margin-left: 0.5rem; font-size: 0.875rem; color: var(--color-text-secondary);"></span>
+            </div>
+            <!-- URL Input Option -->
+            <form class="username-form" id="profile-picture-form" style="margin-bottom: 0;">
+              <input
+                type="url"
+                id="profile-picture-input"
+                class="username-input"
+                placeholder="Or paste image URL here..."
+                autocomplete="off"
+                aria-describedby="profile-picture-help"
+              >
+              <button type="submit" class="username-btn">Save URL</button>
+            </form>
+          </div>
+        </div>
+        <p id="profile-picture-current" style="font-size: 0.875rem; color: var(--color-text-secondary); margin: 0.5rem 0 0 0;"></p>
+        <p id="profile-picture-help" style="font-size: 0.75rem; color: var(--color-text-muted); margin: 0.5rem 0 0 0;">
+          Upload an image file (JPG, PNG, GIF, max 2MB) or paste a URL. Leave blank for auto-generated avatar from your initials.
+        </p>
+      </div>
+
       <p id="username-help" class="sr-only">
-        Your display name will be shown on the leaderboard when you complete exams.
+        Your display name and profile picture will be shown on the leaderboard and in chat.
       </p>
     </section>
 
@@ -148,6 +195,10 @@
       var usernameForm = document.getElementById('username-form');
       var usernameInput = document.getElementById('username-input');
       var usernameCurrentEl = document.getElementById('username-current');
+      var profilePictureForm = document.getElementById('profile-picture-form');
+      var profilePictureInput = document.getElementById('profile-picture-input');
+      var profilePicturePreview = document.getElementById('profile-picture-preview');
+      var profilePictureCurrentEl = document.getElementById('profile-picture-current');
       var statusEl = document.getElementById('leaderboard-status');
       var statusTextEl = document.getElementById('status-text');
       var tabsEl = document.getElementById('module-tabs');
@@ -159,16 +210,19 @@
       function init() {
         // Display current username
         updateUsernameDisplay();
-        
+
+        // Display current profile picture
+        updateProfilePictureDisplay();
+
         // Update backend status
         updateBackendStatus();
-        
+
         // Load user statistics
         loadUserStats();
-        
+
         // Load leaderboard data
         loadLeaderboard();
-        
+
         // Set up event listeners
         setupEventListeners();
       }
@@ -181,7 +235,70 @@
           if (newName) {
             Leaderboard.username(newName);
             updateUsernameDisplay();
+            updateProfilePictureDisplay(); // Update avatar with new name
             usernameInput.value = '';
+          }
+        });
+
+        // Profile picture file upload
+        var profilePictureFile = document.getElementById('profile-picture-file');
+        var fileNameDisplay = document.getElementById('file-name-display');
+
+        profilePictureFile.addEventListener('change', function(e) {
+          var file = e.target.files[0];
+          if (!file) return;
+
+          // Validate file type
+          if (!file.type.match(/^image\/(jpeg|jpg|png|gif|webp)$/)) {
+            alert('Please upload a valid image file (JPG, PNG, GIF, or WEBP)');
+            profilePictureFile.value = '';
+            return;
+          }
+
+          // Validate file size (max 2MB)
+          if (file.size > 2 * 1024 * 1024) {
+            alert('Image file is too large. Please upload an image smaller than 2MB.');
+            profilePictureFile.value = '';
+            return;
+          }
+
+          // Show file name
+          fileNameDisplay.textContent = file.name;
+
+          // Read file and convert to Data URL
+          var reader = new FileReader();
+          reader.onload = function(event) {
+            var dataUrl = event.target.result;
+
+            if (window.AvatarUtil) {
+              window.AvatarUtil.setCustomAvatarUrl(dataUrl);
+              updateProfilePictureDisplay();
+            }
+          };
+          reader.onerror = function() {
+            alert('Failed to read image file. Please try again.');
+            profilePictureFile.value = '';
+            fileNameDisplay.textContent = '';
+          };
+          reader.readAsDataURL(file);
+        });
+
+        // Profile picture URL form submission
+        profilePictureForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var newUrl = profilePictureInput.value.trim();
+
+          if (window.AvatarUtil) {
+            // Validate URL if provided
+            if (newUrl && !window.AvatarUtil.isValidImageUrl(newUrl)) {
+              alert('Please enter a valid image URL (JPG, PNG, GIF, or from a trusted image host)');
+              return;
+            }
+
+            window.AvatarUtil.setCustomAvatarUrl(newUrl);
+            updateProfilePictureDisplay();
+            profilePictureInput.value = '';
+            fileNameDisplay.textContent = '';
           }
         });
 
@@ -211,6 +328,33 @@
           usernameCurrentEl.textContent = 'No display name set. Enter one above to track your scores.';
         }
       }
+
+      function updateProfilePictureDisplay() {
+        var current = Leaderboard.username();
+        if (!current) current = 'Anonymous';
+
+        if (window.AvatarUtil) {
+          // Update preview
+          var avatarUrl = window.AvatarUtil.getAvatarUrl(current);
+          profilePicturePreview.src = avatarUrl;
+
+          // Update status text
+          var customUrl = window.AvatarUtil.getCustomAvatarUrl();
+          if (customUrl) {
+            profilePictureCurrentEl.innerHTML = 'Using custom image: <a href="' + customUrl + '" target="_blank" style="color: var(--color-primary);">View</a> | <button onclick="clearProfilePicture()" style="background: none; border: none; color: var(--color-primary); cursor: pointer; padding: 0; text-decoration: underline;">Clear</button>';
+          } else {
+            profilePictureCurrentEl.textContent = 'Using auto-generated avatar from initials';
+          }
+        }
+      }
+
+      // Make clearProfilePicture available globally for the inline onclick
+      window.clearProfilePicture = function() {
+        if (window.AvatarUtil) {
+          window.AvatarUtil.setCustomAvatarUrl('');
+          updateProfilePictureDisplay();
+        }
+      };
 
       async function updateBackendStatus() {
         var isConfigured = await Leaderboard.isBackendConfigured();
