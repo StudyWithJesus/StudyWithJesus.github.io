@@ -100,5 +100,22 @@ service cloud.firestore {
       allow update: if false;
       allow delete: if isAdmin();
     }
+
+    // User profiles collection (for profile photos synced in chat)
+    match /user_profiles/{username} {
+      // Anyone can read profiles (to see other users' photos)
+      allow read: if true;
+
+      // Users can create/update their own profile
+      allow create, update: if
+        request.resource.data.username is string &&
+        request.resource.data.username.size() > 0 &&
+        request.resource.data.username.size() <= 30 &&
+        request.resource.data.photoUrl is string &&
+        request.resource.data.photoUrl.size() <= 500;
+
+      // No deletes from client
+      allow delete: if isAdmin();
+    }
   }
 }

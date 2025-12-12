@@ -10,10 +10,14 @@
     firebaseModules: null,
     isInitialized: false,
     unsubscribe: null,
+    unsubscribeProfiles: null,
     unreadCount: 0,
     lastReadTimestamp: null,
     isOpen: false,
     messageLimit: 50, // Show last 50 messages
+    isAdmin: false,
+    userProfiles: {}, // Cache of user profile photos
+    replyingTo: null, // Message being replied to
 
     /**
      * Initialize Firebase for chat
@@ -76,12 +80,109 @@
         }
 
         console.log('Chat: Firebase initialized successfully');
+
+        // Check admin status
+        this.checkAdminStatus();
+
+        // Start listening to user profiles
+        this.startProfilesListener();
+
         return Promise.resolve(true);
       } catch (error) {
         console.error('Chat: Failed to initialize Firebase:', error);
         console.error('Chat: Error details:', error.message, error.stack);
         return Promise.resolve(false);
       }
+    },
+
+    /**
+     * Check if current user is admin
+     */
+    checkAdminStatus: async function() {
+      try {
+        if (window.LeaderboardFirebase && typeof window.LeaderboardFirebase.isAdmin === 'function') {
+          this.isAdmin = await window.LeaderboardFirebase.isAdmin();
+          console.log('Chat: Admin status:', this.isAdmin);
+        }
+      } catch (e) {
+        console.warn('Chat: Could not check admin status:', e);
+        this.isAdmin = false;
+      }
+    },
+
+    /**
+     * Start listening to user profiles for photos
+     */
+    startProfilesListener: function() {
+      var self = this;
+
+      if (!this.db) return;
+
+      // Stop previous listener if exists
+      if (this.unsubscribeProfiles) {
+        this.unsubscribeProfiles();
+      }
+
+      try {
+        this.unsubscribeProfiles = this.db.collection('user_profiles')
+          .onSnapshot(function(snapshot) {
+            snapshot.forEach(function(doc) {
+              var data = doc.data();
+              if (data.username && data.photoUrl) {
+                self.userProfiles[data.username] = data.photoUrl;
+              }
+            });
+            console.log('Chat: Loaded', Object.keys(self.userProfiles).length, 'user profiles');
+            // Re-render messages to update photos
+            if (self.isOpen && self.currentMessages) {
+              self.renderMessages(self.currentMessages);
+            }
+          }, function(error) {
+            console.warn('Chat: Error listening to profiles:', error);
+          });
+      } catch (e) {
+        console.warn('Chat: Could not start profiles listener:', e);
+      }
+    },
+
+    /**
+     * Save user profile photo to Firebase
+     */
+    saveProfilePhoto: function(photoUrl) {
+      var self = this;
+      var username = this.getUsername();
+
+      if (!this.db || !username || username === 'Anonymous') {
+        return Promise.reject(new Error('Please set a username first'));
+      }
+
+      return this.db.collection('user_profiles').doc(username).set({
+        username: username,
+        photoUrl: photoUrl,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true }).then(function() {
+        self.userProfiles[username] = photoUrl;
+        console.log('Chat: Profile photo saved');
+        return true;
+      });
+    },
+
+    /**
+     * Get profile photo URL for a user
+     */
+    getProfilePhoto: function(username) {
+      // Check Firebase synced profiles first
+      if (this.userProfiles[username]) {
+        return this.userProfiles[username];
+      }
+
+      // Fallback to AvatarUtil or generated avatar
+      if (typeof window.AvatarUtil !== 'undefined') {
+        return window.AvatarUtil.getAvatarUrl(username);
+      }
+
+      // Generate simple avatar
+      return 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="32" fill="#667eea"/><text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-family="Arial" font-size="14" font-weight="bold">' + (username ? username.charAt(0).toUpperCase() : '?') + '</text></svg>');
     },
 
     /**
@@ -125,13 +226,27 @@
 
         console.log('Chat: Sending message from', username);
 
-        // Add message to Firestore
-        return self.db.collection('messages').add({
+        // Build message object
+        var messageObj = {
           username: username,
           message: messageText,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           createdAt: new Date().toISOString()
-        }).then(function() {
+        };
+
+        // Add reply info if replying to a message
+        if (self.replyingTo) {
+          messageObj.replyTo = {
+            id: self.replyingTo.id,
+            username: self.replyingTo.username,
+            message: self.replyingTo.message.substring(0, 100) // Preview
+          };
+          self.replyingTo = null;
+          self.hideReplyPreview();
+        }
+
+        // Add message to Firestore
+        return self.db.collection('messages').add(messageObj).then(function() {
           console.log('Chat: Message sent successfully');
           return true;
         });
@@ -174,7 +289,8 @@
               username: data.username,
               message: data.message,
               timestamp: data.timestamp ? data.timestamp.toDate() : new Date(data.createdAt),
-              createdAt: data.createdAt
+              createdAt: data.createdAt,
+              replyTo: data.replyTo || null
             };
             messages.push(message);
 
@@ -211,6 +327,134 @@
         this.unsubscribe();
         this.unsubscribe = null;
       }
+    },
+
+    /**
+     * Delete a chat message (admin only)
+     */
+    deleteMessage: function(messageId) {
+      var self = this;
+
+      if (!this.isAdmin) {
+        return Promise.reject(new Error('Admin access required'));
+      }
+
+      if (!confirm('⛔ Are you sure you want to delete this message?')) {
+        return Promise.resolve(false);
+      }
+
+      return this.db.collection('messages').doc(messageId).delete()
+        .then(function() {
+          console.log('Chat: Message deleted:', messageId);
+          return true;
+        })
+        .catch(function(error) {
+          console.error('Chat: Failed to delete message:', error);
+          throw error;
+        });
+    },
+
+    /**
+     * Set reply target for @mention
+     */
+    setReplyTo: function(message) {
+      this.replyingTo = message;
+      this.showReplyPreview(message);
+
+      // Focus on input
+      var input = document.getElementById('chat-message-input');
+      if (input) {
+        input.focus();
+      }
+    },
+
+    /**
+     * Show reply preview above input
+     */
+    showReplyPreview: function(message) {
+      var preview = document.getElementById('chat-reply-preview');
+      if (!preview) return;
+
+      var previewText = document.getElementById('chat-reply-preview-text');
+      if (previewText) {
+        previewText.textContent = '@' + message.username + ': ' + message.message.substring(0, 50) + (message.message.length > 50 ? '...' : '');
+      }
+
+      preview.style.display = 'flex';
+    },
+
+    /**
+     * Hide reply preview
+     */
+    hideReplyPreview: function() {
+      this.replyingTo = null;
+      var preview = document.getElementById('chat-reply-preview');
+      if (preview) {
+        preview.style.display = 'none';
+      }
+    },
+
+    /**
+     * Open settings modal
+     */
+    openSettings: function() {
+      var modal = document.getElementById('chat-settings-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+
+        // Show current photo if exists
+        var username = this.getUsername();
+        var currentPhoto = this.getProfilePhoto(username);
+        var previewImg = document.getElementById('chat-settings-photo-preview');
+        if (previewImg) {
+          previewImg.src = currentPhoto;
+        }
+      }
+    },
+
+    /**
+     * Close settings modal
+     */
+    closeSettings: function() {
+      var modal = document.getElementById('chat-settings-modal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    },
+
+    /**
+     * Handle profile photo URL input
+     */
+    handlePhotoUrlSave: function() {
+      var self = this;
+      var input = document.getElementById('chat-settings-photo-url');
+      if (!input) return;
+
+      var photoUrl = input.value.trim();
+      if (!photoUrl) {
+        alert('Please enter a photo URL');
+        return;
+      }
+
+      // Basic URL validation
+      if (!photoUrl.startsWith('http://') && !photoUrl.startsWith('https://')) {
+        alert('Please enter a valid URL starting with http:// or https://');
+        return;
+      }
+
+      this.saveProfilePhoto(photoUrl)
+        .then(function() {
+          alert('✅ Profile photo saved!');
+          self.closeSettings();
+          // Update preview
+          var previewImg = document.getElementById('chat-settings-photo-preview');
+          if (previewImg) {
+            previewImg.src = photoUrl;
+          }
+        })
+        .catch(function(error) {
+          alert('❌ Failed to save photo: ' + error.message);
+        });
     },
 
     /**
@@ -309,6 +553,9 @@
       var container = document.getElementById('chat-messages');
       if (!container) return;
 
+      // Store messages for re-rendering when profiles update
+      this.currentMessages = messages;
+
       var html = '';
       var currentUsername = this.getUsername();
 
@@ -319,16 +566,10 @@
 
         var timeStr = this.formatTimestamp(msg.timestamp);
 
-        // Get avatar URL (uses AvatarUtil if available)
-        var avatarUrl;
-        if (typeof window.AvatarUtil !== 'undefined') {
-          avatarUrl = window.AvatarUtil.getAvatarUrl(msg.username);
-        } else {
-          // Fallback: generate simple data URL
-          avatarUrl = 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="32" fill="#667eea"/><text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-family="Arial" font-size="14" font-weight="bold">' + msg.username.charAt(0).toUpperCase() + '</text></svg>');
-        }
+        // Get avatar URL from Firebase-synced profiles
+        var avatarUrl = this.getProfilePhoto(msg.username);
 
-        html += '<div class="chat-message ' + messageClass + '">';
+        html += '<div class="chat-message ' + messageClass + '" data-message-id="' + msg.id + '">';
 
         // Avatar
         html += '<img src="' + avatarUrl + '" alt="' + this.escapeHtml(msg.username) + '" class="chat-message-avatar" onerror="this.style.display=\'none\'">';
@@ -338,7 +579,27 @@
         html += '<div class="chat-message-header">';
         html += '<span class="chat-message-username">' + this.escapeHtml(msg.username) + '</span>';
         html += '<span class="chat-message-time">' + timeStr + '</span>';
+
+        // Action buttons
+        html += '<span class="chat-message-actions">';
+        // Reply button
+        html += '<button class="chat-action-btn chat-reply-btn" data-msg-id="' + msg.id + '" data-msg-username="' + this.escapeHtml(msg.username) + '" data-msg-text="' + this.escapeHtml(msg.message) + '" title="Reply">↩</button>';
+        // Admin delete button
+        if (this.isAdmin) {
+          html += '<button class="chat-action-btn chat-delete-btn" data-msg-id="' + msg.id + '" title="Delete message">⛔</button>';
+        }
+        html += '</span>';
+
         html += '</div>';
+
+        // Reply preview if this is a reply
+        if (msg.replyTo) {
+          html += '<div class="chat-reply-quote">';
+          html += '<span class="chat-reply-mention">@' + this.escapeHtml(msg.replyTo.username) + '</span> ';
+          html += '<span class="chat-reply-text">' + this.escapeHtml(msg.replyTo.message) + '</span>';
+          html += '</div>';
+        }
+
         html += '<div class="chat-message-text">' + this.escapeHtml(msg.message) + '</div>';
         html += '</div>';
 
@@ -351,9 +612,48 @@
 
       container.innerHTML = html;
 
+      // Add event listeners for action buttons
+      this.attachMessageEventListeners();
+
       // Scroll to bottom if chat is open
       if (this.isOpen) {
         this.scrollToBottom();
+      }
+    },
+
+    /**
+     * Attach event listeners to message action buttons
+     */
+    attachMessageEventListeners: function() {
+      var self = this;
+
+      // Reply buttons
+      var replyBtns = document.querySelectorAll('.chat-reply-btn');
+      for (var i = 0; i < replyBtns.length; i++) {
+        replyBtns[i].addEventListener('click', function(e) {
+          e.stopPropagation();
+          var btn = e.target;
+          var msg = {
+            id: btn.getAttribute('data-msg-id'),
+            username: btn.getAttribute('data-msg-username'),
+            message: btn.getAttribute('data-msg-text')
+          };
+          self.setReplyTo(msg);
+        });
+      }
+
+      // Delete buttons (admin only)
+      if (this.isAdmin) {
+        var deleteBtns = document.querySelectorAll('.chat-delete-btn');
+        for (var j = 0; j < deleteBtns.length; j++) {
+          deleteBtns[j].addEventListener('click', function(e) {
+            e.stopPropagation();
+            var msgId = e.target.getAttribute('data-msg-id');
+            self.deleteMessage(msgId).catch(function(error) {
+              alert('❌ ' + error.message);
+            });
+          });
+        }
       }
     },
 
@@ -435,6 +735,48 @@
         });
       }
 
+      // Settings button
+      var settingsBtn = document.getElementById('chat-settings-btn');
+      if (settingsBtn) {
+        settingsBtn.addEventListener('click', function() {
+          self.openSettings();
+        });
+      }
+
+      // Settings modal close
+      var settingsClose = document.getElementById('chat-settings-close');
+      if (settingsClose) {
+        settingsClose.addEventListener('click', function() {
+          self.closeSettings();
+        });
+      }
+
+      // Settings save button
+      var settingsSave = document.getElementById('chat-settings-save');
+      if (settingsSave) {
+        settingsSave.addEventListener('click', function() {
+          self.handlePhotoUrlSave();
+        });
+      }
+
+      // Settings modal backdrop click
+      var settingsModal = document.getElementById('chat-settings-modal');
+      if (settingsModal) {
+        settingsModal.addEventListener('click', function(e) {
+          if (e.target === settingsModal) {
+            self.closeSettings();
+          }
+        });
+      }
+
+      // Reply cancel button
+      var replyCancel = document.getElementById('chat-reply-cancel');
+      if (replyCancel) {
+        replyCancel.addEventListener('click', function() {
+          self.hideReplyPreview();
+        });
+      }
+
       var sendBtn = document.getElementById('chat-send-btn');
       var messageInput = document.getElementById('chat-message-input');
 
@@ -506,11 +848,20 @@
       // Chat header
       chatHTML += '<div class="chat-header">';
       chatHTML += '<h3>Community Chat</h3>';
+      chatHTML += '<div class="chat-header-actions">';
+      chatHTML += '<button id="chat-settings-btn" class="chat-settings-btn" aria-label="Settings" title="Profile Settings">⚙️</button>';
       chatHTML += '<button id="chat-close-btn" class="chat-close-btn" aria-label="Close chat">&times;</button>';
+      chatHTML += '</div>';
       chatHTML += '</div>';
 
       // Messages container
       chatHTML += '<div id="chat-messages" class="chat-messages"></div>';
+
+      // Reply preview (hidden by default)
+      chatHTML += '<div id="chat-reply-preview" class="chat-reply-preview" style="display: none;">';
+      chatHTML += '<span id="chat-reply-preview-text"></span>';
+      chatHTML += '<button id="chat-reply-cancel" class="chat-reply-cancel" aria-label="Cancel reply">&times;</button>';
+      chatHTML += '</div>';
 
       // Input container
       chatHTML += '<div class="chat-input-container">';
@@ -527,6 +878,25 @@
       chatHTML += '</div>';
 
       // Close container
+      chatHTML += '</div>';
+
+      // Settings modal
+      chatHTML += '<div id="chat-settings-modal" class="chat-settings-modal">';
+      chatHTML += '<div class="chat-settings-content">';
+      chatHTML += '<div class="chat-settings-header">';
+      chatHTML += '<h3>⚙️ Profile Settings</h3>';
+      chatHTML += '<button id="chat-settings-close" class="chat-settings-close">&times;</button>';
+      chatHTML += '</div>';
+      chatHTML += '<div class="chat-settings-body">';
+      chatHTML += '<div class="chat-settings-photo-section">';
+      chatHTML += '<label>Profile Photo</label>';
+      chatHTML += '<img id="chat-settings-photo-preview" class="chat-settings-photo-preview" src="" alt="Profile preview">';
+      chatHTML += '<input type="text" id="chat-settings-photo-url" class="chat-settings-input" placeholder="Enter image URL (https://...)">';
+      chatHTML += '<p class="chat-settings-hint">Paste a direct link to your profile image</p>';
+      chatHTML += '<button id="chat-settings-save" class="chat-settings-save">Save Photo</button>';
+      chatHTML += '</div>';
+      chatHTML += '</div>';
+      chatHTML += '</div>';
       chatHTML += '</div>';
 
       // Create a temporary container and set innerHTML
