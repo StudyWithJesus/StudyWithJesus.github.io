@@ -25,14 +25,14 @@
 
       // Check if Firebase is configured
       if (typeof window.FirebaseConfig === 'undefined' || !window.FirebaseConfig.enabled) {
-        console.warn('Firebase not configured for chat');
+        console.warn('Chat: Firebase not configured');
         return false;
       }
 
       try {
         // Wait for Firebase to be loaded
         if (typeof firebase === 'undefined') {
-          console.error('Firebase SDK not loaded');
+          console.error('Chat: Firebase SDK not loaded');
           return false;
         }
 
@@ -60,9 +60,10 @@
           this.lastReadTimestamp = new Date(stored);
         }
 
+        console.log('Chat: Firebase initialized successfully');
         return true;
       } catch (error) {
-        console.error('Failed to initialize chat:', error);
+        console.error('Chat: Failed to initialize Firebase:', error);
         return false;
       }
     },
@@ -112,7 +113,7 @@
 
         return true;
       } catch (error) {
-        console.error('Failed to send message:', error);
+        console.error('Chat: Failed to send message:', error);
         throw error;
       }
     },
@@ -122,7 +123,7 @@
      */
     startListening: function(callback) {
       if (!this.isInitialized) {
-        console.warn('Chat not initialized, cannot start listening');
+        console.warn('Chat: Not initialized, cannot start listening');
         return;
       }
 
@@ -172,10 +173,10 @@
             callback(messages);
           }
         }, function(error) {
-          console.error('Error listening to messages:', error);
+          console.error('Chat: Error listening to messages:', error);
         });
       } catch (error) {
-        console.error('Failed to start listening:', error);
+        console.error('Chat: Failed to start listening:', error);
       }
     },
 
@@ -198,7 +199,7 @@
       try {
         localStorage.setItem('chat_last_read', this.lastReadTimestamp.toISOString());
       } catch (e) {
-        console.warn('Failed to save last read timestamp');
+        console.warn('Chat: Failed to save last read timestamp');
       }
       this.updateUnreadBadge();
     },
@@ -367,19 +368,24 @@
      * Initialize chat UI
      */
     initUI: function() {
+      console.log('Chat: Initializing UI...');
       var self = this;
 
       // Create chat HTML if it doesn't exist
       if (!document.getElementById('chat-container')) {
+        console.log('Chat: Creating chat HTML elements');
         this.createChatHTML();
       }
 
       // Set up event listeners
       var chatBubble = document.getElementById('chat-bubble');
       if (chatBubble) {
+        console.log('Chat: Setting up event listeners');
         chatBubble.addEventListener('click', function() {
           self.toggleChat();
         });
+      } else {
+        console.error('Chat: Could not find chat-bubble element');
       }
 
       var closeBtn = document.getElementById('chat-close-btn');
@@ -408,6 +414,7 @@
       // Initialize Firebase and start listening
       this.initialize().then(function(success) {
         if (success) {
+          console.log('Chat: Starting message listener');
           self.startListening(function(messages) {
             self.renderMessages(messages);
           });
@@ -440,49 +447,68 @@
      * Create chat HTML elements
      */
     createChatHTML: function() {
-      var chatHTML = `
-        <div id="chat-container">
-          <!-- Chat bubble button -->
-          <button id="chat-bubble" class="chat-bubble" aria-label="Open chat">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-            </svg>
-            <span id="chat-unread-badge" class="chat-unread-badge">0</span>
-          </button>
+      var chatHTML = '';
 
-          <!-- Chat window -->
-          <div id="chat-window" class="chat-window">
-            <div class="chat-header">
-              <h3>Community Chat</h3>
-              <button id="chat-close-btn" class="chat-close-btn" aria-label="Close chat">×</button>
-            </div>
-            <div id="chat-messages" class="chat-messages"></div>
-            <div class="chat-input-container">
-              <input type="text" id="chat-message-input" class="chat-input" placeholder="Type a message..." maxlength="500" autocomplete="off">
-              <button id="chat-send-btn" class="chat-send-btn" aria-label="Send message">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13"></line>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
+      // Start container
+      chatHTML += '<div id="chat-container">';
 
-      // Append to body
-      var container = document.createElement('div');
-      container.innerHTML = chatHTML;
-      document.body.appendChild(container.firstElementChild);
+      // Chat bubble button
+      chatHTML += '<button id="chat-bubble" class="chat-bubble" aria-label="Open chat">';
+      chatHTML += '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
+      chatHTML += '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>';
+      chatHTML += '</svg>';
+      chatHTML += '<span id="chat-unread-badge" class="chat-unread-badge">0</span>';
+      chatHTML += '</button>';
+
+      // Chat window
+      chatHTML += '<div id="chat-window" class="chat-window">';
+
+      // Chat header
+      chatHTML += '<div class="chat-header">';
+      chatHTML += '<h3>Community Chat</h3>';
+      chatHTML += '<button id="chat-close-btn" class="chat-close-btn" aria-label="Close chat">&times;</button>';
+      chatHTML += '</div>';
+
+      // Messages container
+      chatHTML += '<div id="chat-messages" class="chat-messages"></div>';
+
+      // Input container
+      chatHTML += '<div class="chat-input-container">';
+      chatHTML += '<input type="text" id="chat-message-input" class="chat-input" placeholder="Type a message..." maxlength="500" autocomplete="off">';
+      chatHTML += '<button id="chat-send-btn" class="chat-send-btn" aria-label="Send message">';
+      chatHTML += '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
+      chatHTML += '<line x1="22" y1="2" x2="11" y2="13"></line>';
+      chatHTML += '<polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>';
+      chatHTML += '</svg>';
+      chatHTML += '</button>';
+      chatHTML += '</div>';
+
+      // Close chat window
+      chatHTML += '</div>';
+
+      // Close container
+      chatHTML += '</div>';
+
+      // Create a temporary container and set innerHTML
+      var tempContainer = document.createElement('div');
+      tempContainer.innerHTML = chatHTML;
+
+      // Append the first child (chat-container) to body
+      var chatContainer = tempContainer.firstChild;
+      document.body.appendChild(chatContainer);
+
+      console.log('Chat: HTML elements created and appended to body');
     }
   };
 
   // Initialize chat when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('Chat: DOM loaded, initializing...');
       Chat.initUI();
     });
   } else {
+    console.log('Chat: DOM already loaded, initializing...');
     Chat.initUI();
   }
 
