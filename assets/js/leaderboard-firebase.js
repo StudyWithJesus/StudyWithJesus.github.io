@@ -697,6 +697,7 @@
 
   /**
    * Get public user statistics (no auth required)
+   * Uses public leaderboard collection instead of attempts for security
    * @returns {Promise<Array>} - Array of user statistics
    */
   async function getPublicUserStats() {
@@ -707,37 +708,43 @@
     const { collection, getDocs } = firebaseModules;
 
     try {
-      var snapshot = await getDocs(collection(db, 'attempts'));
+      // Fetch from public leaderboard collection instead of attempts
+      var snapshot = await getDocs(collection(db, 'leaderboard'));
 
       var userStats = {};
+      
+      // Each document in leaderboard is a moduleId with an entries array
       snapshot.forEach(function(docSnap) {
-        var attempt = docSnap.data();
-        var username = attempt.username;
+        var moduleId = docSnap.id;
+        var data = docSnap.data();
+        var entries = data.entries || [];
         
-        // Extract module (first 6 digits) and use full examId for sections
-        var examId = attempt.examId || 'unknown';
-        var moduleMatch = examId.match(/^(\d{6})/);
-        var module = moduleMatch ? moduleMatch[1] : 'unknown';
-        
-        if (!userStats[username]) {
-          userStats[username] = {
-            username: username,
-            totalExams: 0,
-            modules: new Set(),
-            sections: new Set(),
-            bestScore: 0,
-            totalScore: 0
-          };
-        }
-        
-        userStats[username].totalExams++;
-        userStats[username].modules.add(module);
-        userStats[username].sections.add(examId);
-        userStats[username].totalScore += attempt.score;
-        
-        if (attempt.score > userStats[username].bestScore) {
-          userStats[username].bestScore = attempt.score;
-        }
+        entries.forEach(function(entry) {
+          var username = entry.username;
+          
+          if (!userStats[username]) {
+            userStats[username] = {
+              username: username,
+              totalExams: 0,
+              modules: new Set(),
+              sections: new Set(),
+              bestScore: 0,
+              totalScore: 0,
+              scoreCount: 0
+            };
+          }
+          
+          userStats[username].totalExams += entry.attemptsCount || 1;
+          userStats[username].modules.add(moduleId);
+          userStats[username].sections.add(entry.examId || moduleId);
+          userStats[username].scoreCount++;
+          userStats[username].totalScore += entry.bestScore || entry.score || 0;
+          
+          var currentScore = entry.bestScore || entry.score || 0;
+          if (currentScore > userStats[username].bestScore) {
+            userStats[username].bestScore = currentScore;
+          }
+        });
       });
 
       // Convert Sets to counts and calculate averages
@@ -748,7 +755,7 @@
           modulesAttempted: user.modules.size,
           sectionsAttempted: user.sections.size,
           bestScore: user.bestScore,
-          avgScore: Math.round(user.totalScore / user.totalExams)
+          avgScore: user.scoreCount > 0 ? Math.round(user.totalScore / user.scoreCount) : 0
         };
       });
 
@@ -758,6 +765,7 @@
       return result;
     } catch (error) {
       console.error('Failed to fetch public user stats:', error);
+      console.error('Error details:', error.message, error.code);
       return [];
     }
   }
