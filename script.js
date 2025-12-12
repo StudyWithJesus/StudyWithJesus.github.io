@@ -2048,7 +2048,6 @@ function showUsernameRequiredOverlay(form) {
         <img src="/bftb.png" alt="Easter Egg" class="konami-center-image" style="transform: rotate(${randomRotation}deg) scaleX(${randomFlipX}) scaleY(${randomFlipY});">
         <div class="konami-quote">${randomQuote}</div>
         <div class="konami-achievement">🏆 Triggered ${konamiTriggerCount} time${konamiTriggerCount !== 1 ? 's' : ''}!</div>
-        <button class="konami-close-btn">✕ Close</button>
       </div>
     `;
     
@@ -2229,50 +2228,23 @@ function showUsernameRequiredOverlay(form) {
     document.body.appendChild(overlay);
     console.log('Konami: Overlay appended to DOM at:', Date.now());
     
-    // Block ALL clicks and touches on the overlay itself (prevent event bubbling)
-    overlay.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      console.log('Konami: Overlay click blocked at:', Date.now());
-    }, true); // Use capture phase
-    
-    overlay.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      console.log('Konami: Overlay touchstart blocked at:', Date.now());
-    }, { passive: false, capture: true });
-    
-    overlay.addEventListener('touchend', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      console.log('Konami: Overlay touchend blocked at:', Date.now());
-    }, { passive: false, capture: true });
-    
-    // Add close button handler ONLY - no overlay click/touch handlers
-    const closeBtn = overlay.querySelector('.konami-close-btn');
-    
-    // Delay showing the close button to prevent accidental immediate closure
+    // Enable closing after delay to prevent immediate closure
     setTimeout(function() {
-      canClose = true; // Enable closing
-      closeBtn.classList.add('visible');
-      console.log('Konami: Close button now visible and active at:', Date.now());
+      canClose = true;
+      overlay.style.cursor = 'pointer';
+      console.log('Konami: Closing now enabled at:', Date.now());
       
-      closeBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        console.log('Konami: Close button clicked at:', Date.now());
+      // Now add click/touch handlers to close on tap anywhere
+      overlay.addEventListener('click', function(e) {
+        console.log('Konami: Overlay clicked at:', Date.now());
         closeEasterEgg();
       });
       
-      closeBtn.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('Konami: Close button touched at:', Date.now());
+      overlay.addEventListener('touchend', function(e) {
+        console.log('Konami: Overlay touched at:', Date.now());
         closeEasterEgg();
-      }, { passive: false });
-    }, 3000); // Increased to 3 seconds for more safety
+      });
+    }, 3000); // Wait 3 seconds before enabling tap-to-close
     
     // Escape key handler
     function escHandler(e) {
