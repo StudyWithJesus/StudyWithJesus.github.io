@@ -1812,10 +1812,9 @@ function showUsernameRequiredOverlay(form) {
     "Bed Bath & Beyond! F*** YEAH!"
   ];
   
-  // Show progress indicator (mobile only)
+  // Show progress indicator
   function showProgress(current, total, isMobile) {
-    // Only show on mobile devices (screen width <= 768px)
-    if (window.innerWidth > 768) return;
+    // Show on all devices so users know it's working
     
     const existing = document.getElementById('konami-progress-indicator');
     if (existing) existing.remove();
@@ -1898,6 +1897,9 @@ function showUsernameRequiredOverlay(form) {
       showProgress(konamiIndex, konamiSequence.length, false);
       if (konamiIndex === konamiSequence.length) {
         konamiIndex = 0;
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
         triggerEasterEgg();
       }
     } else {
@@ -1920,6 +1922,13 @@ function showUsernameRequiredOverlay(form) {
   
   document.addEventListener('touchend', function(e) {
     if (e.changedTouches.length !== 1) return;
+    
+    // If overlay is showing, don't process any touches
+    if (document.getElementById('konami-overlay')) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return;
+    }
     
     const touchEndX = e.changedTouches[0].clientX;
     const touchEndY = e.changedTouches[0].clientY;
@@ -1963,7 +1972,16 @@ function showUsernameRequiredOverlay(form) {
         if (mobilePattern.length === mobileSequence.length) {
           mobilePattern = [];
           if (patternTimeout) clearTimeout(patternTimeout);
-          triggerEasterEgg();
+          
+          // Completely stop this event from doing anything else
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          
+          // Add a longer delay before triggering to ensure event is fully consumed
+          setTimeout(function() {
+            triggerEasterEgg();
+          }, 800);
         }
       } else {
         // Reset pattern, but allow starting fresh
@@ -2030,6 +2048,7 @@ function showUsernameRequiredOverlay(form) {
         <img src="/bftb.png" alt="Easter Egg" class="konami-center-image" style="transform: rotate(${randomRotation}deg) scaleX(${randomFlipX}) scaleY(${randomFlipY});">
         <div class="konami-quote">${randomQuote}</div>
         <div class="konami-achievement">🏆 Triggered ${konamiTriggerCount} time${konamiTriggerCount !== 1 ? 's' : ''}!</div>
+        <button class="konami-close-btn">✕ Close</button>
       </div>
     `;
     
@@ -2050,7 +2069,7 @@ function showUsernameRequiredOverlay(form) {
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
+        cursor: default;
       }
       
       @keyframes konamiFadeIn {
@@ -2064,7 +2083,6 @@ function showUsernameRequiredOverlay(form) {
         display: flex;
         flex-direction: column;
         align-items: center;
-        pointer-events: none;
       }
       
       .konami-center-image {
@@ -2072,7 +2090,7 @@ function showUsernameRequiredOverlay(form) {
         max-height: 50vh;
         border-radius: 12px;
         box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
-        animation: konamiImagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: konamiImagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), konamiFlipAnimation 3s ease-in-out 0.5s infinite;
         transition: transform 0.3s ease;
       }
       
@@ -2107,6 +2125,36 @@ function showUsernameRequiredOverlay(form) {
         animation: konamiAchievementSlide 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s backwards;
       }
       
+      .konami-close-btn {
+        margin-top: 24px;
+        padding: 12px 32px;
+        background: rgba(220, 38, 38, 0.9);
+        color: white;
+        border: 2px solid white;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 18px;
+        cursor: pointer;
+        pointer-events: none;
+        opacity: 0;
+        transition: all 0.2s ease;
+      }
+      
+      .konami-close-btn.visible {
+        pointer-events: auto;
+        opacity: 1;
+        animation: konamiAchievementSlide 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      .konami-close-btn:hover {
+        background: rgba(185, 28, 28, 1);
+        transform: scale(1.05);
+      }
+      
+      .konami-close-btn:active {
+        transform: scale(0.95);
+      }
+      
       @keyframes konamiImagePop {
         from { transform: scale(0.5); opacity: 0; }
         to { transform: scale(1); opacity: 1; }
@@ -2121,6 +2169,12 @@ function showUsernameRequiredOverlay(form) {
       @keyframes konamiAchievementSlide {
         from { transform: translateY(20px); opacity: 0; }
         to { transform: translateY(0); opacity: 1; }
+      }
+      
+      @keyframes konamiFlipAnimation {
+        0% { transform: rotateY(0deg); }
+        50% { transform: rotateY(180deg); }
+        100% { transform: rotateY(360deg); }
       }
       
       @media (max-width: 768px) {
@@ -2144,25 +2198,53 @@ function showUsernameRequiredOverlay(form) {
     `;
     
     document.head.appendChild(style);
-    document.body.appendChild(overlay);
     
-    // Click anywhere to close
-    overlay.addEventListener('click', closeEasterEgg);
+    console.log('Konami: Creating overlay...');
     
-    // Close on Escape key
-    document.addEventListener('keydown', function escHandler(e) {
-      if (e.key === 'Escape') {
-        closeEasterEgg();
-        document.removeEventListener('keydown', escHandler);
-      }
-    });
-    
+    // Function to close the overlay
     function closeEasterEgg() {
+      console.log('Konami: Closing overlay');
       overlay.style.animation = 'konamiFadeIn 0.3s ease-out reverse';
       setTimeout(function() {
         overlay.remove();
         style.remove();
       }, 280);
     }
+    
+    // Append overlay immediately
+    document.body.appendChild(overlay);
+    console.log('Konami: Overlay appended to DOM');
+    
+    // Add close button handler ONLY - no overlay click/touch handlers
+    const closeBtn = overlay.querySelector('.konami-close-btn');
+    
+    // Delay showing the close button to prevent accidental immediate closure
+    setTimeout(function() {
+      closeBtn.classList.add('visible');
+      console.log('Konami: Close button now visible and active');
+      
+      closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        console.log('Konami: Close button clicked');
+        closeEasterEgg();
+      });
+      
+      closeBtn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Konami: Close button touched');
+        closeEasterEgg();
+      }, { passive: false });
+    }, 2000); // Wait 2 seconds before enabling close button
+    
+    // Escape key handler
+    function escHandler(e) {
+      if (e.key === 'Escape') {
+        console.log('Konami: Escape key pressed');
+        closeEasterEgg();
+        document.removeEventListener('keydown', escHandler);
+      }
+    }
+    document.addEventListener('keydown', escHandler)
   }
 })();
