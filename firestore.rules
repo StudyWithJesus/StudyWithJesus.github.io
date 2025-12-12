@@ -69,16 +69,37 @@ service cloud.firestore {
     // Fingerprints collection (visitor tracking)
     match /fingerprints/{fingerprintId} {
       // Anyone can write their own fingerprint
-      allow create, update: if 
+      allow create, update: if
         request.resource.data.fingerprint is string &&
         request.resource.data.name is string &&
         request.resource.data.name.size() <= 30;
-      
+
       // Only admins can read fingerprints
       allow read: if isAdmin();
-      
+
       // No deletes from client
       allow delete: if false;
+    }
+
+    // Chat messages collection
+    match /messages/{messageId} {
+      // Anyone can read messages
+      allow read: if true;
+
+      // Anyone can create messages (with validation)
+      allow create: if
+        request.resource.data.username is string &&
+        request.resource.data.username.size() > 0 &&
+        request.resource.data.username.size() <= 30 &&
+        request.resource.data.message is string &&
+        request.resource.data.message.size() > 0 &&
+        request.resource.data.message.size() <= 500 &&
+        request.resource.data.timestamp != null;
+
+      // No updates or deletes (messages are immutable)
+      // Only admins can delete messages if needed
+      allow update: if false;
+      allow delete: if isAdmin();
     }
   }
 }
