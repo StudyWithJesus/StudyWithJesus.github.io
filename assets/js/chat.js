@@ -99,10 +99,15 @@
      * Check if current user is admin
      */
     checkAdminStatus: async function() {
+      var self = this;
       try {
         if (window.LeaderboardFirebase && typeof window.LeaderboardFirebase.isAdmin === 'function') {
           this.isAdmin = await window.LeaderboardFirebase.isAdmin();
           console.log('Chat: Admin status:', this.isAdmin);
+          // Re-render messages to show/hide delete buttons
+          if (this.isAdmin && this.currentMessages) {
+            this.renderMessages(this.currentMessages);
+          }
         }
       } catch (e) {
         console.warn('Chat: Could not check admin status:', e);
@@ -171,8 +176,8 @@
      * Get profile photo URL for a user
      */
     getProfilePhoto: function(username) {
-      // Check Firebase synced profiles first
-      if (this.userProfiles[username]) {
+      // Check Firebase synced profiles first (only for this specific username)
+      if (this.userProfiles && this.userProfiles[username]) {
         return this.userProfiles[username];
       }
 
@@ -181,8 +186,18 @@
         return window.AvatarUtil.getAvatarUrl(username);
       }
 
-      // Generate simple avatar
-      return 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="32" fill="#667eea"/><text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-family="Arial" font-size="14" font-weight="bold">' + (username ? username.charAt(0).toUpperCase() : '?') + '</text></svg>');
+      // Generate unique avatar based on username with unique color
+      var colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe', '#43e97b', '#38f9d7', '#fa709a', '#fee140'];
+      var colorIndex = 0;
+      if (username) {
+        for (var i = 0; i < username.length; i++) {
+          colorIndex += username.charCodeAt(i);
+        }
+      }
+      var bgColor = colors[colorIndex % colors.length];
+      var initial = username ? username.charAt(0).toUpperCase() : '?';
+
+      return 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="32" fill="' + bgColor + '"/><text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-family="Arial" font-size="14" font-weight="bold">' + initial + '</text></svg>');
     },
 
     /**
@@ -903,9 +918,10 @@
       var tempContainer = document.createElement('div');
       tempContainer.innerHTML = chatHTML;
 
-      // Append the first child (chat-container) to body
-      var chatContainer = tempContainer.firstChild;
-      document.body.appendChild(chatContainer);
+      // Append ALL children to body (chat-container and settings modal)
+      while (tempContainer.firstChild) {
+        document.body.appendChild(tempContainer.firstChild);
+      }
 
       console.log('Chat: HTML elements created and appended to body');
     }
