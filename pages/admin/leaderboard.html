@@ -673,7 +673,7 @@
           html += '<td>' + (attempt.score || 0) + '%</td>';
           html += '<td>' + timeTaken + '</td>';
           html += '<td>' + formatTimestamp(attempt.timestamp) + '</td>';
-          html += '<td><button class="delete-btn" data-attempt-id="' + escapeHtml(attemptId) + '" data-has-doc-id="' + (!!attempt.id) + '">Delete</button></td>';
+          html += '<td><button class="delete-btn" data-attempt-id="' + escapeHtml(attemptId) + '" data-has-doc-id="' + (!!attempt.id) + '">⛔ Delete</button></td>';
           html += '</tr>';
         }
         
@@ -722,7 +722,7 @@
       
       // Delete attempt function (called via event delegation)
       async function deleteAttempt(attemptId) {
-        if (!confirm('Are you sure you want to delete this test result? This action cannot be undone.')) {
+        if (!confirm('⛔ Are you sure you want to delete this test result? This action cannot be undone.')) {
           return;
         }
         
