@@ -2201,8 +2201,22 @@ function showUsernameRequiredOverlay(form) {
     
     console.log('Konami: Creating overlay...');
     
+    // Track when overlay was created and if it can be closed
+    let overlayCreatedAt = Date.now();
+    let canClose = false;
+    
     // Function to close the overlay
     function closeEasterEgg() {
+      const now = Date.now();
+      const elapsed = now - overlayCreatedAt;
+      console.log('Konami: closeEasterEgg called at:', now, 'elapsed:', elapsed, 'canClose:', canClose);
+      
+      // Prevent closing if not enough time has passed
+      if (!canClose || elapsed < 3000) {
+        console.log('Konami: Close prevented - too early!');
+        return;
+      }
+      
       console.log('Konami: Closing overlay');
       overlay.style.animation = 'konamiFadeIn 0.3s ease-out reverse';
       setTimeout(function() {
@@ -2213,29 +2227,52 @@ function showUsernameRequiredOverlay(form) {
     
     // Append overlay immediately
     document.body.appendChild(overlay);
-    console.log('Konami: Overlay appended to DOM');
+    console.log('Konami: Overlay appended to DOM at:', Date.now());
+    
+    // Block ALL clicks and touches on the overlay itself (prevent event bubbling)
+    overlay.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      console.log('Konami: Overlay click blocked at:', Date.now());
+    }, true); // Use capture phase
+    
+    overlay.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      console.log('Konami: Overlay touchstart blocked at:', Date.now());
+    }, { passive: false, capture: true });
+    
+    overlay.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      console.log('Konami: Overlay touchend blocked at:', Date.now());
+    }, { passive: false, capture: true });
     
     // Add close button handler ONLY - no overlay click/touch handlers
     const closeBtn = overlay.querySelector('.konami-close-btn');
     
     // Delay showing the close button to prevent accidental immediate closure
     setTimeout(function() {
+      canClose = true; // Enable closing
       closeBtn.classList.add('visible');
-      console.log('Konami: Close button now visible and active');
+      console.log('Konami: Close button now visible and active at:', Date.now());
       
       closeBtn.addEventListener('click', function(e) {
         e.stopPropagation();
-        console.log('Konami: Close button clicked');
+        console.log('Konami: Close button clicked at:', Date.now());
         closeEasterEgg();
       });
       
       closeBtn.addEventListener('touchend', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log('Konami: Close button touched');
+        console.log('Konami: Close button touched at:', Date.now());
         closeEasterEgg();
       }, { passive: false });
-    }, 2000); // Wait 2 seconds before enabling close button
+    }, 3000); // Increased to 3 seconds for more safety
     
     // Escape key handler
     function escHandler(e) {
