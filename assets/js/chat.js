@@ -316,12 +316,29 @@
 
         var timeStr = this.formatTimestamp(msg.timestamp);
 
+        // Get avatar URL (uses AvatarUtil if available)
+        var avatarUrl;
+        if (typeof window.AvatarUtil !== 'undefined') {
+          avatarUrl = window.AvatarUtil.getAvatarUrl(msg.username);
+        } else {
+          // Fallback: generate simple data URL
+          avatarUrl = 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="32" fill="#667eea"/><text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-family="Arial" font-size="14" font-weight="bold">' + msg.username.charAt(0).toUpperCase() + '</text></svg>');
+        }
+
         html += '<div class="chat-message ' + messageClass + '">';
+
+        // Avatar
+        html += '<img src="' + avatarUrl + '" alt="' + this.escapeHtml(msg.username) + '" class="chat-message-avatar" onerror="this.style.display=\'none\'">';
+
+        // Message content
+        html += '<div class="chat-message-content">';
         html += '<div class="chat-message-header">';
         html += '<span class="chat-message-username">' + this.escapeHtml(msg.username) + '</span>';
         html += '<span class="chat-message-time">' + timeStr + '</span>';
         html += '</div>';
         html += '<div class="chat-message-text">' + this.escapeHtml(msg.message) + '</div>';
+        html += '</div>';
+
         html += '</div>';
       }
 
