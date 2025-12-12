@@ -26,14 +26,17 @@
 
       console.log('Chat: Starting initialization...');
 
-      // Check if Firebase is configured
-      if (typeof window.FirebaseConfig === 'undefined') {
-        console.error('Chat: FirebaseConfig not found');
+      // Check if Firebase is configured (try both FIREBASE_CONFIG and FirebaseConfig)
+      var firebaseConfig = window.FIREBASE_CONFIG || window.FirebaseConfig;
+      if (!firebaseConfig) {
+        console.error('Chat: Firebase config not found (checked FIREBASE_CONFIG and FirebaseConfig)');
         return Promise.resolve(false);
       }
 
-      if (!window.FirebaseConfig.enabled) {
-        console.warn('Chat: Firebase not enabled in config');
+      // Check if Firebase is enabled
+      var isEnabled = window.LEADERBOARD_CONFIG && window.LEADERBOARD_CONFIG.firebaseEnabled;
+      if (!isEnabled) {
+        console.warn('Chat: Firebase not enabled in LEADERBOARD_CONFIG');
         return Promise.resolve(false);
       }
 
@@ -52,8 +55,8 @@
           app = firebase.app();
           console.log('Chat: Using existing Firebase app');
         } else {
-          console.log('Chat: Initializing new Firebase app with config:', window.FirebaseConfig);
-          app = firebase.initializeApp(window.FirebaseConfig);
+          console.log('Chat: Initializing new Firebase app with config:', firebaseConfig);
+          app = firebase.initializeApp(firebaseConfig);
         }
 
         // Get Firestore instance
