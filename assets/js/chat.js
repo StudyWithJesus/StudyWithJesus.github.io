@@ -452,7 +452,7 @@
       }
 
       // Basic URL validation
-      if (!photoUrl.startsWith('http://') && !photoUrl.startsWith('https://')) {
+      if (!photoUrl.startsWith('http://') && !photoUrl.startsWith('https://') && !photoUrl.startsWith('data:')) {
         alert('Please enter a valid URL starting with http:// or https://');
         return;
       }
@@ -466,10 +466,67 @@
           if (previewImg) {
             previewImg.src = photoUrl;
           }
+          // Re-render messages to show new photo
+          if (self.currentMessages) {
+            self.renderMessages(self.currentMessages);
+          }
         })
         .catch(function(error) {
           alert('❌ Failed to save photo: ' + error.message);
         });
+    },
+
+    /**
+     * Handle file upload for profile photo
+     */
+    handlePhotoUpload: function(file) {
+      var self = this;
+
+      if (!file) return;
+
+      // Check file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+
+      // Check file size (max 500KB for Firestore)
+      if (file.size > 500000) {
+        alert('Image too large. Please select an image under 500KB.');
+        return;
+      }
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var base64 = e.target.result;
+
+        // Update preview immediately
+        var previewImg = document.getElementById('chat-settings-photo-preview');
+        if (previewImg) {
+          previewImg.src = base64;
+        }
+
+        // Also put in URL input
+        var urlInput = document.getElementById('chat-settings-photo-url');
+        if (urlInput) {
+          urlInput.value = base64;
+        }
+
+        // Save to Firebase
+        self.saveProfilePhoto(base64)
+          .then(function() {
+            alert('✅ Profile photo uploaded!');
+            self.closeSettings();
+            // Re-render messages to show new photo
+            if (self.currentMessages) {
+              self.renderMessages(self.currentMessages);
+            }
+          })
+          .catch(function(error) {
+            alert('❌ Failed to save photo: ' + error.message);
+          });
+      };
+      reader.readAsDataURL(file);
     },
 
     /**
@@ -525,6 +582,9 @@
       chatWindow.classList.add('open');
       this.isOpen = true;
       this.markAsRead();
+
+      // Re-check admin status when chat opens (in case auth wasn't ready at init)
+      this.checkAdminStatus();
 
       // Focus on input
       var input = document.getElementById('chat-message-input');
@@ -774,6 +834,16 @@
         });
       }
 
+      // File upload input
+      var fileInput = document.getElementById('chat-settings-photo-file');
+      if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+          if (e.target.files && e.target.files[0]) {
+            self.handlePhotoUpload(e.target.files[0]);
+          }
+        });
+      }
+
       // Settings modal backdrop click
       var settingsModal = document.getElementById('chat-settings-modal');
       if (settingsModal) {
@@ -906,9 +976,16 @@
       chatHTML += '<div class="chat-settings-photo-section">';
       chatHTML += '<label>Profile Photo</label>';
       chatHTML += '<img id="chat-settings-photo-preview" class="chat-settings-photo-preview" src="" alt="Profile preview">';
+      chatHTML += '<div class="chat-settings-upload-section">';
+      chatHTML += '<label class="chat-settings-upload-btn">';
+      chatHTML += '<input type="file" id="chat-settings-photo-file" accept="image/*" style="display: none;">';
+      chatHTML += '📷 Upload Photo';
+      chatHTML += '</label>';
+      chatHTML += '<span class="chat-settings-or">or</span>';
+      chatHTML += '</div>';
       chatHTML += '<input type="text" id="chat-settings-photo-url" class="chat-settings-input" placeholder="Enter image URL (https://...)">';
-      chatHTML += '<p class="chat-settings-hint">Paste a direct link to your profile image</p>';
-      chatHTML += '<button id="chat-settings-save" class="chat-settings-save">Save Photo</button>';
+      chatHTML += '<p class="chat-settings-hint">Upload a photo (max 500KB) or paste an image URL</p>';
+      chatHTML += '<button id="chat-settings-save" class="chat-settings-save">Save URL</button>';
       chatHTML += '</div>';
       chatHTML += '</div>';
       chatHTML += '</div>';
