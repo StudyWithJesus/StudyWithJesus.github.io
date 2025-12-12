@@ -181,9 +181,13 @@
         return this.userProfiles[username];
       }
 
-      // Fallback to AvatarUtil or generated avatar
-      if (typeof window.AvatarUtil !== 'undefined') {
-        return window.AvatarUtil.getAvatarUrl(username);
+      // For current user only, check AvatarUtil (it uses localStorage which is user-specific)
+      var currentUsername = this.getUsername();
+      if (username === currentUsername && typeof window.AvatarUtil !== 'undefined') {
+        var avatarUrl = window.AvatarUtil.getAvatarUrl(username);
+        if (avatarUrl) {
+          return avatarUrl;
+        }
       }
 
       // Generate unique avatar based on username with unique color
