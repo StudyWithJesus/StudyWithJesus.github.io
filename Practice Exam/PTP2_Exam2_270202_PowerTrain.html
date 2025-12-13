@@ -5,6 +5,7 @@
   <title>270202 - Power Train</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../assets/css/chat.css">
   <!-- Load Firebase config and leaderboard for score submission -->
   <script src="../config/firebase.config.js"></script>
   <script src="../assets/js/leaderboard-firebase.js"></script>
@@ -13,6 +14,8 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="../assets/fingerprint-logger.js"></script>
+  <script src="../assets/js/avatar-util.js"></script>
+  <script src="../assets/js/chat.js"></script>
 </head>
 <body>
 
@@ -50,702 +53,702 @@
       </p>
     </section>
 
-    <form id="quiz-form" class="exam-form" data-timer-duration="3000">
+    <form id="quiz-form" class="exam-form">
 
-<p><strong>Question 1:</strong> What is the drive ratio of a drive that has a drive pulley with a diameter of 2 inches and a driven pulley with a diameter of 5.5 inches? Round the answer to two decimal places.</p>
+<p><strong>What is the drive ratio of a drive that has a drive pulley with a diameter of 2 inches and a driven pulley with a diameter of 5.5 inches? Round the answer to two decimal places.</p>
 <label><input name="q1" type="radio" value="a"/> 0.36:1</label>
 <label><input name="q1" type="radio" value="b"/> 1.00:1</label>
 <label><input name="q1" type="radio" value="c"/> 2.75:1</label>
 <label><input name="q1" type="radio" value="d"/> 5.50:1</label>
 </div>
 <div class="question">
-<p><strong>Question 2:</strong> A sprocket with 45 teeth turning at 2800 rpm is driving a sprocket with 28 teeth. Find the rpm of the sprocket with 28 teeth. Round the answer to the nearest whole number.</p>
+<p><strong>A sprocket with 45 teeth turning at 2800 rpm is driving a sprocket with 28 teeth. Find the rpm of the sprocket with 28 teeth. Round the answer to the nearest whole number.</p>
 <label><input name="q2" type="radio" value="a"/> 1740 rpm</label>
 <label><input name="q2" type="radio" value="b"/> 2800 rpm</label>
 <label><input name="q2" type="radio" value="c"/> 4500 rpm</label>
 <label><input name="q2" type="radio" value="d"/> 7080 rpm</label>
 </div>
 <div class="question">
-<p><strong>Question 3:</strong> If roller chain stretch due to wear exceeds what maximum tolerance, must the chain be replaced?</p>
+<p><strong>If roller chain stretch due to wear exceeds what maximum tolerance, must the chain be replaced?</p>
 <label><input name="q3" type="radio" value="a"/> Greater than 1% or 2%</label>
 <label><input name="q3" type="radio" value="b"/> Greater than 1.5% or 2.5%</label>
 <label><input name="q3" type="radio" value="c"/> Greater than 2% or 3%</label>
 <label><input name="q3" type="radio" value="d"/> Greater than 4% or 5%</label>
 </div>
 <div class="question">
-<p><strong>Question 4:</strong> Unlike chain drives, V-belt drives are typically considered unsuitable for which requirement?</p>
+<p><strong>Unlike chain drives, V-belt drives are typically considered unsuitable for which requirement?</p>
 <label><input name="q4" type="radio" value="a"/> Operation in hot environments.</label>
 <label><input name="q4" type="radio" value="b"/> Low horsepower applications.</label>
 <label><input name="q4" type="radio" value="c"/> Positive drive requirements, such as timing.</label>
 <label><input name="q4" type="radio" value="d"/> Applications requiring tensioners to compensate for wear.</label>
 </div>
 <div class="question">
-<p><strong>Question 5:</strong> A simple gear train has a drive gear with 12 teeth and a driven gear with 24 teeth. What is the gear ratio, and what type of operational change is achieved?</p>
+<p><strong>A simple gear train has a drive gear with 12 teeth and a driven gear with 24 teeth. What is the gear ratio, and what type of operational change is achieved?</p>
 <label><input name="q5" type="radio" value="a"/> 0.5:1; Overdrive</label>
 <label><input name="q5" type="radio" value="b"/> 1:1; Direct Drive</label>
 <label><input name="q5" type="radio" value="c"/> 2:1; Reduction</label>
 <label><input name="q5" type="radio" value="d"/> 24:1; Deep Reduction</label>
 </div>
 <div class="question">
-<p><strong>Question 6:</strong> A compound gear train consists of an input pair (18 teeth driving 54 teeth) and a second pair (18 teeth driving 72 teeth). What is the resulting total reduction ratio of the compound gear train?</p>
+<p><strong>A compound gear train consists of an input pair (18 teeth driving 54 teeth) and a second pair (18 teeth driving 72 teeth). What is the resulting total reduction ratio of the compound gear train?</p>
 <label><input name="q6" type="radio" value="a"/> 4:1</label>
 <label><input name="q6" type="radio" value="b"/> 8:1</label>
 <label><input name="q6" type="radio" value="c"/> 12:1</label>
 <label><input name="q6" type="radio" value="d"/> 18:1</label>
 </div>
 <div class="question">
-<p><strong>Question 7:</strong> When a large drive gear with 24 teeth turns at 1000 rpm and drives a small gear with 12 teeth, what is the resulting speed and torque output combination?</p>
+<p><strong>When a large drive gear with 24 teeth turns at 1000 rpm and drives a small gear with 12 teeth, what is the resulting speed and torque output combination?</p>
 <label><input name="q7" type="radio" value="a"/> Speed decreases, torque increases.</label>
 <label><input name="q7" type="radio" value="b"/> Speed and torque remain unchanged.</label>
 <label><input name="q7" type="radio" value="c"/> Speed increases, torque decreases.</label>
 <label><input name="q7" type="radio" value="d"/> Speed increases, torque remains the same.</label>
 </div>
 <div class="question">
-<p><strong>Question 8:</strong> In a gear train consisting of an external drive gear, three external idler gears, and an external driven gear, what is the final rotation of the driven gear relative to the drive gear?</p>
+<p><strong>In a gear train consisting of an external drive gear, three external idler gears, and an external driven gear, what is the final rotation of the driven gear relative to the drive gear?</p>
 <label><input name="q8" type="radio" value="a"/> Opposite direction, because the total number of gears is even.</label>
 <label><input name="q8" type="radio" value="b"/> Opposite direction, because the last two gears always rotate oppositely.</label>
 <label><input name="q8" type="radio" value="c"/> Same direction, because an odd number of gears are in mesh.</label>
 <label><input name="q8" type="radio" value="d"/> The direction cannot be determined without knowing the ratio.</label>
 </div>
 <div class="question">
-<p><strong>Question 9:</strong> Compared to spur gears, single helical gears create axial/thrust loads during operation. What physical components are necessary to control these loads?</p>
+<p><strong>Compared to spur gears, single helical gears create axial/thrust loads during operation. What physical components are necessary to control these loads?</p>
 <label><input name="q9" type="radio" value="a"/> Split guide rings.</label>
 <label><input name="q9" type="radio" value="b"/> Speed sensors.</label>
 <label><input name="q9" type="radio" value="c"/> Thrust washers or bearings.</label>
 <label><input name="q9" type="radio" value="d"/> Non-hunting gear assemblies.</label>
 </div>
 <div class="question">
-<p><strong>Question 10:</strong> Due to the tremendous amount of sliding contact and pressure developed between the teeth, Hypoid gear sets require which specialized lubrication type?</p>
+<p><strong>Due to the tremendous amount of sliding contact and pressure developed between the teeth, Hypoid gear sets require which specialized lubrication type?</p>
 <label><input name="q10" type="radio" value="a"/> Automatic Transmission Fluid (ATF).</label>
 <label><input name="q10" type="radio" value="b"/> Synthetic gear oils (GL-1 rated).</label>
 <label><input name="q10" type="radio" value="c"/> A special extreme pressure (EP) type of lubricant.</label>
 <label><input name="q10" type="radio" value="d"/> A multi-viscosity oil that reduces axial thrust.</label>
 </div>
 <div class="question">
-<p><strong>Question 11:</strong> Where is the friction clutch assembly located in a vehicle equipped with a manual transmission?</p>
+<p><strong>Where is the friction clutch assembly located in a vehicle equipped with a manual transmission?</p>
 <label><input name="q11" type="radio" value="a"/> Between the driveshaft and the rear axle assembly.</label>
 <label><input name="q11" type="radio" value="b"/> Between the output shaft and the engine crankshaft.</label>
 <label><input name="q11" type="radio" value="c"/> Between the engine flywheel and the transmission input shaft.</label>
 <label><input name="q11" type="radio" value="d"/> Between the clutch master and slave cylinders.</label>
 </div>
 <div class="question">
-<p><strong>Question 12:</strong> What is the explicit function of the torsional springs located within the hub of a spring-dampened clutch disc?</p>
+<p><strong>What is the explicit function of the torsional springs located within the hub of a spring-dampened clutch disc?</p>
 <label><input name="q12" type="radio" value="a"/> To cushion initial engagement against the flywheel.</label>
 <label><input name="q12" type="radio" value="b"/> To provide clutch pedal free play adjustment.</label>
 <label><input name="q12" type="radio" value="c"/> To absorb and dampen torque and engine power pulses.</label>
 <label><input name="q12" type="radio" value="d"/> To apply the pressure plate against the flywheel.</label>
 </div>
 <div class="question">
-<p><strong>Question 13:</strong> A technician must avoid installing a flywheel from an externally balanced engine onto an internally balanced engine (and vice versa). Why is this critical?</p>
+<p><strong>A technician must avoid installing a flywheel from an externally balanced engine onto an internally balanced engine (and vice versa). Why is this critical?</p>
 <label><input name="q13" type="radio" value="a"/> To ensure the flywheel can absorb and dissipate heat effectively.</label>
 <label><input name="q13" type="radio" value="b"/> To prevent the Marcel spring web from warping.</label>
 <label><input name="q13" type="radio" value="c"/> Because part of the engine balancing is accomplished by a balance weight incorporated into the flywheel.</label>
 <label><input name="q13" type="radio" value="d"/> To ensure the flywheel can rotate at high engine speeds.</label>
 </div>
 <div class="question">
-<p><strong>Question 14:</strong> Which clutch disc lining material is commonly used in heavy-duty truck applications because it provides very good resistance to slipping, despite potentially causing premature wear on the pressure plate and flywheel?</p>
+<p><strong>Which clutch disc lining material is commonly used in heavy-duty truck applications because it provides very good resistance to slipping, despite potentially causing premature wear on the pressure plate and flywheel?</p>
 <label><input name="q14" type="radio" value="a"/> Organic linings (NAO)</label>
 <label><input name="q14" type="radio" value="b"/> Semi-metallic linings</label>
 <label><input name="q14" type="radio" value="c"/> Ceramic button linings</label>
 <label><input name="q14" type="radio" value="d"/> Sintered bronze linings</label>
 </div>
 <div class="question">
-<p><strong>Question 15:</strong> What component, constructed of segmented, curved spring steel, provides cushioning during clutch engagement to prevent harshness?</p>
+<p><strong>What component, constructed of segmented, curved spring steel, provides cushioning during clutch engagement to prevent harshness?</p>
 <label><input name="q15" type="radio" value="a"/> Torsional Load Springs</label>
 <label><input name="q15" type="radio" value="b"/> Belleville Springs</label>
 <label><input name="q15" type="radio" value="c"/> Marcel Springs</label>
 <label><input name="q15" type="radio" value="d"/> Clutch Release Levers</label>
 </div>
 <div class="question">
-<p><strong>Question 16:</strong> The small bearing located in the bore of the flywheel or crankshaft serves what primary purpose?</p>
+<p><strong>The small bearing located in the bore of the flywheel or crankshaft serves what primary purpose?</p>
 <label><input name="q16" type="radio" value="a"/> To carry the axial load applied by the release bearing.</label>
 <label><input name="q16" type="radio" value="b"/> To absorb torsional shock during engagement.</label>
 <label><input name="q16" type="radio" value="c"/> To pilot (guide and align) the transmission input shaft.</label>
 <label><input name="q16" type="radio" value="d"/> To provide a friction surface for the clutch brake.</label>
 </div>
 <div class="question">
-<p><strong>Question 17:</strong> Clutch release bearings must be designed to withstand what type of specific load classification?</p>
+<p><strong>Clutch release bearings must be designed to withstand what type of specific load classification?</p>
 <label><input name="q17" type="radio" value="a"/> Radial load</label>
 <label><input name="q17" type="radio" value="b"/> Axial load (Thrust)</label>
 <label><input name="q17" type="radio" value="c"/> Centrifugal force</label>
 <label><input name="q17" type="radio" value="d"/> Torsional vibration</label>
 </div>
 <div class="question">
-<p><strong>Question 18:</strong> What is the primary purpose of the blocking ring component in a synchronizer assembly?</p>
+<p><strong>What is the primary purpose of the blocking ring component in a synchronizer assembly?</p>
 <label><input name="q18" type="radio" value="a"/> To transfer torque directly from the gear to the output shaft.</label>
 <label><input name="q18" type="radio" value="b"/> To act as a brake shoe to bring the output gear to the speed of the output shaft.</label>
 <label><input name="q18" type="radio" value="c"/> To provide a neutral location for the shift sleeve.</label>
 <label><input name="q18" type="radio" value="d"/> To lock out the selection of a second gear simultaneously.</label>
 </div>
 <div class="question">
-<p><strong>Question 19:</strong> In a transverse-mounted transaxle, what is the most significant physical difference compared to a manual transmission?</p>
+<p><strong>In a transverse-mounted transaxle, what is the most significant physical difference compared to a manual transmission?</p>
 <label><input name="q19" type="radio" value="a"/> Transaxles use helical gears, while transmissions use spur gears.</label>
 <label><input name="q19" type="radio" value="b"/> The output shaft runs parallel to the input shaft instead of directly behind it.</label>
 <label><input name="q19" type="radio" value="c"/> Transaxles must always be electronically controlled.</label>
 <label><input name="q19" type="radio" value="d"/> Transaxles require five shafts, while transmissions only require three.</label>
 </div>
 <div class="question">
-<p><strong>Question 20:</strong> What system, designed into the internal shift mechanism, is responsible for preventing the transmission or transaxle from hopping or jumping out of gear due to engine torque variations?</p>
+<p><strong>What system, designed into the internal shift mechanism, is responsible for preventing the transmission or transaxle from hopping or jumping out of gear due to engine torque variations?</p>
 <label><input name="q20" type="radio" value="a"/> The Interlock system.</label>
 <label><input name="q20" type="radio" value="b"/> The Synchronizer Unit.</label>
 <label><input name="q20" type="radio" value="c"/> The Detent system.</label>
 <label><input name="q20" type="radio" value="d"/> The External Linkage system.</label>
 </div>
 <div class="question">
-<p><strong>Question 21:</strong> The purpose of the interlock system in a manual transmission shift mechanism is to accomplish what goal?</p>
+<p><strong>The purpose of the interlock system in a manual transmission shift mechanism is to accomplish what goal?</p>
 <label><input name="q21" type="radio" value="a"/> Provide a positive feel when selecting a gear (detent function).</label>
 <label><input name="q21" type="radio" value="b"/> Ensure the operator exerts pressure to engage first or reverse.</label>
 <label><input name="q21" type="radio" value="c"/> Prevent the driver from selecting two gears at once.</label>
 <label><input name="q21" type="radio" value="d"/> Lock the output gear to the synchronizer hub during the shift.</label>
 </div>
 <div class="question">
-<p><strong>Question 22:</strong> When a five-speed transmission is in Neutral, what is the state of the power flow and internal components?</p>
+<p><strong>When a five-speed transmission is in Neutral, what is the state of the power flow and internal components?</p>
 <label><input name="q22" type="radio" value="a"/> All shafts and gears are stopped because the input shaft is disconnected from the engine.</label>
 <label><input name="q22" type="radio" value="b"/> The input shaft is spinning, but all gears are stopped, and the output shaft is locked.</label>
 <label><input name="q22" type="radio" value="c"/> The input shaft and all gears turn, but the output shaft does not, so no power is transmitted.</label>
 <label><input name="q22" type="radio" value="d"/> The synchronizers are all locked to their respective gears, but the idler gear freewheels.</label>
 </div>
 <div class="question">
-<p><strong>Question 23:</strong> When the driver selects 4th gear (Direct Drive) in a simplified five-speed transmission, the synchronizer sleeve moves to lock the output shaft directly to which component?</p>
+<p><strong>When the driver selects 4th gear (Direct Drive) in a simplified five-speed transmission, the synchronizer sleeve moves to lock the output shaft directly to which component?</p>
 <label><input name="q23" type="radio" value="a"/> The 4th output gear.</label>
 <label><input name="q23" type="radio" value="b"/> The cluster drive gear.</label>
 <label><input name="q23" type="radio" value="c"/> The input shaft.</label>
 <label><input name="q23" type="radio" value="d"/> The cluster 4th gear.</label>
 </div>
 <div class="question">
-<p><strong>Question 24:</strong> To keep lubrication circulating, light-duty manual transmissions and transaxles rely on which system?</p>
+<p><strong>To keep lubrication circulating, light-duty manual transmissions and transaxles rely on which system?</p>
 <label><input name="q24" type="radio" value="a"/> A pressure pump system feeding oil to galleries.</label>
 <label><input name="q24" type="radio" value="b"/> A combination pressure and splash system.</label>
 <label><input name="q24" type="radio" value="c"/> A splash system, where rotating gears throw oil onto components.</label>
 <label><input name="q24" type="radio" value="d"/> An external oil cooler system.</label>
 </div>
 <div class="question">
-<p><strong>Question 25:</strong> The high torque handling capacity of a twin countershaft transmission is achieved partly because the mainshaft gear is suspended or "floating" between the countershafts. This floating design eliminates the need for what components between the mainshaft and the mainshaft gears?</p>
+<p><strong>The high torque handling capacity of a twin countershaft transmission is achieved partly because the mainshaft gear is suspended or "floating" between the countershafts. This floating design eliminates the need for what components between the mainshaft and the mainshaft gears?</p>
 <label><input name="q25" type="radio" value="a"/> Sliding clutches.</label>
 <label><input name="q25" type="radio" value="b"/> Bearings (or bushings/shaft sleeves).</label>
 <label><input name="q25" type="radio" value="c"/> Thrust washers.</label>
 <label><input name="q25" type="radio" value="d"/> Mainshaft retaining rings.</label>
 </div>
 <div class="question">
-<p><strong>Question 26:</strong> The auxiliary section of a heavy-duty transmission is typically shifted using air signals. Which component in the range shift cylinder assembly prevents air from passing from one side of the piston to the other or into the transmission housing?</p>
+<p><strong>The auxiliary section of a heavy-duty transmission is typically shifted using air signals. Which component in the range shift cylinder assembly prevents air from passing from one side of the piston to the other or into the transmission housing?</p>
 <label><input name="q26" type="radio" value="a"/> The yoke assembly.</label>
 <label><input name="q26" type="radio" value="b"/> The range clutch.</label>
 <label><input name="q26" type="radio" value="c"/> O-rings.</label>
 <label><input name="q26" type="radio" value="d"/> The detent pin.</label>
 </div>
 <div class="question">
-<p><strong>Question 27:</strong> In the auxiliary section of a compound transmission, which type of gearing typically accounts for a large ratio change?</p>
+<p><strong>In the auxiliary section of a compound transmission, which type of gearing typically accounts for a large ratio change?</p>
 <label><input name="q27" type="radio" value="a"/> Splitter gearing.</label>
 <label><input name="q27" type="radio" value="b"/> Range gearing.</label>
 <label><input name="q27" type="radio" value="c"/> Deep reduction gearing (only available in Low Range).</label>
 <label><input name="q27" type="radio" value="d"/> Overdrive gearing (always 1:1).</label>
 </div>
 <div class="question">
-<p><strong>Question 28:</strong> The main section of heavy-duty multiple countershaft transmissions is classified as what design type?</p>
+<p><strong>The main section of heavy-duty multiple countershaft transmissions is classified as what design type?</p>
 <label><input name="q28" type="radio" value="a"/> Synchronized, constant mesh, helical gear design.</label>
 <label><input name="q28" type="radio" value="b"/> Synchronized, sliding gear design.</label>
 <label><input name="q28" type="radio" value="c"/> Non-synchronized, constant mesh, sliding clutch design.</label>
 <label><input name="q28" type="radio" value="d"/> Automated shift, synchronized constant mesh design.</label>
 </div>
 <div class="question">
-<p><strong>Question 29:</strong> The clutch brake is necessary for heavy-duty, non-synchronized transmissions for what purpose?</p>
+<p><strong>The clutch brake is necessary for heavy-duty, non-synchronized transmissions for what purpose?</p>
 <label><input name="q29" type="radio" value="a"/> To prevent the mainshaft gears from floating away from the countershafts.</label>
 <label><input name="q29" type="radio" value="b"/> To reduce the transmission of noise and vibration to the cab.</label>
 <label><input name="q29" type="radio" value="c"/> To stop the input shaft from turning when the operator shifts into a starting or reverse gear.</label>
 <label><input name="q29" type="radio" value="d"/> To lock out the inter-axle differential during a spin-out.</label>
 </div>
 <div class="question">
-<p><strong>Question 30:</strong> Which type of PTO actuation method allows the power takeoff unit to be safely engaged and disengaged while the vehicle is in motion?</p>
+<p><strong>Which type of PTO actuation method allows the power takeoff unit to be safely engaged and disengaged while the vehicle is in motion?</p>
 <label><input name="q30" type="radio" value="a"/> Cable actuated PTO.</label>
 <label><input name="q30" type="radio" value="b"/> Air actuated PTO (sliding gear).</label>
 <label><input name="q30" type="radio" value="c"/> Clutch shift actuated PTO (hot shift).</label>
 <label><input name="q30" type="radio" value="d"/> Electrically actuated PTO (solenoid controlled).</label>
 </div>
 <div class="question">
-<p><strong>Question 31:</strong> When installing a Power Takeoff (PTO), the gasket placed between the PTO and the transmission provides which two specific functional purposes?</p>
+<p><strong>When installing a Power Takeoff (PTO), the gasket placed between the PTO and the transmission provides which two specific functional purposes?</p>
 <label><input name="q31" type="radio" value="a"/> Adjusts driveline angle and reduces vibration.</label>
 <label><input name="q31" type="radio" value="b"/> Acts as a seal to prevent leaks and provides a way of setting the proper backlash.</label>
 <label><input name="q31" type="radio" value="c"/> Increases the torque output and filters the gear oil.</label>
 <label><input name="q31" type="radio" value="d"/> Transfers torque from the countershaft and dampens shock loads.</label>
 </div>
 <div class="question">
-<p><strong>Question 32:</strong> What critical action must the operator ensure before engaging a power takeoff (PTO) unit?</p>
+<p><strong>What critical action must the operator ensure before engaging a power takeoff (PTO) unit?</p>
 <label><input name="q32" type="radio" value="a"/> The main transmission must be shifted into Neutral.</label>
 <label><input name="q32" type="radio" value="b"/> The clutch is disengaged and the transmission gears are not turning.</label>
 <label><input name="q32" type="radio" value="c"/> The vehicle speed sensor must read 0.0 mph.</label>
 <label><input name="q32" type="radio" value="d"/> The air shift cylinder must be in the Low Range position.</label>
 </div>
 <div class="question">
-<p><strong>Question 33:</strong> A five-speed main transmission section combined with a three-speed auxiliary transmission provides the operator with how many possible forward gear selections?</p>
+<p><strong>A five-speed main transmission section combined with a three-speed auxiliary transmission provides the operator with how many possible forward gear selections?</p>
 <label><input name="q33" type="radio" value="a"/> 9</label>
 <label><input name="q33" type="radio" value="b"/> 15</label>
 <label><input name="q33" type="radio" value="c"/> 18</label>
 <label><input name="q33" type="radio" value="d"/> 20</label>
 </div>
 <div class="question">
-<p><strong>Question 34:</strong> Conventional cross-and-roller U-joints cause the shaft they are driving to speed up and slow down as they transfer rotational motion through an angle. This condition is known as:</p>
+<p><strong>Conventional cross-and-roller U-joints cause the shaft they are driving to speed up and slow down as they transfer rotational motion through an angle. This condition is known as:</p>
 <label><input name="q34" type="radio" value="a"/> Constant velocity.</label>
 <label><input name="q34" type="radio" value="b"/> Variable velocity.</label>
 <label><input name="q34" type="radio" value="c"/> Proper phasing.</label>
 <label><input name="q34" type="radio" value="d"/> Torsional dampening.</label>
 </div>
 <div class="question">
-<p><strong>Question 35:</strong> What is the normal maximum working drive angle recommended for a cross-and-roller universal joint (U-joint)?</p>
+<p><strong>What is the normal maximum working drive angle recommended for a cross-and-roller universal joint (U-joint)?</p>
 <label><input name="q35" type="radio" value="a"/> 5 °</label>
 <label><input name="q35" type="radio" value="b"/> 8 °</label>
 <label><input name="q35" type="radio" value="c"/> 12 °</label>
 <label><input name="q35" type="radio" value="d"/> 20 °</label>
 </div>
 <div class="question">
-<p><strong>Question 36:</strong> In Front-Wheel Drive (FWD) applications, torque steer is most often corrected by manufacturers using what method?</p>
+<p><strong>In Front-Wheel Drive (FWD) applications, torque steer is most often corrected by manufacturers using what method?</p>
 <label><input name="q36" type="radio" value="a"/> Replacing all fixed CV joints with plunging joints.</label>
 <label><input name="q36" type="radio" value="b"/> Using an intermediate shaft on the long side to equalize halfshaft length.</label>
 <label><input name="q36" type="radio" value="c"/> Mounting the transaxle assembly on a centre support bearing.</label>
 <label><input name="q36" type="radio" value="d"/> Eliminating the use of the double offset joint.</label>
 </div>
 <div class="question">
-<p><strong>Question 37:</strong> The Rzeppa CV joint is classified as a fixed depth joint. Where is it most commonly used in FWD vehicles?</p>
+<p><strong>The Rzeppa CV joint is classified as a fixed depth joint. Where is it most commonly used in FWD vehicles?</p>
 <label><input name="q37" type="radio" value="a"/> At the inboard end (at the transaxle).</label>
 <label><input name="q37" type="radio" value="b"/> On the propeller shaft (midship).</label>
 <label><input name="q37" type="radio" value="c"/> On the outboard end (at the wheel).</label>
 <label><input name="q37" type="radio" value="d"/> As the centre support bearing coupling shaft.</label>
 </div>
 <div class="question">
-<p><strong>Question 38:</strong> Which type of plunging CV joint uses a three-trunnion spider with rollers running on needle bearings and is typically used at the inboard position (at the transaxle) of front-wheel drive vehicles?</p>
+<p><strong>Which type of plunging CV joint uses a three-trunnion spider with rollers running on needle bearings and is typically used at the inboard position (at the transaxle) of front-wheel drive vehicles?</p>
 <label><input name="q38" type="radio" value="a"/> Rzeppa Joint</label>
 <label><input name="q38" type="radio" value="b"/> Tripod Joint (Tulip Joint)</label>
 <label><input name="q38" type="radio" value="c"/> Double Cardan Joint</label>
 <label><input name="q38" type="radio" value="d"/> Cross-Groove (Lobro) Joint</label>
 </div>
 <div class="question">
-<p><strong>Question 39:</strong> Since the Rzeppa joint is a fixed joint and does not allow for driveline length change, it must be used in conjunction with which other component type?</p>
+<p><strong>Since the Rzeppa joint is a fixed joint and does not allow for driveline length change, it must be used in conjunction with which other component type?</p>
 <label><input name="q39" type="radio" value="a"/> A fixed yoke</label>
 <label><input name="q39" type="radio" value="b"/> A constant velocity U-joint</label>
 <label><input name="q39" type="radio" value="c"/> A plunging joint or slip joint</label>
 <label><input name="q39" type="radio" value="d"/> A cross-and-roller U-joint</label>
 </div>
 <div class="question">
-<p><strong>Question 40:</strong> To be phased correctly in a driveshaft assembly, the two universal joints must be aligned so that the yokes on the same shaft are in what orientation?</p>
+<p><strong>To be phased correctly in a driveshaft assembly, the two universal joints must be aligned so that the yokes on the same shaft are in what orientation?</p>
 <label><input name="q40" type="radio" value="a"/> Rotated 90 ° relative to each other.</label>
 <label><input name="q40" type="radio" value="b"/> Tapered toward the center support bearing.</label>
 <label><input name="q40" type="radio" value="c"/> In the same plane (facing the same way).</label>
 <label><input name="q40" type="radio" value="d"/> Aligned precisely to the master spline.</label>
 </div>
 <div class="question">
-<p><strong>Question 41:</strong> What is the fundamental purpose of the light-duty drive axle gear sets?</p>
+<p><strong>What is the fundamental purpose of the light-duty drive axle gear sets?</p>
 <label><input name="q41" type="radio" value="a"/> To allow the drive wheels to turn at different speeds when cornering.</label>
 <label><input name="q41" type="radio" value="b"/> To provide a 90 ° change in the path of power.</label>
 <label><input name="q41" type="radio" value="c"/> To provide a final gear reduction resulting in a torque increase and a speed decrease.</label>
 <label><input name="q41" type="radio" value="d"/> To transmit torque from the differential case to the wheels.</label>
 </div>
 <div class="question">
-<p><strong>Question 42:</strong> In a semi-floating axle assembly, what is the sole function of the axle shaft?</p>
+<p><strong>In a semi-floating axle assembly, what is the sole function of the axle shaft?</p>
 <label><input name="q42" type="radio" value="a"/> Supporting the vehicle weight.</label>
 <label><input name="q42" type="radio" value="b"/> Transferring axial and radial loads.</label>
 <label><input name="q42" type="radio" value="c"/> Propelling the vehicle (transferring torque).</label>
 <label><input name="q42" type="radio" value="d"/> Supporting the wheel end with two tapered roller bearings.</label>
 </div>
 <div class="question">
-<p><strong>Question 43:</strong> The large curvature of the gear teeth in a hypoid gear set causes what consequence during meshing?</p>
+<p><strong>The large curvature of the gear teeth in a hypoid gear set causes what consequence during meshing?</p>
 <label><input name="q43" type="radio" value="a"/> It eliminates noise and vibration.</label>
 <label><input name="q43" type="radio" value="b"/> It reduces the requirement for EP additives.</label>
 <label><input name="q43" type="radio" value="c"/> It causes a great deal of side thrust.</label>
 <label><input name="q43" type="radio" value="d"/> It ensures torque is always divided equally.</label>
 </div>
 <div class="question">
-<p><strong>Question 44:</strong> Which type of semi-floating axle bearing configuration requires the use of a C-lock on the end of the axle shaft to transfer side thrust?</p>
+<p><strong>Which type of semi-floating axle bearing configuration requires the use of a C-lock on the end of the axle shaft to transfer side thrust?</p>
 <label><input name="q44" type="radio" value="a"/> Ball bearings</label>
 <label><input name="q44" type="radio" value="b"/> Tapered roller bearings</label>
 <label><input name="q44" type="radio" value="c"/> Straight roller bearings</label>
 <label><input name="q44" type="radio" value="d"/> Pilot bushings</label>
 </div>
 <div class="question">
-<p><strong>Question 45:</strong> In a standard differential, when a vehicle is rounding a corner, the differential pinion gears rotate on their shaft to transfer lost motion from the inside wheel to the outside wheel. What component is required to balance the forces and ensure torque is split equally between the two axle side gears?</p>
+<p><strong>In a standard differential, when a vehicle is rounding a corner, the differential pinion gears rotate on their shaft to transfer lost motion from the inside wheel to the outside wheel. What component is required to balance the forces and ensure torque is split equally between the two axle side gears?</p>
 <label><input name="q45" type="radio" value="a"/> The thrust washer on the differential case.</label>
 <label><input name="q45" type="radio" value="b"/> The differential case side bearings.</label>
 <label><input name="q45" type="radio" value="c"/> The differential pinion shaft.</label>
 <label><input name="q45" type="radio" value="d"/> The pinion position shims.</label>
 </div>
 <div class="question">
-<p><strong>Question 46:</strong> What specialized chemical additive is generally required for gear oil when a vehicle is equipped with a limited slip differential (LSD) assembly (Disc Clutch type)?</p>
+<p><strong>What specialized chemical additive is generally required for gear oil when a vehicle is equipped with a limited slip differential (LSD) assembly (Disc Clutch type)?</p>
 <label><input name="q46" type="radio" value="a"/> Anti-foaming agent.</label>
 <label><input name="q46" type="radio" value="b"/> Extreme-pressure (EP) additive.</label>
 <label><input name="q46" type="radio" value="c"/> Friction modifier.</label>
 <label><input name="q46" type="radio" value="d"/> Viscosity stabilizer.</label>
 </div>
 <div class="question">
-<p><strong>Question 47:</strong> If the drive axle breather vent is restricted or plugged, what problem may occur?</p>
+<p><strong>If the drive axle breather vent is restricted or plugged, what problem may occur?</p>
 <label><input name="q47" type="radio" value="a"/> Gear oil viscosity will increase dramatically.</label>
 <label><input name="q47" type="radio" value="b"/> The differential clutch packs will fail to preload.</label>
 <label><input name="q47" type="radio" value="c"/> Fluid leaks from any of the axle housing seals (due to excess pressure).</label>
 <label><input name="q47" type="radio" value="d"/> The ring gear will fail to splash oil onto the pinion bearings.</label>
 </div>
 <div class="question">
-<p><strong>Question 48:</strong> A single-speed double reduction carrier assembly performs its second gear reduction through a set of:</p>
+<p><strong>A single-speed double reduction carrier assembly performs its second gear reduction through a set of:</p>
 <label><input name="q48" type="radio" value="a"/> Hypoid gears.</label>
 <label><input name="q48" type="radio" value="b"/> Spur gears.</label>
 <label><input name="q48" type="radio" value="c"/> Helical gears.</label>
 <label><input name="q48" type="radio" value="d"/> Planetary pinion gears.</label>
 </div>
 <div class="question">
-<p><strong>Question 49:</strong> In a planetary two-speed drive axle assembly, when operating in High Speed, the overall gear reduction is provided through only which components?</p>
+<p><strong>In a planetary two-speed drive axle assembly, when operating in High Speed, the overall gear reduction is provided through only which components?</p>
 <label><input name="q49" type="radio" value="a"/> The planetary gear set.</label>
 <label><input name="q49" type="radio" value="b"/> The crown gear set (single reduction).</label>
 <label><input name="q49" type="radio" value="c"/> The planetary gear set and the crown gear set (double reduction).</label>
 <label><input name="q49" type="radio" value="d"/> The inter-axle differential assembly.</label>
 </div>
 <div class="question">
-<p><strong>Question 50:</strong> What does the Gross Axle Weight Rating (GAWR), which is the manufacturer's rating stamped on the axle, dictate?</p>
+<p><strong>What does the Gross Axle Weight Rating (GAWR), which is the manufacturer's rating stamped on the axle, dictate?</p>
 <label><input name="q50" type="radio" value="a"/> The maximum permissible driveshaft speed.</label>
 <label><input name="q50" type="radio" value="b"/> The construction of the housing, bearings, and wheel ends based on the weight the axle must safely carry.</label>
 <label><input name="q50" type="radio" value="c"/> The torque multiplication capacity of the gear set.</label>
 <label><input name="q50" type="radio" value="d"/> The type of lubrication required (splash or pressure).</label>
 </div>
 <div class="question">
-<p><strong>Question 51:</strong> What is the fundamental purpose of the inter-axle differential lockout assembly?</p>
+<p><strong>What is the fundamental purpose of the inter-axle differential lockout assembly?</p>
 <label><input name="q51" type="radio" value="a"/> To allow speed differences between the two drive axle pinions during cornering.</label>
 <label><input name="q51" type="radio" value="b"/> To provide maximum traction on dry road surfaces.</label>
 <label><input name="q51" type="radio" value="c"/> To lock out inter-axle differential action and provide torque to both drive axles evenly.</label>
 <label><input name="q51" type="radio" value="d"/> To ensure the bevel gear is constantly turning at the same speed as the input shaft.</label>
 </div>
 <div class="question">
-<p><strong>Question 52:</strong> During normal operation (lockout disengaged), how does the inter-axle differential assembly divide torque between the forward and rearward drive axle assemblies?</p>
+<p><strong>During normal operation (lockout disengaged), how does the inter-axle differential assembly divide torque between the forward and rearward drive axle assemblies?</p>
 <label><input name="q52" type="radio" value="a"/> Torque is directed to the axle with the least traction.</label>
 <label><input name="q52" type="radio" value="b"/> The torque split is variable depending on vehicle load.</label>
 <label><input name="q52" type="radio" value="c"/> Torque is divided equally between the two drive axle assemblies.</label>
 <label><input name="q52" type="radio" value="d"/> Torque transfer is stopped entirely if there is a speed difference.</label>
 </div>
 <div class="question">
-<p><strong>Question 53:</strong> The vast majority of drive axle assemblies are lubricated using which basic system?</p>
+<p><strong>The vast majority of drive axle assemblies are lubricated using which basic system?</p>
 <label><input name="q53" type="radio" value="a"/> Combination splash and pressure system.</label>
 <label><input name="q53" type="radio" value="b"/> Dedicated pressure pump and external filter system.</label>
 <label><input name="q53" type="radio" value="c"/> Splash lubrication system.</label>
 <label><input name="q53" type="radio" value="d"/> Oil gallery and trough system only.</label>
 </div>
 <div class="question">
-<p><strong>Question 54:</strong> If a parts technician sells a customer the wrong type of gear oil and it is mixed with the existing lubricant in the drive axle housing, what is the consequence?</p>
+<p><strong>If a parts technician sells a customer the wrong type of gear oil and it is mixed with the existing lubricant in the drive axle housing, what is the consequence?</p>
 <label><input name="q54" type="radio" value="a"/> The fluid's viscosity rating will increase.</label>
 <label><input name="q54" type="radio" value="b"/> The gear oil causes a breakdown chemically.</label>
 <label><input name="q54" type="radio" value="c"/> The oil will resist rust and corrosion more effectively.</label>
 <label><input name="q54" type="radio" value="d"/> The total fluid capacity of the housing is reduced.</label>
 </div>
 <div class="question">
-<p><strong>Question 55:</strong> What is the main purpose of four-wheel drive (4WD) and all-wheel drive (AWD) systems?</p>
+<p><strong>What is the main purpose of four-wheel drive (4WD) and all-wheel drive (AWD) systems?</p>
 <label><input name="q55" type="radio" value="a"/> To increase fuel economy on long trips.</label>
 <label><input name="q55" type="radio" value="b"/> To equalize the torque split between the inside and outside wheels.</label>
 <label><input name="q55" type="radio" value="c"/> To increase traction on slippery road surfaces.</label>
 <label><input name="q55" type="radio" value="d"/> To eliminate the need for a center differential.</label>
 </div>
 <div class="question">
-<p><strong>Question 56:</strong> The viscous coupling unit in a full-time transfer case is designed to lock up and deliver power to the axle with traction when the rate of slippage between the front and rear axles approaches what threshold?</p>
+<p><strong>The viscous coupling unit in a full-time transfer case is designed to lock up and deliver power to the axle with traction when the rate of slippage between the front and rear axles approaches what threshold?</p>
 <label><input name="q56" type="radio" value="a"/> 2%</label>
 <label><input name="q56" type="radio" value="b"/> 6%</label>
 <label><input name="q56" type="radio" value="c"/> 10%</label>
 <label><input name="q56" type="radio" value="d"/> 15%</label>
 </div>
 <div class="question">
-<p><strong>Question 57:</strong> When is a drive system typically classified as All-Wheel Drive (AWD)?</p>
+<p><strong>When is a drive system typically classified as All-Wheel Drive (AWD)?</p>
 <label><input name="q57" type="radio" value="a"/> When it requires the driver to manually engage the front axle.</label>
 <label><input name="q57" type="radio" value="b"/> When the system uses mechanical locking hubs.</label>
 <label><input name="q57" type="radio" value="c"/> When the system is permanently engaged or automatically engaging four-wheel drive.</label>
 <label><input name="q57" type="radio" value="d"/> When it only uses a chain drive to transfer power.</label>
 </div>
 <div class="question">
-<p><strong>Question 58:</strong> In the NV-246 electronic transfer case operating in Auto 4WD mode, the ATCM uses the Front Output Shaft Speed Sensor data to determine what critical operational metrics?</p>
+<p><strong>In the NV-246 electronic transfer case operating in Auto 4WD mode, the ATCM uses the Front Output Shaft Speed Sensor data to determine what critical operational metrics?</p>
 <label><input name="q58" type="radio" value="a"/> The engine load and vehicle speed (VSS).</label>
 <label><input name="q58" type="radio" value="b"/> The rear output shaft speed and the encoder motor position.</label>
 <label><input name="q58" type="radio" value="c"/> The amount of slip and the percent of torque to apply to the front axle.</label>
 <label><input name="q58" type="radio" value="d"/> The required deep reduction gear ratio.</label>
 </div>
 <div class="question">
-<p><strong>Question 59:</strong> In the NV-246 system, when the transfer case is placed in 2HI, 4HI, or 4LO, what is the state of the transfer case motor lock circuit?</p>
+<p><strong>In the NV-246 system, when the transfer case is placed in 2HI, 4HI, or 4LO, what is the state of the transfer case motor lock circuit?</p>
 <label><input name="q59" type="radio" value="a"/> The lock circuit is energized, allowing the encoder motor to rotate.</label>
 <label><input name="q59" type="radio" value="b"/> The motor lock circuit has no voltage provided to it, applying the lock.</label>
 <label><input name="q59" type="radio" value="c"/> The lock releases to allow transfer of torque to the front propeller shaft.</label>
 <label><input name="q59" type="radio" value="d"/> The lock circuit is energized to prevent gear clash.</label>
 </div>
 <div class="question">
-<p><strong>Question 60:</strong> Power is typically transferred to the front output shaft in a gear type transfer case operating in 4H or 4L via which mechanism?</p>
+<p><strong>Power is typically transferred to the front output shaft in a gear type transfer case operating in 4H or 4L via which mechanism?</p>
 <label><input name="q60" type="radio" value="a"/> Planetary gears and a center differential.</label>
 <label><input name="q60" type="radio" value="b"/> A chain drive or gears.</label>
 <label><input name="q60" type="radio" value="c"/> The Vehicle Speed Sensor (VSS) and an ATCM.</label>
 <label><input name="q60" type="radio" value="d"/> A hydraulic multi-plate clutch only.</label>
 </div>
 <div class="question">
-<p><strong>Question 61:</strong> After operating a vehicle with automatic locking hubs in four-wheel drive, what procedure is required to unlock the hubs?</p>
+<p><strong>After operating a vehicle with automatic locking hubs in four-wheel drive, what procedure is required to unlock the hubs?</p>
 <label><input name="q61" type="radio" value="a"/> Stop the vehicle and shift the transfer case back into 2H.</label>
 <label><input name="q61" type="radio" value="b"/> Drive forward one to two metres after shifting the transfer case to 2H.</label>
 <label><input name="q61" type="radio" value="c"/> Completely stop the vehicle, shift out of four-wheel drive, and back the vehicle up one to two metres (three to six feet).</label>
 <label><input name="q61" type="radio" value="d"/> Turn the selector switch on the dashboard to the "FREE" position.</label>
 </div>
 <div class="question">
-<p><strong>Question 62:</strong> All automatic transmissions consist of which three major functional sections?</p>
+<p><strong>All automatic transmissions consist of which three major functional sections?</p>
 <label><input name="q62" type="radio" value="a"/> Impeller, turbine, and stator.</label>
 <label><input name="q62" type="radio" value="b"/> Oil pump, oil pan, and extension housing.</label>
 <label><input name="q62" type="radio" value="c"/> Torque converter, planetary gear set unit, and hydraulic control system.</label>
 <label><input name="q62" type="radio" value="d"/> Valve body, accumulator, and governor.</label>
 </div>
 <div class="question">
-<p><strong>Question 63:</strong> Which component of a lockup torque converter is used to provide direct drive from the engine to the transmission, eliminating slippage?</p>
+<p><strong>Which component of a lockup torque converter is used to provide direct drive from the engine to the transmission, eliminating slippage?</p>
 <label><input name="q63" type="radio" value="a"/> The impeller (pump).</label>
 <label><input name="q63" type="radio" value="b"/> The one-way clutch (stator).</label>
 <label><input name="q63" type="radio" value="c"/> The Torque Converter Clutch (TCC).</label>
 <label><input name="q63" type="radio" value="d"/> The flex plate.</label>
 </div>
 <div class="question">
-<p><strong>Question 64:</strong> Vortex flow in a torque converter occurs when the turbine is turning at a lower rate of speed than the impeller. What operational characteristics accompany this flow?</p>
+<p><strong>Vortex flow in a torque converter occurs when the turbine is turning at a lower rate of speed than the impeller. What operational characteristics accompany this flow?</p>
 <label><input name="q64" type="radio" value="a"/> Low heat, high output speed, and low torque.</label>
 <label><input name="q64" type="radio" value="b"/> High heat, low output speed, and high torque.</label>
 <label><input name="q64" type="radio" value="c"/> Freewheeling of the stator one-way clutch.</label>
 <label><input name="q64" type="radio" value="d"/> The TCC is mechanically locked to the stator support.</label>
 </div>
 <div class="question">
-<p><strong>Question 65:</strong> The coupling point in a conventional torque converter is the point at which:</p>
+<p><strong>The coupling point in a conventional torque converter is the point at which:</p>
 <label><input name="q65" type="radio" value="a"/> The torque multiplication ratio reaches 3.00:1.</label>
 <label><input name="q65" type="radio" value="b"/> The turbine reaches 9/10 the speed of the impeller.</label>
 <label><input name="q65" type="radio" value="c"/> The oil flow within the converter stops completely.</label>
 <label><input name="q65" type="radio" value="d"/> The vortex flow is at its maximum.</label>
 </div>
 <div class="question">
-<p><strong>Question 66:</strong> What is the explicit functional purpose of the stator in a non-lockup torque converter?</p>
+<p><strong>What is the explicit functional purpose of the stator in a non-lockup torque converter?</p>
 <label><input name="q66" type="radio" value="a"/> To dampen engine torsional pulses.</label>
 <label><input name="q66" type="radio" value="b"/> To provide a permanent mechanical lockup.</label>
 <label><input name="q66" type="radio" value="c"/> To intercept the oil coming out of the turbine and redirect it back to the impeller to assist rotation.</label>
 <label><input name="q66" type="radio" value="d"/> To act as a reservoir for fluid during the stall condition.</label>
 </div>
 <div class="question">
-<p><strong>Question 67:</strong> To achieve torque multiplication, the stator must be in which operational state during vehicle acceleration?</p>
+<p><strong>To achieve torque multiplication, the stator must be in which operational state during vehicle acceleration?</p>
 <label><input name="q67" type="radio" value="a"/> Freewheeling, allowing it to rotate clockwise.</label>
 <label><input name="q67" type="radio" value="b"/> Held stationary (locked to the stator support).</label>
 <label><input name="q67" type="radio" value="c"/> Rotating in the opposite direction of the impeller.</label>
 <label><input name="q67" type="radio" value="d"/> Disengaged from the one-way clutch.</label>
 </div>
 <div class="question">
-<p><strong>Question 68:</strong> When the lockup clutch is in its engaged position, what is the state of the fluid flow through the torque converter?</p>
+<p><strong>When the lockup clutch is in its engaged position, what is the state of the fluid flow through the torque converter?</p>
 <label><input name="q68" type="radio" value="a"/> Fluid flows inward, maximizing torque multiplication.</label>
 <label><input name="q68" type="radio" value="b"/> Fluid flows outward, preventing clutch pressure buildup.</label>
 <label><input name="q68" type="radio" value="c"/> Fluid flow stops completely, and pressure builds to a predetermined value.</label>
 <label><input name="q68" type="radio" value="d"/> Fluid flows in rotary motion, providing a 1:1 coupling.</label>
 </div>
 <div class="question">
-<p><strong>Question 69:</strong> How is the process of locking the lockup torque converter clutch accomplished hydraulically?</p>
+<p><strong>How is the process of locking the lockup torque converter clutch accomplished hydraulically?</p>
 <label><input name="q69" type="radio" value="a"/> By closing the oil cooler bypass valve.</label>
 <label><input name="q69" type="radio" value="b"/> By reversing the oil flow, forcing fluid into the back side of the converter.</label>
 <label><input name="q69" type="radio" value="c"/> By utilizing maximum vortex flow to apply the piston.</label>
 <label><input name="q69" type="radio" value="d"/> By engaging the brake switch, which applies the apply piston.</label>
 </div>
 <div class="question">
-<p><strong>Question 70:</strong> The variable displacement vane pump output volume and system pressure are directly controlled by the operation of which component?</p>
+<p><strong>The variable displacement vane pump output volume and system pressure are directly controlled by the operation of which component?</p>
 <label><input name="q70" type="radio" value="a"/> The crescent pump drive gear.</label>
 <label><input name="q70" type="radio" value="b"/> The priming spring.</label>
 <label><input name="q70" type="radio" value="c"/> The pressure regulator valve.</label>
 <label><input name="q70" type="radio" value="d"/> The rotor guide ring.</label>
 </div>
 <div class="question">
-<p><strong>Question 71:</strong> Fixed displacement automatic transmission oil pumps (gear or rotor types) discharge an amount of oil that is proportional to what?</p>
+<p><strong>Fixed displacement automatic transmission oil pumps (gear or rotor types) discharge an amount of oil that is proportional to what?</p>
 <label><input name="q71" type="radio" value="a"/> The required line pressure.</label>
 <label><input name="q71" type="radio" value="b"/> Engine speed.</label>
 <label><input name="q71" type="radio" value="c"/> The capacity of the torque converter.</label>
 <label><input name="q71" type="radio" value="d"/> The shift solenoid duty cycle.</label>
 </div>
 <div class="question">
-<p><strong>Question 72:</strong> What is the purpose of the red dye added to most automatic transmission fluids?</p>
+<p><strong>What is the purpose of the red dye added to most automatic transmission fluids?</p>
 <label><input name="q72" type="radio" value="a"/> To prevent foaming and oxidation.</label>
 <label><input name="q72" type="radio" value="b"/> To enhance the fluid's high viscosity index.</label>
 <label><input name="q72" type="radio" value="c"/> To distinguish it from engine oil.</label>
 <label><input name="q72" type="radio" value="d"/> To maximize the fluid's high-frictional coefficient.</label>
 </div>
 <div class="question">
-<p><strong>Question 73:</strong> Automatic transmission fluid (ATF) consists primarily of base oil and performance additives. What is the approximate range for the percentage of base oil content?</p>
+<p><strong>Automatic transmission fluid (ATF) consists primarily of base oil and performance additives. What is the approximate range for the percentage of base oil content?</p>
 <label><input name="q73" type="radio" value="a"/> 70% to 75%</label>
 <label><input name="q73" type="radio" value="b"/> 85% to 90%</label>
 <label><input name="q73" type="radio" value="c"/> 50% to 60%</label>
 <label><input name="q73" type="radio" value="d"/> 95% to 100%</label>
 </div>
 <div class="question">
-<p><strong>Question 74:</strong> What is the ideal running temperature range for automatic transmission fluid?</p>
+<p><strong>What is the ideal running temperature range for automatic transmission fluid?</p>
 <label><input name="q74" type="radio" value="a"/> Below 55 °C (130 °F)</label>
 <label><input name="q74" type="radio" value="b"/> 37 °C to 80 °C (100 °F to 175 °F)</label>
 <label><input name="q74" type="radio" value="c"/> 90 °C to 120 °C (194 °F to 248 °F)</label>
 <label><input name="q74" type="radio" value="d"/> Above 150 °C (300 °F)</label>
 </div>
 <div class="question">
-<p><strong>Question 75:</strong> Planetary gear sets are capable of handling large torque loads for their small size because:</p>
+<p><strong>Planetary gear sets are capable of handling large torque loads for their small size because:</p>
 <label><input name="q75" type="radio" value="a"/> They use helical gears which generate minimal end thrust.</label>
 <label><input name="q75" type="radio" value="b"/> The torque load is distributed over several planet pinion gears, providing more teeth in contact.</label>
 <label><input name="q75" type="radio" value="c"/> They operate almost exclusively in Direct Drive (1:1 ratio).</label>
 <label><input name="q75" type="radio" value="d"/> They are made of stamped steel, reducing component weight.</label>
 </div>
 <div class="question">
-<p><strong>Question 76:</strong> In a simple planetary gear set, if the Sun Gear is held stationary and the Internal/Ring Gear is used as the input member, what operational condition is achieved?</p>
+<p><strong>In a simple planetary gear set, if the Sun Gear is held stationary and the Internal/Ring Gear is used as the input member, what operational condition is achieved?</p>
 <label><input name="q76" type="radio" value="a"/> Reverse Reduction</label>
 <label><input name="q76" type="radio" value="b"/> Forward Overdrive</label>
 <label><input name="q76" type="radio" value="c"/> Forward Reduction</label>
 <label><input name="q76" type="radio" value="d"/> Reverse Overdrive</label>
 </div>
 <div class="question">
-<p><strong>Question 77:</strong> If the Sun Gear is held stationary and the Planet Carrier is the input member, what operational condition is achieved?</p>
+<p><strong>If the Sun Gear is held stationary and the Planet Carrier is the input member, what operational condition is achieved?</p>
 <label><input name="q77" type="radio" value="a"/> Reverse Reduction</label>
 <label><input name="q77" type="radio" value="b"/> Forward Overdrive</label>
 <label><input name="q77" type="radio" value="c"/> Forward Deep Reduction</label>
 <label><input name="q77" type="radio" value="d"/> Neutral</label>
 </div>
 <div class="question">
-<p><strong>Question 78:</strong> Which of the following conditions achieves Direct Drive (1:1 ratio) in a planetary gear set?</p>
+<p><strong>Which of the following conditions achieves Direct Drive (1:1 ratio) in a planetary gear set?</p>
 <label><input name="q78" type="radio" value="a"/> Only the sun gear is freewheeling.</label>
 <label><input name="q78" type="radio" value="b"/> The planetary carrier is held stationary.</label>
 <label><input name="q78" type="radio" value="c"/> Driving any two members at the same speed or locking any two members together.</label>
 <label><input name="q78" type="radio" value="d"/> The ring gear is held stationary and the sun gear is the input.</label>
 </div>
 <div class="question">
-<p><strong>Question 79:</strong> The freewheeling action of a one-way clutch serves what explicit purpose in the automatic transmission?</p>
+<p><strong>The freewheeling action of a one-way clutch serves what explicit purpose in the automatic transmission?</p>
 <label><input name="q79" type="radio" value="a"/> To lock the clutch support to the transmission case.</label>
 <label><input name="q79" type="radio" value="b"/> To improve shift quality by eliminating a timing problem during band-to-band or band-to-clutch shifts.</label>
 <label><input name="q79" type="radio" value="c"/> To provide a high degree of frictional drag in the freewheeling mode.</label>
 <label><input name="q79" type="radio" value="d"/> To manually apply the piston when hydraulic pressure is insufficient.</label>
 </div>
 <div class="question">
-<p><strong>Question 80:</strong> What factor is primarily responsible for determining the torque capacity of a multiple-disc hydraulic clutch pack assembly?</p>
+<p><strong>What factor is primarily responsible for determining the torque capacity of a multiple-disc hydraulic clutch pack assembly?</p>
 <label><input name="q80" type="radio" value="a"/> The force provided by the return springs.</label>
 <label><input name="q80" type="radio" value="b"/> The number of contacting surfaces (clutch plates and friction discs).</label>
 <label><input name="q80" type="radio" value="c"/> The thickness of the steel plates in the stack.</label>
 <label><input name="q80" type="radio" value="d"/> The diameter of the clutch apply piston.</label>
 </div>
 <div class="question">
-<p><strong>Question 81:</strong> A transmission band is always used in what capacity relative to the planetary gear set?</p>
+<p><strong>A transmission band is always used in what capacity relative to the planetary gear set?</p>
 <label><input name="q81" type="radio" value="a"/> As a driving member to supply torque input.</label>
 <label><input name="q81" type="radio" value="b"/> As a holding (reaction) member.</label>
 <label><input name="q81" type="radio" value="c"/> As an output member to transfer torque to the mainshaft.</label>
 <label><input name="q81" type="radio" value="d"/> As a torsional dampener to absorb shock.</label>
 </div>
 <div class="question">
-<p><strong>Question 82:</strong> What is the purpose of the small steel ball-type check valve found in some clutch pistons or drums?</p>
+<p><strong>What is the purpose of the small steel ball-type check valve found in some clutch pistons or drums?</p>
 <label><input name="q82" type="radio" value="a"/> To prevent the waved snap rings from flattening.</label>
 <label><input name="q82" type="radio" value="b"/> To provide a vacuum break when the clutch is applied.</label>
 <label><input name="q82" type="radio" value="c"/> To allow residual oil to escape when the clutch is released and turning at high RPM.</label>
 <label><input name="q82" type="radio" value="d"/> To supply hydraulic pressure to the clutch plates.</label>
 </div>
 <div class="question">
-<p><strong>Question 83:</strong> What is the specific function of a waved steel plate or waved snap ring in a clutch pack assembly?</p>
+<p><strong>What is the specific function of a waved steel plate or waved snap ring in a clutch pack assembly?</p>
 <label><input name="q83" type="radio" value="a"/> To act as a seal to prevent oil leakage from the drum.</label>
 <label><input name="q83" type="radio" value="b"/> To act as a cushioning device to smooth engagement.</label>
 <label><input name="q83" type="radio" value="c"/> To hold the clutch drum stationary to achieve reduction.</label>
 <label><input name="q83" type="radio" value="d"/> To lock the clutch drum to the case splines.</label>
 </div>
 <div class="question">
-<p><strong>Question 84:</strong> Double-wrap bands provide greater holding ability than single-wrap bands primarily due to which characteristic?</p>
+<p><strong>Double-wrap bands provide greater holding ability than single-wrap bands primarily due to which characteristic?</p>
 <label><input name="q84" type="radio" value="a"/> They require greater hydraulic pressure to apply.</label>
 <label><input name="q84" type="radio" value="b"/> They are made exclusively of semi-metallic friction material.</label>
 <label><input name="q84" type="radio" value="c"/> The self-energizing or wrap-around action of its connecting segments.</label>
 <label><input name="q84" type="radio" value="d"/> They are only used in Manual Low (L1) and Reverse (R) applications.</label>
 </div>
 <div class="question">
-<p><strong>Question 85:</strong> Single-acting servos are generally used for which transmission applications?</p>
+<p><strong>Single-acting servos are generally used for which transmission applications?</p>
 <label><input name="q85" type="radio" value="a"/> Those requiring a timed band release during upshifts.</label>
 <label><input name="q85" type="radio" value="b"/> Applications that involve continuous high-speed rotation.</label>
 <label><input name="q85" type="radio" value="c"/> Applications that do not involve automatic upshifts, such as Manual Low (ML) or Reverse (R).</label>
 <label><input name="q85" type="radio" value="d"/> Those that require the servo to operate as a pressure accumulator.</label>
 </div>
 <div class="question">
-<p><strong>Question 86:</strong> When a double-acting servo releases the band, pressure is directed to the release side of the piston. What is the state of the apply pressure during this release?</p>
+<p><strong>When a double-acting servo releases the band, pressure is directed to the release side of the piston. What is the state of the apply pressure during this release?</p>
 <label><input name="q86" type="radio" value="a"/> Apply pressure is instantly exhausted to the sump.</label>
 <label><input name="q86" type="radio" value="b"/> Apply pressure remains on the apply side of the servo piston.</label>
 <label><input name="q86" type="radio" value="c"/> The apply pressure reverses direction to aid the release spring.</label>
 <label><input name="q86" type="radio" value="d"/> The solenoid cuts off all hydraulic pressure to the servo.</label>
 </div>
 <div class="question">
-<p><strong>Question 87:</strong> Which type of band friction material is used in applications where the band is operating under static conditions (the drum is stationary when the band is applied), such as Manual Low or Reverse?</p>
+<p><strong>Which type of band friction material is used in applications where the band is operating under static conditions (the drum is stationary when the band is applied), such as Manual Low or Reverse?</p>
 <label><input name="q87" type="radio" value="a"/> Organic (paper pulp or cellulose).</label>
 <label><input name="q87" type="radio" value="b"/> Semi-metallic material.</label>
 <label><input name="q87" type="radio" value="c"/> Stamped steel.</label>
 <label><input name="q87" type="radio" value="d"/> Lathe-cut Teflon.</label>
 </div>
 <div class="question">
-<p><strong>Question 88:</strong> Which component is the most commonly used valve type in an automatic transmission when a valve must interconnect several passages or react to more than one pressure?</p>
+<p><strong>Which component is the most commonly used valve type in an automatic transmission when a valve must interconnect several passages or react to more than one pressure?</p>
 <label><input name="q88" type="radio" value="a"/> Check valve</label>
 <label><input name="q88" type="radio" value="b"/> Ball-type relief valve</label>
 <label><input name="q88" type="radio" value="c"/> Spool valve</label>
 <label><input name="q88" type="radio" value="d"/> Bypass valve</label>
 </div>
 <div class="question">
-<p><strong>Question 89:</strong> What is the functional purpose of the throttle valve (TV) in a transmission hydraulic circuit?</p>
+<p><strong>What is the functional purpose of the throttle valve (TV) in a transmission hydraulic circuit?</p>
 <label><input name="q89" type="radio" value="a"/> To regulate mainline pressure based on output shaft speed.</label>
 <label><input name="q89" type="radio" value="b"/> To provide maximum line pressure regardless of engine load.</label>
 <label><input name="q89" type="radio" value="c"/> To provide pressure that varies with throttle opening or engine load.</label>
 <label><input name="q89" type="radio" value="d"/> To restrict fluid flow to the governor valve.</label>
 </div>
 <div class="question">
-<p><strong>Question 90:</strong> When the engine vacuum is low (wide open throttle or WOT), what is the resulting hydraulic output pressure produced by the vacuum modulator?</p>
+<p><strong>When the engine vacuum is low (wide open throttle or WOT), what is the resulting hydraulic output pressure produced by the vacuum modulator?</p>
 <label><input name="q90" type="radio" value="a"/> Minimum pressure, close to 0 psi.</label>
 <label><input name="q90" type="radio" value="b"/> Pressure proportional to the centrifugal force.</label>
 <label><input name="q90" type="radio" value="c"/> High pressure equal to the incoming line pressure.</label>
 <label><input name="q90" type="radio" value="d"/> Pressure equal to the exhaust port setting.</label>
 </div>
 <div class="question">
-<p><strong>Question 91:</strong> Shift valves are referred to as switch valves because they are spool-type valves that function as what device in a hydraulic circuit?</p>
+<p><strong>Shift valves are referred to as switch valves because they are spool-type valves that function as what device in a hydraulic circuit?</p>
 <label><input name="q91" type="radio" value="a"/> A pressure relief valve.</label>
 <label><input name="q91" type="radio" value="b"/> A balanced (regulating) valve.</label>
 <label><input name="q91" type="radio" value="c"/> A simple on/off switch.</label>
 <label><input name="q91" type="radio" value="d"/> A continuously variable restriction valve.</label>
 </div>
 <div class="question">
-<p><strong>Question 92:</strong> In a four-speed automatic transmission, how many shift valves are required to control the gear changes?</p>
+<p><strong>In a four-speed automatic transmission, how many shift valves are required to control the gear changes?</p>
 <label><input name="q92" type="radio" value="a"/> Two shift valves.</label>
 <label><input name="q92" type="radio" value="b"/> Three shift valves.</label>
 <label><input name="q92" type="radio" value="c"/> Four shift valves.</label>
 <label><input name="q92" type="radio" value="d"/> Five shift valves.</label>
 </div>
 <div class="question">
-<p><strong>Question 93:</strong> What is the output pressure produced by the governor directly proportional to?</p>
+<p><strong>What is the output pressure produced by the governor directly proportional to?</p>
 <label><input name="q93" type="radio" value="a"/> Engine manifold vacuum.</label>
 <label><input name="q93" type="radio" value="b"/> Throttle position.</label>
 <label><input name="q93" type="radio" value="c"/> The rate of rotation (road or vehicle speed).</label>
 <label><input name="q93" type="radio" value="d"/> The mainline pressure boost setting.</label>
 </div>
 <div class="question">
-<p><strong>Question 94:</strong> When a governor valve is fully open, what is the maximum pressure it can produce?</p>
+<p><strong>When a governor valve is fully open, what is the maximum pressure it can produce?</p>
 <label><input name="q94" type="radio" value="a"/> 0 psi</label>
 <label><input name="q94" type="radio" value="b"/> Pressure equal to the throttle valve pressure.</label>
 <label><input name="q94" type="radio" value="c"/> Pressure equal to mainline pressure.</label>
 <label><input name="q94" type="radio" value="d"/> Pressure determined by the spring tension only.</label>
 </div>
 <div class="question">
-<p><strong>Question 95:</strong> The position of the manual valve is determined solely by which type of input?</p>
+<p><strong>The position of the manual valve is determined solely by which type of input?</p>
 <label><input name="q95" type="radio" value="a"/> Hydraulic pressure from the pump.</label>
 <label><input name="q95" type="radio" value="b"/> The opposing throttle valve pressure.</label>
 <label><input name="q95" type="radio" value="c"/> Mechanical input from the driver (range selector lever).</label>
 <label><input name="q95" type="radio" value="d"/> Electrical input from the Transmission Control Switch (TCS).</label>
 </div>
 <div class="question">
-<p><strong>Question 96:</strong> When pressure builds beyond the tension of the spring in a pressure relief valve, the valve opens and exhausts the excess fluid to which location?</p>
+<p><strong>When pressure builds beyond the tension of the spring in a pressure relief valve, the valve opens and exhausts the excess fluid to which location?</p>
 <label><input name="q96" type="radio" value="a"/> The oil cooler.</label>
 <label><input name="q96" type="radio" value="b"/> The pressure boost chamber.</label>
 <label><input name="q96" type="radio" value="c"/> The sump.</label>
 <label><input name="q96" type="radio" value="d"/> The manual valve inlet port.</label>
 </div>
 <div class="question">
-<p><strong>Question 97:</strong> What is the sole purpose of the Brake Switch signal when received by the PCM?</p>
+<p><strong>What is the sole purpose of the Brake Switch signal when received by the PCM?</p>
 <label><input name="q97" type="radio" value="a"/> To signal the PCM to delay upshifts.</label>
 <label><input name="q97" type="radio" value="b"/> To disengage the torque converter lockup clutch when the brakes are applied.</label>
 <label><input name="q97" type="radio" value="c"/> To increase line pressure for aggressive downshifts.</label>
 <label><input name="q97" type="radio" value="d"/> To automatically engage the park pawl.</label>
 </div>
 <div class="question">
-<p><strong>Question 98:</strong> If the electrical circuit supplying the Electronic Pressure Control (EPC) solenoid fails and the current flow is 0.0 amps, what hydraulic condition results in the transmission?</p>
+<p><strong>If the electrical circuit supplying the Electronic Pressure Control (EPC) solenoid fails and the current flow is 0.0 amps, what hydraulic condition results in the transmission?</p>
 <label><input name="q98" type="radio" value="a"/> The shift solenoids automatically turn on.</label>
 <label><input name="q98" type="radio" value="b"/> Minimum line pressure (0 psi).</label>
 <label><input name="q98" type="radio" value="c"/> Maximum line pressure (the default setting).</label>
 <label><input name="q98" type="radio" value="d"/> Throttle pressure is regulated by the vacuum modulator.</label>
 </div>
 <div class="question">
-<p><strong>Question 99:</strong> Which electronic module provides the necessary vehicle calibration data (based on axle ratio, transmission, tire size, and engine) to the ATCM via the on-vehicle network?</p>
+<p><strong>Which electronic module provides the necessary vehicle calibration data (based on axle ratio, transmission, tire size, and engine) to the ATCM via the on-vehicle network?</p>
 <label><input name="q99" type="radio" value="a"/> Vehicle Speed Sensor (VSS).</label>
 <label><input name="q99" type="radio" value="b"/> Transfer Case Encoder Assembly.</label>
 <label><input name="q99" type="radio" value="c"/> Powertrain Control Module (PCM).</label>
 <label><input name="q99" type="radio" value="d"/> Throttle Position Sensor (TPS).</label>
 </div>
 <div class="question">
-<p><strong>Question 100:</strong> In electronically controlled automatic transmissions, the Vehicle Speed Sensor (VSS) replaces the function of which traditional component used in hydraulically controlled transmissions?</p>
+<p><strong>In electronically controlled automatic transmissions, the Vehicle Speed Sensor (VSS) replaces the function of which traditional component used in hydraulically controlled transmissions?</p>
 <label><input name="q100" type="radio" value="a"/> The vacuum modulator.</label>
 <label><input name="q100" type="radio" value="b"/> The governor.</label>
 <label><input name="q100" type="radio" value="c"/> The manual valve.</label>
