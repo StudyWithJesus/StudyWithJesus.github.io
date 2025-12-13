@@ -145,12 +145,14 @@ function initExamPage() {
   // ----------------------
   // Timer Setup with configurable duration
   // ----------------------
-  // Read timer duration from form's data-timer-duration attribute, or use default
+  // Read timer duration from form's data-timer-duration attribute
+  // Timer is ONLY enabled if this attribute is explicitly set
   const formTimerDuration = form.getAttribute('data-timer-duration');
-  const EXAM_TIMER_DURATION = formTimerDuration ? parseInt(formTimerDuration, 10) : DEFAULT_EXAM_TIMER_DURATION;
-  
-  console.log('Timer duration configured:', EXAM_TIMER_DURATION, 'seconds (', Math.floor(EXAM_TIMER_DURATION / 60), 'minutes )');
-  
+  const timerEnabled = formTimerDuration !== null && formTimerDuration !== '';
+  const EXAM_TIMER_DURATION = timerEnabled ? parseInt(formTimerDuration, 10) : 0;
+
+  console.log('Timer enabled:', timerEnabled, timerEnabled ? '(' + Math.floor(EXAM_TIMER_DURATION / 60) + ' minutes)' : '');
+
   const timerKey = "examTimer:" + window.location.pathname;
   let timerInterval = null;
   let remainingSeconds = EXAM_TIMER_DURATION;
@@ -158,17 +160,18 @@ function initExamPage() {
 
   // Create timer display element in the progress bar area
   const progressBar = document.querySelector(".exam-progress");
-  
+
   // Ensure progress bar is visible
   if (progressBar) {
     progressBar.style.display = "flex";
     console.log("Progress bar found and made visible");
   }
-  
+
   let timerDisplay = document.getElementById("exam-timer");
   let cancelBtn = document.getElementById("exam-cancel-btn");
-  
-  if (!timerDisplay && progressBar) {
+
+  // Only create timer display if timer is enabled
+  if (timerEnabled && !timerDisplay && progressBar) {
     timerDisplay = document.createElement("div");
     timerDisplay.id = "exam-timer";
     timerDisplay.className = "exam-timer";
@@ -177,14 +180,16 @@ function initExamPage() {
     timerDisplay.innerHTML = '<span class="timer-icon">⏱</span><span class="timer-text">' + formatTime(remainingSeconds) + '</span>';
     progressBar.appendChild(timerDisplay);
     console.log("Timer created and appended to progress bar");
+  } else if (!timerEnabled) {
+    console.log("Timer disabled - no data-timer-duration attribute");
   } else if (!progressBar) {
     console.warn("Progress bar not found - timer cannot be displayed");
   } else if (timerDisplay) {
     console.log("Timer already exists");
   }
-  
-  // Create cancel button (hidden initially, shown when timer starts)
-  if (!cancelBtn && progressBar) {
+
+  // Create cancel button (hidden initially, shown when timer starts) - only if timer enabled
+  if (timerEnabled && !cancelBtn && progressBar) {
     cancelBtn = document.createElement("button");
     cancelBtn.id = "exam-cancel-btn";
     cancelBtn.className = "exam-cancel-btn";
@@ -193,38 +198,38 @@ function initExamPage() {
     cancelBtn.style.display = "none";
     cancelBtn.title = "Cancel test and return to menu";
     progressBar.appendChild(cancelBtn);
-    
+
     // Add cancel button handler
     cancelBtn.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
-      
+
       if (confirm('Are you sure you want to cancel this test?\n\nYour progress will be lost and the timer will be reset.')) {
         // Stop and reset timer
         stopTimer();
         resetTimer();
-        
+
         // Clear saved answers
         try {
           localStorage.removeItem(examKey);
         } catch {}
-        
+
         // Reset form
         form.reset();
-        
+
         // Remove answered class from all questions
         questions.forEach(q => q.classList.remove('answered'));
-        
+
         // Update progress
         updateProgress(questions, progressFill, progressText);
         updateSubmitButtonState();
-        
+
         // Hide cancel button
         cancelBtn.style.display = "none";
-        
+
         // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        
+
         alert('Test cancelled. You can start again when ready.');
       }
     });
@@ -283,6 +288,7 @@ function initExamPage() {
 
   // Start the timer
   function startTimer() {
+    if (!timerEnabled) return; // Timer not enabled
     if (timerInterval) return; // Already running
     timerStarted = true;
     
