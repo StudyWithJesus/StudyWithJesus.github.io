@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="assets/css/chat.css" />
   <script src="config/firebase.config.js"></script>
-  <script src="assets/js/leaderboard.js"></script>
   <script src="script.js" defer></script>
   <!-- Fingerprint Logger - See _includes/fingerprint-scripts.html for documentation -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -78,37 +77,6 @@
       <p>
         Tap a card below to open the practice tests for that module.
       </p>
-    </section>
-
-    <!-- Leaderboard Link -->
-    <section class="leaderboard-link-section" aria-label="View leaderboard and compete with other students">
-      <a href="pages/leaderboard.html" class="leaderboard-link-btn">
-        🏆 View Leaderboard
-      </a>
-      <p class="leaderboard-link-text">
-        See top scores and compete with other students!
-      </p>
-    </section>
-
-    <!-- Username Setup Section -->
-    <section class="username-setup-section" id="username-setup-section" aria-labelledby="setup-heading">
-      <div class="username-setup-card">
-        <h3 id="setup-heading">👋 Set Your Display Name</h3>
-        <p>Enter your name to track your scores on the leaderboard.</p>
-        <form class="username-setup-form" id="username-setup-form">
-          <input 
-            type="text" 
-            id="setup-username-input" 
-            class="username-setup-input" 
-            placeholder="Enter your display name"
-            maxlength="30"
-            autocomplete="off"
-            required
-          >
-          <button type="submit" class="username-setup-btn">Save Name</button>
-        </form>
-        <p class="username-current-display" id="username-current-display"></p>
-      </div>
     </section>
 
     <!-- Tips section -->
