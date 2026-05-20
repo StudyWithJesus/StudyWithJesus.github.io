@@ -364,31 +364,6 @@
   }
 
   /**
-   * Get or set the current username
-   * @param {string} [newUsername] - New username to set
-   * @returns {string|null} - Current username
-   */
-  function username(newUsername) {
-    const config = getConfig();
-    
-    if (typeof newUsername === 'string' && newUsername.trim()) {
-      var sanitized = sanitizeUsername(newUsername);
-      try {
-        localStorage.setItem(config.storageKeys.username, sanitized);
-      } catch (error) {
-        console.warn('Failed to save username:', error);
-      }
-      return sanitized;
-    }
-    
-    try {
-      return localStorage.getItem(config.storageKeys.username) || null;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  /**
    * Sanitize username for display and storage
    * @param {string} name - Raw username
    * @returns {string} - Sanitized username
@@ -701,7 +676,6 @@
     fetchLeaderboardByExam: fetchLeaderboardByExam,
     fetchAllLeaderboardsByExam: fetchAllLeaderboardsByExam,
     submitAttempt: submitAttempt,
-    username: username,
     sanitizeUsername: sanitizeUsername,
     formatTimestamp: formatTimestamp,
     formatDuration: formatDuration,
